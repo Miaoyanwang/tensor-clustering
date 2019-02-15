@@ -1,0 +1,246 @@
+```{r}
+if(!require("glmnet")){
+  install.packages("glmnet")
+  stopifnot(require("glmnet"))
+}
+if(!require("rgl")){
+  install.packages("rgl")
+  stopifnot(require("rgl"))
+}
+if(!require("reshape")){
+  install.packages("reshape")
+  stopifnot(require("reshape"))
+}
+if(!require("mvtnorm")){
+  install.packages("mvtnorm")
+  stopifnot(require("mvtnorm"))
+}
+if(!require("HDCI")){
+  install.packages("HDCI")
+  stopifnot(require("HDCI"))
+}
+if(!require("clues")){
+  install.packages("clues")
+  stopifnot(require("clues"))
+}
+```
+
+```{r}
+get.data = function(n,p,q,k,r,l,error=3){
+  #n=2;p=2;q=2;k=1;r=1;l=2;error=3
+  mus = runif(k*r*l, -3,3)#take the mean of k*r*l biclusters/cubes
+  mus = array(mus,c(k,r,l))
+  truthCs = sample(1:k,n,rep=TRUE)
+  truthDs = sample(1:r,p,rep=TRUE)
+  truthEs = sample(1:l,q,rep=TRUE)
+  x = array(rnorm(n*p*q,mean=0,sd=error),c(n,p,q))
+  truthX = array(rep(0,n*p*q),c(n,p,q))
+  for(i in 1:max(truthCs)){
+    for(j in 1:max(truthDs)){
+      for(m in 1:max(truthEs)){
+        x[truthCs==i, truthDs==j, truthEs==m] = x[truthCs==i, truthDs==j, truthEs==m] + mus[i,j,m]
+        truthX[truthCs==i, truthDs==j, truthEs==m] =  mus[i,j,m]
+      }
+    }
+  }
+  #暂时去掉了中心化
+  #x = x - mean(x)#minus the overall mean
+  result = list("x"=x,"truthX"=truthX,"truthCs"=truthCs,"truthDs"=truthDs,"truthEs"=truthEs)
+  return(result)
+}
+
+n=50;p=20;q=20;k=5;r=2;l=2
+data = get.data(n,p,q,k,r,l)
+test = data$x
+truth = data$truthX
+source('plot.R')
+plot_tensor(test)
+truthCs = data$truthCs
+truthDs = data$truthDs
+truthEs = data$truthEs
+#guess = get.data(2,3,4,2,2,2)$x
+```
+
+
+```{r}
+#to accelerate the algorithm, always use apply function
+
+dist.3d = function(center,x) return(norm(x-center,type="F"))
+
+closest = function(x,centers){
+  #calculate which center is the closest to data matrix x
+  dists = unlist(lapply(centers, dist.3d, x))
+  cluster = which(dists == min(dists))
+  #print(dists[cluster])
+  return(cluster)
+}
+
+kmeans.3d = function(x,k,dim=1,nmax=500){
+  #x is a 3d-array
+  #dim=1 means doing kmeans on rows; 2: columns; 3: 3rd dimensions
+  if (dim==1) xlist = lapply(seq(dim(x)[1]), function(m) x[m,,])
+  if (dim==2) xlist = lapply(seq(dim(x)[2]), function(m) x[,m,])
+  if (dim==3) xlist = lapply(seq(dim(x)[3]), function(m) x[,,m])
+  #print(xlist)
+  cluster1 = xlist[rep(1,k)]#set the initial centers
+  cluster2 = xlist[1:k]
+  n = 1 
+  while (!((identical(cluster1, cluster2)) | (n>=nmax))){
+    n = n+1
+    cluster1 = cluster2
+    classifiers = unlist(lapply(xlist, closest, centers=cluster1))
+    k = length(unique(classifiers))
+    #print(k)
+    for(i in 1:k){
+      #print(classifiers)
+      #cat(i,":\n")
+      #print(xlist[classifiers==i])
+      cluster2[[i]] = Reduce('+', xlist[classifiers==i])/length(xlist[classifiers==i])
+      #print(cluster2[[1]])
+    }
+  }
+  return(classifiers)
+}
+```
+
+
+
+```{r}
+tensor.unfold = function(tensor,dim=1){
+  #dim=1: unfold by row; 2: by column; 3: by the 3rd dimension
+  if (dim == 1) unfold = aperm(tensor,c(3,2,1))
+  if (dim == 2) unfold = aperm(tensor,c(1,3,2))
+  if (dim == 3) unfold = tensor
+  unfold = t(apply(unfold,3,c))
+  return(unfold)
+}
+
+design.row = function(sp,C1,D1,E1,k,r,l){
+  labels = array(rep(0,k*r*l),c(k,r,l))
+  #print(C1[sp[1]])
+  labels[C1[sp[1]],D1[sp[2]],E1[sp[3]]] = 1
+  return(c(labels))
+}
+
+#x is array, mus is array
+Objective = function (x, mu.array, Cs, Ds, Es, lambda = 0) {
+  #print(dim(x))
+  #print(dim(mu.array[Cs, Ds, Es]))
+  #print(Cs)
+  #sum((x - mu.array[Cs, Ds, Es])^2)
+  return(sum((x - mu.array[Cs, Ds, Es])^2)+2*lambda*sum(abs(mu.array)))
+}
+
+#dim should be a vector
+tensor.index = function(index,dims){
+  index = index-1
+  Cs = (index %% dims[1])+1
+  Ds = (index %% (dims[1]*dims[2]))%/%dims[1] +1
+  Es = (index %/% (dims[1]*dims[2]))+1
+  return(c(Cs,Ds,Es))
+}
+
+#here x should be one sample and mus should be the array form
+#discard
+update.clusters = function(x,mus){
+  #x=1;mus=mu.array
+  dims = dim(mus)
+  index = which((x-mus)^2 == min((x-mus)^2))
+  #index = 26; dims = c(5,6,4); array(1:prod(dims),dims)
+  #cat(tensor.index(index,dims))
+  return(tensor.index(index,dims))
+}
+
+UpdateClusters.tensor = function (x, mus, curCs, curDs) {
+  Cs.new <- rep(NA, length(curCs))
+  #uniq is useless
+  uniq <- 1:max(curCs)
+  #curDs=(D1-1)*l+E1;curCs=C1;mus=tensor.unfold(mu.array);x=tensor.unfold(x)
+  mus.expandcolumns <- mus[, curDs, drop = FALSE]
+  for (i in 1:nrow(x)) {
+    dist2.clust <- NULL
+    for (k in 1:length(uniq)) {
+      #k=1;i=2
+      #see which cluster is closest to one sample
+      dist2.clust <- c(dist2.clust, sum((x[i, , drop = FALSE] - 
+                                           mus.expandcolumns[k, , drop = FALSE])^2))
+    }
+    wh <- which(dist2.clust == min(dist2.clust))
+    Cs.new[i] <- wh[1]
+  }
+  return(Cs.new)
+}
+
+ReNumber = function (Cs) 
+{
+  newCs <- rep(NA, length(Cs))
+  uniq <- sort(unique(Cs))
+  for (i in 1:length(uniq)) {
+    newCs[Cs == uniq[i]] <- i
+  }
+  return(newCs)
+}
+
+classify = function(x,k,r,l,lambda=1e-3,max.iter=200,threshold = 5e-3){
+  #x=test;k=2;r=3;l=4;lambda=0.01;step.max=500
+  n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
+  Cs  = kmeans(tensor.unfold(x,1),k)$cluster#C1 = kmeans.3d(x,k)
+  Ds  = kmeans(tensor.unfold(x,2),r)$cluster#D1 = kmeans.3d(x,r,2)
+  Es  = kmeans(tensor.unfold(x,3),l)$cluster#E1 = kmeans.3d(x,l,3)
+  design.sort = cbind(matrix(rep(1:n,each=p*q),nrow=n*p*q),
+                    matrix(rep(rep(1:p,each=q),times=n),nrow=n*p*q),
+                    matrix(rep(rep(1:q,times=p),times=n),ncol=1),
+                    matrix(rep(0,n*p*q*k*r*l),nrow=n*p*q))
+  objs <- 1e+15
+  improvement <- 1e+10
+  i <- 1
+  #print((improvement > threshold) & (i <= max.iter))
+  #the condition need to be changed
+  while((improvement > threshold) & (i <= max.iter)){
+    #hold clusters
+    #print(1)
+    design = t(apply(design.sort,MARGIN=1,FUN=design.row,Cs,Ds,Es,k,r,l))
+    #print(1)
+    #calculate the mu for each group
+    mu.vector = Lasso(design,c(x),lambda=lambda)$beta
+    #apply the mu to the data matrix
+    mu.array = array(mu.vector,c(k,r,l))
+    objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
+    design.mu = array(apply(design.sort,MARGIN=1,FUN=function(sp,mu)return(mu[Cs[sp[1]],Ds[sp[2]],Es[sp[3]]]),mu=mu.array),c(n,p,q))
+    #hold mus and change assignment of row clusters
+    Cs = UpdateClusters.tensor(tensor.unfold(x),tensor.unfold(mu.array),Cs,(rep(Ds,each=q)-1)*l+rep(Es,times=p))
+    objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
+    Cs <- ReNumber(Cs)
+    Ds = UpdateClusters.tensor(tensor.unfold(x,2),tensor.unfold(mu.array,2),Ds,(rep(Es,each=n)-1)*k+rep(Cs,times=q))
+    objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
+    Ds <- ReNumber(Ds)
+    Es = UpdateClusters.tensor(tensor.unfold(x,3),tensor.unfold(mu.array,3),Es,(rep(Ds,each=n)-1)*k+rep(Cs,times=p))
+    objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
+    Es <- ReNumber(Es)
+    improvement <- abs(objs[length(objs)] - objs[length(objs) - 
+                                                   4])/abs(objs[length(objs) - 4])
+    i <- i + 1
+    cat("step",i,",improvement=",improvement,".\n")
+  }
+  if (i > max.iter) {
+    warning("The algorithm has not converged by the specified maximum number of iteration.\n")
+  }
+  return(list("judgeX"=mu.array[Cs,Ds,Es],"Cs"=Cs,"Ds"=Ds,"Es"=Es))
+}
+```
+
+```{r}
+sim = classify(test,k,r,l)
+judgeX = sim$judgeX
+plot_tensor(truth)
+Sys.sleep(3)
+plot_tensor(judgeX)
+cerC<-1-adjustedRand(truthCs,sim$Cs,randMethod=c("Rand"))
+cerD<-1-adjustedRand(truthDs,sim$Ds,randMethod=c("Rand"))
+cerE<-1-adjustedRand(truthEs,sim$Es,randMethod=c("Rand"))
+cat("The CER(clustering error rate) is ",cerC,",",cerD,",",cerE,".\n")
+```
+
+
+
+
