@@ -27,8 +27,29 @@ if(!require("clues")){
 ```
 #2. creat the data matrix
 ```{r}
-get.data = function(n,p,q,k,r,l,error=3){
-  #n=2;p=2;q=2;k=1;r=1;l=2;error=3
+
+ReNumber2 = function(Cs){
+  #Cs=truthDs
+  newCs <- rep(NA, length(Cs))
+  uniq <- sort(unique(Cs))
+  num = c()
+  for (i in 1:length(uniq)) {
+    num[i] = sum(Cs==i)
+  }
+  newCs[order(Cs)] = rep(order(num),num)
+  return(newCs)
+}
+
+reorderClusters = function(x,Cs,Ds,Es){
+  #Cs=truthCs;Ds=truthDs;Es=truthEs
+  Cs = ReNumber2(Cs);Ds = ReNumber2(Ds);Es = ReNumber2(Es)
+  return(list("x"=x[order(Cs),order(Ds),order(Es)],"Cs"=sort(Cs),
+              "Ds"=sort(Ds),"Es"=sort(Es)))
+}
+
+#sort=TRUE: we put the blocks with the same mean together
+get.data = function(n,p,q,k,r,l,error=3,sort=TRUE){
+  #n=20;p=20;q=20;k=2;r=2;l=2;error=3
   mus = runif(k*r*l, -3,3)#take the mean of k*r*l biclusters/cubes
   mus = array(mus,c(k,r,l))
   truthCs = sample(1:k,n,rep=TRUE)
@@ -46,7 +67,11 @@ get.data = function(n,p,q,k,r,l,error=3){
   }
   #暂时去掉了中心化
   #x = x - mean(x)#minus the overall mean
-  result = list("x"=x,"truthX"=truthX,"truthCs"=truthCs,"truthDs"=truthDs,"truthEs"=truthEs)
+  if(sort==TRUE){
+    truthX = reorderClusters(truthX,truthCs,truthDs,truthEs)$x
+    neworder = reorderClusters(x,truthCs,truthDs,truthEs)
+  }
+  result = list("x"=neworder$x,"truthX"=truthX,"truthCs"=neworder$Cs,"truthDs"=neworder$Ds,"truthEs"=neworder$Es)
   return(result)
 }
 ```
@@ -198,16 +223,7 @@ ReNumber = function (Cs)
   return(newCs)
 }
 
-ReNumber2 = function(Cs){
-  newCs <- rep(NA, length(Cs))
-  uniq <- sort(unique(Cs))
-  num = c()
-  for (i in 1:length(uniq)) {
-    num[i] = sum(Cs==i)
-  }
-  newCs[order(Cs)] = rep(order(num),num)
-  return(newCs)
-}
+
 
 #use Lasso function to update mus
 classify1 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALSE){
@@ -351,7 +367,6 @@ plot_tensor(test)
 truthCs = data$truthCs
 truthDs = data$truthDs
 truthEs = data$truthEs
-#guess = get.data(2,3,4,2,2,2)$x
 ```
 
 
@@ -370,18 +385,13 @@ plot_tensor(judgeX+5)
 
 #5. test the label2()
 ```{r}
-reorderClusters = function(x,Cs,Ds,Es){
-  Cs = ReNumber2(Cs);Ds = ReNumber2(Ds);Es = ReNumber2(Es)
-  return(x[sort(Cs),sort(Ds),sort(Es)])
-}
-
 #better method!!===============================================
 sim = label2(test,k,r,l,threshold=5e-2,lambda=0,sim.times=5,trace=FALSE)
 judgeX = sim$judgeX
 #true distribution of mu
 plot_tensor(truth)
 Sys.sleep(1.5)
-plot_tensor(reorderClusters(truth,truthCs,truthDs,truthEs))
+#plot_tensor(reorderClusters(truth,truthCs,truthDs,truthEs))
 Sys.sleep(1.5)
 #the input data matrix
 plot_tensor(test)
@@ -393,7 +403,7 @@ cat("The CER(clustering error rate) is ",cerC,",",cerD,",",cerE,".\n")
 #the result of classifying
 plot_tensor(judgeX)
 Sys.sleep(1.5)
-plot_tensor(reorderClusters(judgeX,sim$Cs,sim$Ds,sim$Es))
+#plot_tensor(reorderClusters(judgeX,sim$Cs,sim$Ds,sim$Es))
 ```
 
 
@@ -422,7 +432,7 @@ n=50;p=50;q=50;k=3;r=3;l=3;error=3;lambda=0;iteration=50
 simulation(n,p,q,k,r,l,error,lambda,iteration)
 ```
 
-#6. choose k,r,l (has not been finished yet)
+#7. choose k,r,l (has not been finished yet)
 ```{r}
 #all k,r,l are vectors which is the selection range of k,r,l
 sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.1,trace=FALSE) {
