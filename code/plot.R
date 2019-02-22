@@ -1,17 +1,16 @@
+## Miaoyan Wang, Jan 2019
 library(rgl)
 library("RColorBrewer")
 marker = list(color = brewer.pal(9, "RdBu"))
 
 ### function to plot 3d array
 plot_tensor=function(tensor){
-    
 position=positionfun(dim(tensor))$position
 quan=c(quantile(tensor,(0:8)/8),max(tensor))
 col=tensor
 for(i in 1:9){
 col[(tensor>=quan[i])&(tensor<quan[i+1])]=marker$color[i]
 }
-    
 plot3d(position[,1],position[,2],position[,3],col=col,alpha=0.3,size=5,xlab="",ylab="",zlab="")
 }
 
@@ -26,8 +25,8 @@ positionfun=function(d){
 }
 
 
-d1=40 ## number of rows
-d2=40 ## number of columns
+d1=20 ## number of rows
+d2=20 ## number of columns
 d3=50 ## number of 3rd dimension
 K1=3  ## number of row clusters 
 K2=4  ## number of column clusters 
