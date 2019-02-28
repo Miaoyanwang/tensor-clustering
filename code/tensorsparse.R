@@ -1,5 +1,3 @@
-#1. load required packages
-```{r}
 if(!require("glmnet")){
   install.packages("glmnet")
   stopifnot(require("glmnet"))
@@ -24,9 +22,8 @@ if(!require("clues")){
   install.packages("clues")
   stopifnot(require("clues"))
 }
-```
-#2. creat the data matrix
-```{r}
+
+
 ReNumber2 = function(Cs){
   #Cs=truthDs
   newCs <- rep(NA, length(Cs))
@@ -73,55 +70,9 @@ get.data = function(n,p,q,k,r,l,error=3,sort=TRUE){
   result = list("x"=neworder$x,"truthX"=truthX,"truthCs"=neworder$Cs,"truthDs"=neworder$Ds,"truthEs"=neworder$Es)
   return(result)
 }
-```
 
 
-```{r}
-#to accelerate the algorithm, always use apply function
 
-dist.3d = function(center,x) return(norm(x-center,type="F"))
-
-closest = function(x,centers){
-  #calculate which center is the closest to data matrix x
-  dists = unlist(lapply(centers, dist.3d, x))
-  cluster = which(dists == min(dists))
-  #print(dists[cluster])
-  return(cluster)
-}
-
-kmeans.3d = function(x,k,dim=1,nmax=500){
-  #x is a 3d-array
-  #dim=1 means doing kmeans on rows; 2: columns; 3: 3rd dimensions
-  if (dim==1) xlist = lapply(seq(dim(x)[1]), function(m) x[m,,])
-  if (dim==2) xlist = lapply(seq(dim(x)[2]), function(m) x[,m,])
-  if (dim==3) xlist = lapply(seq(dim(x)[3]), function(m) x[,,m])
-  #print(xlist)
-  cluster1 = xlist[rep(1,k)]#set the initial centers
-  cluster2 = xlist[1:k]
-  n = 1 
-  while (!((identical(cluster1, cluster2)) | (n>=nmax))){
-    n = n+1
-    cluster1 = cluster2
-    classifiers = unlist(lapply(xlist, closest, centers=cluster1))
-    k = length(unique(classifiers))
-    #print(k)
-    for(i in 1:k){
-      #print(classifiers)
-      #cat(i,":\n")
-      #print(xlist[classifiers==i])
-      cluster2[[i]] = Reduce('+', xlist[classifiers==i])/length(xlist[classifiers==i])
-      #print(cluster2[[1]])
-    }
-  }
-  return(classifiers)
-}
-```
-
-
-#3. classify and label  
-
-The best method is use label2() to cluster the tensor. The cer of all modes are closed to 0 almost all the time.
-```{r}
 tensor.unfold = function(tensor,dim=1){
   #dim=1: unfold by row; 2: by column; 3: by the 3rd dimension
   if (dim == 1) unfold = aperm(tensor,c(3,2,1))
@@ -156,16 +107,6 @@ tensor.index = function(index,dims){
   return(c(Cs,Ds,Es))
 }
 
-#here x should be one sample and mus should be the array form
-#discard#useless
-update.clusters = function(x,mus){
-  #x=1;mus=mu.array
-  dims = dim(mus)
-  index = which((x-mus)^2 == min((x-mus)^2))
-  #index = 26; dims = c(5,6,4); array(1:prod(dims),dims)
-  #cat(tensor.index(index,dims))
-  return(tensor.index(index,dims))
-}
 
 Soft = function (a, b){
   if (b < 0) 
@@ -223,63 +164,6 @@ ReNumber = function (Cs)
 }
 
 
-
-#use Lasso function to update mus
-classify1 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALSE){
-  #x=test;k=2;r=3;l=4;lambda=0.01;step.max=500
-  n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
-  Cs  = kmeans(tensor.unfold(x,1),k)$cluster#C1 = kmeans.3d(x,k)
-  Ds  = kmeans(tensor.unfold(x,2),r)$cluster#D1 = kmeans.3d(x,r,2)
-  Es  = kmeans(tensor.unfold(x,3),l)$cluster#E1 = kmeans.3d(x,l,3)
-  design.sort = cbind(matrix(rep(1:n,each=p*q),nrow=n*p*q),
-                    matrix(rep(rep(1:p,each=q),times=n),nrow=n*p*q),
-                    matrix(rep(rep(1:q,times=p),times=n),ncol=1),
-                    matrix(rep(0,n*p*q*k*r*l),nrow=n*p*q))
-  objs <- 1e+15
-  improvement <- 1e+10
-  i <- 1
-  #print((improvement > threshold) & (i <= max.iter))
-  #the condition need to be changed
-  while((improvement > threshold) & (i <= max.iter)){
-    #hold clusters
-    #print(1)
-    design = t(apply(design.sort,MARGIN=1,FUN=design.row,Cs,Ds,Es,k,r,l))
-    #print(1)
-    #calculate the mu for each group
-    mu.vector = Lasso(design,c(x),lambda=lambda)$beta
-    #apply the mu to the data matrix
-    mu.array = array(mu.vector,c(k,r,l))
-    objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
-    #design.mu = array(apply(design.sort,MARGIN=1,FUN=function(sp,mu)return(mu[Cs[sp[1]],Ds[sp[2]],Es[sp[3]]]),mu=mu.array),c(n,p,q))
-    #hold mus and change assignment of row clusters
-    Cs = UpdateClusters.tensor(tensor.unfold(x),tensor.unfold(mu.array),Cs,(rep(Ds,each=q)-1)*l+rep(Es,times=p))
-    mu.vector = Lasso(design,c(x),lambda=lambda)$beta
-    mu.array = array(mu.vector,c(k,r,l))
-    objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
-    Cs <- ReNumber(Cs)
-    Ds = UpdateClusters.tensor(tensor.unfold(x,2),tensor.unfold(mu.array,2),Ds,(rep(Es,each=n)-1)*k+rep(Cs,times=q))
-    mu.vector = Lasso(design,c(x),lambda=lambda)$beta
-    mu.array = array(mu.vector,c(k,r,l))
-    objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
-    Ds <- ReNumber(Ds)
-    Es = UpdateClusters.tensor(tensor.unfold(x,3),tensor.unfold(mu.array,3),Es,(rep(Ds,each=n)-1)*k+rep(Cs,times=p))
-    mu.vector = Lasso(design,c(x),lambda=lambda)$beta
-    mu.array = array(mu.vector,c(k,r,l))
-    objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
-    Es <- ReNumber(Es)
-    improvement <- abs(objs[length(objs)] - objs[length(objs) - 
-                                                   4])/abs(objs[length(objs) - 4])
-    i <- i + 1
-    if(trace) cat("step",i,",improvement=",improvement,".\n")
-  }
-  if (i > max.iter) {
-    warning("The algorithm has not converged by the specified maximum number of iteration.\n")
-  }
-  return(list("judgeX"=mu.array[Cs,Ds,Es],"Cs"=Cs,"Ds"=Ds,"Es"=Es,"objs"=objs[length(objs)]))
-}
-
-
-#use sofe threshold to update mus
 classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
   #x=test;k=2;r=3;l=4;lambda=0.01;step.max=500;threshold=5e-3;max.iter=40
   n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
@@ -299,9 +183,9 @@ classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALS
     Es = Es.init
   }
   design.sort = cbind(matrix(rep(1:n,each=p*q),nrow=n*p*q),
-                    matrix(rep(rep(1:p,each=q),times=n),nrow=n*p*q),
-                    matrix(rep(rep(1:q,times=p),times=n),ncol=1),
-                    matrix(rep(0,n*p*q*k*r*l),nrow=n*p*q))
+                      matrix(rep(rep(1:p,each=q),times=n),nrow=n*p*q),
+                      matrix(rep(rep(1:q,times=p),times=n),ncol=1),
+                      matrix(rep(0,n*p*q*k*r*l),nrow=n*p*q))
   objs <- 1e+15
   improvement <- 1e+10
   i <- 1
@@ -341,18 +225,6 @@ classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALS
 }
 
 
-label1 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=100,trace=FALSE){
-  #x=test;lambda=1e-3;max.iter=200;threshold = 5e-3;sim.times=10
-  result = list()
-  objs = c()
-  for (iteration in 1:sim.times){
-    if (trace) cat("Iteration:", iteration, ".\n")
-    result[[iteration]] = classify1(x,k,r,l,lambda,max.iter,threshold,trace)
-    objs = c(objs, result[[iteration]]$objs)
-  }
-  return(result[[which(objs == min(objs))[1]]])
-}
-
 label2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=100,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
   #x=test;lambda=1e-3;max.iter=200;threshold = 5e-3;sim.times=10
   result = list()
@@ -364,63 +236,8 @@ label2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=100
   }
   return(result[[which(objs == min(objs))[1]]])
 }
-```
 
 
-```{r}
-#simulate the data matrix
-n=30;p=30;q=30;k=3;r=3;l=3
-data = get.data(n,p,q,k,r,l,error=2,sort=TRUE)
-test = data$x
-truth = data$truthX
-source('plot.R')
-plot_tensor(test)
-truthCs = data$truthCs
-truthDs = data$truthDs
-truthEs = data$truthEs
-```
-
-
-```{r}
-#old version, don't use that
-sim = label1(test,k,r,l,threshold=5e-2,lambda=0,sim.times=5,trace=FALSE)
-judgeX = sim$judgeX
-plot_tensor(truth+5)
-Sys.sleep(1.5)
-cerC<-1-adjustedRand(truthCs,sim$Cs,randMethod=c("Rand"))
-cerD<-1-adjustedRand(truthDs,sim$Ds,randMethod=c("Rand"))
-cerE<-1-adjustedRand(truthEs,sim$Es,randMethod=c("Rand"))
-cat("The CER(clustering error rate) is ",cerC,",",cerD,",",cerE,".\n")
-plot_tensor(judgeX+5)
-```
-
-#5. test the label2()
-```{r}
-#better method!!===============================================
-sim = label2(test,k,r,l,threshold=5e-2,lambda=0,sim.times=5,trace=FALSE)
-judgeX = sim$judgeX
-#true distribution of mu
-plot_tensor(truth)
-Sys.sleep(1.5)
-#plot_tensor(reorderClusters(truth,truthCs,truthDs,truthEs))
-Sys.sleep(1.5)
-#the input data matrix
-plot_tensor(test)
-Sys.sleep(1.5)
-cerC<-1-adjustedRand(truthCs,sim$Cs,randMethod=c("Rand"))
-cerD<-1-adjustedRand(truthDs,sim$Ds,randMethod=c("Rand"))
-cerE<-1-adjustedRand(truthEs,sim$Es,randMethod=c("Rand"))
-cat("The CER(clustering error rate) is ",cerC,",",cerD,",",cerE,".\n")
-#the result of classifying
-plot_tensor(judgeX)
-Sys.sleep(1.5)
-#plot_tensor(reorderClusters(judgeX,sim$Cs,sim$Ds,sim$Es))
-```
-
-
-#6. do the simulation under different conditions and calculate the cers
-```{r}
-#error means error term/variance of the data matrix
 simulation  = function(n,p,q,k,r,l,error,lambda,iteration){
   cer = c()
   for (i in 1:iteration){
@@ -439,12 +256,17 @@ simulation  = function(n,p,q,k,r,l,error,lambda,iteration){
   print(cer)
 }
 
-n=50;p=50;q=50;k=3;r=3;l=3;error=3;lambda=0;iteration=50
-simulation(n,p,q,k,r,l,error,lambda,iteration)
-```
 
-#7. choose k,r,l
-```{r}
+n=30;p=30;q=30;k=3;r=2;l=3
+data = get.data(n,p,q,k,r,l,error=2,sort=TRUE)
+test = data$x
+truth = data$truthX
+source('plot.R')
+plot_tensor(test)
+truthCs = data$truthCs
+truthDs = data$truthDs
+truthEs = data$truthEs
+
 #all k,r,l are vectors which is the selection range of k,r,l
 sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   #x=test;k=range.k;r=range.r;l=range.l;lambda=0;percent=0.2;trace=TRUE
@@ -489,10 +311,10 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     for (a in 1:length(k)) {
       for (b in 1:length(r)) {
         for (c in 1:length(l)){#a=1;b=2;c=3
-        res <- label2(xmiss, k[a], r[b], l[c], lambda = lambda, 
+          res <- label2(xmiss, k[a], r[b], l[c], lambda = lambda, 
                         Cs.init = Cs.init[, a], Ds.init = Ds.init[, b], 
                         Es.init = Es.init[,c], sim.time=20)$judgeX
-        allresults[i, a, b, c] <- sum((x[missing] - res[missing])^2)
+          allresults[i, a, b, c] <- sum((x[missing] - res[missing])^2)
         }
       }
     }
@@ -506,7 +328,7 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   results.mean <- apply(allresults, c(2, 3, 4), mean)
   #comparing every mean with the mean with higher k,r,l
   IndicatorArray <- 1 * (results.mean[1:(length(k) - 1), 1:(length(r) - 
-                       1), 1:(length(l) - 1)] <= results.mean[2:length(k), 2:length(r), 2:length(l)] + results.se[2:length(k), 2:length(r), 2:length(l)])
+                                                              1), 1:(length(l) - 1)] <= results.mean[2:length(k), 2:length(r), 2:length(l)] + results.se[2:length(k), 2:length(r), 2:length(l)])
   if (max(IndicatorArray) == 0) 
     return(list(bestK = max(k), bestR = max(r), bestL = max(l)))
   
@@ -529,27 +351,20 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     tempmode3 <- c(tempmode3, paste("L = ", l[i], sep = ""))
   }
   
-
+  
   dimnames(results.se)[[1]] = tempmode1
   dimnames(results.se)[[2]] = tempmode2
   dimnames(results.se)[[3]] = tempmode3
   dimnames(results.mean)[[1]] = tempmode1
   dimnames(results.mean)[[2]] = tempmode2
   dimnames(results.mean)[[3]] = tempmode3
-  return(list(estimated_krl = out, results.se = results.se, 
+  return(list(estimated_kr = out, results.se = results.se, 
               results.mean = results.mean))
 }
 
-```
-
-```{r}
-range.k = 2:4; range.r = 2:4; range.l = 2:4
-sparse.choosekrl(test,range.k,range.r,range.l,trace=TRUE)
-```
 
 
-#8. evaluate the accuracy of sparse.choosekrl
-```{r}
+
 sim.choosekrl <- function(n,p,q,k,r,l){
   classification<-list()
   for(a in 1:5){
@@ -616,7 +431,22 @@ Calculatekrl<-function(results){
   return(list(meank=mean(k),meanr=mean(r),meanl=mean(l),sdek=sd(k)/sqrt(length(k)),sder=sd(r)/sqrt(length(r)),sdel=sd(l)/sqrt(length(l)) ))
   #return(list(averagek=k/length(results),averager=r/(length(results))))
 }
-```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
