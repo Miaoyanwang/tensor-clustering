@@ -270,6 +270,7 @@ truthEs = data$truthEs
 #all k,r,l are vectors which is the selection range of k,r,l
 sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   #x=test;k=range.k;r=range.r;l=range.l;lambda=0;percent=0.2;trace=TRUE
+  #k=2:4;r=2:4;l=2:4
   if ((1%%percent) != 0) 
     stop("1 must be divisible by the specified percentage")
   if (percent <= 0) 
@@ -285,18 +286,18 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   numberoftimes <- 1/percent
   allresults <- array(NA, dim = c(numberoftimes, length(k), 
                                   length(r), length(l)))
-  Cs.init <- matrix(NA, nrow = nrow(x), ncol = length(k))
+  Cs.init <- matrix(NA, nrow = dim(x)[1], ncol = length(k))
   #put the kmeans results into columns
   for (i in 1:length(k)) {
     Cs.init[, i] <- kmeans(tensor.unfold(x), k[i], nstart = 20)$cluster
   }
   
-  Ds.init <- matrix(NA, nrow = ncol(x), ncol = length(r))
+  Ds.init <- matrix(NA, nrow = dim(x)[2], ncol = length(r))
   for (j in 1:length(r)) {
     Ds.init[, j] <- kmeans(tensor.unfold(x,2), r[j], nstart = 20)$cluster
   }
   
-  Es.init <- matrix(NA, nrow = ncol(x), ncol = length(l))
+  Es.init <- matrix(NA, nrow = dim(x)[3], ncol = length(l))
   for (j in 1:length(l)) {
     Es.init[, j] <- kmeans(tensor.unfold(x,3), l[j], nstart = 20)$cluster
   }
@@ -366,6 +367,7 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
 
 
 sim.choosekrl <- function(n,p,q,k,r,l){
+  #n=20;p=40;q=30;k=2;r=4;l=3
   classification<-list()
   for(a in 1:5){
     cat("Starting", a, fill=TRUE)

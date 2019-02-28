@@ -369,7 +369,7 @@ label2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=100
 
 ```{r}
 #simulate the data matrix
-n=30;p=30;q=30;k=3;r=3;l=3
+n=40;p=30;q=20;k=4;r=3;l=2
 data = get.data(n,p,q,k,r,l,error=2,sort=TRUE)
 test = data$x
 truth = data$truthX
@@ -448,6 +448,7 @@ simulation(n,p,q,k,r,l,error,lambda,iteration)
 #all k,r,l are vectors which is the selection range of k,r,l
 sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   #x=test;k=range.k;r=range.r;l=range.l;lambda=0;percent=0.2;trace=TRUE
+  #k=2:4;r=2:4;l=2:4
   if ((1%%percent) != 0) 
     stop("1 must be divisible by the specified percentage")
   if (percent <= 0) 
@@ -463,18 +464,18 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   numberoftimes <- 1/percent
   allresults <- array(NA, dim = c(numberoftimes, length(k), 
                                   length(r), length(l)))
-  Cs.init <- matrix(NA, nrow = nrow(x), ncol = length(k))
+  Cs.init <- matrix(NA, nrow = dim(x)[1], ncol = length(k))
   #put the kmeans results into columns
   for (i in 1:length(k)) {
     Cs.init[, i] <- kmeans(tensor.unfold(x), k[i], nstart = 20)$cluster
   }
   
-  Ds.init <- matrix(NA, nrow = ncol(x), ncol = length(r))
+  Ds.init <- matrix(NA, nrow = dim(x)[2], ncol = length(r))
   for (j in 1:length(r)) {
     Ds.init[, j] <- kmeans(tensor.unfold(x,2), r[j], nstart = 20)$cluster
   }
   
-  Es.init <- matrix(NA, nrow = ncol(x), ncol = length(l))
+  Es.init <- matrix(NA, nrow = dim(x)[3], ncol = length(l))
   for (j in 1:length(l)) {
     Es.init[, j] <- kmeans(tensor.unfold(x,3), l[j], nstart = 20)$cluster
   }
@@ -489,10 +490,10 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     for (a in 1:length(k)) {
       for (b in 1:length(r)) {
         for (c in 1:length(l)){#a=1;b=2;c=3
-        res <- label2(xmiss, k[a], r[b], l[c], lambda = lambda, 
+          res <- label2(xmiss, k[a], r[b], l[c], lambda = lambda, 
                         Cs.init = Cs.init[, a], Ds.init = Ds.init[, b], 
                         Es.init = Es.init[,c], sim.time=20)$judgeX
-        allresults[i, a, b, c] <- sum((x[missing] - res[missing])^2)
+          allresults[i, a, b, c] <- sum((x[missing] - res[missing])^2)
         }
       }
     }
@@ -506,7 +507,7 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   results.mean <- apply(allresults, c(2, 3, 4), mean)
   #comparing every mean with the mean with higher k,r,l
   IndicatorArray <- 1 * (results.mean[1:(length(k) - 1), 1:(length(r) - 
-                       1), 1:(length(l) - 1)] <= results.mean[2:length(k), 2:length(r), 2:length(l)] + results.se[2:length(k), 2:length(r), 2:length(l)])
+                                                              1), 1:(length(l) - 1)] <= results.mean[2:length(k), 2:length(r), 2:length(l)] + results.se[2:length(k), 2:length(r), 2:length(l)])
   if (max(IndicatorArray) == 0) 
     return(list(bestK = max(k), bestR = max(r), bestL = max(l)))
   
@@ -529,14 +530,14 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     tempmode3 <- c(tempmode3, paste("L = ", l[i], sep = ""))
   }
   
-
+  
   dimnames(results.se)[[1]] = tempmode1
   dimnames(results.se)[[2]] = tempmode2
   dimnames(results.se)[[3]] = tempmode3
   dimnames(results.mean)[[1]] = tempmode1
   dimnames(results.mean)[[2]] = tempmode2
   dimnames(results.mean)[[3]] = tempmode3
-  return(list(estimated_krl = out, results.se = results.se, 
+  return(list(estimated_kr = out, results.se = results.se, 
               results.mean = results.mean))
 }
 
