@@ -24,6 +24,7 @@ if(!require("clues")){
 }
 
 
+
 ReNumber2 = function(Cs){
   #Cs=truthDs
   newCs <- rep(NA, length(Cs))
@@ -44,9 +45,10 @@ reorderClusters = function(x,Cs,Ds,Es){
 }
 
 #sort=TRUE: we put the blocks with the same mean together
-get.data = function(n,p,q,k,r,l,error=3,sort=TRUE){
+get.data = function(n,p,q,k,r,l,error=3,sort=TRUE,sparse.percent=0){
   #n=20;p=20;q=20;k=2;r=2;l=2;error=3
   mus = runif(k*r*l, -3,3)#take the mean of k*r*l biclusters/cubes
+  if(sparse.percent!=0) mus[1:floor(k*r*l*sparse.percent)] = 0
   mus = array(mus,c(k,r,l))
   truthCs = sample(1:k,n,rep=TRUE)
   truthDs = sample(1:r,p,rep=TRUE)
@@ -67,7 +69,7 @@ get.data = function(n,p,q,k,r,l,error=3,sort=TRUE){
     truthX = reorderClusters(truthX,truthCs,truthDs,truthEs)$x
     neworder = reorderClusters(x,truthCs,truthDs,truthEs)
   }
-  result = list("x"=neworder$x,"truthX"=truthX,"truthCs"=neworder$Cs,"truthDs"=neworder$Ds,"truthEs"=neworder$Es)
+  result = list("x"=neworder$x,"truthX"=truthX,"truthCs"=neworder$Cs,"truthDs"=neworder$Ds,"truthEs"=neworder$Es,"mus"=mus)
   return(result)
 }
 
@@ -75,11 +77,13 @@ get.data = function(n,p,q,k,r,l,error=3,sort=TRUE){
 
 tensor.unfold = function(tensor,dim=1){
   #dim=1: unfold by row; 2: by column; 3: by the 3rd dimension
+  #tensor=mu.array;dim=3
+  #tensor=guess;dim=3
   if (dim == 1) unfold = aperm(tensor,c(3,2,1))
   if (dim == 2) unfold = aperm(tensor,c(1,3,2))
   if (dim == 3) unfold = tensor
-  unfold = t(apply(unfold,3,c))
-  return(unfold)
+  unfold = apply(unfold,3,c)
+  if (is.vector(unfold)) return(as.matrix(unfold)) else return(t(unfold))
 }
 
 design.row = function(sp,C1,D1,E1,k,r,l){
@@ -125,7 +129,7 @@ UpdateMus.tensor = function (x, Cs, Ds, Es, lambda=0) {
     for (r in uniqDs){
       for (l in uniqEs){
         if (lambda == 0) mus[k,r,l] = mean(x[Cs==k,Ds==r,Es==l])
-        if (lambda > 0) mus[k,r] = Soft(mean(x[Cs==k,Ds==r,Es==l]),lambda/(sum(Cs==k)*sum(Ds==r)))
+        if (lambda > 0) mus[k,r,l] = Soft(mean(x[Cs==k,Ds==r,Es==l]),lambda/(sum(Cs==k)*sum(Ds==r)*sum(Es==l)))
         if (lambda < 0) stop("Cannot have a negative tuning parameter value.")
       }
     }
@@ -134,11 +138,15 @@ UpdateMus.tensor = function (x, Cs, Ds, Es, lambda=0) {
 }
 
 UpdateClusters.tensor = function (x, mus, curCs, curDs) {
+  #x = tensor.unfold(x,1); mus=tensor.unfold(mu.array,1); curCs=Cs; curDs=(rep(Ds,each=q)-1)*l+rep(Es,times=p)
+  #x = tensor.unfold(x,2); mus=tensor.unfold(mu.array,2); curCs=Ds; curDs=(rep(Es,each=n)-1)*k+rep(Cs,times=q)
+  #x = tensor.unfold(x,3); mus=tensor.unfold(mu.array,3); curCs=Es; curDs=(rep(Ds,each=n)-1)*k+rep(Cs,times=p)
   Cs.new <- rep(NA, length(curCs))
   #uniq is useless
   uniq <- 1:max(curCs)
   #curDs=(D1-1)*l+E1;curCs=C1;mus=tensor.unfold(mu.array);x=tensor.unfold(x)
   mus.expandcolumns <- mus[, curDs, drop = FALSE]
+  if (dim(mus.expandcolumns)[1]==1) mus
   for (i in 1:nrow(x)) {
     dist2.clust <- NULL
     for (k in 1:length(uniq)) {
@@ -165,7 +173,7 @@ ReNumber = function (Cs)
 
 
 classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
-  #x=test;k=2;r=3;l=4;lambda=0.01;step.max=500;threshold=5e-3;max.iter=40
+  #x=test;k=4;r=3;l=2;step.max=500;threshold=5e-3;max.iter=40;Cs.init=NULL;Ds.init=NULL;Es.init=NULL;lambda=10000
   n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
   if(is.null(Cs.init)){
     Cs  = kmeans(tensor.unfold(x,1),k)$cluster
@@ -200,16 +208,19 @@ classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALS
     Cs = UpdateClusters.tensor(tensor.unfold(x),tensor.unfold(mu.array),Cs,(rep(Ds,each=q)-1)*l+rep(Es,times=p))
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
     Cs <- ReNumber(Cs)
+    k = length(unique(Cs))
     mu.array = UpdateMus.tensor(x,Cs,Ds,Es,lambda)
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
     Ds = UpdateClusters.tensor(tensor.unfold(x,2),tensor.unfold(mu.array,2),Ds,(rep(Es,each=n)-1)*k+rep(Cs,times=q))
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
     Ds <- ReNumber(Ds)
+    r = length(unique(Ds))
     mu.array = UpdateMus.tensor(x,Cs,Ds,Es,lambda)
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
     Es = UpdateClusters.tensor(tensor.unfold(x,3),tensor.unfold(mu.array,3),Es,(rep(Ds,each=n)-1)*k+rep(Cs,times=p))
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
     Es <- ReNumber(Es)
+    l = length(unique(Es))
     mu.array = UpdateMus.tensor(x,Cs,Ds,Es,lambda)
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda))
     improvement <- abs(objs[length(objs)] - objs[length(objs) - 
@@ -221,11 +232,11 @@ classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALS
   if (i > max.iter) {
     warning("The algorithm has not converged by the specified maximum number of iteration.\n")
   }
-  return(list("judgeX"=mu.array[Cs,Ds,Es],"Cs"=Cs,"Ds"=Ds,"Es"=Es,"objs"=objs[length(objs)]))
+  return(list("judgeX"=mu.array[Cs,Ds,Es],"Cs"=Cs,"Ds"=Ds,"Es"=Es,"objs"=objs[length(objs)], "mus"=mu.array))
 }
 
 
-label2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=100,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
+label2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=20,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
   #x=test;lambda=1e-3;max.iter=200;threshold = 5e-3;sim.times=10
   result = list()
   objs = c()
@@ -323,9 +334,9 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     miss <- miss[-1:-(dim(x)[1] * dim(x)[2] * dim(x)[3]/numberoftimes)]
   }
   #allresults = use.allresults
-  #allresults = array((rnorm(5*3*3*3))^2,dim=c(5,3,3,3));k=2:4;r=2:4;l=2:4
+  #allresults = array((rnorm(5*3*3*3))^2,dim=c(5,3,3,3));k=2:4;r=2:4;l=2:4;numberoftimes=5
   #calculate the standard deviation and mean for different selection of k,r,l
-  results.se <- apply(allresults, c(2, 3, 4), sd)/sqrt(numberoftimes)
+  results.se <- apply(allresults, MARGIN=c(2, 3, 4), sd)
   results.mean <- apply(allresults, c(2, 3, 4), mean)
   #comparing every mean with the mean with higher k,r,l
   IndicatorArray <- 1 * (results.mean[1:(length(k) - 1), 1:(length(r) - 
@@ -374,6 +385,7 @@ sim.choosekrl <- function(n,p,q,k,r,l){
     #k=3;r=2;l=4;n=30;p=30;q=50
     x = get.data(n,p,q,k,r,l)$x
     classification[[a]]<-sparse.choosekrl(x,k=2:4,r=2:4,l=2:4)$estimated_kr#estimate clusters
+    #if(is.null(classification[[a]])) 
   }
   return(classification)
 }
@@ -436,8 +448,56 @@ Calculatekrl<-function(results){
 
 
 
+#clusterobj is the return value of label2()
+CalculateBIC = function (x, clusterobj) 
+{
+  mat <- array(rep(0,length(c(x))), dim=dim(x))
+  Cs <- clusterobj$Cs
+  Ds <- clusterobj$Ds
+  Es <- clusterobj$Es
+  for (i in unique(Cs)) {
+    for (j in unique(Ds)) {
+      for (m in unique(Es)) {
+        if (clusterobj$mus[i, j, m] != 0) {
+          mat[Cs==i, Ds==j, Es==m] <- mean(x[Cs==i, Ds==j, Es==m])
+        }
+      }
+    }
+  }
+  mat[clusterobj$mus == 0] <- mean(x[clusterobj$mus == 0])
+  return(log(sum((x - mat)^2))*dim(x)[1]*dim(x)[2]*dim(x)[3]+log(dim(x)[1]* 
+                  dim(x)[2]*dim(x)[3]) * sum(clusterobj$mus != 0))
+}
 
 
+
+#lambda: A range of values of tuning parameters to be considered. All values must be non-negative.
+chooseLambda = function (x, k, r, l, lambda) {
+  x <- x - mean(x)
+  BIC <- rep(NA, length(lambda))
+  nonzero <- rep(NA, length(lambda))
+  for (i in 1:length(lambda)) {
+    bires <- label2(x, k, r, l, lambda = lambda[i])
+    BIC[i] <- CalculateBIC(x, bires)
+    nonzero[i] <- sum(bires$mus != 0)
+  }
+  return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, 
+              nonzeromus = nonzero))
+}
+
+
+
+base_chooseLambda2 = function(lambda,x,k,r,l){
+  bires <- label2(x, k, r, l, lambda)
+  return(CalculateBIC(x, bires))
+}
+
+
+#Haven't been finished yet
+chooseLambda2 = function (x, k, r, l) {
+  #x = test; k = 4; r = 3; l = 2; lambda=1000; base_chooseLambda2(lambda,x,r,k,l)
+  result = optimize(f=base_chooseLambda2, interval=c(0,5000), x=x,k=k,r=r,l=l)
+}
 
 
 
