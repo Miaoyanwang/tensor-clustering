@@ -236,20 +236,28 @@ classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALS
 }
 
 
-label2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=20,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
+label2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=5,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
   #x=test;lambda=1e-3;max.iter=200;threshold = 5e-3;sim.times=10
-  result = list()
-  objs = c()
+  result = list(); objs = c()
+  #objs_sparse = c(); result_sparse = list()
+  #for (iteration in 1:sim.times){
+  #  if (trace) cat("Iteration:", iteration, ".\n")
+  #  result_sparse[[iteration]] = classify2(x,k,r,l,lambda,max.iter,threshold,trace,Cs.init,Ds.init,Es.init)
+  #  objs_sparse = c(objs_sparse, result_sparse[[iteration]]$objs)
+  #}
+  #result_sparse = result_sparse[[which(objs_sparse == min(objs_sparse))[1]]]
+  
   for (iteration in 1:sim.times){
     if (trace) cat("Iteration:", iteration, ".\n")
     result[[iteration]] = classify2(x,k,r,l,lambda,max.iter,threshold,trace,Cs.init,Ds.init,Es.init)
     objs = c(objs, result[[iteration]]$objs)
   }
-  return(result[[which(objs == min(objs))[1]]])
+  result = result[[which(objs == min(objs))[1]]]
+  return(result)
 }
 
 
-simulation  = function(n,p,q,k,r,l,error,lambda,iteration){
+simulation  = function(n,p,q,k,r,l,error,lambda,iteration=1){
   cer = c()
   for (i in 1:iteration){
     data = get.data(n,p,q,k,r,l,error=error)
@@ -268,19 +276,19 @@ simulation  = function(n,p,q,k,r,l,error,lambda,iteration){
 }
 
 
-n=30;p=30;q=30;k=3;r=2;l=3
-data = get.data(n,p,q,k,r,l,error=2,sort=TRUE)
-test = data$x
-truth = data$truthX
-source('plot.R')
-plot_tensor(test)
-truthCs = data$truthCs
-truthDs = data$truthDs
-truthEs = data$truthEs
+label_for_circle = function(abc,k,r,l,Cs.init,Ds.init,Es.init,sim.time,lambda,xmiss){
+  #label_for_circle(abc=c(1,1,1),k,r,l,Cs.init,Ds.init,Es.init,20,lambda=0,xmiss)
+  a = abc[1]; b = abc[2]; c = abc[3]
+  return(list(label2(xmiss, k[a], r[b], l[c], lambda = lambda, 
+         Cs.init = Cs.init[,a], Ds.init = Ds.init[,b], 
+         Es.init = Es.init[,c], sim.time=sim.time)$judgeX))
+}
+  
+
 
 #all k,r,l are vectors which is the selection range of k,r,l
 sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
-  #x=test;k=range.k;r=range.r;l=range.l;lambda=0;percent=0.2;trace=TRUE
+  #x=test;l=range.l;lambda=0;percent=0.2;trace=TRUE
   #k=2:4;r=2:4;l=2:4
   if ((1%%percent) != 0) 
     stop("1 must be divisible by the specified percentage")
@@ -320,16 +328,32 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     missing <- miss[1:(n*p*q*percent)]
     xmiss[missing] <- NA
     xmiss[missing] <- mean(xmiss, na.rm = TRUE)
-    for (a in 1:length(k)) {
-      for (b in 1:length(r)) {
-        for (c in 1:length(l)){#a=1;b=2;c=3
-          res <- label2(xmiss, k[a], r[b], l[c], lambda = lambda, 
-                        Cs.init = Cs.init[, a], Ds.init = Ds.init[, b], 
-                        Es.init = Es.init[,c], sim.time=20)$judgeX
-          allresults[i, a, b, c] <- sum((x[missing] - res[missing])^2)
-        }
-      }
+    
+    #for (a in 1:length(k)) {
+    #  for (b in 1:length(r)) {
+    #    for (c in 1:length(l)){#a=1;b=2;c=3
+    #      res <- label2(xmiss, k[a], r[b], l[c], lambda = lambda, 
+    #                    Cs.init = Cs.init[, a], Ds.init = Ds.init[, b], 
+    #                    Es.init = Es.init[,c], sim.time=20)$judgeX
+    #      allresults[i, a, b, c] <- sum((x[missing] - res[missing])^2)
+    #    }
+    #  }
+    #}
+    
+    
+    krl = matrix(c(rep(1:length(k),each=length(r)*length(l)),
+                   rep(1:length(r),times=length(k)*length(l)),
+                       rep(rep(1:length(l),each=length(r)),times=length(k))),byrow=TRUE,
+                 nrow=3)
+    res = apply(krl,MARGIN=2,label_for_circle,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss)
+    for (a in 1:dim(krl)[2]){
+      #print(krl[,a])
+      #print(sum((x[missing]-res[[a]][[1]][missing])^2))
+      allresults[i,krl[,a][1],krl[,a][2],krl[,a][3]] = sum((x[missing]-res[[a]][[1]][missing])^2)
     }
+    
+    
+    
     #delete the first missing index that we have already used
     miss <- miss[-1:-(dim(x)[1] * dim(x)[2] * dim(x)[3]/numberoftimes)]
   }
@@ -342,7 +366,7 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   IndicatorArray <- 1 * (results.mean[1:(length(k) - 1), 1:(length(r) - 
                                                               1), 1:(length(l) - 1)] <= results.mean[2:length(k), 2:length(r), 2:length(l)] + results.se[2:length(k), 2:length(r), 2:length(l)])
   if (max(IndicatorArray) == 0) 
-    return(list(bestK = max(k), bestR = max(r), bestL = max(l)))
+    return(list(estimated_krl = c(max(k), max(r), max(l))))
   
   #outer(outer(matrix(1:4,2),matrix(5:8,2)),matrix(1:4,2))
   ModeIndex <- outer(outer(k[-length(k)], r[-length(r)],  "*"), l[-length(l)], "*")
@@ -370,21 +394,24 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   dimnames(results.mean)[[1]] = tempmode1
   dimnames(results.mean)[[2]] = tempmode2
   dimnames(results.mean)[[3]] = tempmode3
-  return(list(estimated_kr = out, results.se = results.se, 
+  return(list(estimated_krl = out, results.se = results.se, 
               results.mean = results.mean))
 }
 
 
 
 
-sim.choosekrl <- function(n,p,q,k,r,l){
+
+
+
+sim.choosekrl <- function(n,p,q,k,r,l,error=3){
   #n=20;p=40;q=30;k=2;r=4;l=3
   classification<-list()
   for(a in 1:5){
     cat("Starting", a, fill=TRUE)
     #k=3;r=2;l=4;n=30;p=30;q=50
-    x = get.data(n,p,q,k,r,l)$x
-    classification[[a]]<-sparse.choosekrl(x,k=2:4,r=2:4,l=2:4)$estimated_kr#estimate clusters
+    x = get.data(n,p,q,k,r,l,error=error)$x
+    classification[[a]]<-sparse.choosekrl(x,k=2:5,r=2:5,l=2:5)$estimated_kr#estimate clusters
     #if(is.null(classification[[a]])) 
   }
   return(classification)
@@ -394,7 +421,7 @@ sim.choosekrl <- function(n,p,q,k,r,l){
 
 
 Calculate<-function(true,results){
-  real<-matrix(true,ncol=2)
+  real<-matrix(true,ncol=3)
   percent<-0
   for(i in 1:length(results)){
     if(nrow(results[[i]])>1){
@@ -411,7 +438,7 @@ Calculate<-function(true,results){
       }	
     }
   }
-  return(percent)
+  return(percent/length(results))
 }
 
 
@@ -449,7 +476,7 @@ Calculatekrl<-function(results){
 
 
 #clusterobj is the return value of label2()
-CalculateBIC = function (x, clusterobj) 
+CalculateBIC = function (x, clusterobj,trace=FALSE) 
 {
   mat <- array(rep(0,length(c(x))), dim=dim(x))
   Cs <- clusterobj$Cs
@@ -465,14 +492,21 @@ CalculateBIC = function (x, clusterobj)
     }
   }
   mat[clusterobj$mus == 0] <- mean(x[clusterobj$mus == 0])
+  if(trace==TRUE) cat(log(sum((x - mat)^2)), sum(clusterobj$mus != 0), "\n")
   return(log(sum((x - mat)^2))*dim(x)[1]*dim(x)[2]*dim(x)[3]+log(dim(x)[1]* 
-                  dim(x)[2]*dim(x)[3]) * sum(clusterobj$mus != 0))
+                  dim(x)[2]*dim(x)[3]) * (sum(clusterobj$mus != 0)+1))
 }
 
 
 
+
+
 #lambda: A range of values of tuning parameters to be considered. All values must be non-negative.
-chooseLambda = function (x, k, r, l, lambda) {
+chooseLambda = function (x, k, r, l, lambda=NULL) {
+  if (is.null(lambda)){
+    lambda_0 =c(floor(dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l))
+    lambda = c(floor(lambda_0/50), floor(lambda_0/10), floor(lambda_0/4), floor(lambda_0/3), floor(lambda_0/2), floor(lambda_0/3*2), lambda_0, floor(lambda_0*3/2), lambda_0*2)
+  } 
   x <- x - mean(x)
   BIC <- rep(NA, length(lambda))
   nonzero <- rep(NA, length(lambda))
@@ -493,21 +527,48 @@ base_chooseLambda2 = function(lambda,x,k,r,l){
 }
 
 
-#Haven't been finished yet
 chooseLambda2 = function (x, k, r, l) {
   #x = test; k = 4; r = 3; l = 2; lambda=1000; base_chooseLambda2(lambda,x,r,k,l)
-  result = optimize(f=base_chooseLambda2, interval=c(0,5000), x=x,k=k,r=r,l=l)
+  result = optimize(f=base_chooseLambda2, interval=c(0,dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l), x=x,k=k,r=r,l=l)
+  return(result)
+}
+
+label3 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=5,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
+  result = label2(x,k,r,l,0,max.iter,threshold,sim.times,trace,Cs.init,Ds.init,Es.init)
+  result$judgeX[result$judgeX<=lambda & result$judgeX>=-lambda] = 0
+  result$mus[result$mus<=lambda & result$mus>=-lambda] = 0
+  return(result)
+}
+
+base_chooseLambda3 = function(lambda,x,k,r,l){
+  bires <- label3(x, k, r, l, lambda)
+  return(CalculateBIC(x, bires))
+}
+
+chooseLambda3 = function (x, k, r, l) {
+  #x = test; k = 4; r = 3; l = 2; lambda=1000; base_chooseLambda2(lambda,x,r,k,l)
+  result = optimize(f=base_chooseLambda3, interval=c(0,1), x=x,k=k,r=r,l=l)
+  return(result)
 }
 
 
+error_lambda = function(x,truth){
+  return(sum((x-truth)^2)/sum(truth^2))
+}
 
-
-
-
-
-
-
-
+sim.lambda3 = function(lambda,n,p,q,k,r,l,sparse.percent,sim.times=20){
+  error = c()
+  for (i in 1:sim.times){
+    data = get.data(n,p,q,k,r,l,sparse.percent = sparse.percent)
+    x = data$x
+    truth = data$truthX
+    x = label3(x,k,r,l,lambda=lambda)$judgeX
+    correct_zeros = c(correct_zeros, sum(c(x==0) & c(truth == 0))/sum(c(truth == 0)))
+    wrong_zeros = c(wrong_zeros, sum(c(x==0) & c(truth != 0))/sum(truth!=0))
+    error = c(error, error_lambda(x,truth))
+  }
+  return(list(error = c(mean(error),sd(error)), correct_zeros = c(mean(correct_zeros),sd(correct_zeros)), wrong_zeros = c(mean(wrong_zeros), sd(wrong_zeros))))
+}
 
 
 
