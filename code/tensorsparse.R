@@ -301,7 +301,6 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   if (sum(diff(k) <= 0) > 0 || sum(diff(r) <= 0) > 0 || sum(diff(l) <= 0) > 0) 
     stop("k and r has to be an increasing sequence.  Please sort k and r before using the function")
   n=dim(x)[1];p=dim(x)[2];q=dim(x)[3]
-  miss <- sample(1:(n*p*q), n*p*q, replace = FALSE)
   numberoftimes <- 1/percent
   allresults <- array(NA, dim = c(numberoftimes, length(k), 
                                   length(r), length(l)))
@@ -325,7 +324,7 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     if (trace == TRUE) 
       cat("Iteration", i, fill = TRUE)
     xmiss <- x
-    missing <- miss[1:(n*p*q*percent)]
+    missing <- sample(1:(n*p*q), round(n*p*q*percent), replace = FALSE)
     xmiss[missing] <- NA
     xmiss[missing] <- mean(xmiss, na.rm = TRUE)
     
@@ -352,10 +351,6 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
       allresults[i,krl[,a][1],krl[,a][2],krl[,a][3]] = sum((x[missing]-res[[a]][[1]][missing])^2)
     }
     
-    
-    
-    #delete the first missing index that we have already used
-    miss <- miss[-1:-(dim(x)[1] * dim(x)[2] * dim(x)[3]/numberoftimes)]
   }
   #allresults = use.allresults
   #allresults = array((rnorm(5*3*3*3))^2,dim=c(5,3,3,3));k=2:4;r=2:4;l=2:4;numberoftimes=5
@@ -556,7 +551,26 @@ error_lambda = function(x,truth){
   return(sum((x-truth)^2)/sum(truth^2))
 }
 
-sim.lambda3 = function(lambda,n,p,q,k,r,l,sparse.percent,sim.times=20){
+
+chooseLambda4 = function (x, k, r, l, lambda=NULL,trace=TRUE) {
+  if (is.null(lambda)){
+    lambda_0 =c(floor(dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l)/50)
+    lambda = c(0, floor(lambda_0/50), floor(lambda_0/10), floor(lambda_0/4), floor(lambda_0/3), floor(lambda_0/2), floor(lambda_0/3*2), lambda_0, floor(lambda_0*3/2), lambda_0*2)
+  } 
+  x <- x - mean(x)
+  BIC <- rep(NA, length(lambda))
+  nonzero <- rep(NA, length(lambda))
+  for (i in 1:length(lambda)) {
+    bires <- label3(x, k, r, l, lambda = lambda[i])
+    BIC[i] <- CalculateBIC(x, bires,trace=trace)
+    nonzero[i] <- sum(bires$mus != 0)
+  }
+  return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, 
+              nonzeromus = nonzero))
+}
+
+
+sim.lambda_lasso = function(lambda,n,p,q,k,r,l,sparse.percent,sim.times=20){
   error = c()
   for (i in 1:sim.times){
     data = get.data(n,p,q,k,r,l,sparse.percent = sparse.percent)
@@ -569,7 +583,6 @@ sim.lambda3 = function(lambda,n,p,q,k,r,l,sparse.percent,sim.times=20){
   }
   return(list(error = c(mean(error),sd(error)), correct_zeros = c(mean(correct_zeros),sd(correct_zeros)), wrong_zeros = c(mean(wrong_zeros), sd(wrong_zeros))))
 }
-
 
 
 
