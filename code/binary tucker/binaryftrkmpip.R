@@ -8,7 +8,7 @@ source("upgrade_new.R")
 ######packages#######
 library(R.matlab)
 library(rTensor)
-library(tensr)
+library(tensorr)
 
 binary_tensor_fctr_km = function(tensor,k,maxiter){#k is for cp factorization 
   #and k can be a vector is we use trucker decomposition
