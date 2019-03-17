@@ -9,6 +9,9 @@ library(tensr)
 library(tensor)
 library(gtools)
 
+#control the likelihood
+global_max = 1e+14
+
 #upgrading functions
 mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
   #U_0,M1_0,M2_0,M3_0 are initial core tensor and factor matrices
@@ -25,12 +28,28 @@ mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
   
   #set likelihood 
   likelihood = rep(0,4)
+  likelihood_normal = rep(0,4)
   
   #find problem matrices
   mode_p1 = NULL
   mode_p2 = NULL
   mode_p3 = NULL
   mode_p4 = NULL
+  
+  #first normalize
+  if(is.array(U_0)==TRUE){
+    U_0 = as.tensor(U_0)
+  }
+  T1_0 = ttm(U_0,M1_0,1)#must use class tensor
+  T2_0 = ttm(T1_0,M2_0,2)
+  est_tensor_0 = ttm(T2_0,M3_0,3)
+  normal0 = tucker(est_tensor_0,ranks = c(k1,k2,k3))
+  
+  U_0 = normal0$Z@data
+  M1_0 = as.matrix(normal0$U[[1]])
+  M2_0 = as.matrix(normal0$U[[2]])
+  M3_0 = as.matrix(normal0$U[[3]])
+  
 
   #upgrade core tensor
   
@@ -93,7 +112,7 @@ mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
   
   likelihood[1] = cal_likelihood(tensor,U,M1_0,M2_0,M3_0)
   
-  if(likelihood[1] == -Inf){#if give inf then try another strategy
+  if(abs(likelihood[1]) >= global_max){#if give inf then try another strategy
     glforu = glm(y~0+x,family=binomial(link="logit"),control = list(maxit = 100)
                  ,start = start_u)
     glforu_coef = glforu$coefficients
@@ -112,10 +131,26 @@ mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
     likelihood[1] = cal_likelihood(tensor,U,M1_0,M2_0,M3_0)
   }
   
-  if(likelihood[1] == -Inf){ #after the strategy if the likelihood is still inf
+  if(abs(likelihood[1])  >= global_max ){ #after the strategy if the likelihood is still inf
     print("still inf")
     mode_p1 = list("U"=U,"M1"=M1_0,"M2" =M2_0,"M3"=M3_0)
   }
+  
+  ### use normalization results plug into the next upgrading ###
+  if(is.array(U)==TRUE){
+    U = as.tensor(U)
+  }
+  T1_1 = ttm(U,M1_0,1)#must use class tensor
+  T2_1 = ttm(T1_1,M2_0,2)
+  est_tensor_1 = ttm(T2_1,M3_0,3)
+  normal1 = tucker(est_tensor_1,ranks = c(k1,k2,k3))
+
+  U = normal1$Z@data
+  M1_0 = as.matrix(normal1$U[[1]])
+  M2_0 = as.matrix(normal1$U[[2]])
+  M3_0 = as.matrix(normal1$U[[3]])
+  
+  likelihood_normal[1] = cal_likelihood(tensor,U,M1_0,M2_0,M3_0)
   
   ###upgrade M_3###
   
@@ -139,7 +174,7 @@ mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
 
   likelihood[2] = cal_likelihood(tensor,U,M1_0,M2_0,M3)
   
-  if(likelihood[2] == -Inf){
+  if(abs(likelihood[2]) >= global_max){
     M3 = matrix(0,nrow = d3,ncol = k3)
     for (i in 1:d3) {
       y = tensor[1,,i]
@@ -154,14 +189,31 @@ mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
     likelihood[2] = cal_likelihood(tensor,U,M1_0,M2_0,M3)
   }
   
-  if(likelihood[2] == -Inf){
+  if(abs(likelihood[2])  >= global_max){
     print("still inf")
     mode_p2 = list("U"=U,"M1"=M1_0,"M2" =M2_0,"M3"=M3)
   }
   
+  ### use normalization results plug into the next upgrading ###
+  if(is.array(U)==TRUE){
+    U = as.tensor(U)
+  }
+  T1_2 = ttm(U,M1_0,1)#must use class tensor
+  T2_2 = ttm(T1_2,M2_0,2)
+  est_tensor_2 = ttm(T2_2,M3,3)
+  normal2 = tucker(est_tensor_2,ranks = c(k1,k2,k3))
+
+  U = normal2$Z@data
+  M1_0 = as.matrix(normal2$U[[1]])
+  M2_0 = as.matrix(normal2$U[[2]])
+  M3 = as.matrix(normal2$U[[3]])
+  
+  likelihood_normal[2] = cal_likelihood(tensor,U,M1_0,M2_0,M3)
+  # 
   ###upgrade M_2###
   
-  UM1M3 = amprod(UM1,M3,3)
+  UM1_1 = amprod(U, M1_0, 1)
+  UM1M3 = amprod(UM1_1,M3,3)
   
   x2 = UM1M3[1,,]
   for (a in 2:d1) {
@@ -180,7 +232,7 @@ mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
   
   likelihood[3] = cal_likelihood(tensor,U,M1_0,M2,M3)
   
-  if(likelihood[3] == -Inf){
+  if(abs(likelihood[3])  >= global_max){
     M2 = matrix(0,nrow = d2,ncol = k2)
     for (i in 1:d2) {
       y = tensor[1,i,]
@@ -194,11 +246,27 @@ mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
     likelihood[3] = cal_likelihood(tensor,U,M1_0,M2,M3)
   }
   
-  if(likelihood[3] == -Inf){
+  if(abs(likelihood[3])  >= global_max){
     print("still inf")
     mode_p3 = list("U"=U,"M1"=M1_0,"M2" =M2,"M3"=M3)
   }
   
+  ### use normalization results plug into the next upgrading ###
+  if(is.array(U)==TRUE){
+    U = as.tensor(U)
+  }
+  T1_3 = ttm(U,M1_0,1)#must use class tensor
+  T2_3 = ttm(T1_3,M2,2)
+  est_tensor_3 = ttm(T2_3,M3,3)
+  normal3 = tucker(est_tensor_3,ranks = c(k1,k2,k3))
+
+  U = normal3$Z@data
+  M1_0 = as.matrix(normal3$U[[1]])
+  M2 = as.matrix(normal3$U[[2]])
+  M3 = as.matrix(normal3$U[[3]])
+  
+  likelihood_normal[3] = cal_likelihood(tensor,U,M1_0,M2,M3)
+  # 
   ###upgrade M_1###
   
   UM2 = amprod(U,M2,2)
@@ -221,7 +289,7 @@ mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
   }
   
   likelihood[4] = cal_likelihood(tensor,U,M1,M2,M3)
-  if(likelihood[4] == -Inf){
+  if(abs(likelihood[4])  >= global_max){
     M1 = matrix(0,nrow = d1,ncol = k1)
 
     for (i in 1:d1) {
@@ -236,14 +304,31 @@ mode_upgrade_glm = function(tensor,U_0,M1_0,M2_0,M3_0){
     
     likelihood[4] = cal_likelihood(tensor,U,M1,M2,M3)
   }
-  if(likelihood[4] == -Inf){
+  if(abs(likelihood[4])  >= global_max){
     print("still inf")
     mode_p4 = list("U"=U,"M1"=M1,"M2" =M2,"M3"=M3)
   }
   
+  ### use normalization results plug into the next upgrading ###
+  if(is.array(U)==TRUE){
+    U = as.tensor(U)
+  }
+  T1_4 = ttm(U,M1,1)#must use class tensor
+  T2_4 = ttm(T1_4,M2,2)
+  est_tensor_4 = ttm(T2_4,M3,3)
+  normal4 = tucker(est_tensor_4,ranks = c(k1,k2,k3))
+  
+  U = normal4$Z@data
+  M1 = as.matrix(normal4$U[[1]])
+  M2 = as.matrix(normal4$U[[2]])
+  M3 = as.matrix(normal4$U[[3]])
+  
+  likelihood_normal[4] = cal_likelihood(tensor,U,M1,M2,M3)
+  
   #,"mode_p" = list("p1" = mode_p1,"p2" = mode_p2,"p3" = mode_p3,"p4" = mode_p4)
   return(list("U"=U,"M1"=M1,"M2" =M2,"M3"=M3,"likelihood" = likelihood
-              ,"mode_p" = list("p1" = mode_p1,"p2" = mode_p2,"p3" = mode_p3,"p4" = mode_p4)))
+              ,"mode_p" = list("p1" = mode_p1,"p2" = mode_p2,"p3" = mode_p3,"p4" = mode_p4)
+              ,"likelihood_normal" = likelihood_normal))
 }
 
 cal_likelihood = function(tensor,U,M1,M2,M3){
@@ -251,10 +336,11 @@ cal_likelihood = function(tensor,U,M1,M2,M3){
   T1 = ttm(U,M1,1)#must use class tensor
   T2 = ttm(T1,M2,2)
   est_tensor = ttm(T2,M3,3)
-  #first_term = innerProd(as.tensor(tensor),est_tensor)
-  #second_term = sum(log(1+exp(est_tensor@data)))
-  #like = first_term-second_term
-  like=sum(log(inv.logit((2*tensor-1)*est_tensor@data)))
+  # first_term = innerProd(as.tensor(tensor),est_tensor)
+  # second_term = sum(log(1+exp(est_tensor@data)))
+  # like = first_term-second_term
+  temp=(2*tensor-1)*est_tensor@data
+  like=sum(log(inv.logit(temp[temp>=0])))+sum(temp[temp<0]-log(1+exp(temp[temp<0])))
   return(like)
 }
 
