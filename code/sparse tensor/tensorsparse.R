@@ -22,11 +22,15 @@ if(!require("clues")){
   install.packages("clues")
   stopifnot(require("clues"))
 }
+if(!require("parallel")){
+  install.packages("parallel")
+  stopifnot(require("parallel"))
+}
 
-
+n.cores = detectCores()
 
 ReNumber2 = function(Cs){
-  #Cs=truthDs
+  #Cs=c(2,2)
   newCs <- rep(NA, length(Cs))
   uniq <- sort(unique(Cs))
   num = c()
@@ -38,21 +42,22 @@ ReNumber2 = function(Cs){
 }
 
 reorderClusters = function(x,Cs,Ds,Es){
-  #Cs=truthCs;Ds=truthDs;Es=truthEs
+  #x=truthX;Cs=truthCs;Ds=truthDs;Es=truthEs
   Cs = ReNumber2(Cs);Ds = ReNumber2(Ds);Es = ReNumber2(Es)
-  return(list("x"=x[order(Cs),order(Ds),order(Es)],"Cs"=sort(Cs),
+  return(list("x"=x[order(Cs),order(Ds),order(Es), drop=FALSE],"Cs"=sort(Cs),
               "Ds"=sort(Ds),"Es"=sort(Es)))
 }
 
 #sort=TRUE: we put the blocks with the same mean together
-get.data = function(n,p,q,k,r,l,error=3,sort=TRUE,sparse.percent=0){
+get.data = function(n,p,q,k,r,l,error=3,sort=TRUE,sparse.percent=0,center=FALSE){
   #n=20;p=20;q=20;k=2;r=2;l=2;error=3
-  mus = runif(k*r*l, -3,3)#take the mean of k*r*l biclusters/cubes
+  #n=200;p=200;q=1;k=4;r=5;l=1;error=4;sort=FALSE;sparse.percent=0;set.seed(1)
+  mus = runif(k*r*l, -2,2)#take the mean of k*r*l biclusters/cubes
   if(sparse.percent!=0) mus[1:floor(k*r*l*sparse.percent)] = 0
   mus = array(mus,c(k,r,l))
-  truthCs = sample(1:k,n,rep=TRUE)
-  truthDs = sample(1:r,p,rep=TRUE)
-  truthEs = sample(1:l,q,rep=TRUE)
+  if (k!=1) truthCs = ReNumber(sample(1:k,n,rep=TRUE)) else truthCs = 1
+  if (r!=1) truthDs = ReNumber(sample(1:r,p,rep=TRUE)) else truthDs = 1
+  if (l!=1) truthEs = ReNumber(sample(1:l,q,rep=TRUE)) else truthEs = 1
   x = array(rnorm(n*p*q,mean=0,sd=error),c(n,p,q))
   truthX = array(rep(0,n*p*q),c(n,p,q))
   for(i in 1:max(truthCs)){
@@ -63,13 +68,15 @@ get.data = function(n,p,q,k,r,l,error=3,sort=TRUE,sparse.percent=0){
       }
     }
   }
-  #暂时去掉了中心化
-  #x = x - mean(x)#minus the overall mean
+  if (center == TRUE) x = x - mean(x)
   if(sort==TRUE){
     truthX = reorderClusters(truthX,truthCs,truthDs,truthEs)$x
     neworder = reorderClusters(x,truthCs,truthDs,truthEs)
+    result = list("x"=neworder$x,"truthX"=truthX,"truthCs"=neworder$Cs,"truthDs"=neworder$Ds,"truthEs"=neworder$Es,"mus"=mus)
+  } else {
+    result = list("x"=x,"truthX"=truthX,"truthCs"=truthCs,"truthDs"=truthDs,"truthEs"=truthEs,"mus"=mus)
   }
-  result = list("x"=neworder$x,"truthX"=truthX,"truthCs"=neworder$Cs,"truthDs"=neworder$Ds,"truthEs"=neworder$Es,"mus"=mus)
+  
   return(result)
 }
 
@@ -79,6 +86,7 @@ tensor.unfold = function(tensor,dim=1){
   #dim=1: unfold by row; 2: by column; 3: by the 3rd dimension
   #tensor=mu.array;dim=3
   #tensor=guess;dim=3
+  #if is.na(dim(tensor)[dim]) 
   if (dim == 1) unfold = aperm(tensor,c(3,2,1))
   if (dim == 2) unfold = aperm(tensor,c(1,3,2))
   if (dim == 3) unfold = tensor
@@ -99,7 +107,7 @@ Objective = function (x, mu.array, Cs, Ds, Es, lambda = 0) {
   #print(dim(mu.array[Cs, Ds, Es]))
   #print(Cs)
   #sum((x - mu.array[Cs, Ds, Es])^2)
-  return(sum((x - mu.array[Cs, Ds, Es])^2)+2*lambda*sum(abs(mu.array)))
+  return(sum((x - mu.array[Cs, Ds, Es, drop=FALSE])^2)+2*lambda*sum(abs(mu.array)))
 }
 
 #dim should be a vector
@@ -176,17 +184,17 @@ classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALS
   #x=test;k=4;r=3;l=2;step.max=500;threshold=5e-3;max.iter=40;Cs.init=NULL;Ds.init=NULL;Es.init=NULL;lambda=10000
   n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
   if(is.null(Cs.init)){
-    Cs  = kmeans(tensor.unfold(x,1),k)$cluster
+    if(k==1) Cs = rep(1,n) else {Cs  = kmeans(tensor.unfold(x,1),k)$cluster}
   } else {
     Cs = Cs.init
   }
   if(is.null(Ds.init)){
-    Ds  = kmeans(tensor.unfold(x,2),r)$cluster
+    if(r==1) Ds = rep(1,p) else { Ds  = kmeans(tensor.unfold(x,2),r)$cluster}
   } else {
     Ds = Ds.init
   }
   if(is.null(Es.init)){
-    Es  = kmeans(tensor.unfold(x,3),l)$cluster
+    if(l==1) Es = rep(1,q) else {Es  = kmeans(tensor.unfold(x,3),l)$cluster}
   } else {
     Es = Es.init
   }
@@ -232,7 +240,7 @@ classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALS
   if (i > max.iter) {
     warning("The algorithm has not converged by the specified maximum number of iteration.\n")
   }
-  return(list("judgeX"=mu.array[Cs,Ds,Es],"Cs"=Cs,"Ds"=Ds,"Es"=Es,"objs"=objs[length(objs)], "mus"=mu.array))
+  return(list("judgeX"=mu.array[Cs,Ds,Es, drop=FALSE],"Cs"=Cs,"Ds"=Ds,"Es"=Es,"objs"=objs[length(objs)], "mus"=mu.array))
 }
 
 
@@ -301,6 +309,7 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   if (sum(diff(k) <= 0) > 0 || sum(diff(r) <= 0) > 0 || sum(diff(l) <= 0) > 0) 
     stop("k and r has to be an increasing sequence.  Please sort k and r before using the function")
   n=dim(x)[1];p=dim(x)[2];q=dim(x)[3]
+  miss <- sample(1:(n*p*q), n*p*q, replace = FALSE)
   numberoftimes <- 1/percent
   allresults <- array(NA, dim = c(numberoftimes, length(k), 
                                   length(r), length(l)))
@@ -324,38 +333,40 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     if (trace == TRUE) 
       cat("Iteration", i, fill = TRUE)
     xmiss <- x
-    missing <- sample(1:(n*p*q), round(n*p*q*percent), replace = FALSE)
+    missing <- miss[1:round(n*p*q*percent)]
     xmiss[missing] <- NA
     xmiss[missing] <- mean(xmiss, na.rm = TRUE)
-    
-    #for (a in 1:length(k)) {
-    #  for (b in 1:length(r)) {
-    #    for (c in 1:length(l)){#a=1;b=2;c=3
-    #      res <- label2(xmiss, k[a], r[b], l[c], lambda = lambda, 
-    #                    Cs.init = Cs.init[, a], Ds.init = Ds.init[, b], 
-    #                    Es.init = Es.init[,c], sim.time=20)$judgeX
-    #      allresults[i, a, b, c] <- sum((x[missing] - res[missing])^2)
-    #    }
-    #  }
-    #}
     
     
     krl = matrix(c(rep(1:length(k),each=length(r)*length(l)),
                    rep(1:length(r),times=length(k)*length(l)),
                        rep(rep(1:length(l),each=length(r)),times=length(k))),byrow=TRUE,
                  nrow=3)
-    res = apply(krl,MARGIN=2,label_for_circle,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss)
+    
+    
+    if (.Platform$OS.type == "windows") {
+      res = apply(krl,MARGIN=2,label_for_circle,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss)
+    } else {
+      krl_list = as.list(as.data.frame(krl))
+      res = mclapply(krl_list, label_for_circle,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss,mc.cores=n.cores)
+    }
+    
+    
+    
+    
+    
+    
     for (a in 1:dim(krl)[2]){
       #print(krl[,a])
       #print(sum((x[missing]-res[[a]][[1]][missing])^2))
       allresults[i,krl[,a][1],krl[,a][2],krl[,a][3]] = sum((x[missing]-res[[a]][[1]][missing])^2)
     }
-    
+    miss <- miss[-1:-(dim(x)[1] * dim(x)[2] * dim(x)[3]/numberoftimes)]
   }
   #allresults = use.allresults
   #allresults = array((rnorm(5*3*3*3))^2,dim=c(5,3,3,3));k=2:4;r=2:4;l=2:4;numberoftimes=5
   #calculate the standard deviation and mean for different selection of k,r,l
-  results.se <- apply(allresults, MARGIN=c(2, 3, 4), sd)
+  results.se <- apply(allresults, MARGIN=c(2, 3, 4), sd)/sqrt(numberoftimes)
   results.mean <- apply(allresults, c(2, 3, 4), mean)
   #comparing every mean with the mean with higher k,r,l
   IndicatorArray <- 1 * (results.mean[1:(length(k) - 1), 1:(length(r) - 
@@ -399,10 +410,10 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
 
 
 
-sim.choosekrl <- function(n,p,q,k,r,l,error=3){
+sim.choosekrl <- function(n,p,q,k,r,l,error=3,sim.times=5){
   #n=20;p=40;q=30;k=2;r=4;l=3
   classification<-list()
-  for(a in 1:5){
+  for(a in 1:sim.times){
     cat("Starting", a, fill=TRUE)
     #k=3;r=2;l=4;n=30;p=30;q=50
     x = get.data(n,p,q,k,r,l,error=error)$x
@@ -489,7 +500,7 @@ CalculateBIC = function (x, clusterobj,trace=FALSE)
   mat[clusterobj$mus == 0] <- mean(x[clusterobj$mus == 0])
   if(trace==TRUE) cat(log(sum((x - mat)^2)), sum(clusterobj$mus != 0), "\n")
   return(log(sum((x - mat)^2))*dim(x)[1]*dim(x)[2]*dim(x)[3]+log(dim(x)[1]* 
-                  dim(x)[2]*dim(x)[3]) * (sum(clusterobj$mus != 0)+1))
+                  dim(x)[2]*dim(x)[3]) * sum(clusterobj$mus != 0))
 }
 
 
@@ -497,21 +508,38 @@ CalculateBIC = function (x, clusterobj,trace=FALSE)
 
 
 #lambda: A range of values of tuning parameters to be considered. All values must be non-negative.
-chooseLambda = function (x, k, r, l, lambda=NULL) {
+chooseLambda = function (x, k, r, l, lambda=NULL,sim.times=1) {
   if (is.null(lambda)){
     lambda_0 =c(floor(dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l))
     lambda = c(floor(lambda_0/50), floor(lambda_0/10), floor(lambda_0/4), floor(lambda_0/3), floor(lambda_0/2), floor(lambda_0/3*2), lambda_0, floor(lambda_0*3/2), lambda_0*2)
   } 
-  x <- x - mean(x)
   BIC <- rep(NA, length(lambda))
   nonzero <- rep(NA, length(lambda))
   for (i in 1:length(lambda)) {
-    bires <- label2(x, k, r, l, lambda = lambda[i])
+    bires <- label2(x, k, r, l, lambda = lambda[i],sim.times=sim.times)
+    #return(bires$Cs)
     BIC[i] <- CalculateBIC(x, bires)
     nonzero[i] <- sum(bires$mus != 0)
   }
   return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, 
               nonzeromus = nonzero))
+}
+
+
+
+sim.chooseLambda = function(n,p,q,k,r,l,iteration,lambda,standarddeviation=4){
+  selectedLambda = 1:iteration
+  for(iter in 1:iteration){
+    cat("Iteration",iter,fill=TRUE)
+    set.seed(iter)
+    smp = get.data(n,p,q,k,r,l,error=standarddeviation,sort=FALSE)$x
+    smp = smp - mean(smp)
+    #print(all(smp==tensor.x))
+    #cat("k=",k,"r=",r,"l=",l,"\n")
+    #print(chooseLambda(tensor.x,k,r,l,lambda=lambda))
+    selectedLambda[iter] = chooseLambda(smp,k,r,l,lambda=lambda)$lambda
+  }
+  return(selectedLambda)
 }
 
 

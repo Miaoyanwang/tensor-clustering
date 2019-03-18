@@ -115,7 +115,10 @@ sparseBC = function (x, k, r, lambda, nstart = 20, Cs.init = NULL, Ds.init = NUL
   return(out)
 }
 
+#k here is a vector; r here is a vector; percents means the proportion of missing data
 sparseBC.choosekr = function (x, k, r, lambda, percent = 0.1, trace = FALSE) {
+  #set.seed(1);x=Do(50,20,3,3);sparseBC.choosekr(x,2:3,2:5,0,0.1)
+  #x = matrix(rep(1:5,each=50),ncol=25);k=2:3;r=2:5;lambda=0;percent = 0.1;trace = FALSE
   if ((1%%percent) != 0) 
     stop("1 must be divisible by the specified percentage")
   if (percent <= 0) 
@@ -130,6 +133,7 @@ sparseBC.choosekr = function (x, k, r, lambda, percent = 0.1, trace = FALSE) {
   allresults <- array(NA, dim = c(numberoftimes, length(k), 
                                   length(r)))
   Cs.init <- matrix(NA, nrow = nrow(x), ncol = length(k))
+  #put the kmeans results into columns
   for (i in 1:length(k)) {
     Cs.init[, i] <- kmeans(x, k[i], nstart = 20)$cluster
   }
@@ -157,10 +161,10 @@ sparseBC.choosekr = function (x, k, r, lambda, percent = 0.1, trace = FALSE) {
   results.se <- apply(allresults, c(2, 3), sd)/sqrt(numberoftimes)
   results.mean <- apply(allresults, c(2, 3), mean)
   IndicatorMatrix <- 1 * (results.mean[1:(length(k) - 1), 1:(length(r) - 
-                                                               1)] <= results.mean[2:length(k), 2:length(r)] + results.se[2:length(k), 
-                                                                                                                          2:length(r)])
+                       1)] <= results.mean[2:length(k), 2:length(r)] + results.se[2:length(k), 2:length(r)])
   if (max(IndicatorMatrix) == 0) 
     return(list(bestK = max(k), bestR = max(r)))
+  #
   RowIndexPlusColIndex <- outer(k[-length(k)], r[-length(r)], 
                                 "*")
   smallestIndicatorTrue <- min(RowIndexPlusColIndex[IndicatorMatrix == 
@@ -182,4 +186,37 @@ sparseBC.choosekr = function (x, k, r, lambda, percent = 0.1, trace = FALSE) {
   colnames(results.mean) <- tempcol
   return(list(estimated_kr = out, results.se = results.se, 
               results.mean = results.mean))
+}
+
+
+BIC = function (x, k, r, lambda) 
+{
+  x <- x - mean(x)
+  BIC <- rep(NA, length(lambda))
+  nonzero <- rep(NA, length(lambda))
+  for (i in 1:length(lambda)) {
+    bires <- sparseBC(x, k, r, lambda = lambda[i])
+    BIC[i] <- CalculateBIC(x, bires)
+    nonzero[i] <- sum(bires$Mus != 0)
+  }
+  return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, 
+              nonzeromus = nonzero))
+}
+
+CalculateBIC = function (x, biclustobj) 
+{
+  mat <- matrix(0, nrow = nrow(x), ncol = ncol(x))
+  Cs <- biclustobj$Cs
+  Ds <- biclustobj$Ds
+  for (i in unique(Cs)) {
+    for (j in unique(Ds)) {
+      if (biclustobj$Mus[i, j] != 0) {
+        mat[Cs == i, Ds == j] <- mean(x[Cs == i, Ds == 
+                                          j])
+      }
+    }
+  }
+  mat[biclustobj$mus == 0] <- mean(x[biclustobj$mus == 0])
+  return(log(sum((x - mat)^2)) * nrow(x) * ncol(x) + log(nrow(x) * 
+                                                           ncol(x)) * sum(biclustobj$Mus != 0))
 }

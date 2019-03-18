@@ -3,8 +3,7 @@ source('plot.R')
 
 
 #simulate the data matrix>>>>>>>>>>>>>>>>>>>>>>>>>
-n=30;p=30;q=30;k=4;r=3;l=2
-set.seed(123)
+n=30;p=30;q=30;k=3;r=3;l=3
 data = get.data(n,p,q,k,r,l,error=2,sort=TRUE)
 test = data$x
 truth = data$truthX
@@ -55,7 +54,7 @@ print(summaryRprof(filename="Rprof.out", lines="show"))
 
 
 #evaluate the sparse.choosekrl()>>>>>>>>>>>>>>>>>
-out <- sim.choosekrl(20,20,20,2,2,4,error=1)
+out <- sim.choosekrl(20,20,20,2,2,4,error=1,sim.times=10)
 res<-Calculate(c(2,2,4),out)
 reskr<-Calculatekrl(out)
 
