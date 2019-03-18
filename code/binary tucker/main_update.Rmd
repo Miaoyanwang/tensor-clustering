@@ -230,10 +230,11 @@ update_binary = function(ts, core_shape, Nsim){
     lglk[4*n - 3] = re[[2]]
     ## orthogonal A*
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
-    G = tucker(U, ranks = core_shape)$Z
-    A = tucker(U, ranks = core_shape)$U[[1]]
-    B = tucker(U, ranks = core_shape)$U[[2]]
-    C = tucker(U, ranks = core_shape)$U[[3]]
+    tuk = tucker(U, ranks = core_shape)
+    G = tuk$Z
+    A = tuk$U[[1]]
+    B = tuk$U[[2]]
+    C = tuk$U[[3]]
     
     ##### update B
     G_AC = ttl(G, list(A,C), ms = c(1,3))
@@ -243,10 +244,11 @@ update_binary = function(ts, core_shape, Nsim){
     lglk[4*n - 2] = re[[2]]
     ## orthogonal B*
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
-    G = tucker(U, ranks = core_shape)$Z
-    A = tucker(U, ranks = core_shape)$U[[1]]
-    B = tucker(U, ranks = core_shape)$U[[2]]
-    C = tucker(U, ranks = core_shape)$U[[3]]
+    tuk = tucker(U, ranks = core_shape)
+    G = tuk$Z
+    A = tuk$U[[1]]
+    B = tuk$U[[2]]
+    C = tuk$U[[3]]
     
     ###### update C
     G_AB = ttl(G, list(A,B), ms = c(1,2))
@@ -256,10 +258,11 @@ update_binary = function(ts, core_shape, Nsim){
     lglk[4*n - 1] = re[[2]]
     ## orthogonal C*
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
-    G = tucker(U, ranks = core_shape)$Z
-    A = tucker(U, ranks = core_shape)$U[[1]]
-    B = tucker(U, ranks = core_shape)$U[[2]]
-    C = tucker(U, ranks = core_shape)$U[[3]]
+    tuk = tucker(U, ranks = core_shape)
+    G = tuk$Z
+    A = tuk$U[[1]]
+    B = tuk$U[[2]]
+    C = tuk$U[[3]]
     
     
     M_long = matrix(0,nrow = d1*d2*d3, ncol = r1*r2*r3)
@@ -277,10 +280,11 @@ update_binary = function(ts, core_shape, Nsim){
              control = list(maxit = 50),start = as.vector(G@data))
     G = as.tensor(array(data = ml$coefficients,dim = core_shape))
     lglk[4*n] = logLik(ml)
-    #print(n)
+    print(n)
   }
   return(list(A = A,B = B,C = C,G = G,lglk = lglk))
 }
+
 ```
 
 ## Part 3: Simulation
