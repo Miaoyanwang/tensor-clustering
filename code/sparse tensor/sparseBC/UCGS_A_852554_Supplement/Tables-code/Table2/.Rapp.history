@@ -1,0 +1,1239 @@
+glasso(cov(x),0.001)
+glasso(cov(x),0.0001)
+Testing for n << p #
+#############################
+n=50 #
+p=100#
+hubnumber=1#
+hubsparsity=0#
+sparsity=0.9#
+network <- Hubnetwork(p,sparsity,hubnumber,hubsparsity)#
+Theta <- network$Theta#
+hubcolumn <- network$hubcol#
+#
+Sigma<-solve(Theta)#
+a<-matrix(0,nrow(Theta),ncol(Theta))#
+diag(a)<-diag(Sigma)#
+Sigma<-sqrt(solve(a))%*%Sigma%*%sqrt(solve(a))#
+#
+x <- rmvnorm(n,rep(0,p),Sigma)#
+x <- scale(x, T, T)#
+#
+################################
+# Glasso#
+################################
+alpha=lambda=0.2
+lambda=0.01
+glassoout<-glasso(cov(x),lambda,penalize.diagonal=FALSE)
+glassoout
+eigen$glassoout$wi
+eigen(glassoout$wi)
+eigen(glassoout$wi)$values
+glassoout$wi
+solve(eigen$value)
+alpha=lambda=0.2
+tempres<-glasso(cov(x),alpha,penalize.diagonal=FALSE)
+oldTheta<-tempres$wi
+diag(oldTheta)<-0
+lambdamatrix<-matrix(0,p,p)
+for(i in 1:p){
+for(j in 1:p){
+lambdamatrix[i,j]<-1/(templambda[i]+tempres$wi[i,i])+1/(templambda[j]+tempres$wi[j,j])
+}
+diag(lambdamatrix)<-2*alpha/diag(tempres$wi)
+tempres<-glasso(cov(x),alpha,penalize.diagonal=FALSE)
+oldTheta<-tempres$wi#
+	diag(oldTheta)<-0#
+	templambda<-apply(abs(oldTheta),1,sum)#
+	lambdamatrix<-matrix(0,p,p)#
+	for(i in 1:p){#
+	for(j in 1:p){#
+		lambdamatrix[i,j]<-1/(templambda[i]+tempres$wi[i,i])+1/(templambda[j]+tempres$wi[j,j])#
+	}#
+	}	#
+	diag(lambdamatrix)<-2*alpha/diag(tempres$wi)
+lambdamatrix
+lambdamatrix*alpha
+tempres <-glasso(cov(x),alpha*lambdamatrix,penalize.diagonal=TRUE)
+oldTheta<-tempres$wi#
+	diag(oldTheta)<-0#
+	templambda<-apply(abs(oldTheta),1,sum)#
+	lambdamatrix<-matrix(0,p,p)#
+	for(i in 1:p){#
+	for(j in 1:p){#
+		lambdamatrix[i,j]<-1/(templambda[i]+tempres$wi[i,i])+1/(templambda[j]+tempres$wi[j,j])#
+	}#
+	}	#
+	diag(lambdamatrix)<-2*alpha/diag(tempres$wi)
+lambdamatrix
+lambdamatrix*0.2
+n
+n=10
+p=20
+hubnumber=1#
+hubsparsity=0#
+sparsity=0.9#
+network <- Hubnetwork(p,sparsity,hubnumber,hubsparsity)#
+Theta <- network$Theta#
+hubcolumn <- network$hubcol#
+#
+Sigma<-solve(Theta)#
+a<-matrix(0,nrow(Theta),ncol(Theta))#
+diag(a)<-diag(Sigma)#
+Sigma<-sqrt(solve(a))%*%Sigma%*%sqrt(solve(a))#
+#
+x <- rmvnorm(n,rep(0,p),Sigma)#
+x <- scale(x, T, T)
+tempres<-glasso(cov(x),alpha,penalize.diagonal=FALSE)
+oldTheta<-tempres$wi#
+	diag(oldTheta)<-0#
+	templambda<-apply(abs(oldTheta),1,sum)#
+	lambdamatrix<-matrix(0,p,p)#
+	for(i in 1:p){#
+	for(j in 1:p){#
+		lambdamatrix[i,j]<-1/(templambda[i]+tempres$wi[i,i])+1/(templambda[j]+tempres$wi[j,j])#
+	}#
+	}	#
+	diag(lambdamatrix)<-2*alpha/diag(tempres$wi)
+lambdamatrix
+lambdamatrix*0.2
+tempres <-glasso(cov(x),alpha*lambdamatrix,penalize.diagonal=TRUE)
+oldTheta<-tempres$wi#
+	diag(oldTheta)<-0#
+	templambda<-apply(abs(oldTheta),1,sum)#
+	lambdamatrix<-matrix(0,p,p)#
+	for(i in 1:p){#
+	for(j in 1:p){#
+		lambdamatrix[i,j]<-1/(templambda[i]+tempres$wi[i,i])+1/(templambda[j]+tempres$wi[j,j])#
+	}#
+	}	#
+	diag(lambdamatrix)<-2*alpha/diag(tempres$wi)
+lambdamatrix*0.2
+cov(x)
+S<-cov(x)
+eigen(S)
+eigen(S)$values
+diag(S)<-diag(S)+0.05
+eigen(S)$values
+tempres<-glasso(S,alpha,penalize.diagonal=FALSE)#
+for(i in 1:5){#
+	oldTheta<-tempres$wi#
+	diag(oldTheta)<-0#
+	templambda<-apply(abs(oldTheta),1,sum)#
+	lambdamatrix<-matrix(0,p,p)#
+	for(i in 1:p){#
+	for(j in 1:p){#
+		lambdamatrix[i,j]<-1/(templambda[i]+tempres$wi[i,i])+1/(templambda[j]+tempres$wi[j,j])#
+	}#
+	}	#
+	diag(lambdamatrix)<-2*alpha/diag(tempres$wi)#
+	tempres <-glasso(S,alpha*lambdamatrix,penalize.diagonal=TRUE)#
+	}
+tempres
+for(i in 1:5){#
+	oldTheta<-tempres$wi#
+	diag(oldTheta)<-0#
+	templambda<-apply(abs(oldTheta),1,sum)#
+	lambdamatrix<-matrix(0,p,p)#
+	for(i in 1:p){#
+	for(j in 1:p){#
+		lambdamatrix[i,j]<-1/(templambda[i]+tempres$wi[i,i])+1/(templambda[j]+tempres$wi[j,j])#
+	}#
+	}	#
+	diag(lambdamatrix)<-2*alpha/diag(tempres$wi)#
+	tempres <-glasso(S,alpha*lambdamatrix,penalize.diagonal=TRUE)
+}
+tempres
+76+9216
+9292-4286-4504
+9292-4286-4504-41
+76+9486-4286-4504-41
+1761*1.1
+1761*1.2
+2113.2
+1937*.85
+1937*.85/2
+1937*.84/2
+1937*.86/2
+1937*.87/2
+2113.2*.87/2
+2113.2*.87/2*1.5
+2113.2*1.5
+2100
+19xx
+x=1
+2000
+1761*.87/2
+1761*.87
+1761*.87*1.2
+1761*.87*1.2*1.5
+2757-660-200-1000
+Create Binary Network#
+#######################################################
+BinaryNetwork<-function(p,sparsity,hubnumber,hubsparsity){#
+#sparse<-rbinom(p*p,1,1-sparsity)*runif(p*p,0.25,0.75)#
+#
+sparse<-rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+Theta<-matrix(data=sparse,nrow=p,ncol=p)#
+Theta[lower.tri(Theta,diag=TRUE)]<-0#
+Theta<-Theta+t(Theta)#
+#
+hub<-sample(1:p,hubnumber,replace=FALSE)#
+#Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*runif(hubnumber*p,0.25,0.75)#
+Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+Theta<-(Theta+t(Theta))/2#
+#
+#diag(Theta)<-1#
+#
+#diag(Theta)<-runif(p,0.25,0.75)#
+#
+diag(Theta)<-sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)#
+#Theta[which(Theta<0)]=-0.5#
+#Theta[which(Theta>0)]=0.5#
+#
+return(list(Theta=Theta,hubcol=hub))#
+}
+BinaryNetwork(10,0.95,2,0.2)
+library(Biobase)
+source("http://bioconductor.org/biocLite.R")
+biocLite()
+load("/Users/keanmingtan/Downloads/bodymap_eset.RData")
+dim(bodymap_eset)
+class(bodymap_eset)
+ls()
+a
+class(codymap.eset)
+class(bodymap.eset)
+bodymap.eset
+ls()
+bodymap.eset
+featureNames(bodymap.eset)
+a.count.table<-exprs()
+a.count.table<-exprs(bodymap.eset)
+a.count.table[1:100]
+a.count.table[,1:100]
+a.count.table[1:10,1:100]
+a.count.table[1:100,1:10]
+dim(a.count.table)
+names(a.count.table)
+as.character(names(a.count.table))==phenoData(bodymap.eset)$sample.id
+library(glmnet)
+install.packages(glmnet)
+install.packages("glmnet")
+library(glmnet)
+install.packages(PoiClaClu)
+install.packages("PoiClaClu")
+set.seed(1)    dat <- CountDataSet(n=20,p=100,sdsignal=.1,K=4,param=10)    out <- Classify(x=dat$x,y=dat$y,xte=dat$xte,rhos=c(0,5,10))
+library(PoiClaClu)
+set.seed(1)    dat <- CountDataSet(n=20,p=100,sdsignal=.1,K=4,param=10)    out <- Classify(x=dat$x,y=dat$y,xte=dat$xte,rhos=c(0,5,10))
+dat
+bodymap.eset
+dim(a.count.data)
+ls()
+dim(a.count.table)
+library(PoiClaClu)
+ls
+?PoiClaClu
+dat <- CountDataSet(n=20,p=100,sdsignal=.1,K=4,param=10)
+dat
+names(dat)
+dat$x
+biocLite("pasilla")
+install.packages("biocLite")
+biocLite("pasilla")
+load("/Users/keanmingtan/Downloads/caseStudy_sSeq/data/Griffith_02202013.Rdata")
+ls()
+countsTable
+dim(countsTable)
+load("/Users/keanmingtan/Downloads/caseStudy_sSeq/data/Griffith_validate.Rdata")
+ls()
+dim(countsTable)
+load("/Users/keanmingtan/Downloads/caseStudy_sSeq/data/Bottomly_ecdf_02202013.Rdata")
+ls()
+dim(countsTable)
+countsTable[1:10,1:10]
+countsTable[1:10,1:15]
+conds
+load("/Users/keanmingtan/Dropbox/ClassificationRNAseq/dataset/data-olgavitek/DE_qRT-PCR_GSE5350.Rdata")
+ls()
+conds
+dim(countsTable)
+rm(ls=ls())
+rm(ls=c())
+rm(=ls())
+rm(list=ls())
+ls()
+load("/Users/keanmingtan/Dropbox/ClassificationRNAseq/dataset/data-olgavitek/DE_qRT-PCR_GSE5350.Rdata")
+ls()
+Generate a positive definite covariance matrix with #
+# several hubs and other nodes sparsely connected#
+# to each other#
+#######################################################
+Hubnetwork <- function(p,sparsity,hubnumber,hubsparsity){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+# Make the matrix positive definite  #
+  diag(Theta) <- 0#
+  ee <- min(eigen(Theta,only.values=T)$values)#
+  diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+GaussianHubNetwork <- function(p,sparsity,hubnumber,hubsparsity){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+# Make the matrix positive definite  #
+  diag(Theta) <- 0#
+  ee <- min(eigen(Theta,only.values=T)$values)#
+  diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+HubNetwork <- function(p,sparsity,hubnumber,hubsparsity,type){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+  if(type=="Gaussian" || type=="covariance"){#
+# Make the matrix positive definite  #
+    diag(Theta) <- 0#
+    ee <- min(eigen(Theta,only.values=T)$values)#
+    diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+  }#
+  else if(type="binary"){#
+    diag(Theta) <- sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)		#
+  }#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+HubNetwork <- function(p,sparsity,hubnumber,hubsparsity,type){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+  if(type=="Gaussian" || type=="covariance"){#
+# Make the matrix positive definite  #
+    diag(Theta) <- 0#
+    ee <- min(eigen(Theta,only.values=T)$values)#
+    diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+  }#
+  else if(type=="binary"){#
+    diag(Theta) <- sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)		#
+  }#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+p<-10
+sparsity=0.95
+hubnumber=2
+hubsparsity=0.3
+set.seed(1)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="Gaussian")
+a
+Generate a positive definite covariance matrix with #
+# several hubs and other nodes sparsely connected#
+# to each other#
+#######################################################
+Hubnetwork<-function(p,sparsity,hubnumber,hubsparsity){#
+#
+sparse<-rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)#
+sparse<-sparse*runif(p*p,0.25,0.75)#
+Theta<-matrix(data=sparse,nrow=p,ncol=p)#
+Theta[lower.tri(Theta,diag=FALSE)]<-0#
+Theta<-Theta+t(Theta)#
+hub<-sample(1:p,hubnumber,replace=FALSE)#
+Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+Theta<-(Theta+t(Theta))/2#
+diag(Theta)<-0#
+ee<-min(eigen(Theta,only.values=T)$values)#
+diag(Theta)<-ifelse(ee < 0, -ee + 0.1, 0.1)#
+return(list(Theta=Theta,hubcol=hub))#
+}
+set.seed(1)
+Hubnetwork(p,sparsity,hubnumber,hubsparsity)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="binary")
+a
+set.seed(1)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="binary")
+a
+Create Binary Network#
+#######################################################
+BinaryNetwork<-function(p,sparsity,hubnumber,hubsparsity){#
+#sparse<-rbinom(p*p,1,1-sparsity)*runif(p*p,0.25,0.75)#
+#
+sparse<-rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+Theta<-matrix(data=sparse,nrow=p,ncol=p)#
+Theta[lower.tri(Theta,diag=TRUE)]<-0#
+Theta<-Theta+t(Theta)#
+#
+hub<-sample(1:p,hubnumber,replace=FALSE)#
+#Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*runif(hubnumber*p,0.25,0.75)#
+Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+Theta<-(Theta+t(Theta))/2#
+#
+#diag(Theta)<-1#
+#
+#diag(Theta)<-runif(p,0.25,0.75)#
+#
+diag(Theta)<-sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)#
+#Theta[which(Theta<0)]=-0.5#
+#Theta[which(Theta>0)]=0.5#
+#
+return(list(Theta=Theta,hubcol=hub))#
+}
+sed.seed(1)
+set.seed(1)
+BinaryNetwork(p,sparsity,hubnumber,hubsparsity)
+Random Model With some hub nodes#
+#######################################################
+HubCovariance<-function(p,sparsity,hubnumber,hubsparsity){#
+#
+sparse<-rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+Sigma<-matrix(data=sparse,nrow=p,ncol=p)	#
+Sigma[lower.tri(Sigma,diag=FALSE)]<-0#
+Sigma<-(Sigma+t(Sigma))#
+#
+hub<-sample(1:p,hubnumber,replace=FALSE)#
+Sigma[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+Sigma<-(Sigma+t(Sigma))/2#
+diag(Sigma)<-0#
+ee<-min(eigen(Sigma,only.values=T)$values)#
+diag(Sigma)<-ifelse(ee<0,-ee+0.1,0.1)#
+#
+return(list(Sigma=cov2cor(Sigma),hubcol=hub))#
+}
+set.seed(1)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="covariance")
+set.seed(1)
+HubCovariance(p,sparsity,hubnumber,hubsparsity)
+a
+Theta <- cov2cor(Theta)
+HubNetwork <- function(p,sparsity,hubnumber,hubsparsity,type){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+  if(type=="Gaussian" || type=="covariance"){#
+# Make the matrix positive definite  #
+    diag(Theta) <- 0#
+    ee <- min(eigen(Theta,only.values=T)$values)#
+    diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+    Theta <- cov2cor(Theta)#
+  }#
+  else if(type=="binary"){#
+    diag(Theta) <- sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)		#
+  }#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+set.seed(1)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="covariance")
+a
+set.seed(1)
+HubCovariance(p,sparsity,hubnumber,hubsparsity)
+Hglasso Function for R package#
+#######################################################
+HGL <- function(S,rho,lambda1,lambda2,lambda3,convergence=1e-10,maxiter=1000){#
+#
+# Variables initialization#
+  p <- nrow(S)#
+  oldTheta <- Theta <- V <- Z <- diag(rep(1,p))#
+  W1 <- W2 <- W3 <- Gamma <- matrix(0,p,p)#
+  tildeTheta <- tildeV <- tildeZ <- matrix(0,p,p)#
+  criteria <- 1e10 	#
+  i <- 1#
+# While loop for the iterations#
+  while(criteria > convergence && i <= maxiter){#
+  	Theta <- updateTheta(tildeTheta,W1,S,rho)#
+  	Z <- updateZ(tildeZ,W3,lambda1,rho)	 #
+#
+    V <- updateV(tildeV,W2,lambda2,lambda3,rho)#
+#
+    Gamma <- updateGamma(Theta,V,Z,W1,W2,W3,rho)#
+#
+    tildeTheta <- updatetildeTheta(Theta,W1,Gamma,rho)#
+#
+    tildeV <- updatetildeV(V,W2,Gamma,rho)#
+#
+    tildeZ <- updatetildeZ(Z,W3,Gamma,rho)#
+    W1 <- W1+Theta-tildeTheta#
+    W2 <- W2+V-tildeV#
+    W3 <- W3+Z-tildeZ#
+	Theta<-Z+V+t(V)	#
+	criteria<-sum((Theta-oldTheta)^2)/sum((oldTheta)^2)#
+	oldTheta<-Theta#
+	i<-i+1#
+  }  	#
+  Theta<-Z+V+t(V)#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,iteration=i))	#
+}	#
+#######################################################
+# Soft-thresholding Operator#
+#######################################################
+Soft <- function(a,b){#
+  if(b<0) stop("Can soft-threshold by a nonnegative quantity only.")#
+  return(sign(a)*pmax(0,abs(a)-b))#
+}#
+#
+#######################################################
+# Update Theta#
+#######################################################
+updateTheta <- function(tildeTheta,W1,S,rho){#
+  C <- tildeTheta-W1-S/rho#
+  a <- eigen(C)#
+  D <- diag(a$values)#
+  U <- a$vectors#
+  Theta <- 1/2*U%*%(D+sqrt(D*D+4/rho*diag(rep(1,nrow(S)))))%*%t(U)		#
+  return(Theta)#
+}#
+#
+#######################################################
+# Update Z#
+#######################################################
+updateZ <- function(tildeZ,W3,lambda1,rho){#
+  A <- tildeZ-W3#
+  B <- lambda1/rho#
+  Z <- Soft(A,B)#
+  diag(Z) <- diag(A)#
+  return(Z)	#
+}#
+#
+#######################################################
+# Update V#
+#######################################################
+updateV <- function(tildeV,W2,lambda2,lambda3,rho){#
+  p <- nrow(tildeV)#
+  V <- matrix(0,nrow=p,ncol=p)#
+  C <- tildeV-W2#
+  D <- C#
+  diag(D) <- 0#
+  for(j in 1:p){#
+    temp <- Soft(D[,j],lambda2/(rho))#
+    if(sum(temp^2)==0){#
+      V[,j] <- 0	#
+    }#
+    else if(sum(temp^2)!=0){#
+      V[,j] <- max(0,1-lambda3/(rho*(sqrt(sum(temp^2)))))*temp#
+    }#
+  }#
+  diag(V) <- diag(C)#
+  return(V)#
+}#
+#
+#######################################################
+# Update tildeZ#
+#######################################################
+updatetildeZ <- function(Z,W3,Gamma,rho){#
+  tildeZ <- NULL#
+  tildeZ <- Gamma/rho+W3+Z#
+  return(tildeZ)	#
+}#
+#
+#######################################################
+# Update tildeV#
+#######################################################
+updatetildeV <- function(V,W2,Gamma,rho){#
+  tildeV <- (Gamma+t(Gamma))/rho+V+W2#
+  return(tildeV)	#
+}#
+#
+#######################################################
+# Update tildeTheta#
+#######################################################
+updatetildeTheta <- function(Theta,W1,Gamma,rho){#
+  tildeTheta <- W1+Theta-Gamma/rho#
+  return(tildeTheta)	#
+}#
+#
+#######################################################
+# Update Gamma#
+#######################################################
+updateGamma <- function(Theta,V,Z,W1,W2,W3,rho){#
+  Gamma <- rho/6*(Theta+W1-V-t(V)-Z-W2-t(W2)-W3)#
+  return(Gamma)	#
+}#
+#
+#######################################################
+# Functions that generate Gaussian, covariance, and Binary netowrk#
+# with densely connected hub nodes#
+#######################################################
+HubNetwork <- function(p,sparsity,hubnumber,hubsparsity,type){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+  if(type=="Gaussian" || type=="covariance"){#
+# Make the matrix positive definite  #
+    diag(Theta) <- 0#
+    ee <- min(eigen(Theta,only.values=T)$values)#
+    diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+    Theta <- cov2cor(Theta)#
+  }#
+  else if(type=="binary"){#
+    diag(Theta) <- sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)		#
+  }#
+  return(list(Theta=Theta,hubcol=hubcol)) #
+}
+Generate a inverse covariance matrix#
+set.seed(1)#
+n=100#
+p=200#
+#
+#### This network is with 98% sparsity and 10 hubs, each hub has sparsity level 0.4#
+network <- Hubnetwork(p,sparsity=0.98,hubnumber=10,hubsparsity=0.4)#
+Theta <- network$Theta#
+hubcolumn <- network$hubcol#
+Sigma<-solve(Theta)#
+a<-matrix(0,nrow(Theta),ncol(Theta))#
+diag(a)<-diag(Sigma)#
+Sigma<-sqrt(solve(a))%*%Sigma%*%sqrt(solve(a))#
+Theta<-solve(Sigma)#
+#
+#### inverse covariance matrix generated to simulate data from multivariate normal distribution#
+x <- rmvnorm(n,rep(0,p),Sigma)#
+x <- scale(x, T, T)#
+S <- cov(x)
+library(mvtnorm)
+library(mvrnorm)
+install.packages("mvtnorm")
+library(mvrnorm)
+library(mvtnorm)
+Generate a inverse covariance matrix#
+set.seed(1)#
+n=100#
+p=200#
+#
+#### This network is with 98% sparsity and 10 hubs, each hub has sparsity level 0.4#
+network <- Hubnetwork(p,sparsity=0.98,hubnumber=10,hubsparsity=0.4)#
+Theta <- network$Theta#
+hubcolumn <- network$hubcol#
+Sigma<-solve(Theta)#
+a<-matrix(0,nrow(Theta),ncol(Theta))#
+diag(a)<-diag(Sigma)#
+Sigma<-sqrt(solve(a))%*%Sigma%*%sqrt(solve(a))#
+Theta<-solve(Sigma)#
+#
+#### inverse covariance matrix generated to simulate data from multivariate normal distribution#
+x <- rmvnorm(n,rep(0,p),Sigma)#
+x <- scale(x, T, T)#
+S <- cov(x)
+a<-HGL(S,2,0.3,0.3,0.3)
+a
+HglassoNew
+Hub Graphical Lasso#
+#######################################################
+HglassoNew<-function(S,rho,lambda1,lambda2,lambda3,V.init=NULL,Z.init=NULL,W1.init=NULL,W2.init=NULL,W3.init=NULL,Gamma.init=NULL,tildeTheta.init=NULL,tildeZ.init=NULL,tildeV.init=NULL,Thetaold=NULL,convergence=1e-10,maxiter=1000){#
+i<-1#
+p<-nrow(S)#
+Theta<-oldTheta<-NULL#
+#
+Theta <- diag(rep(1,p))#
+#oldTheta <- diag(rep(0.5,p))#
+#oldTheta<-Thetaold#
+#
+if(is.null(Thetaold)){#
+  oldTheta<-diag(rep(1,p))#
+}#
+else{#
+  oldTheta<-Thetaold#
+}#
+#
+if(is.null(V.init)){#
+  V<-diag(rep(1,p))#
+}#
+else{#
+  V<-V.init	#
+}#
+#
+if(is.null(Z.init)){#
+  Z<-diag(rep(1,p))#
+}#
+else{#
+  Z<-Z.init	#
+}#
+#
+if(is.null(W1.init)){#
+ W1<-W2<-W3<-matrix(0,p,p)#
+}#
+else{#
+  W1<-W1.init	#
+  W2<-W2.init	#
+  W3<-W3.init	#
+}#
+#
+if(is.null(Gamma.init)){#
+   Gamma<-matrix(0,p,p)#
+}#
+else{#
+  Gamma<-Gamma.init	#
+}#
+#
+if(is.null(tildeTheta.init)){#
+   tildeTheta<-matrix(0,p,p)#
+}#
+else{#
+  tildeTheta<-tildeTheta.init	#
+}#
+#
+if(is.null(tildeV.init)){#
+   tildeV<-matrix(0,p,p)#
+}#
+else{#
+  tildeV<-tildeV.init	#
+}#
+#
+if(is.null(tildeZ.init)){#
+   tildeZ<-matrix(0,p,p)#
+}#
+else{#
+  tildeZ<-tildeZ.init	#
+}#
+#
+criteria<-1e10#
+  while(criteria>convergence && i<=maxiter){#
+    Theta<-updateTheta(tildeTheta,W1,S,rho)#
+#
+    Z<-updateZ(tildeZ,W3,lambda1,rho)	 #
+#
+    V<-updateV(tildeV,W2,lambda2,lambda3,rho)#
+#
+    Gamma<-updateGamma(Theta,V,Z,W1,W2,W3,rho)#
+#
+    tildeTheta<-updatetildeTheta(Theta,W1,Gamma,rho)#
+#
+    tildeV<-updatetildeV(V,W2,Gamma,rho)#
+#
+    tildeZ<-updatetildeZ(Z,W3,Gamma,rho)#
+    W1<-W1+Theta-tildeTheta#
+    W2<-W2+V-tildeV#
+    W3<-W3+Z-tildeZ#
+#
+	i<-i+1#
+	Theta<-Z+V+t(V)	#
+	criteria<-sum((Theta-oldTheta)^2)/sum((oldTheta)^2)#
+	oldTheta<-Theta#
+#	print(DualityGap(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+#print(Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+  } 	#
+  Theta<-Z+V+t(V)#
+  Obj <- Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3)#
+#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,iteration=i,objective=Obj))	#
+}
+b<-HglassoNew(S,2,0.3,0.3,0.3)
+Hub Graphical Lasso#
+#######################################################
+HglassoNew<-function(S,rho,lambda1,lambda2,lambda3,V.init=NULL,Z.init=NULL,W1.init=NULL,W2.init=NULL,W3.init=NULL,Gamma.init=NULL,tildeTheta.init=NULL,tildeZ.init=NULL,tildeV.init=NULL,Thetaold=NULL,convergence=1e-10,maxiter=1000){#
+i<-1#
+p<-nrow(S)#
+Theta<-oldTheta<-NULL#
+#
+Theta <- diag(rep(1,p))#
+#oldTheta <- diag(rep(0.5,p))#
+#oldTheta<-Thetaold#
+#
+if(is.null(Thetaold)){#
+  oldTheta<-diag(rep(1,p))#
+}#
+else{#
+  oldTheta<-Thetaold#
+}#
+#
+if(is.null(V.init)){#
+  V<-diag(rep(1,p))#
+}#
+else{#
+  V<-V.init	#
+}#
+#
+if(is.null(Z.init)){#
+  Z<-diag(rep(1,p))#
+}#
+else{#
+  Z<-Z.init	#
+}#
+#
+if(is.null(W1.init)){#
+ W1<-W2<-W3<-matrix(0,p,p)#
+}#
+else{#
+  W1<-W1.init	#
+  W2<-W2.init	#
+  W3<-W3.init	#
+}#
+#
+if(is.null(Gamma.init)){#
+   Gamma<-matrix(0,p,p)#
+}#
+else{#
+  Gamma<-Gamma.init	#
+}#
+#
+if(is.null(tildeTheta.init)){#
+   tildeTheta<-matrix(0,p,p)#
+}#
+else{#
+  tildeTheta<-tildeTheta.init	#
+}#
+#
+if(is.null(tildeV.init)){#
+   tildeV<-matrix(0,p,p)#
+}#
+else{#
+  tildeV<-tildeV.init	#
+}#
+#
+if(is.null(tildeZ.init)){#
+   tildeZ<-matrix(0,p,p)#
+}#
+else{#
+  tildeZ<-tildeZ.init	#
+}#
+#
+criteria<-1e10#
+  while(criteria>convergence && i<=maxiter){#
+    Theta<-updateTheta(tildeTheta,W1,S,rho)#
+#
+    Z<-updateZ(tildeZ,W3,lambda1,rho)	 #
+#
+    V<-updateV(tildeV,W2,lambda2,lambda3,rho)#
+#
+    Gamma<-updateGamma(Theta,V,Z,W1,W2,W3,rho)#
+#
+    tildeTheta<-updatetildeTheta(Theta,W1,Gamma,rho)#
+#
+    tildeV<-updatetildeV(V,W2,Gamma,rho)#
+#
+    tildeZ<-updatetildeZ(Z,W3,Gamma,rho)#
+    W1<-W1+Theta-tildeTheta#
+    W2<-W2+V-tildeV#
+    W3<-W3+Z-tildeZ#
+#
+	i<-i+1#
+	Theta<-Z+V+t(V)	#
+	criteria<-sum((Theta-oldTheta)^2)/sum((oldTheta)^2)#
+	oldTheta<-Theta#
+#	print(DualityGap(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+#print(Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+  } 	#
+  Theta<-Z+V+t(V)#
+  #Obj <- Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3)#
+#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,iteration=i))	#
+}
+b<-HglassoNew(S,2,0.3,0.3,0.3)
+a$Theta[1:10,1:10]
+b$Theta[1:10,1:10]
+Hub Graphical Lasso#
+#######################################################
+HglassoNew<-function(S,rho,lambda1,lambda2,lambda3,V.init=NULL,Z.init=NULL,W1.init=NULL,W2.init=NULL,W3.init=NULL,Gamma.init=NULL,tildeTheta.init=NULL,tildeZ.init=NULL,tildeV.init=NULL,Thetaold=NULL,convergence=1e-10,maxiter=1000){#
+i<-1#
+p<-nrow(S)#
+Theta<-oldTheta<-NULL#
+#
+Theta <- diag(rep(1,p))#
+#oldTheta <- diag(rep(0.5,p))#
+#oldTheta<-Thetaold#
+#
+if(is.null(Thetaold)){#
+  oldTheta<-diag(rep(1,p))#
+}#
+else{#
+  oldTheta<-Thetaold#
+}#
+#
+if(is.null(V.init)){#
+  V<-diag(rep(1,p))#
+}#
+else{#
+  V<-V.init	#
+}#
+#
+if(is.null(Z.init)){#
+  Z<-diag(rep(1,p))#
+}#
+else{#
+  Z<-Z.init	#
+}#
+#
+if(is.null(W1.init)){#
+ W1<-W2<-W3<-matrix(0,p,p)#
+}#
+else{#
+  W1<-W1.init	#
+  W2<-W2.init	#
+  W3<-W3.init	#
+}#
+#
+if(is.null(Gamma.init)){#
+   Gamma<-matrix(0,p,p)#
+}#
+else{#
+  Gamma<-Gamma.init	#
+}#
+#
+if(is.null(tildeTheta.init)){#
+   tildeTheta<-matrix(0,p,p)#
+}#
+else{#
+  tildeTheta<-tildeTheta.init	#
+}#
+#
+if(is.null(tildeV.init)){#
+   tildeV<-matrix(0,p,p)#
+}#
+else{#
+  tildeV<-tildeV.init	#
+}#
+#
+if(is.null(tildeZ.init)){#
+   tildeZ<-matrix(0,p,p)#
+}#
+else{#
+  tildeZ<-tildeZ.init	#
+}#
+#
+criteria<-1e10#
+  while(criteria>convergence && i<=maxiter){#
+    Theta<-updateTheta(tildeTheta,W1,S,rho)#
+#
+    Z<-updateZ(tildeZ,W3,lambda1,rho)	 #
+#
+    V<-updateV(tildeV,W2,lambda2,lambda3,rho)#
+#
+    Gamma<-updateGamma(Theta,V,Z,W1,W2,W3,rho)#
+#
+    tildeTheta<-updatetildeTheta(Theta,W1,Gamma,rho)#
+#
+    tildeV<-updatetildeV(V,W2,Gamma,rho)#
+#
+    tildeZ<-updatetildeZ(Z,W3,Gamma,rho)#
+    W1<-W1+Theta-tildeTheta#
+    W2<-W2+V-tildeV#
+    W3<-W3+Z-tildeZ#
+#
+	i<-i+1#
+	Theta<-Z+V+t(V)	#
+	criteria<-sum((Theta-oldTheta)^2)/sum((oldTheta)^2)#
+	oldTheta<-Theta#
+#	print(DualityGap(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+#print(Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+  } 	#
+  Theta<-Z+V+t(V)#
+  #Obj <- Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3)#
+#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,iteration=i))	#
+}#
+#######################################################
+# Block Hub Graphical Lasso#
+#######################################################
+BlockHglasso<-function(S,rho,lambda1,lambda2,lambda3,V.init=NULL,Z.init=NULL,W1.init=NULL,W2.init=NULL,W3.init=NULL,Gamma.init=NULL,tildeTheta.init=NULL,tildeZ.init=NULL,tildeV.init=NULL,Thetaold=NULL,convergence=1e-10,maxiter=1000){#
+#
+p<-ncol(S)#
+A<-1*(abs(S)>=min(lambda1,lambda2/2))#
+diag(A) <- 1#
+g1 <- graph.adjacency(A)#
+cout <- clusters(g1)#
+unconnected <- NULL#
+blocklist <- list()#
+for(i in 1:cout$no){#
+  if(sum(cout$membership==i)==1) #
+    unconnected <-#
+c(unconnected,which(cout$membership==i))#
+  if(sum(cout$membership==i)>1) blocklist[[length(blocklist)+1]]<- which(cout$membership==i)#
+}#
+#
+W1 <- W2 <- W3 <- Gamma <- V <- Z <- Theta <- tildeTheta <- tildeV <- tildeZ <- matrix(0, nrow=p, ncol=p)#
+diag(Theta)[unconnected] <- 1 #/(diag(S)[unconnected]+min(lambda1,lambda2/2))#
+#
+if(length(blocklist)>0){#
+    for(i in 1:length(blocklist)){#
+      bl <- blocklist[[i]]#
+      temp <- HglassoNew(S[bl,bl],rho,lambda1,lambda2,lambda3,V.init=V.init[bl,bl],Z.init=Z.init[bl,bl],W1.init=W1.init[bl,bl],W2.init=W2.init[bl,bl],W3.init=W3.init[bl,bl],Gamma.init=Gamma.init[bl,bl],tildeTheta.init=tildeTheta.init[bl,bl],tildeZ.init=tildeZ.init[bl,bl],tildeV.init=tildeV.init[bl,bl],Thetaold=Thetaold[bl,bl],convergence=convergence,maxiter=maxiter)#
+      Theta[bl,bl] <- temp$Theta#
+      V[bl,bl] <- temp$V#
+      Z[bl,bl] <- temp$Z#
+      W1[bl,bl] <- temp$W1#
+      W2[bl,bl] <- temp$W2#
+      W3[bl,bl] <- temp$W3#
+      Gamma[bl,bl] <- temp$Gamma      #
+      tildeTheta[bl,bl] <- temp$tildeTheta      #
+      tildeV[bl,bl] <- temp$tildeV      #
+      tildeZ[bl,bl] <- temp$tildeZ      #
+    }#
+  }#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,blocklist=blocklist,unconnected=unconnected))#
+}#
+#
+#######################################################
+# Objective Function for Original Problem#
+#######################################################
+Objective2<-function(Theta,S,Z,V,lambda1,lambda2,lambda3){#
+#
+tempV<-0#
+p<-nrow(Theta)#
+A<-matrix(0,p,p)#
+B<-matrix(0,p,p)  #
+diag(A)<-diag(V)#
+diag(B)<-diag(Z)#
+tempV<-sum(sqrt(apply((V-A)^2,2,sum)))#
+return(-determinant(Theta,logarithm=TRUE)$modulus[1]+sum(S*Theta)+lambda1*sum(abs(Z-B))+lambda2*sum(abs(V-A))+lambda3*tempV)#
+}#
+#
+#######################################################
+# Duality Gap#
+#######################################################
+DualityGap<-function(Theta,S,Z,V,lambda1,lambda2,lambda3){#
+p<-nrow(Theta)	#
+A<-matrix(0,p,p)#
+B<-matrix(0,p,p) #
+diag(A)<-diag(V)#
+diag(B)<-diag(Z)#
+tempV<-sum(sqrt(apply((V-A)^2,2,sum)))#
+return(sum(S*Theta)+lambda1*sum(abs(Z-B))+lambda2*sum(abs(V-A))+lambda3*tempV-p)#
+}#
+#
+#######################################################
+# Soft-thresholding Operator#
+#######################################################
+Soft <- function(a,b){#
+  if(b<0) stop("Can soft-threshold by a nonnegative quantity only.")#
+  return(sign(a)*pmax(0,abs(a)-b))#
+}#
+#
+#######################################################
+# Update Theta#
+#######################################################
+updateTheta<-function(tildeTheta,W1,S,rho){#
+Theta<-NULL#
+C<-NULL#
+C<-tildeTheta-W1-S/rho#
+a<-eigen(C)#
+D<-diag(a$values)#
+U<-a$vectors#
+Theta<-1/2*U%*%(D+sqrt(D*D+4/rho*diag(rep(1,nrow(S)))))%*%t(U)		#
+return(Theta)#
+}#
+#
+#######################################################
+# Update Z#
+#######################################################
+updateZ<-function(tildeZ,W3,lambda1,rho){#
+Z<-NULL#
+A<-tildeZ-W3#
+B<-lambda1/rho#
+Z<-Soft(A,B)#
+diag(Z)<-diag(A)#
+return(Z)	#
+}#
+#
+#######################################################
+# Update V#
+#######################################################
+updateV<-function(tildeV,W2,lambda2,lambda3,rho){#
+p<-nrow(tildeV)#
+V<-matrix(0,nrow=p,ncol=p)#
+C<-tildeV-W2#
+D<-C#
+diag(D)<-0#
+#
+  for(j in 1:p){#
+    temp<-Soft(D[,j],lambda2/(rho))#
+    if(sum(temp^2)==0){#
+      V[,j]<-0	#
+    }#
+    else if(sum(temp^2)!=0){#
+      V[,j]<-max(0,1-lambda3/(rho*(sqrt(sum(temp^2) ) )) )*temp#
+    }#
+  }#
+diag(V)<-diag(C)#
+return(V)#
+}#
+#
+#######################################################
+# Update tildeZ#
+#######################################################
+updatetildeZ<-function(Z,W3,Gamma,rho){#
+tildeZ<-NULL#
+tildeZ<-Gamma/rho+W3+Z#
+return(tildeZ)	#
+}#
+#
+#######################################################
+# Update tildeV#
+#######################################################
+updatetildeV<-function(V,W2,Gamma,rho){#
+tildeV<-(Gamma+t(Gamma))/rho+V+W2#
+return(tildeV)	#
+}#
+#
+#######################################################
+# Update tildeTheta#
+#######################################################
+updatetildeTheta<-function(Theta,W1,Gamma,rho){#
+tildeTheta<-W1+Theta-Gamma/rho#
+return(tildeTheta)	#
+}#
+#
+#######################################################
+# Update Gamma#
+#######################################################
+updateGamma<-function(Theta,V,Z,W1,W2,W3,rho){#
+Gamma<-rho/6*(Theta+W1-V-t(V)-Z-W2-t(W2)-W3)#
+return(Gamma)	#
+}#
+#
+#######################################################
+# Generate a positive definite covariance matrix with #
+# several hubs and other nodes sparsely connected#
+# to each other#
+#######################################################
+Hubnetwork<-function(p,sparsity,hubnumber,hubsparsity){#
+#
+sparse<-rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)#
+sparse<-sparse*runif(p*p,0.25,0.75)#
+Theta<-matrix(data=sparse,nrow=p,ncol=p)#
+Theta[lower.tri(Theta,diag=FALSE)]<-0#
+Theta<-Theta+t(Theta)#
+hub<-sample(1:p,hubnumber,replace=FALSE)#
+Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+Theta<-(Theta+t(Theta))/2#
+diag(Theta)<-0#
+ee<-min(eigen(Theta,only.values=T)$values)#
+diag(Theta)<-ifelse(ee < 0, -ee + 0.1, 0.1)#
+return(list(Theta=Theta,hubcol=hub))#
+}#
+#
+#######################################################
+# Generate a positive definite covariance matrix with #
+# two connected components, each with different number#
+# of hubs and other nodes sparsely connected#
+# to each other#
+#######################################################
+BlockHub<-function(p,sparsity,hubnumber,hubsparsity){#
+Network<-Hubnetwork(p/2,sparsity,hubnumber/2,hubsparsity)#
+Theta<-Network$Theta#
+hub<-Network$hub#
+#
+	Network<-Hubnetwork(p/2,sparsity,hubnumber/2,hubsparsity)#
+	Theta<-bdiag(Theta,Network$Theta)#
+	hub<-c(hub,(p/2)+Network$hub)#
+#
+Theta<-as.matrix(Theta)#
+diag(Theta)<-0#
+ee<-min(eigen(Theta,only.values=T)$values)#
+diag(Theta)<-ifelse(ee < 0, -ee + 0.1, 0.1)#
+return(list(Theta=Theta,hub=hub))#
+}#
+#######################################################
+# Generate a positive definite covariance matrix with #
+# Sacle-free network#
+#######################################################
+Scalefreenetwork<-function(p){#
+#
+g<-barabasi.game(p,directed=FALSE,power=1.2)#
+adjacency<-get.adjacency(g,type=c("both"))#
+adjacency<-as.matrix(adjacency)#
+temp<-adjacency#
+#hub<-which(apply(adjacency,1,sum)>=quantile(apply(adjacency,1,sum),c(0.99)))#
+hub<-which(apply(adjacency,1,sum)>=50)#
+adjacency<-adjacency*runif(p*p,0.25,0.75)*sample(c(-1,1),p*p,replace=TRUE)#
+#
+Theta<-(adjacency+t(adjacency))/2#
+ee<-min(eigen(Theta,only.values=T)$values)#
+diag(Theta)<-ifelse(ee < 0, -ee + 0.1, 0.1)#
+#
+return(list(Theta=Theta,hubcol=hub,adjacency=temp))#
+}
+b<-HglassoNew(S,2,0.3,0.3,0.3)
+a$Theta[1:10,1:10]
+b$Theta[1:10,1:10]
+?glasso
+library(glasso)
+install.packages("glasso")
+library(glasso)
+?glasso
+y<-rnorm(10)
+x<-matrix(rnorm(1000),10,100)
+dim(x)
+glm(y~x)
+summary(glm(y~x))
+x<-matrix(rnorm(110),10,11)
+summary(glm(y~x))
+lda(x)
+?lda
+install.packages("lda")
+library(lda)
+?lda
+y<-rnorm(10)
+x<_rnorm(500,10,50)
+x<-rnorm(500,10,50)
+lm(y~x)
+y
+x
+x<-matrix(rnorm(500),10,50)
+lm(y~x)
+y<-sample(c(0,1),replace=TRUE,10)
+y
+x<-matrix(rnorm(200),10,20)
+glm(y~x)
+3874*.6
+3874*.5
+3864*.25
+3868*.25
+3874*.25
+3874*.3
+3874*.3-100
+4226*.75
+4226*.75*0.125
+4226*.75*0.875
+?lda
+?princomp
+Renumber the cluster assignments#
+#######################################################
+ReNumber <- function(Cs){#
+  newCs <- rep(NA, length(Cs))#
+  uniq <- sort(unique(Cs))#
+  for(i in 1:length(uniq)){#
+    newCs[Cs==uniq[i]] <- i#
+  }#
+  return(newCs)#
+}
+a<-sample(1:3,100,replace=TRUE)
+a
+ReNumber(a)

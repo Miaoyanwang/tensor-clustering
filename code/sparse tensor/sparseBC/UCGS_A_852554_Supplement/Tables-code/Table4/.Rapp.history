@@ -1,0 +1,1529 @@
+ls()
+conds
+dim(countsTable)
+rm(ls=ls())
+rm(ls=c())
+rm(=ls())
+rm(list=ls())
+ls()
+load("/Users/keanmingtan/Dropbox/ClassificationRNAseq/dataset/data-olgavitek/DE_qRT-PCR_GSE5350.Rdata")
+ls()
+Generate a positive definite covariance matrix with #
+# several hubs and other nodes sparsely connected#
+# to each other#
+#######################################################
+Hubnetwork <- function(p,sparsity,hubnumber,hubsparsity){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+# Make the matrix positive definite  #
+  diag(Theta) <- 0#
+  ee <- min(eigen(Theta,only.values=T)$values)#
+  diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+GaussianHubNetwork <- function(p,sparsity,hubnumber,hubsparsity){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+# Make the matrix positive definite  #
+  diag(Theta) <- 0#
+  ee <- min(eigen(Theta,only.values=T)$values)#
+  diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+HubNetwork <- function(p,sparsity,hubnumber,hubsparsity,type){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+  if(type=="Gaussian" || type=="covariance"){#
+# Make the matrix positive definite  #
+    diag(Theta) <- 0#
+    ee <- min(eigen(Theta,only.values=T)$values)#
+    diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+  }#
+  else if(type="binary"){#
+    diag(Theta) <- sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)		#
+  }#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+HubNetwork <- function(p,sparsity,hubnumber,hubsparsity,type){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+  if(type=="Gaussian" || type=="covariance"){#
+# Make the matrix positive definite  #
+    diag(Theta) <- 0#
+    ee <- min(eigen(Theta,only.values=T)$values)#
+    diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+  }#
+  else if(type=="binary"){#
+    diag(Theta) <- sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)		#
+  }#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+p<-10
+sparsity=0.95
+hubnumber=2
+hubsparsity=0.3
+set.seed(1)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="Gaussian")
+a
+Generate a positive definite covariance matrix with #
+# several hubs and other nodes sparsely connected#
+# to each other#
+#######################################################
+Hubnetwork<-function(p,sparsity,hubnumber,hubsparsity){#
+#
+sparse<-rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)#
+sparse<-sparse*runif(p*p,0.25,0.75)#
+Theta<-matrix(data=sparse,nrow=p,ncol=p)#
+Theta[lower.tri(Theta,diag=FALSE)]<-0#
+Theta<-Theta+t(Theta)#
+hub<-sample(1:p,hubnumber,replace=FALSE)#
+Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+Theta<-(Theta+t(Theta))/2#
+diag(Theta)<-0#
+ee<-min(eigen(Theta,only.values=T)$values)#
+diag(Theta)<-ifelse(ee < 0, -ee + 0.1, 0.1)#
+return(list(Theta=Theta,hubcol=hub))#
+}
+set.seed(1)
+Hubnetwork(p,sparsity,hubnumber,hubsparsity)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="binary")
+a
+set.seed(1)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="binary")
+a
+Create Binary Network#
+#######################################################
+BinaryNetwork<-function(p,sparsity,hubnumber,hubsparsity){#
+#sparse<-rbinom(p*p,1,1-sparsity)*runif(p*p,0.25,0.75)#
+#
+sparse<-rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+Theta<-matrix(data=sparse,nrow=p,ncol=p)#
+Theta[lower.tri(Theta,diag=TRUE)]<-0#
+Theta<-Theta+t(Theta)#
+#
+hub<-sample(1:p,hubnumber,replace=FALSE)#
+#Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*runif(hubnumber*p,0.25,0.75)#
+Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+Theta<-(Theta+t(Theta))/2#
+#
+#diag(Theta)<-1#
+#
+#diag(Theta)<-runif(p,0.25,0.75)#
+#
+diag(Theta)<-sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)#
+#Theta[which(Theta<0)]=-0.5#
+#Theta[which(Theta>0)]=0.5#
+#
+return(list(Theta=Theta,hubcol=hub))#
+}
+sed.seed(1)
+set.seed(1)
+BinaryNetwork(p,sparsity,hubnumber,hubsparsity)
+Random Model With some hub nodes#
+#######################################################
+HubCovariance<-function(p,sparsity,hubnumber,hubsparsity){#
+#
+sparse<-rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+Sigma<-matrix(data=sparse,nrow=p,ncol=p)	#
+Sigma[lower.tri(Sigma,diag=FALSE)]<-0#
+Sigma<-(Sigma+t(Sigma))#
+#
+hub<-sample(1:p,hubnumber,replace=FALSE)#
+Sigma[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+Sigma<-(Sigma+t(Sigma))/2#
+diag(Sigma)<-0#
+ee<-min(eigen(Sigma,only.values=T)$values)#
+diag(Sigma)<-ifelse(ee<0,-ee+0.1,0.1)#
+#
+return(list(Sigma=cov2cor(Sigma),hubcol=hub))#
+}
+set.seed(1)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="covariance")
+set.seed(1)
+HubCovariance(p,sparsity,hubnumber,hubsparsity)
+a
+Theta <- cov2cor(Theta)
+HubNetwork <- function(p,sparsity,hubnumber,hubsparsity,type){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+  if(type=="Gaussian" || type=="covariance"){#
+# Make the matrix positive definite  #
+    diag(Theta) <- 0#
+    ee <- min(eigen(Theta,only.values=T)$values)#
+    diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+    Theta <- cov2cor(Theta)#
+  }#
+  else if(type=="binary"){#
+    diag(Theta) <- sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)		#
+  }#
+  return(list(Theta=Theta,hubcol=hubcol))#
+}
+set.seed(1)
+a<-HubNetwork(p,sparsity,hubnumber,hubsparsity,type="covariance")
+a
+set.seed(1)
+HubCovariance(p,sparsity,hubnumber,hubsparsity)
+Hglasso Function for R package#
+#######################################################
+HGL <- function(S,rho,lambda1,lambda2,lambda3,convergence=1e-10,maxiter=1000){#
+#
+# Variables initialization#
+  p <- nrow(S)#
+  oldTheta <- Theta <- V <- Z <- diag(rep(1,p))#
+  W1 <- W2 <- W3 <- Gamma <- matrix(0,p,p)#
+  tildeTheta <- tildeV <- tildeZ <- matrix(0,p,p)#
+  criteria <- 1e10 	#
+  i <- 1#
+# While loop for the iterations#
+  while(criteria > convergence && i <= maxiter){#
+  	Theta <- updateTheta(tildeTheta,W1,S,rho)#
+  	Z <- updateZ(tildeZ,W3,lambda1,rho)	 #
+#
+    V <- updateV(tildeV,W2,lambda2,lambda3,rho)#
+#
+    Gamma <- updateGamma(Theta,V,Z,W1,W2,W3,rho)#
+#
+    tildeTheta <- updatetildeTheta(Theta,W1,Gamma,rho)#
+#
+    tildeV <- updatetildeV(V,W2,Gamma,rho)#
+#
+    tildeZ <- updatetildeZ(Z,W3,Gamma,rho)#
+    W1 <- W1+Theta-tildeTheta#
+    W2 <- W2+V-tildeV#
+    W3 <- W3+Z-tildeZ#
+	Theta<-Z+V+t(V)	#
+	criteria<-sum((Theta-oldTheta)^2)/sum((oldTheta)^2)#
+	oldTheta<-Theta#
+	i<-i+1#
+  }  	#
+  Theta<-Z+V+t(V)#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,iteration=i))	#
+}	#
+#######################################################
+# Soft-thresholding Operator#
+#######################################################
+Soft <- function(a,b){#
+  if(b<0) stop("Can soft-threshold by a nonnegative quantity only.")#
+  return(sign(a)*pmax(0,abs(a)-b))#
+}#
+#
+#######################################################
+# Update Theta#
+#######################################################
+updateTheta <- function(tildeTheta,W1,S,rho){#
+  C <- tildeTheta-W1-S/rho#
+  a <- eigen(C)#
+  D <- diag(a$values)#
+  U <- a$vectors#
+  Theta <- 1/2*U%*%(D+sqrt(D*D+4/rho*diag(rep(1,nrow(S)))))%*%t(U)		#
+  return(Theta)#
+}#
+#
+#######################################################
+# Update Z#
+#######################################################
+updateZ <- function(tildeZ,W3,lambda1,rho){#
+  A <- tildeZ-W3#
+  B <- lambda1/rho#
+  Z <- Soft(A,B)#
+  diag(Z) <- diag(A)#
+  return(Z)	#
+}#
+#
+#######################################################
+# Update V#
+#######################################################
+updateV <- function(tildeV,W2,lambda2,lambda3,rho){#
+  p <- nrow(tildeV)#
+  V <- matrix(0,nrow=p,ncol=p)#
+  C <- tildeV-W2#
+  D <- C#
+  diag(D) <- 0#
+  for(j in 1:p){#
+    temp <- Soft(D[,j],lambda2/(rho))#
+    if(sum(temp^2)==0){#
+      V[,j] <- 0	#
+    }#
+    else if(sum(temp^2)!=0){#
+      V[,j] <- max(0,1-lambda3/(rho*(sqrt(sum(temp^2)))))*temp#
+    }#
+  }#
+  diag(V) <- diag(C)#
+  return(V)#
+}#
+#
+#######################################################
+# Update tildeZ#
+#######################################################
+updatetildeZ <- function(Z,W3,Gamma,rho){#
+  tildeZ <- NULL#
+  tildeZ <- Gamma/rho+W3+Z#
+  return(tildeZ)	#
+}#
+#
+#######################################################
+# Update tildeV#
+#######################################################
+updatetildeV <- function(V,W2,Gamma,rho){#
+  tildeV <- (Gamma+t(Gamma))/rho+V+W2#
+  return(tildeV)	#
+}#
+#
+#######################################################
+# Update tildeTheta#
+#######################################################
+updatetildeTheta <- function(Theta,W1,Gamma,rho){#
+  tildeTheta <- W1+Theta-Gamma/rho#
+  return(tildeTheta)	#
+}#
+#
+#######################################################
+# Update Gamma#
+#######################################################
+updateGamma <- function(Theta,V,Z,W1,W2,W3,rho){#
+  Gamma <- rho/6*(Theta+W1-V-t(V)-Z-W2-t(W2)-W3)#
+  return(Gamma)	#
+}#
+#
+#######################################################
+# Functions that generate Gaussian, covariance, and Binary netowrk#
+# with densely connected hub nodes#
+#######################################################
+HubNetwork <- function(p,sparsity,hubnumber,hubsparsity,type){#
+#
+# Generate an Erdos Renyi type network with positive and negative entries  #
+  sparse <- rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)*runif(p*p,0.25,0.75)#
+  Theta <- matrix(data=sparse,nrow=p,ncol=p)#
+  Theta[lower.tri(Theta,diag=FALSE)] <- 0#
+  Theta <- Theta+t(Theta)#
+# Add in Hub Nodes and make the matrix symmetric  #
+  hubcol <- sample(1:p,hubnumber,replace=FALSE)#
+  Theta[,hubcol] <- rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+  Theta <- (Theta+t(Theta))/2#
+  if(type=="Gaussian" || type=="covariance"){#
+# Make the matrix positive definite  #
+    diag(Theta) <- 0#
+    ee <- min(eigen(Theta,only.values=T)$values)#
+    diag(Theta) <- ifelse(ee < 0, -ee + 0.1, 0.1)#
+    Theta <- cov2cor(Theta)#
+  }#
+  else if(type=="binary"){#
+    diag(Theta) <- sample(c(-1,1),p,replace=TRUE)*runif(p,0.25,0.75)		#
+  }#
+  return(list(Theta=Theta,hubcol=hubcol)) #
+}
+Generate a inverse covariance matrix#
+set.seed(1)#
+n=100#
+p=200#
+#
+#### This network is with 98% sparsity and 10 hubs, each hub has sparsity level 0.4#
+network <- Hubnetwork(p,sparsity=0.98,hubnumber=10,hubsparsity=0.4)#
+Theta <- network$Theta#
+hubcolumn <- network$hubcol#
+Sigma<-solve(Theta)#
+a<-matrix(0,nrow(Theta),ncol(Theta))#
+diag(a)<-diag(Sigma)#
+Sigma<-sqrt(solve(a))%*%Sigma%*%sqrt(solve(a))#
+Theta<-solve(Sigma)#
+#
+#### inverse covariance matrix generated to simulate data from multivariate normal distribution#
+x <- rmvnorm(n,rep(0,p),Sigma)#
+x <- scale(x, T, T)#
+S <- cov(x)
+library(mvtnorm)
+library(mvrnorm)
+install.packages("mvtnorm")
+library(mvrnorm)
+library(mvtnorm)
+Generate a inverse covariance matrix#
+set.seed(1)#
+n=100#
+p=200#
+#
+#### This network is with 98% sparsity and 10 hubs, each hub has sparsity level 0.4#
+network <- Hubnetwork(p,sparsity=0.98,hubnumber=10,hubsparsity=0.4)#
+Theta <- network$Theta#
+hubcolumn <- network$hubcol#
+Sigma<-solve(Theta)#
+a<-matrix(0,nrow(Theta),ncol(Theta))#
+diag(a)<-diag(Sigma)#
+Sigma<-sqrt(solve(a))%*%Sigma%*%sqrt(solve(a))#
+Theta<-solve(Sigma)#
+#
+#### inverse covariance matrix generated to simulate data from multivariate normal distribution#
+x <- rmvnorm(n,rep(0,p),Sigma)#
+x <- scale(x, T, T)#
+S <- cov(x)
+a<-HGL(S,2,0.3,0.3,0.3)
+a
+HglassoNew
+Hub Graphical Lasso#
+#######################################################
+HglassoNew<-function(S,rho,lambda1,lambda2,lambda3,V.init=NULL,Z.init=NULL,W1.init=NULL,W2.init=NULL,W3.init=NULL,Gamma.init=NULL,tildeTheta.init=NULL,tildeZ.init=NULL,tildeV.init=NULL,Thetaold=NULL,convergence=1e-10,maxiter=1000){#
+i<-1#
+p<-nrow(S)#
+Theta<-oldTheta<-NULL#
+#
+Theta <- diag(rep(1,p))#
+#oldTheta <- diag(rep(0.5,p))#
+#oldTheta<-Thetaold#
+#
+if(is.null(Thetaold)){#
+  oldTheta<-diag(rep(1,p))#
+}#
+else{#
+  oldTheta<-Thetaold#
+}#
+#
+if(is.null(V.init)){#
+  V<-diag(rep(1,p))#
+}#
+else{#
+  V<-V.init	#
+}#
+#
+if(is.null(Z.init)){#
+  Z<-diag(rep(1,p))#
+}#
+else{#
+  Z<-Z.init	#
+}#
+#
+if(is.null(W1.init)){#
+ W1<-W2<-W3<-matrix(0,p,p)#
+}#
+else{#
+  W1<-W1.init	#
+  W2<-W2.init	#
+  W3<-W3.init	#
+}#
+#
+if(is.null(Gamma.init)){#
+   Gamma<-matrix(0,p,p)#
+}#
+else{#
+  Gamma<-Gamma.init	#
+}#
+#
+if(is.null(tildeTheta.init)){#
+   tildeTheta<-matrix(0,p,p)#
+}#
+else{#
+  tildeTheta<-tildeTheta.init	#
+}#
+#
+if(is.null(tildeV.init)){#
+   tildeV<-matrix(0,p,p)#
+}#
+else{#
+  tildeV<-tildeV.init	#
+}#
+#
+if(is.null(tildeZ.init)){#
+   tildeZ<-matrix(0,p,p)#
+}#
+else{#
+  tildeZ<-tildeZ.init	#
+}#
+#
+criteria<-1e10#
+  while(criteria>convergence && i<=maxiter){#
+    Theta<-updateTheta(tildeTheta,W1,S,rho)#
+#
+    Z<-updateZ(tildeZ,W3,lambda1,rho)	 #
+#
+    V<-updateV(tildeV,W2,lambda2,lambda3,rho)#
+#
+    Gamma<-updateGamma(Theta,V,Z,W1,W2,W3,rho)#
+#
+    tildeTheta<-updatetildeTheta(Theta,W1,Gamma,rho)#
+#
+    tildeV<-updatetildeV(V,W2,Gamma,rho)#
+#
+    tildeZ<-updatetildeZ(Z,W3,Gamma,rho)#
+    W1<-W1+Theta-tildeTheta#
+    W2<-W2+V-tildeV#
+    W3<-W3+Z-tildeZ#
+#
+	i<-i+1#
+	Theta<-Z+V+t(V)	#
+	criteria<-sum((Theta-oldTheta)^2)/sum((oldTheta)^2)#
+	oldTheta<-Theta#
+#	print(DualityGap(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+#print(Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+  } 	#
+  Theta<-Z+V+t(V)#
+  Obj <- Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3)#
+#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,iteration=i,objective=Obj))	#
+}
+b<-HglassoNew(S,2,0.3,0.3,0.3)
+Hub Graphical Lasso#
+#######################################################
+HglassoNew<-function(S,rho,lambda1,lambda2,lambda3,V.init=NULL,Z.init=NULL,W1.init=NULL,W2.init=NULL,W3.init=NULL,Gamma.init=NULL,tildeTheta.init=NULL,tildeZ.init=NULL,tildeV.init=NULL,Thetaold=NULL,convergence=1e-10,maxiter=1000){#
+i<-1#
+p<-nrow(S)#
+Theta<-oldTheta<-NULL#
+#
+Theta <- diag(rep(1,p))#
+#oldTheta <- diag(rep(0.5,p))#
+#oldTheta<-Thetaold#
+#
+if(is.null(Thetaold)){#
+  oldTheta<-diag(rep(1,p))#
+}#
+else{#
+  oldTheta<-Thetaold#
+}#
+#
+if(is.null(V.init)){#
+  V<-diag(rep(1,p))#
+}#
+else{#
+  V<-V.init	#
+}#
+#
+if(is.null(Z.init)){#
+  Z<-diag(rep(1,p))#
+}#
+else{#
+  Z<-Z.init	#
+}#
+#
+if(is.null(W1.init)){#
+ W1<-W2<-W3<-matrix(0,p,p)#
+}#
+else{#
+  W1<-W1.init	#
+  W2<-W2.init	#
+  W3<-W3.init	#
+}#
+#
+if(is.null(Gamma.init)){#
+   Gamma<-matrix(0,p,p)#
+}#
+else{#
+  Gamma<-Gamma.init	#
+}#
+#
+if(is.null(tildeTheta.init)){#
+   tildeTheta<-matrix(0,p,p)#
+}#
+else{#
+  tildeTheta<-tildeTheta.init	#
+}#
+#
+if(is.null(tildeV.init)){#
+   tildeV<-matrix(0,p,p)#
+}#
+else{#
+  tildeV<-tildeV.init	#
+}#
+#
+if(is.null(tildeZ.init)){#
+   tildeZ<-matrix(0,p,p)#
+}#
+else{#
+  tildeZ<-tildeZ.init	#
+}#
+#
+criteria<-1e10#
+  while(criteria>convergence && i<=maxiter){#
+    Theta<-updateTheta(tildeTheta,W1,S,rho)#
+#
+    Z<-updateZ(tildeZ,W3,lambda1,rho)	 #
+#
+    V<-updateV(tildeV,W2,lambda2,lambda3,rho)#
+#
+    Gamma<-updateGamma(Theta,V,Z,W1,W2,W3,rho)#
+#
+    tildeTheta<-updatetildeTheta(Theta,W1,Gamma,rho)#
+#
+    tildeV<-updatetildeV(V,W2,Gamma,rho)#
+#
+    tildeZ<-updatetildeZ(Z,W3,Gamma,rho)#
+    W1<-W1+Theta-tildeTheta#
+    W2<-W2+V-tildeV#
+    W3<-W3+Z-tildeZ#
+#
+	i<-i+1#
+	Theta<-Z+V+t(V)	#
+	criteria<-sum((Theta-oldTheta)^2)/sum((oldTheta)^2)#
+	oldTheta<-Theta#
+#	print(DualityGap(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+#print(Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+  } 	#
+  Theta<-Z+V+t(V)#
+  #Obj <- Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3)#
+#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,iteration=i))	#
+}
+b<-HglassoNew(S,2,0.3,0.3,0.3)
+a$Theta[1:10,1:10]
+b$Theta[1:10,1:10]
+Hub Graphical Lasso#
+#######################################################
+HglassoNew<-function(S,rho,lambda1,lambda2,lambda3,V.init=NULL,Z.init=NULL,W1.init=NULL,W2.init=NULL,W3.init=NULL,Gamma.init=NULL,tildeTheta.init=NULL,tildeZ.init=NULL,tildeV.init=NULL,Thetaold=NULL,convergence=1e-10,maxiter=1000){#
+i<-1#
+p<-nrow(S)#
+Theta<-oldTheta<-NULL#
+#
+Theta <- diag(rep(1,p))#
+#oldTheta <- diag(rep(0.5,p))#
+#oldTheta<-Thetaold#
+#
+if(is.null(Thetaold)){#
+  oldTheta<-diag(rep(1,p))#
+}#
+else{#
+  oldTheta<-Thetaold#
+}#
+#
+if(is.null(V.init)){#
+  V<-diag(rep(1,p))#
+}#
+else{#
+  V<-V.init	#
+}#
+#
+if(is.null(Z.init)){#
+  Z<-diag(rep(1,p))#
+}#
+else{#
+  Z<-Z.init	#
+}#
+#
+if(is.null(W1.init)){#
+ W1<-W2<-W3<-matrix(0,p,p)#
+}#
+else{#
+  W1<-W1.init	#
+  W2<-W2.init	#
+  W3<-W3.init	#
+}#
+#
+if(is.null(Gamma.init)){#
+   Gamma<-matrix(0,p,p)#
+}#
+else{#
+  Gamma<-Gamma.init	#
+}#
+#
+if(is.null(tildeTheta.init)){#
+   tildeTheta<-matrix(0,p,p)#
+}#
+else{#
+  tildeTheta<-tildeTheta.init	#
+}#
+#
+if(is.null(tildeV.init)){#
+   tildeV<-matrix(0,p,p)#
+}#
+else{#
+  tildeV<-tildeV.init	#
+}#
+#
+if(is.null(tildeZ.init)){#
+   tildeZ<-matrix(0,p,p)#
+}#
+else{#
+  tildeZ<-tildeZ.init	#
+}#
+#
+criteria<-1e10#
+  while(criteria>convergence && i<=maxiter){#
+    Theta<-updateTheta(tildeTheta,W1,S,rho)#
+#
+    Z<-updateZ(tildeZ,W3,lambda1,rho)	 #
+#
+    V<-updateV(tildeV,W2,lambda2,lambda3,rho)#
+#
+    Gamma<-updateGamma(Theta,V,Z,W1,W2,W3,rho)#
+#
+    tildeTheta<-updatetildeTheta(Theta,W1,Gamma,rho)#
+#
+    tildeV<-updatetildeV(V,W2,Gamma,rho)#
+#
+    tildeZ<-updatetildeZ(Z,W3,Gamma,rho)#
+    W1<-W1+Theta-tildeTheta#
+    W2<-W2+V-tildeV#
+    W3<-W3+Z-tildeZ#
+#
+	i<-i+1#
+	Theta<-Z+V+t(V)	#
+	criteria<-sum((Theta-oldTheta)^2)/sum((oldTheta)^2)#
+	oldTheta<-Theta#
+#	print(DualityGap(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+#print(Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3))#
+  } 	#
+  Theta<-Z+V+t(V)#
+  #Obj <- Objective2(Theta,S,Z,V,lambda1,lambda2,lambda3)#
+#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,iteration=i))	#
+}#
+#######################################################
+# Block Hub Graphical Lasso#
+#######################################################
+BlockHglasso<-function(S,rho,lambda1,lambda2,lambda3,V.init=NULL,Z.init=NULL,W1.init=NULL,W2.init=NULL,W3.init=NULL,Gamma.init=NULL,tildeTheta.init=NULL,tildeZ.init=NULL,tildeV.init=NULL,Thetaold=NULL,convergence=1e-10,maxiter=1000){#
+#
+p<-ncol(S)#
+A<-1*(abs(S)>=min(lambda1,lambda2/2))#
+diag(A) <- 1#
+g1 <- graph.adjacency(A)#
+cout <- clusters(g1)#
+unconnected <- NULL#
+blocklist <- list()#
+for(i in 1:cout$no){#
+  if(sum(cout$membership==i)==1) #
+    unconnected <-#
+c(unconnected,which(cout$membership==i))#
+  if(sum(cout$membership==i)>1) blocklist[[length(blocklist)+1]]<- which(cout$membership==i)#
+}#
+#
+W1 <- W2 <- W3 <- Gamma <- V <- Z <- Theta <- tildeTheta <- tildeV <- tildeZ <- matrix(0, nrow=p, ncol=p)#
+diag(Theta)[unconnected] <- 1 #/(diag(S)[unconnected]+min(lambda1,lambda2/2))#
+#
+if(length(blocklist)>0){#
+    for(i in 1:length(blocklist)){#
+      bl <- blocklist[[i]]#
+      temp <- HglassoNew(S[bl,bl],rho,lambda1,lambda2,lambda3,V.init=V.init[bl,bl],Z.init=Z.init[bl,bl],W1.init=W1.init[bl,bl],W2.init=W2.init[bl,bl],W3.init=W3.init[bl,bl],Gamma.init=Gamma.init[bl,bl],tildeTheta.init=tildeTheta.init[bl,bl],tildeZ.init=tildeZ.init[bl,bl],tildeV.init=tildeV.init[bl,bl],Thetaold=Thetaold[bl,bl],convergence=convergence,maxiter=maxiter)#
+      Theta[bl,bl] <- temp$Theta#
+      V[bl,bl] <- temp$V#
+      Z[bl,bl] <- temp$Z#
+      W1[bl,bl] <- temp$W1#
+      W2[bl,bl] <- temp$W2#
+      W3[bl,bl] <- temp$W3#
+      Gamma[bl,bl] <- temp$Gamma      #
+      tildeTheta[bl,bl] <- temp$tildeTheta      #
+      tildeV[bl,bl] <- temp$tildeV      #
+      tildeZ[bl,bl] <- temp$tildeZ      #
+    }#
+  }#
+return(list(Theta=Theta,V=V,Z=Z,W1=W1,W2=W2,W3=W3,Gamma=Gamma,tildeTheta=tildeTheta,tildeV=tildeV,tildeZ=tildeZ,blocklist=blocklist,unconnected=unconnected))#
+}#
+#
+#######################################################
+# Objective Function for Original Problem#
+#######################################################
+Objective2<-function(Theta,S,Z,V,lambda1,lambda2,lambda3){#
+#
+tempV<-0#
+p<-nrow(Theta)#
+A<-matrix(0,p,p)#
+B<-matrix(0,p,p)  #
+diag(A)<-diag(V)#
+diag(B)<-diag(Z)#
+tempV<-sum(sqrt(apply((V-A)^2,2,sum)))#
+return(-determinant(Theta,logarithm=TRUE)$modulus[1]+sum(S*Theta)+lambda1*sum(abs(Z-B))+lambda2*sum(abs(V-A))+lambda3*tempV)#
+}#
+#
+#######################################################
+# Duality Gap#
+#######################################################
+DualityGap<-function(Theta,S,Z,V,lambda1,lambda2,lambda3){#
+p<-nrow(Theta)	#
+A<-matrix(0,p,p)#
+B<-matrix(0,p,p) #
+diag(A)<-diag(V)#
+diag(B)<-diag(Z)#
+tempV<-sum(sqrt(apply((V-A)^2,2,sum)))#
+return(sum(S*Theta)+lambda1*sum(abs(Z-B))+lambda2*sum(abs(V-A))+lambda3*tempV-p)#
+}#
+#
+#######################################################
+# Soft-thresholding Operator#
+#######################################################
+Soft <- function(a,b){#
+  if(b<0) stop("Can soft-threshold by a nonnegative quantity only.")#
+  return(sign(a)*pmax(0,abs(a)-b))#
+}#
+#
+#######################################################
+# Update Theta#
+#######################################################
+updateTheta<-function(tildeTheta,W1,S,rho){#
+Theta<-NULL#
+C<-NULL#
+C<-tildeTheta-W1-S/rho#
+a<-eigen(C)#
+D<-diag(a$values)#
+U<-a$vectors#
+Theta<-1/2*U%*%(D+sqrt(D*D+4/rho*diag(rep(1,nrow(S)))))%*%t(U)		#
+return(Theta)#
+}#
+#
+#######################################################
+# Update Z#
+#######################################################
+updateZ<-function(tildeZ,W3,lambda1,rho){#
+Z<-NULL#
+A<-tildeZ-W3#
+B<-lambda1/rho#
+Z<-Soft(A,B)#
+diag(Z)<-diag(A)#
+return(Z)	#
+}#
+#
+#######################################################
+# Update V#
+#######################################################
+updateV<-function(tildeV,W2,lambda2,lambda3,rho){#
+p<-nrow(tildeV)#
+V<-matrix(0,nrow=p,ncol=p)#
+C<-tildeV-W2#
+D<-C#
+diag(D)<-0#
+#
+  for(j in 1:p){#
+    temp<-Soft(D[,j],lambda2/(rho))#
+    if(sum(temp^2)==0){#
+      V[,j]<-0	#
+    }#
+    else if(sum(temp^2)!=0){#
+      V[,j]<-max(0,1-lambda3/(rho*(sqrt(sum(temp^2) ) )) )*temp#
+    }#
+  }#
+diag(V)<-diag(C)#
+return(V)#
+}#
+#
+#######################################################
+# Update tildeZ#
+#######################################################
+updatetildeZ<-function(Z,W3,Gamma,rho){#
+tildeZ<-NULL#
+tildeZ<-Gamma/rho+W3+Z#
+return(tildeZ)	#
+}#
+#
+#######################################################
+# Update tildeV#
+#######################################################
+updatetildeV<-function(V,W2,Gamma,rho){#
+tildeV<-(Gamma+t(Gamma))/rho+V+W2#
+return(tildeV)	#
+}#
+#
+#######################################################
+# Update tildeTheta#
+#######################################################
+updatetildeTheta<-function(Theta,W1,Gamma,rho){#
+tildeTheta<-W1+Theta-Gamma/rho#
+return(tildeTheta)	#
+}#
+#
+#######################################################
+# Update Gamma#
+#######################################################
+updateGamma<-function(Theta,V,Z,W1,W2,W3,rho){#
+Gamma<-rho/6*(Theta+W1-V-t(V)-Z-W2-t(W2)-W3)#
+return(Gamma)	#
+}#
+#
+#######################################################
+# Generate a positive definite covariance matrix with #
+# several hubs and other nodes sparsely connected#
+# to each other#
+#######################################################
+Hubnetwork<-function(p,sparsity,hubnumber,hubsparsity){#
+#
+sparse<-rbinom(p*p,1,1-sparsity)*sample(c(-1,1),p*p,replace=TRUE)#
+sparse<-sparse*runif(p*p,0.25,0.75)#
+Theta<-matrix(data=sparse,nrow=p,ncol=p)#
+Theta[lower.tri(Theta,diag=FALSE)]<-0#
+Theta<-Theta+t(Theta)#
+hub<-sample(1:p,hubnumber,replace=FALSE)#
+Theta[,hub]<-rbinom(hubnumber*p,1,1-hubsparsity)*sample(c(-1,1),hubnumber*p,replace=TRUE)*runif(hubnumber*p,0.25,0.75)#
+Theta<-(Theta+t(Theta))/2#
+diag(Theta)<-0#
+ee<-min(eigen(Theta,only.values=T)$values)#
+diag(Theta)<-ifelse(ee < 0, -ee + 0.1, 0.1)#
+return(list(Theta=Theta,hubcol=hub))#
+}#
+#
+#######################################################
+# Generate a positive definite covariance matrix with #
+# two connected components, each with different number#
+# of hubs and other nodes sparsely connected#
+# to each other#
+#######################################################
+BlockHub<-function(p,sparsity,hubnumber,hubsparsity){#
+Network<-Hubnetwork(p/2,sparsity,hubnumber/2,hubsparsity)#
+Theta<-Network$Theta#
+hub<-Network$hub#
+#
+	Network<-Hubnetwork(p/2,sparsity,hubnumber/2,hubsparsity)#
+	Theta<-bdiag(Theta,Network$Theta)#
+	hub<-c(hub,(p/2)+Network$hub)#
+#
+Theta<-as.matrix(Theta)#
+diag(Theta)<-0#
+ee<-min(eigen(Theta,only.values=T)$values)#
+diag(Theta)<-ifelse(ee < 0, -ee + 0.1, 0.1)#
+return(list(Theta=Theta,hub=hub))#
+}#
+#######################################################
+# Generate a positive definite covariance matrix with #
+# Sacle-free network#
+#######################################################
+Scalefreenetwork<-function(p){#
+#
+g<-barabasi.game(p,directed=FALSE,power=1.2)#
+adjacency<-get.adjacency(g,type=c("both"))#
+adjacency<-as.matrix(adjacency)#
+temp<-adjacency#
+#hub<-which(apply(adjacency,1,sum)>=quantile(apply(adjacency,1,sum),c(0.99)))#
+hub<-which(apply(adjacency,1,sum)>=50)#
+adjacency<-adjacency*runif(p*p,0.25,0.75)*sample(c(-1,1),p*p,replace=TRUE)#
+#
+Theta<-(adjacency+t(adjacency))/2#
+ee<-min(eigen(Theta,only.values=T)$values)#
+diag(Theta)<-ifelse(ee < 0, -ee + 0.1, 0.1)#
+#
+return(list(Theta=Theta,hubcol=hub,adjacency=temp))#
+}
+b<-HglassoNew(S,2,0.3,0.3,0.3)
+a$Theta[1:10,1:10]
+b$Theta[1:10,1:10]
+?glasso
+library(glasso)
+install.packages("glasso")
+library(glasso)
+?glasso
+y<-rnorm(10)
+x<-matrix(rnorm(1000),10,100)
+dim(x)
+glm(y~x)
+summary(glm(y~x))
+x<-matrix(rnorm(110),10,11)
+summary(glm(y~x))
+lda(x)
+?lda
+install.packages("lda")
+library(lda)
+?lda
+y<-rnorm(10)
+x<_rnorm(500,10,50)
+x<-rnorm(500,10,50)
+lm(y~x)
+y
+x
+x<-matrix(rnorm(500),10,50)
+lm(y~x)
+y<-sample(c(0,1),replace=TRUE,10)
+y
+x<-matrix(rnorm(200),10,20)
+glm(y~x)
+3874*.6
+3874*.5
+3864*.25
+3868*.25
+3874*.25
+3874*.3
+3874*.3-100
+4226*.75
+4226*.75*0.125
+4226*.75*0.875
+?lda
+?princomp
+data(lung)
+?lung
+sparseBC
+library(sparseBC)
+data(lung)
+dim(lung)
+data(lung)#
+truecluster<-as.numeric(as.factor(rownames(lung)))#
+cancersd<-apply(lung,2,sd)#
+# Pick the top 500 genes that have the largest standard deviation#
+lung<-lung[,rank(cancersd)>=length(cancersd)-499]#
+set.seed(5)#
+res<-sparseBC(lung,k=4,r=10,lambda=1500)
+?sparseBC
+library(sparseBC)
+data(lung)#
+truecluster<-as.numeric(as.factor(rownames(lung)))#
+cancersd<-apply(lung,2,sd)#
+# Pick the top 500 genes that have the largest standard deviation#
+lung<-lung[,rank(cancersd)>=length(cancersd)-499]#
+set.seed(5)#
+res<-sparseBC(lung,k=4,r=10,lambda=1500)
+?sparseBC
+library(sparseBC)
+data(lung)#
+truecluster<-as.numeric(as.factor(rownames(lung)))#
+cancersd<-apply(lung,2,sd)#
+# Pick the top 200 genes that have the largest standard deviation#
+lung<-lung[,rank(cancersd)>=length(cancersd)-199]#
+set.seed(5)#
+res<-sparseBC(lung,k=4,r=10,lambda=500)
+res$Cs
+data(lung)#
+truecluster<-as.numeric(as.factor(rownames(lung)))#
+cancersd<-apply(lung,2,sd)#
+# Pick the top 200 genes that have the largest standard deviation#
+lung<-lung[,rank(cancersd)>=length(cancersd)-399]#
+set.seed(5)#
+res<-sparseBC(lung,k=4,r=10,lambda=500)
+res$Cs
+data(lung)#
+truecluster<-as.numeric(as.factor(rownames(lung)))#
+cancersd<-apply(lung,2,sd)#
+# Pick the top 200 genes that have the largest standard deviation#
+lung<-lung[,rank(cancersd)>=length(cancersd)-299]#
+set.seed(5)#
+res<-sparseBC(lung,k=4,r=10,lambda=500) #
+# #
+res$Cs
+data(lung)#
+truecluster<-as.numeric(as.factor(rownames(lung)))#
+cancersd<-apply(lung,2,sd)#
+# Pick the top 200 genes that have the largest standard deviation#
+lung<-lung[,rank(cancersd)>=length(cancersd)-399]#
+set.seed(5)#
+res<-sparseBC(lung,k=4,r=10,lambda=500) #
+# #
+res$Cs
+res2<-matrixBC(lung,k=4,r=10,lambda=100,alpha=3,beta=3)
+res2
+res2$Cs
+res2<-matrixBC(lung,k=4,r=10,lambda=50,alpha=3,beta=3)#
+res2$Cs
+res2$Cs
+res2<-matrixBC(lung,k=4,r=10,lambda=50,alpha=0.4,beta=0.4)#
+res2$Cs
+Cs
+truecluster
+res2$Sigma
+res2$Delta
+lambda=sparseBC.BIC(lung,k=4,r=10,lambda=c(100,200,300,400,500,600,700,800,900,1000))
+lambda
+lambda=sparseBC.BIC(lung,k=4,r=10,lambda=c(0,100,200,300,400,500,600,700,800,900,1000))
+lambda
+mean(lung)
+lambda=sparseBC.BIC(lung,k=4,r=10,lambda=500)
+res<-sparseBC(lung,k=4,r=10,lambda=500)
+res$Cs
+res<-sparseBC(lung,k=4,r=10,lambda=200)
+res$Cs
+res<-matrixBC(lung,k=4,r=10,lambda=50,alpha=0.2,beta=0.4)
+res$Sigma
+names(res)
+res<-matrixBC(lung,k=4,r=10,lambda=50,alpha=0.4,beta=0.4)
+res
+names(res)
+res$Sigma
+res$Delta
+sum(res$mus==0)
+res2<-matrixBC(lung,k=4,r=10,lambda=50,alpha=0.4,beta=0.4)
+res2<-sparseBC(lung,k=4,r=10,lambda=500)
+sum(res2$mus==0)
+res2<-sparseBC(lung,k=4,r=10,lambda=300)
+sum(res2$mus==0)
+dim(x)
+dim(lung)
+56*400
+set.seed(5)#
+res<-matrixBC(lung,k=4,r=10,lambda=70,alpha=0.2,beta=0.4)
+set.seed(5)#
+res<-matrixBC(lung,k=4,r=10,lambda=70,alpha=0.4,beta=0.4)
+set.seed(5)#
+res<-matrixBC(lung,k=4,r=10,lambda=70,alpha=0.4,beta=0.4,maxiter=20)
+set.seed(5)#
+res<-matrixBC(lung,k=4,r=10,lambda=70,alpha=0.4,beta=0.4,max.iter=20)
+res$Sigma
+res$Delta
+sum(res$mus==0)
+res$Cs
+res<-matrixBC(lung,k=4,r=10,lambda=80,alpha=0.4,beta=0.4)
+matrixBC <-#
+function(x,k,r,lambda,alpha,beta,nstart=20,Cs.init=NULL,Ds.init=NULL,max.iter=25,threshold=1e-4,Sigma.init=NULL,Delta.init=NULL){#
+  if(is.null(Cs.init)){#
+	Cs<-kmeans(x,k,nstart=20)$cluster#
+  }#
+  else{#
+	Cs<-Cs.init#
+  }	#
+  if(is.null(Ds.init)){#
+    Ds <- kmeans(t(x), r,nstart=20)$cluster#
+  }#
+  else{#
+    Ds <- Ds.init#
+  }#
+  Cslist<-list()#
+  Dslist<-list()#
+#
+  if(is.null(Sigma.init)){#
+    Sigma<-diag(1,nrow=nrow(x),ncol=nrow(x))#
+    Delta<-diag(1,nrow=ncol(x),ncol=ncol(x))#
+    mus<-updateMusMatrix(x,Cs,Ds,lambda,Sigma,Delta)#
+    objs<-1e15#
+    improvement<-1e10#
+    i<-1 #
+    while(improvement>(threshold) && i<=max.iter){#
+      cat("Iteration = ", i,fill=TRUE)#
+      mus<-updateMusMatrix(x,Cs,Ds,lambda,Sigma,Delta)#
+#
+      Sigma<-updateSigma(Delta,mus[Cs,Ds],x,alpha,Cs,Ds)#
+#
+      Delta<-updateDelta(Sigma,mus[Cs,Ds],x,beta,Cs,Ds)  #
+#
+      Cs<-UpdateRowCluster(x,Sigma,Delta,mus[Cs,Ds],Cs,Ds)#
+      Cs<-ReNumberMatrix(Cs)#
+      Cslist[[i]]<-Cs#
+#
+      mus<-updateMusMatrix(x,Cs,Ds,lambda,Sigma,Delta)#
+#
+      Sigma<-updateSigma(Delta,mus[Cs,Ds],x,alpha,Cs,Ds)#
+#
+      Delta<-updateDelta(Sigma,mus[Cs,Ds],x,beta,Cs,Ds)  #
+#
+      Ds<-UpdateColumnCluster(x,Sigma,Delta,mus[Cs,Ds],Cs,Ds)#
+      Ds<-ReNumberMatrix(Ds)#
+      objs<-c(objs,MatrixObjective(x,mus[Cs,Ds],Cs,Ds,Sigma,Delta,lambda,alpha,beta))#
+#
+      Dslist[[i]]<-Ds#
+      i<-i+1#
+      improvement<-abs(objs[i]-objs[i-1])#
+    }#
+  }  		  #
+############ If Sigma and Delta is initialized, we do not want to update them.    #
+  else{#
+	Sigma<-Sigma.init#
+    Delta<-Delta.init  	#
+    mus<-updateMusMatrix(x,Cs,Ds,lambda,Sigma,Delta)#
+    objs<-1e15#
+    improvement<-1e10#
+    i<-1#
+    while(improvement>threshold && i<=max.iter){#
+    mus<-updateMusMatrix(x,Cs,Ds,lambda,Sigma,Delta)#
+    Cs<-UpdateRowCluster(x,Sigma,Delta,mus[Cs,Ds],Cs,Ds)#
+    Cs<-ReNumberMatrix(Cs)#
+    Cslist[[i]]<-Cs#
+#
+    mus<-updateMusMatrix(x,Cs,Ds,lambda,Sigma,Delta)#
+#
+    Ds<-UpdateColumnCluster(x,Sigma,Delta,mus[Cs,Ds],Cs,Ds)#
+    Ds<-ReNumberMatrix(Ds)#
+    Dslist[[i]]<-Ds#
+#
+    objs<-c(objs,MatrixObjective(x,mus[Cs,Ds],Cs,Ds,Sigma,Delta,lambda,alpha=0,beta=0))#
+#
+    i<-i+1#
+    improvement<-abs(objs[i]-objs[i-1])#
+    }#
+  }	#
+  if(min(diff(objs))>0) print("Warning: objective values decreases")	#
+ # if(improvement>1) stop("This is bad!!!")#
+  return(list(Cs=Cslist[[i-1]],Ds=Dslist[[i-1]],mus=mus[Cs,Ds],Mus=mus,Sigma=Sigma,Delta=Delta,objs=objs,iteration=i))#
+}
+res<-matrixBC(lung,k=4,r=10,lambda=80,alpha=0.4,beta=0.4)
+res$Cs
+res$Ds
+res<-matrixBC(lung,k=4,r=10,lambda=70,alpha=0.4,beta=0.4)
+res$Cs
+res<-matrixBC(lung,k=4,r=10,lambda=70,alpha=0.4,beta=0.4,max.iter=50)
+res$Cs
+res$obj
+temp<-matrixBC(lung,k=4,r=10,lambda=70,alpha=0.4,beta=0.4,max.iter=10)
+res<-matrixBC(lung,k=4,r=10,lambda=70,alpha=0.4,beta=0.4,Sigma.init=temp$Sigma,Delta.init=temp$Delta)
+res$Cs
+res<-matrixBC(lung,k=4,r=10,lambda=70,alpha=0.4,beta=0.4,Sigma.init=temp$Sigma,Delta.init=temp$Delta,max.iter=200)
+res$Cs
+temp<-matrixBC(lung,k=4,r=10,lambda=60,alpha=0.4,beta=0.4,max.iter=50)
+temp
+temp$Cs
+res<-matrixBC(lung,k=4,r=10,lambda=60,alpha=0.4,beta=0.4)
+sum(res$mus==0)
+res2<-sparseBC(lung,k=4,r=10,lambda=200)
+sum(res2$mus==0)
+res2<-sparseBC(lung,k=4,r=10,lambda=250)
+sum(res2$mus==0)
+res2<-sparseBC(lung,k=4,r=10,lambda=240)
+sum(res2$mus==0)
+res2<-sparseBC(lung,k=4,r=10,lambda=220)
+sum(res2$mus==0)
+res2<-sparseBC(lung,k=4,r=10,lambda=230)
+sum(res2$mus==0)
+res2<-sparseBC(lung,k=4,r=10,lambda=225)
+sum(res2$mus==0)
+res2<-sparseBC(lung,k=4,r=10,lambda=228)
+sum(res2$mus==0)
+res2<-sparseBC(lung,k=4,r=10,lambda=23)
+res2<-sparseBC(lung,k=4,r=10,lambda=230)
+res2<-sparseBC(lung,k=4,r=10,lambda=23)
+res2<-sparseBC(lung,k=4,r=10,lambda=230)
+sum(res2$mus==0)
+res2$Cs
+?sparseBC
+?spraseBC
+library(sparseBC)
+?sparseBC
+An example that violates the assumption of contiguous biclusters#
+   # Create mean matrix and the data matrix#
+   set.seed(5)#
+   u<-c(10,9,8,7,6,5,4,3,rep(2,17),rep(0,75))#
+   v<-c(10,-10,8,-8,5,-5,rep(3,5),rep(-3,5),rep(0,34))#
+   u<-u/sqrt(sum(u^2))#
+   v<-v/sqrt(sum(v^2))#
+   d<-50#
+   mus<-d*tcrossprod(u,v)#
+   binaryX<-(mus!=0)*1#
+   X<-mus+matrix(rnorm(100*50),100,50)#
+   X<-X-mean(X)#
+   # The number of biclusters are chosen automatically#
+   # Commented out for short run-time#
+   KR<-sparseBC.choosekr(X,1:6,1:6,0,0.1,trace=TRUE)#
+   k<-KR$estimated_kr[1]#
+   r<-KR$estimated_kr[2]#
+   # The value of lambda is chosen automatically#
+   lambda<-sparseBC.BIC(X,k,r,c(0,10,20,30,40,50))$lambda#
+   # Perform sparse biclustering using the K, R, and lambda chosen#
+   biclustering<-sparseBC(X,k,r,lambda)#
+   par(mfrow=c(1,3))#
+   image(X,main="x")#
+   image(mus,main="true mean")#
+   image(biclustering$mus,main="estimated mean")
+Example from Figure 1 in the manuscript   # A toy example to illustrate the results from k-means and sparse biclustering   ##############################################   # Generate the data matrix x   n<-100   p<-200#
+10sparseBC.BICk<-5r<-5truthCs<-rep(1:k, each=(n/k))truthDs<-rep(1:r, each=(p/r))mus<-runif(k*r,-3,3)mus<-matrix(c(mus),nrow=k,ncol=r,byrow=FALSE)x<-matrix(rnorm(n*p,mean=0,sd=5),nrow=n,ncol=p)# Generate the mean matrixmusmatrix<-matrix(NA,nrow=n,ncol=p)for(i in 1:max(truthCs)){  for(j in 1:max(truthDs)){  x[truthCs==i,truthDs==j]<-x[truthCs==i,truthDs==j]+mus[i,j]  musmatrix[truthCs==i,truthDs==j]<-mus[i,j]  }}# Perform kmeans on the row and columns and calculate its meankm.Cs<-kmeans(x,k,nstart=20)$clusterkm.Ds<-kmeans(t(x),r,nstart=20)$clusterkm.mus<-matrix(NA,nrow=n,ncol=p)for(i in 1:n){  for(j in 1:p){  km.mus[i,j]<-mean(x[km.Cs==km.Cs[i],km.Ds==km.Ds[j]])  }} # Perform sparse biclustering with 5 row clusters and 5 column clusters and lambda=0 bicluster<-sparseBC(x,5,5,0) bc.mus<-bicluster$mus # Image plots to illustrate the estimated mean matrix par(mfrow=c(2,2)) image(x,main="x") image(musmatrix,main="mean matrix") image(km.mus,main="kmeans mean") image(bc.mus,main="s
+parseBC mean")
+bicluster$Cs
+km.Cs
+image(bc.mus)
+set.seed(1)
+Example from Figure 1 in the manuscript   # A toy example to illustrate the results from k-means and sparse biclustering   ##############################################   # Generate the data matrix x   n<-100   p<-200#
+10sparseBC.BICk<-5r<-5truthCs<-rep(1:k, each=(n/k))truthDs<-rep(1:r, each=(p/r))mus<-runif(k*r,-3,3)mus<-matrix(c(mus),nrow=k,ncol=r,byrow=FALSE)x<-matrix(rnorm(n*p,mean=0,sd=5),nrow=n,ncol=p)# Generate the mean matrixmusmatrix<-matrix(NA,nrow=n,ncol=p)for(i in 1:max(truthCs)){  for(j in 1:max(truthDs)){  x[truthCs==i,truthDs==j]<-x[truthCs==i,truthDs==j]+mus[i,j]  musmatrix[truthCs==i,truthDs==j]<-mus[i,j]  }}# Perform kmeans on the row and columns and calculate its meankm.Cs<-kmeans(x,k,nstart=20)$clusterkm.Ds<-kmeans(t(x),r,nstart=20)$clusterkm.mus<-matrix(NA,nrow=n,ncol=p)for(i in 1:n){  for(j in 1:p){  km.mus[i,j]<-mean(x[km.Cs==km.Cs[i],km.Ds==km.Ds[j]])  }} # Perform sparse biclustering with 5 row clusters and 5 column clusters and lambda=0 bicluster<-sparseBC(x,5,5,0) bc.mus<-bicluster$mus # Image plots to illustrate the estimated mean matrix par(mfrow=c(2,2)) image(x,main="x") image(musmatrix,main="mean matrix") image(km.mus,main="kmeans mean") image(bc.mus,main="s
+parseBC mean")
+Create data matrix with K=2 R=4 row and column clusters#
+   k <- 2#
+   r <- 4#
+   n <- 200#
+   p <- 200#
+     mus<-runif(k*r,-3,3)#
+     mus<-matrix(c(mus),nrow=k,ncol=r,byrow=FALSE)#
+     truthCs<-sample(1:k,n,rep=TRUE)#
+     truthDs<-sample(1:r,p,rep=TRUE)#
+     x<-matrix(rnorm(n*p,mean=0,sd=2),nrow=n,ncol=p)#
+     for(i in 1:max(truthCs)){#
+        for(j in 1:max(truthDs)){#
+            x[truthCs==i, truthDs==j] <- x[truthCs==i, truthDs==j] + mus[i,j]#
+} }#
+     x<-x-mean(x)#
+   # Example is commented out for short run-time#
+   ############ Perform sparseBC.choosekr to choose the number of row and column clusters#
+   sparseBC.choosekr(x,1:5,1:5,0,0.2)$estimated_kr
+library(sparseBC)
+data(lung)
+dim(lung)
+truecluster<-as.numeric(as.factor(rownames(lung)))#
+cancersd<-apply(lung,2,sd)#
+minilung<-lung[,rank(cancersd)>=length(cancersd)-4999]#
+#
+set.seed(5)#
+res<-sparseBC(minilung,4,10,1500) #
+#
+##########################
+# Plot heatmap, arrange the genes so that #
+# genes in same cluster are grouped together#
+##########################
+heatmapMus<-NULL#
+for(i in 1:max(res$Ds)){#
+  heatmapMus<-cbind(heatmapMus,res$mus[,which(res$Ds==i)])#
+  }
+color=c(rainbow(20,start=0.5,end=0.6)[20:1],"white","white",rainbow(20,start=0.08,end=0.15)[20:1])#
+image.plot(heatmapMus,horizontal=FALSE,col=color,axes=TRUE,zlim=c(-1,1),xaxt='n',yaxt='n')
+library(fields)
+image.plot(heatmapMus,horizontal=FALSE,col=color,axes=TRUE,zlim=c(-1,1),xaxt='n',yaxt='n')
+R-code for Table 2#
+# K=2 R=4 #
+###########################################################
+set.seed(1)#
+library(sparseBC)#
+Do <- function(n,p,k,r){#
+classification<-list()#
+for(a in 1:50){#
+cat("Starting", a, fill=TRUE)#
+  mus<-runif(k*r,-3,3)#
+  mus<-matrix(c(mus),nrow=k,ncol=r,byrow=FALSE)#
+  truthCs<-sample(1:k,n,rep=TRUE)#
+  truthDs<-sample(1:r,p,rep=TRUE)#
+  x<-matrix(rnorm(n*p,mean=0,sd=2),nrow=n,ncol=p)#
+  for(i in 1:max(truthCs)){#
+     for(j in 1:max(truthDs)){ #
+         x[truthCs==i, truthDs==j] <- x[truthCs==i, truthDs==j] + mus[i,j]#
+     }#
+  }#
+  x<-x-mean(x)#
+  classification[[a]]<-sparseBC.choosekr(x,1:5,1:5,0,0.1)$estimated_kr#
+}#
+return(classification)#
+}#
+# Calculate accuracy of the estimated clusters#
+Calculate<-function(true,results){	#
+real<-matrix(true,ncol=2)#
+percent<-0#
+for(i in 1:length(results)){#
+  if(nrow(results[[i]])>1){#
+    for(a in 1:nrow(results[[i]])){#
+#  	  cat("iteration",a,fill=TRUE)#
+      if(sum(results[[i]][a,]==real)==2){#
+        percent<-percent+(1/nrow(results[[i]]))#
+      }#
+    }#
+  }#
+  else if(nrow(results[[i]])<2){#
+    if(sum(results[[i]]==real)==2){#
+       percent<-percent+1#
+      }	#
+  }#
+}#
+return(percent)#
+}#
+#Calculate Average k and r values#
+Calculatekr<-function(results){#
+#k<-0#
+#r<-0#
+k<-rep(NA,length(results))#
+r<-rep(NA,length(results))#
+for(i in 1:length(results)){#
+  if(nrow(results[[i]]>1)){#
+  	tempk<-0#
+  	tempr<-0#
+    for(a in 1:nrow(results[[i]])){#
+      tempk<-tempk+(results[[i]][a,1]/nrow(results[[i]]))#
+      tempr<-tempr+(results[[i]][a,2]/nrow(results[[i]]))#
+    }#
+    k[i]<-tempk#
+    r[i]<-tempr#
+  }#
+  else if(nrow(results[[i]]<2)){#
+    k[i]<-results[[i]][1,1]#
+    r[i]<-results[[i]][1,2]#
+  }#
+}#
+return(list(meank=mean(k),meanr=mean(r),sdek=sd(k)/sqrt(length(k)),sder=sd(r)/sqrt(length(r))))#
+#return(list(averagek=k/length(results),averager=r/(length(results))))#
+}#
+out <- Do(100,100,2,4)#
+res<-Calculate(c(2,4),out)#
+reskr<-Calculatekr(out)
+reskr
+source("Table3Functions.R")#
+out<-Do(200,200,4,5,200,400,800,5)
+install.packages("clues")
+source("Table3Functions.R")#
+out<-Do(200,200,4,5,200,400,800,5)
+out
+out<-Do(200,200,4,5,200,400,800,50)
+out
+Table 3 - Evaluation of biclustering methods#
+# The mean matrix is not sparse #
+# Simulation for biclustering method with lambda automatically chosen as in Section 5.2#
+######################################################
+library(sparseBC)#
+library(clues)#
+Do<-function(n,p,k,r,iteration,lambda,standarddeviation=4){#
+# Initialize some variables	#
+cerrow<-c(rep(NA,iteration))	#
+cercol<-c(rep(NA,iteration))#
+totalzero<-c(rep(NA,iteration))#
+correctzero<-c(rep(NA,iteration))#
+correctone<-c(rep(NA,iteration))#
+totalincorrect<-c(rep(NA,iteration))#
+selectedlambda<-c(rep(NA,iteration))#
+for(iter in 1:iteration){#
+cat("Iteration",iter,fill=TRUE)#
+set.seed(iter)#
+    mus<-runif(k*r,-2,2)#
+    mus<-matrix(c(mus),nrow=k,ncol=r,byrow=FALSE)#
+    truthCs<-sample(1:k,n,rep=TRUE)#
+    truthDs<-sample(1:r,p,rep=TRUE)#
+    x<-matrix(rnorm(n*p,mean=0,sd=4),nrow=n,ncol=p)#
+# This is used to calculate the sparsity error rate#
+  truthmatrix<-matrix(NA,nrow=n,ncol=p)#
+  for(i in 1:max(truthCs)){#
+	for(j in 1:max(truthDs)){#
+	  x[truthCs==i,truthDs==j]<-x[truthCs==i,truthDs==j]+mus[i,j]#
+      truthmatrix[truthCs==i,truthDs==j]<-mus[i,j]#
+	} #
+  }	#
+  binaryX<-(truthmatrix!=0)*1#
+  x<-x-mean(x)#
+	  selectlambda<-sparseBC.BIC(x,k,r,lambda)#
+	  selectedlambda[iter]<-selectlambda#
+      biclustering<-sparseBC(x,k,r,selectlambda)#
+      resmatrix<-(abs(biclustering$mus)>1e-6)#
+      cerrow[iter]<-1-adjustedRand(truthCs,biclustering$Cs,randMethod=c("Rand"))#
+      cercol[iter]<-1-adjustedRand(truthDs,biclustering$Ds,randMethod=c("Rand"))#
+totalzero[iter]<-sum(resmatrix==0)/(n*p)#
+correctzero[iter]<-sum(resmatrix[which(binaryX==0)]==0)/sum(binaryX==0)#
+correctone[iter]<-sum(resmatrix[which(binaryX==1)]==1)/(n*p-sum(binaryX==0))#
+totalincorrect[iter]<-sum(abs(resmatrix-binaryX))/(n*p)#
+}#
+return(list(cerrow=c(mean(cerrow),sd(cerrow)/sqrt(iteration)),cercol=c(mean(cercol),sd(cercol)/sqrt(iteration)),totalzero=c(mean(totalzero),sd(totalzero)/sqrt(iteration)),correctzero=c(mean(correctzero),sd(correctzero)/sqrt(iteration)),correctone=c(mean(correctone),sd(correctone)/sqrt(iteration)),totalincorrect=c(mean(totalincorrect),sd(totalincorrect)/sqrt(iteration)),selectedlambda=selectedlambda))	#
+}
+Run AutoBIC#
+##########################
+source("Table3Functionslambda.R")#
+n=200#
+p=200#
+sd=4#
+iter=50#
+lambda<-c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200)#
+bicluster5<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=lambda,standarddeviation=sd)
+Table 3 - Evaluation of biclustering methods#
+# The mean matrix is not sparse #
+# Simulation for biclustering method with lambda automatically chosen as in Section 5.2#
+######################################################
+library(sparseBC)#
+library(clues)#
+Do<-function(n,p,k,r,iteration,lambda,standarddeviation=4){#
+# Initialize some variables	#
+cerrow<-c(rep(NA,iteration))	#
+cercol<-c(rep(NA,iteration))#
+totalzero<-c(rep(NA,iteration))#
+correctzero<-c(rep(NA,iteration))#
+correctone<-c(rep(NA,iteration))#
+totalincorrect<-c(rep(NA,iteration))#
+selectedlambda<-c(rep(NA,iteration))#
+for(iter in 1:iteration){#
+cat("Iteration",iter,fill=TRUE)#
+set.seed(iter)#
+    mus<-runif(k*r,-2,2)#
+    mus<-matrix(c(mus),nrow=k,ncol=r,byrow=FALSE)#
+    truthCs<-sample(1:k,n,rep=TRUE)#
+    truthDs<-sample(1:r,p,rep=TRUE)#
+    x<-matrix(rnorm(n*p,mean=0,sd=4),nrow=n,ncol=p)#
+# This is used to calculate the sparsity error rate#
+  truthmatrix<-matrix(NA,nrow=n,ncol=p)#
+  for(i in 1:max(truthCs)){#
+	for(j in 1:max(truthDs)){#
+	  x[truthCs==i,truthDs==j]<-x[truthCs==i,truthDs==j]+mus[i,j]#
+      truthmatrix[truthCs==i,truthDs==j]<-mus[i,j]#
+	} #
+  }	#
+  binaryX<-(truthmatrix!=0)*1#
+  x<-x-mean(x)#
+	  selectlambda<-sparseBC.BIC(x,k,r,lambda)$lambda#
+	  selectedlambda[iter]<-selectlambda#
+      biclustering<-sparseBC(x,k,r,selectlambda)#
+      resmatrix<-(abs(biclustering$mus)>1e-6)#
+      cerrow[iter]<-1-adjustedRand(truthCs,biclustering$Cs,randMethod=c("Rand"))#
+      cercol[iter]<-1-adjustedRand(truthDs,biclustering$Ds,randMethod=c("Rand"))#
+totalzero[iter]<-sum(resmatrix==0)/(n*p)#
+correctzero[iter]<-sum(resmatrix[which(binaryX==0)]==0)/sum(binaryX==0)#
+correctone[iter]<-sum(resmatrix[which(binaryX==1)]==1)/(n*p-sum(binaryX==0))#
+totalincorrect[iter]<-sum(abs(resmatrix-binaryX))/(n*p)#
+}#
+return(list(cerrow=c(mean(cerrow),sd(cerrow)/sqrt(iteration)),cercol=c(mean(cercol),sd(cercol)/sqrt(iteration)),totalzero=c(mean(totalzero),sd(totalzero)/sqrt(iteration)),correctzero=c(mean(correctzero),sd(correctzero)/sqrt(iteration)),correctone=c(mean(correctone),sd(correctone)/sqrt(iteration)),totalincorrect=c(mean(totalincorrect),sd(totalincorrect)/sqrt(iteration)),selectedlambda=selectedlambda))	#
+}
+Run AutoBIC#
+##########################
+source("Table3Functionslambda.R")#
+n=200#
+p=200#
+sd=4#
+iter=50#
+lambda<-c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200)#
+bicluster5<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=lambda,standarddeviation=sd)
+bicluster5
+source("Table4Function.R")#
+n=200#
+p=200#
+sd=4#
+iter=1#
+kmeans<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=0,method="kmeans",rank=1,standarddeviation=sd)#
+#
+bicluster1<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=0,method="biclustering",rank=1,standarddeviation=sd)#
+#
+bicluster2<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=200,method="biclustering",rank=1,standarddeviation=sd)#
+#
+bicluster3<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=500,method="biclustering",rank=1,standarddeviation=sd)#
+#
+bicluster4<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1000,method="biclustering",rank=1,standarddeviation=sd)#
+#
+bicluster5<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1000,method="biclusteringauto",rank=1,standarddeviation=sd)#
+#
+plaid<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="plaid2",rank=1,standarddeviation=sd)#
+#
+ssvd1<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="ssvd",rank=1,standarddeviation=sd)#
+#
+ssvd2<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="ssvd",rank=2,standarddeviation=sd)#
+#
+ssvd3<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="ssvd",rank=3,standarddeviation=sd)#
+#
+ssvd4<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="ssvd",rank=4,standarddeviation=sd)#
+#
+tab<-rbind(c("Method","rowCER","colCER","CorrectZero","CorrectNonZero","Sparsity","SparsityError"),c("Kmeans",paste(round(kmeans$cerrow[1],digits=4),round(kmeans$cerrow[2],digits=4),sep=","),paste(round(kmeans$cercol[1],digits=4),round(kmeans$cercol[2],digits=4),sep=","),"-","-","-","-"),c("Biclustering Lambda=0",paste(round(bicluster1$cerrow[1],digits=4),round(bicluster1$cerrow[2],digits=4),sep=","),paste(round(bicluster1$cercol[1],digits=4),round(bicluster1$cercol[2],digits=4),sep=","),"-","-","-","-"),c("Biclustering Lambda=200",paste(round(bicluster2$cerrow[1],digits=4),round(bicluster2$cerrow[2],digits=4),sep=","),paste(round(bicluster2$cercol[1],digits=4),round(bicluster2$cercol[2],digits=4),sep=","),paste(round(bicluster2$correctzero[1],digits=4),round(bicluster2$correctzero[2],digits=4),sep=","),paste(round(bicluster2$correctone[1],digits=4),round(bicluster2$correctone[2],digits=4),sep=","),paste(round(bicluster2$totalzero[1],digits=4),round(bicluster2$totalzero[2],digits=4),sep=","),paste(round(bicluster2$totalincorrect[1],digits=4),round(bicluster2$totalincorrect[2],digits=4),sep=",")),c("Biclustering Lambda=500",paste(round(bicluster3$cerrow[1],digits=4),round(bicluster3$cerrow[2],digits=4),sep=","),paste(round(bicluster3$cercol[1],digits=4),round(bicluster3$cercol[2],digits=4),sep=","),paste(round(bicluster3$correctzero[1],digits=4),round(bicluster3$correctzero[2],digits=4),sep=","),paste(round(bicluster3$correctone[1],digits=4),round(bicluster3$correctone[2],digits=4),sep=","),paste(round(bicluster3$totalzero[1],digits=4),round(bicluster3$totalzero[2],digits=4),sep=","),paste(round(bicluster3$totalincorrect[1],digits=4),round(bicluster3$totalincorrect[2],digits=4),sep=",")),c("Biclustering Lambda=1000",paste(round(bicluster4$cerrow[1],digits=4),round(bicluster4$cerrow[2],digits=4),sep=","),paste(round(bicluster4$cercol[1],digits=4),round(bicluster4$cercol[2],digits=4),sep=","),paste(round(bicluster4$correctzero[1],digits=4),round(bicluster4$correctzero[2],digits=4),sep=","),paste(round(bicluster4$correctone[1],digits=4),round(bicluster4$correctone[2],digits=4),sep=","),paste(round(bicluster4$totalzero[1],digits=4),round(bicluster4$totalzero[2],digits=4),sep=","),paste(round(bicluster4$totalincorrect[1],digits=4),round(bicluster4$totalincorrect[2],digits=4),sep=",")),c(paste("Biclustering Auto Lambda",round(mean(bicluster5$selectedlambda),digits=4),sep=","),paste(round(bicluster5$cerrow[1],digits=4),round(bicluster5$cerrow[2],digits=4),sep=","),paste(round(bicluster5$cercol[1],digits=4),round(bicluster5$cercol[2],digits=4),sep=","),paste(round(bicluster5$correctzero[1],digits=4),round(bicluster5$correctzero[2],digits=4),sep=","),paste(round(bicluster5$correctone[1],digits=4),round(bicluster5$correctone[2],digits=4),sep=","),paste(round(bicluster5$totalzero[1],digits=4),round(bicluster5$totalzero[2],digits=4),sep=","),paste(round(bicluster5$totalincorrect[1],digits=4),round(bicluster5$totalincorrect[2],digits=4),sep=",")),c("Plaid","-","-",paste(round(plaid$correctzero[1],digits=4),round(plaid$correctzero[2],digits=4),sep=","),paste(round(plaid$correctone[1],digits=4),round(plaid$correctone[2],digits=4),sep=","),paste(round(plaid$totalzero[1],digits=4),round(plaid$totalzero[2],digits=4),sep=","),paste(round(plaid$totalincorrect[1],digits=4),round(plaid$totalincorrect[2],digits=4),sep=",")),c("ssvd1","-","-",paste(round(ssvd1$correctzero[1],digits=4),round(ssvd1$correctzero[2],digits=4),sep=","),paste(round(ssvd1$correctone[1],digits=4),round(ssvd1$correctone[2],digits=4),sep=","),paste(round(ssvd1$totalzero[1],digits=4),round(ssvd1$totalzero[2],digits=4),sep=","),paste(round(ssvd1$totalincorrect[1],digits=4),round(ssvd1$totalincorrect[2],digits=4),sep=",")),c("ssvd2","-","-",paste(round(ssvd2$correctzero[1],digits=4),round(ssvd2$correctzero[2],digits=4),sep=","),paste(round(ssvd2$correctone[1],digits=4),round(ssvd2$correctone[2],digits=4),sep=","),paste(round(ssvd2$totalzero[1],digits=4),round(ssvd2$totalzero[2],digits=4),sep=","),paste(round(ssvd2$totalincorrect[1],digits=4),round(ssvd2$totalincorrect[2],digits=4),sep=",")),c("ssvd3","-","-",paste(round(ssvd3$correctzero[1],digits=4),round(ssvd3$correctzero[2],digits=4),sep=","),paste(round(ssvd3$correctone[1],digits=4),round(ssvd3$correctone[2],digits=4),sep=","),paste(round(ssvd3$totalzero[1],digits=4),round(ssvd3$totalzero[2],digits=4),sep=","),paste(round(ssvd3$totalincorrect[1],digits=4),round(ssvd3$totalincorrect[2],digits=4),sep=",")),c("ssvd4","-","-",paste(round(ssvd4$correctzero[1],digits=4),round(ssvd4$correctzero[2],digits=4),sep=","),paste(round(ssvd4$correctone[1],digits=4),round(ssvd4$correctone[2],digits=4),sep=","),paste(round(ssvd4$totalzero[1],digits=4),round(ssvd4$totalzero[2],digits=4),sep=","),paste(round(ssvd4$totalincorrect[1],digits=4),round(ssvd4$totalincorrect[2],digits=4),sep=",")))
+source("Table4Function.R")#
+n=200#
+p=200#
+sd=4#
+iter=1#
+kmeans<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=0,method="kmeans",rank=1,standarddeviation=sd)#
+#
+bicluster1<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=0,method="biclustering",rank=1,standarddeviation=sd)#
+#
+bicluster2<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=200,method="biclustering",rank=1,standarddeviation=sd)#
+#
+bicluster3<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=500,method="biclustering",rank=1,standarddeviation=sd)#
+#
+bicluster4<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1000,method="biclustering",rank=1,standarddeviation=sd)#
+#
+bicluster5<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1000,method="biclusteringauto",rank=1,standarddeviation=sd)#
+#
+plaid<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="plaid2",rank=1,standarddeviation=sd)#
+#
+ssvd1<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="ssvd",rank=1,standarddeviation=sd)#
+#
+ssvd2<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="ssvd",rank=2,standarddeviation=sd)#
+#
+ssvd3<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="ssvd",rank=3,standarddeviation=sd)#
+#
+ssvd4<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=1200,method="ssvd",rank=4,standarddeviation=sd)#
+#
+tab<-rbind(c("Method","rowCER","colCER","CorrectZero","CorrectNonZero","Sparsity","SparsityError"),c("Kmeans",paste(round(kmeans$cerrow[1],digits=4),round(kmeans$cerrow[2],digits=4),sep=","),paste(round(kmeans$cercol[1],digits=4),round(kmeans$cercol[2],digits=4),sep=","),"-","-","-","-"),c("Biclustering Lambda=0",paste(round(bicluster1$cerrow[1],digits=4),round(bicluster1$cerrow[2],digits=4),sep=","),paste(round(bicluster1$cercol[1],digits=4),round(bicluster1$cercol[2],digits=4),sep=","),"-","-","-","-"),c("Biclustering Lambda=200",paste(round(bicluster2$cerrow[1],digits=4),round(bicluster2$cerrow[2],digits=4),sep=","),paste(round(bicluster2$cercol[1],digits=4),round(bicluster2$cercol[2],digits=4),sep=","),paste(round(bicluster2$correctzero[1],digits=4),round(bicluster2$correctzero[2],digits=4),sep=","),paste(round(bicluster2$correctone[1],digits=4),round(bicluster2$correctone[2],digits=4),sep=","),paste(round(bicluster2$totalzero[1],digits=4),round(bicluster2$totalzero[2],digits=4),sep=","),paste(round(bicluster2$totalincorrect[1],digits=4),round(bicluster2$totalincorrect[2],digits=4),sep=",")),c("Biclustering Lambda=500",paste(round(bicluster3$cerrow[1],digits=4),round(bicluster3$cerrow[2],digits=4),sep=","),paste(round(bicluster3$cercol[1],digits=4),round(bicluster3$cercol[2],digits=4),sep=","),paste(round(bicluster3$correctzero[1],digits=4),round(bicluster3$correctzero[2],digits=4),sep=","),paste(round(bicluster3$correctone[1],digits=4),round(bicluster3$correctone[2],digits=4),sep=","),paste(round(bicluster3$totalzero[1],digits=4),round(bicluster3$totalzero[2],digits=4),sep=","),paste(round(bicluster3$totalincorrect[1],digits=4),round(bicluster3$totalincorrect[2],digits=4),sep=",")),c("Biclustering Lambda=1000",paste(round(bicluster4$cerrow[1],digits=4),round(bicluster4$cerrow[2],digits=4),sep=","),paste(round(bicluster4$cercol[1],digits=4),round(bicluster4$cercol[2],digits=4),sep=","),paste(round(bicluster4$correctzero[1],digits=4),round(bicluster4$correctzero[2],digits=4),sep=","),paste(round(bicluster4$correctone[1],digits=4),round(bicluster4$correctone[2],digits=4),sep=","),paste(round(bicluster4$totalzero[1],digits=4),round(bicluster4$totalzero[2],digits=4),sep=","),paste(round(bicluster4$totalincorrect[1],digits=4),round(bicluster4$totalincorrect[2],digits=4),sep=",")),c(paste("Biclustering Auto Lambda",round(mean(bicluster5$selectedlambda),digits=4),sep=","),paste(round(bicluster5$cerrow[1],digits=4),round(bicluster5$cerrow[2],digits=4),sep=","),paste(round(bicluster5$cercol[1],digits=4),round(bicluster5$cercol[2],digits=4),sep=","),paste(round(bicluster5$correctzero[1],digits=4),round(bicluster5$correctzero[2],digits=4),sep=","),paste(round(bicluster5$correctone[1],digits=4),round(bicluster5$correctone[2],digits=4),sep=","),paste(round(bicluster5$totalzero[1],digits=4),round(bicluster5$totalzero[2],digits=4),sep=","),paste(round(bicluster5$totalincorrect[1],digits=4),round(bicluster5$totalincorrect[2],digits=4),sep=",")),c("Plaid","-","-",paste(round(plaid$correctzero[1],digits=4),round(plaid$correctzero[2],digits=4),sep=","),paste(round(plaid$correctone[1],digits=4),round(plaid$correctone[2],digits=4),sep=","),paste(round(plaid$totalzero[1],digits=4),round(plaid$totalzero[2],digits=4),sep=","),paste(round(plaid$totalincorrect[1],digits=4),round(plaid$totalincorrect[2],digits=4),sep=",")),c("ssvd1","-","-",paste(round(ssvd1$correctzero[1],digits=4),round(ssvd1$correctzero[2],digits=4),sep=","),paste(round(ssvd1$correctone[1],digits=4),round(ssvd1$correctone[2],digits=4),sep=","),paste(round(ssvd1$totalzero[1],digits=4),round(ssvd1$totalzero[2],digits=4),sep=","),paste(round(ssvd1$totalincorrect[1],digits=4),round(ssvd1$totalincorrect[2],digits=4),sep=",")),c("ssvd2","-","-",paste(round(ssvd2$correctzero[1],digits=4),round(ssvd2$correctzero[2],digits=4),sep=","),paste(round(ssvd2$correctone[1],digits=4),round(ssvd2$correctone[2],digits=4),sep=","),paste(round(ssvd2$totalzero[1],digits=4),round(ssvd2$totalzero[2],digits=4),sep=","),paste(round(ssvd2$totalincorrect[1],digits=4),round(ssvd2$totalincorrect[2],digits=4),sep=",")),c("ssvd3","-","-",paste(round(ssvd3$correctzero[1],digits=4),round(ssvd3$correctzero[2],digits=4),sep=","),paste(round(ssvd3$correctone[1],digits=4),round(ssvd3$correctone[2],digits=4),sep=","),paste(round(ssvd3$totalzero[1],digits=4),round(ssvd3$totalzero[2],digits=4),sep=","),paste(round(ssvd3$totalincorrect[1],digits=4),round(ssvd3$totalincorrect[2],digits=4),sep=",")),c("ssvd4","-","-",paste(round(ssvd4$correctzero[1],digits=4),round(ssvd4$correctzero[2],digits=4),sep=","),paste(round(ssvd4$correctone[1],digits=4),round(ssvd4$correctone[2],digits=4),sep=","),paste(round(ssvd4$totalzero[1],digits=4),round(ssvd4$totalzero[2],digits=4),sep=","),paste(round(ssvd4$totalincorrect[1],digits=4),round(ssvd4$totalincorrect[2],digits=4),sep=",")))
+iter=50
+bicluster3<-Do(n=n,p=p,k=4,r=5,iteration=iter,lambda=500,method="biclustering",rank=1,standarddeviation=sd)
+bicluster3
