@@ -51,14 +51,14 @@ reorderClusters = function(x,Cs,Ds,Es){
 #sort=TRUE: we put the blocks with the same mean together
 get.data = function(n,p,q,k,r,l,error=3,sort=TRUE,sparse.percent=0,center=FALSE){
   #n=20;p=20;q=20;k=2;r=2;l=2;error=3
-  #n=200;p=200;q=1;k=4;r=5;l=1;error=4;sort=FALSE;sparse.percent=0;set.seed(1)
-  mus = runif(k*r*l, -2,2)#take the mean of k*r*l biclusters/cubes
+  #n=200;p=200;q=1;k=4;r=5;l=1;error=4;sort=FALSE;sparse.percent=0;set.seed(1);center=FALSE
+  mus = runif(k*r*l, -3,3)#take the mean of k*r*l biclusters/cubes
   if(sparse.percent!=0) mus[1:floor(k*r*l*sparse.percent)] = 0
   mus = array(mus,c(k,r,l))
   if (k!=1) truthCs = ReNumber(sample(1:k,n,rep=TRUE)) else truthCs = 1
   if (r!=1) truthDs = ReNumber(sample(1:r,p,rep=TRUE)) else truthDs = 1
   if (l!=1) truthEs = ReNumber(sample(1:l,q,rep=TRUE)) else truthEs = 1
-  x = array(rnorm(n*p*q,mean=0,sd=error),c(n,p,q))
+  x = array(rnorm(n*p*q,mean=0,sd=error),dim = c(n,p,q))
   truthX = array(rep(0,n*p*q),c(n,p,q))
   for(i in 1:max(truthCs)){
     for(j in 1:max(truthDs)){
@@ -107,6 +107,7 @@ Objective = function (x, mu.array, Cs, Ds, Es, lambda = 0) {
   #print(dim(mu.array[Cs, Ds, Es]))
   #print(Cs)
   #sum((x - mu.array[Cs, Ds, Es])^2)
+  #return(sum((x - mus[Cs, Ds])^2) + 2 * lambda * sum(abs(mus)))
   return(sum((x - mu.array[Cs, Ds, Es, drop=FALSE])^2)+2*lambda*sum(abs(mu.array)))
 }
 
@@ -180,8 +181,8 @@ ReNumber = function (Cs)
 }
 
 
-classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
-  #x=test;k=4;r=3;l=2;step.max=500;threshold=5e-3;max.iter=40;Cs.init=NULL;Ds.init=NULL;Es.init=NULL;lambda=10000
+classify2 = function(x,k,r,l,lambda=0,max.iter=30,threshold = 5e-3,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
+  #x=test;k=4;r=5;l=1;step.max=500;threshold=5e-3;max.iter=40;Cs.init=NULL;Ds.init=NULL;Es.init=NULL;lambda=0
   n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
   if(is.null(Cs.init)){
     if(k==1) Cs = rep(1,n) else {Cs  = kmeans(tensor.unfold(x,1),k)$cluster}
@@ -189,7 +190,7 @@ classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALS
     Cs = Cs.init
   }
   if(is.null(Ds.init)){
-    if(r==1) Ds = rep(1,p) else { Ds  = kmeans(tensor.unfold(x,2),r)$cluster}
+    if(r==1) Ds = rep(1,p) else {Ds  = kmeans(tensor.unfold(x,2),r)$cluster}
   } else {
     Ds = Ds.init
   }
@@ -244,7 +245,7 @@ classify2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,trace=FALS
 }
 
 
-label2 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=5,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
+label2 = function(x,k,r,l,lambda=0,max.iter=30,threshold = 5e-3,sim.times=5,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
   #x=test;lambda=1e-3;max.iter=200;threshold = 5e-3;sim.times=10
   result = list(); objs = c()
   #objs_sparse = c(); result_sparse = list()
@@ -482,7 +483,7 @@ Calculatekrl<-function(results){
 
 
 #clusterobj is the return value of label2()
-CalculateBIC = function (x, clusterobj,trace=FALSE) 
+CalculateBIC = function (x, clusterobj) 
 {
   mat <- array(rep(0,length(c(x))), dim=dim(x))
   Cs <- clusterobj$Cs
@@ -497,10 +498,9 @@ CalculateBIC = function (x, clusterobj,trace=FALSE)
       }
     }
   }
-  mat[clusterobj$mus == 0] <- mean(x[clusterobj$mus == 0])
-  if(trace==TRUE) cat(log(sum((x - mat)^2)), sum(clusterobj$mus != 0), "\n")
-  return(log(sum((x - mat)^2))*dim(x)[1]*dim(x)[2]*dim(x)[3]+log(dim(x)[1]* 
-                  dim(x)[2]*dim(x)[3]) * sum(clusterobj$mus != 0))
+  mat[clusterobj$judgeX == 0] <- mean(x[clusterobj$judgeX == 0])
+  return(c(log(sum((x - mat)^2))*dim(x)[1]*dim(x)[2]*dim(x)[3]+log(dim(x)[1]* 
+                  dim(x)[2]*dim(x)[3]) * sum(clusterobj$mus != 0),log(sum(x-mat)^2), sum(clusterobj$mus!=0)))
 }
 
 
@@ -508,20 +508,24 @@ CalculateBIC = function (x, clusterobj,trace=FALSE)
 
 
 #lambda: A range of values of tuning parameters to be considered. All values must be non-negative.
-chooseLambda = function (x, k, r, l, lambda=NULL,sim.times=1) {
+chooseLambda = function (x, k, r, l, lambda=NULL,sim.times=5) {
   if (is.null(lambda)){
     lambda_0 =c(floor(dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l))
-    lambda = c(floor(lambda_0/50), floor(lambda_0/10), floor(lambda_0/4), floor(lambda_0/3), floor(lambda_0/2), floor(lambda_0/3*2), lambda_0, floor(lambda_0*3/2), lambda_0*2)
+    lambda = (dim(x)[1]*dim(x)[2]*dim(x)[3])/(k*r*l)* seq(0,2,by=0.1)
   } 
   BIC <- rep(NA, length(lambda))
   nonzero <- rep(NA, length(lambda))
+  RSS = rep(NA, length(lambda))
   for (i in 1:length(lambda)) {
     bires <- label2(x, k, r, l, lambda = lambda[i],sim.times=sim.times)
     #return(bires$Cs)
-    BIC[i] <- CalculateBIC(x, bires)
+    CBIC = CalculateBIC(x, bires)
+    BIC[i] <- CBIC[1]
+    bires$mus[bires$mus < 1e-10] = 0
     nonzero[i] <- sum(bires$mus != 0)
+    RSS[i] = CBIC[2]
   }
-  return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, 
+  return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, logRSS = RSS,
               nonzeromus = nonzero))
 }
 
@@ -544,53 +548,19 @@ sim.chooseLambda = function(n,p,q,k,r,l,iteration,lambda,standarddeviation=4){
 
 
 
-base_chooseLambda2 = function(lambda,x,k,r,l){
-  bires <- label2(x, k, r, l, lambda)
-  return(CalculateBIC(x, bires))
-}
 
 
-chooseLambda2 = function (x, k, r, l) {
-  #x = test; k = 4; r = 3; l = 2; lambda=1000; base_chooseLambda2(lambda,x,r,k,l)
-  result = optimize(f=base_chooseLambda2, interval=c(0,dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l), x=x,k=k,r=r,l=l)
-  return(result)
-}
-
-label3 = function(x,k,r,l,lambda=1e-3,max.iter=30,threshold = 5e-3,sim.times=5,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
-  result = label2(x,k,r,l,0,max.iter,threshold,sim.times,trace,Cs.init,Ds.init,Es.init)
-  result$judgeX[result$judgeX<=lambda & result$judgeX>=-lambda] = 0
-  result$mus[result$mus<=lambda & result$mus>=-lambda] = 0
-  return(result)
-}
-
-base_chooseLambda3 = function(lambda,x,k,r,l){
-  bires <- label3(x, k, r, l, lambda)
-  return(CalculateBIC(x, bires))
-}
-
-chooseLambda3 = function (x, k, r, l) {
-  #x = test; k = 4; r = 3; l = 2; lambda=1000; base_chooseLambda2(lambda,x,r,k,l)
-  result = optimize(f=base_chooseLambda3, interval=c(0,1), x=x,k=k,r=r,l=l)
-  return(result)
-}
-
-
-error_lambda = function(x,truth){
-  return(sum((x-truth)^2)/sum(truth^2))
-}
-
-
-chooseLambda4 = function (x, k, r, l, lambda=NULL,trace=TRUE) {
+chooseLambda4 = function (x, k, r, l, lambda=NULL) {
   if (is.null(lambda)){
     lambda_0 =c(floor(dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l)/50)
-    lambda = c(0, floor(lambda_0/50), floor(lambda_0/10), floor(lambda_0/4), floor(lambda_0/3), floor(lambda_0/2), floor(lambda_0/3*2), lambda_0, floor(lambda_0*3/2), lambda_0*2)
+    lambda = lambda=(dim(x)[1]*dim(x)[2]*dim(x)[3])/(k*r*l)* seq(0,2,by=0.1)
   } 
   x <- x - mean(x)
   BIC <- rep(NA, length(lambda))
   nonzero <- rep(NA, length(lambda))
   for (i in 1:length(lambda)) {
     bires <- label3(x, k, r, l, lambda = lambda[i])
-    BIC[i] <- CalculateBIC(x, bires,trace=trace)
+    BIC[i] <- CalculateBIC(x, bires)[1]
     nonzero[i] <- sum(bires$mus != 0)
   }
   return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, 

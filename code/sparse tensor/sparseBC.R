@@ -203,7 +203,7 @@ BIC = function (x, k, r, lambda)
               nonzeromus = nonzero))
 }
 
-CalculateBIC = function (x, biclustobj) 
+sparseBC.CalculateBIC = function (x, biclustobj) 
 {
   mat <- matrix(0, nrow = nrow(x), ncol = ncol(x))
   Cs <- biclustobj$Cs
@@ -217,6 +217,8 @@ CalculateBIC = function (x, biclustobj)
     }
   }
   mat[biclustobj$mus == 0] <- mean(x[biclustobj$mus == 0])
+  print(log(sum((x - mat)^2)))
+  print(sum(biclustobj$Mus != 0))
   return(log(sum((x - mat)^2)) * nrow(x) * ncol(x) + log(nrow(x) * 
                                                            ncol(x)) * sum(biclustobj$Mus != 0))
 }

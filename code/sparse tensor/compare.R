@@ -35,7 +35,27 @@ plot_tensor(judgeX)
 
 
 
-bicluster = sparseBC(test[,,1],k,r,0)
+bicluster = sparseBC(matrix.x,k,r,0)
 
 tencluster = sim.chooseLambda(200,200,1,4,5,1,iteration = 5,lambda=c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200),4)
-chooseLambda(tensor.x,4,5,1,lambda=c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200))
+
+verlam = chooseLambda(tensor.x,4,5,1,lambda=c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200))
+plot(lambda,verlam$BIC)
+plot(1:length(lambda),verlam$logRSS,pch=16,col="pink",ylim = c(-50,24))
+points(1:length(lambda),verlam$nonzeromus,pch=17,col="lightblue")
+
+splam = sparseBC.BIC(matrix.x,4,5,lambda = c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200))
+plot(lambda,splam$BIC)
+
+set.seed(11)
+test = get.data(200,200,1,4,5,1,1,FALSE,0.5,TRUE)$truthX
+verlam = chooseLambda(test,4,5,1,lambda=c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200))
+plot(lambda,verlam$BIC,pch=16)
+
+splam = sparseBC.BIC(test[,,1],4,5,lambda = c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200))
+points(lambda,splam$BIC,pch=17)
+
+tl = label2(test,4,5,1,100)
+ml = sparseBC(test[,,1],4,5,100)
+print(adjustedRand(ml$Cs,tl$Cs))
+print(adjustedRand(ml$Ds,tl$Ds))
