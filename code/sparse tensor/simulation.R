@@ -54,13 +54,14 @@ print(summaryRprof(filename="Rprof.out", lines="show"))
 
 
 #evaluate the sparse.choosekrl()>>>>>>>>>>>>>>>>>
-out <- sim.choosekrl(20,20,20,2,2,4,error=1,sim.times=5)
+out <- sim.choosekrl(20,20,20,2,2,4,error=1,sim.times=10)
 res<-Calculate(c(2,2,4),out)
 reskr<-Calculatekrl(out)
-cat("The correct rate is", res,", the mean krl and sd of krl we choose is", reskr, ".\n")
+cat("The correct rate is", res,", meank=",reskr$meank,", meanr=",reskr$meanr, ", meanl=", reskr$meanl, ", sd(k)=", reskr$sdek, ", sd(r)=", reskr$sder, ", sd(l)=",reskr$sdel,".\n")
+
 
 #test the chooseLambda()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-n=200;p=200;q=1;k=4;r=5;l=1
+n=30;p=30;q=30;k=3;r=3;l=3
 set.seed(1)
 data = get.data(n,p,q,k,r,l,error=2,sort=TRUE,sparse.percent=0.5)
 test = data$x
@@ -73,7 +74,6 @@ binaryX = data$binaryX
 plot_tensor(binaryX)
 
 lambda_summary = chooseLambda(test,k,r,l);print(lambda_summary)
-print(lambda_summary)
 lambda = lambda_summary$lambda
 
 sim<-label2(test,k,r,l,lambda)
@@ -94,7 +94,7 @@ plot_tensor(judgeX)
 restensor<-(abs(judgeX)>1e-10)*1
 totalzero<-sum(restensor==0)/(n*p*q)
 correctzero<-sum(restensor[which(binaryX==0)]==0)/sum(binaryX==0)
-correctone<-sum(restensor[which(binaryX==1)]==1)/(n*p-sum(binaryX==0))
-totalincorrect<-sum(abs(restensor-binaryX))/(n*p)
+correctone<-sum(restensor[which(binaryX==1)]==1)/(n*p*q-sum(binaryX==0))
+totalincorrect<-sum(abs(restensor-binaryX))/(n*p*q)
 cat("Total zero rate is", totalzero, ", correct zero rate is", correctzero, ", correct one rate is", correctone, ", total incorrect rate is", totalincorrect,".")
 
