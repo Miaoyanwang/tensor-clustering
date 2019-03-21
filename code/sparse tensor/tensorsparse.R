@@ -49,15 +49,15 @@ reorderClusters = function(x,Cs,Ds,Es){
 }
 
 #sort=TRUE: we put the blocks with the same mean together
-get.data = function(n,p,q,k,r,l,error=3,sort=TRUE,sparse.percent=0,center=FALSE){
-  #n=20;p=20;q=20;k=2;r=2;l=2;error=3
+get.data = function(n,p,q,k,r,l,error=3,sort=TRUE,sparse.percent=0,center=FALSE,mumin = -3, mumax = 3){
+  #n=20;p=20;q=20;k=2;r=2;l=2;error=3;center=FALSE;sort=TRUE;sparse.percent=0
   #n=200;p=200;q=1;k=4;r=5;l=1;error=4;sort=FALSE;sparse.percent=0;set.seed(1);center=FALSE
-  mus = runif(k*r*l, -3,3)#take the mean of k*r*l biclusters/cubes
+  mus = runif(k*r*l,mumin,mumax)#take the mean of k*r*l biclusters/cubes
   if(sparse.percent!=0) mus[1:floor(k*r*l*sparse.percent)] = 0
   mus = array(mus,c(k,r,l))
-  if (k!=1) truthCs = ReNumber(sample(1:k,n,rep=TRUE)) else truthCs = 1
-  if (r!=1) truthDs = ReNumber(sample(1:r,p,rep=TRUE)) else truthDs = 1
-  if (l!=1) truthEs = ReNumber(sample(1:l,q,rep=TRUE)) else truthEs = 1
+  if (k!=1) truthCs = ReNumber(sample(1:k,n,rep=TRUE)) else truthCs = rep(1,n)
+  if (r!=1) truthDs = ReNumber(sample(1:r,p,rep=TRUE)) else truthDs = rep(1,p)
+  if (l!=1) truthEs = ReNumber(sample(1:l,q,rep=TRUE)) else truthEs = rep(1,q)
   x = array(rnorm(n*p*q,mean=0,sd=error),dim = c(n,p,q))
   truthX = array(rep(0,n*p*q),c(n,p,q))
   for(i in 1:max(truthCs)){
@@ -72,9 +72,11 @@ get.data = function(n,p,q,k,r,l,error=3,sort=TRUE,sparse.percent=0,center=FALSE)
   if(sort==TRUE){
     truthX = reorderClusters(truthX,truthCs,truthDs,truthEs)$x
     neworder = reorderClusters(x,truthCs,truthDs,truthEs)
-    result = list("x"=neworder$x,"truthX"=truthX,"truthCs"=neworder$Cs,"truthDs"=neworder$Ds,"truthEs"=neworder$Es,"mus"=mus)
+    binaryX = (truthX!=0)*1
+    result = list("x"=neworder$x,"truthX"=truthX,"truthCs"=neworder$Cs,"truthDs"=neworder$Ds,"truthEs"=neworder$Es,"mus"=mus,"binaryX"=binaryX)
   } else {
-    result = list("x"=x,"truthX"=truthX,"truthCs"=truthCs,"truthDs"=truthDs,"truthEs"=truthEs,"mus"=mus)
+    binaryX = (truthX!=0)*1
+    result = list("x"=x,"truthX"=truthX,"truthCs"=truthCs,"truthDs"=truthDs,"truthEs"=truthEs,"mus"=mus,"binaryX"=binaryX)
   }
   
   return(result)
@@ -103,11 +105,6 @@ design.row = function(sp,C1,D1,E1,k,r,l){
 
 #x is array, mus is array
 Objective = function (x, mu.array, Cs, Ds, Es, lambda = 0) {
-  #print(dim(x))
-  #print(dim(mu.array[Cs, Ds, Es]))
-  #print(Cs)
-  #sum((x - mu.array[Cs, Ds, Es])^2)
-  #return(sum((x - mus[Cs, Ds])^2) + 2 * lambda * sum(abs(mus)))
   return(sum((x - mu.array[Cs, Ds, Es, drop=FALSE])^2)+2*lambda*sum(abs(mu.array)))
 }
 
@@ -181,7 +178,7 @@ ReNumber = function (Cs)
 }
 
 
-classify2 = function(x,k,r,l,lambda=0,max.iter=30,threshold = 5e-3,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
+classify2 = function(x,k,r,l,lambda=0,max.iter=300,threshold = 1e-10,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
   #x=test;k=4;r=5;l=1;step.max=500;threshold=5e-3;max.iter=40;Cs.init=NULL;Ds.init=NULL;Es.init=NULL;lambda=0
   n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
   if(is.null(Cs.init)){
@@ -245,21 +242,15 @@ classify2 = function(x,k,r,l,lambda=0,max.iter=30,threshold = 5e-3,trace=FALSE,C
 }
 
 
-label2 = function(x,k,r,l,lambda=0,max.iter=30,threshold = 5e-3,sim.times=5,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
+label2 = function(x,k,r,l,lambda=0,max.iter=1000,threshold = 1e-10,sim.times=5,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
   #x=test;lambda=1e-3;max.iter=200;threshold = 5e-3;sim.times=10
-  result = list(); objs = c()
-  #objs_sparse = c(); result_sparse = list()
-  #for (iteration in 1:sim.times){
-  #  if (trace) cat("Iteration:", iteration, ".\n")
-  #  result_sparse[[iteration]] = classify2(x,k,r,l,lambda,max.iter,threshold,trace,Cs.init,Ds.init,Es.init)
-  #  objs_sparse = c(objs_sparse, result_sparse[[iteration]]$objs)
-  #}
-  #result_sparse = result_sparse[[which(objs_sparse == min(objs_sparse))[1]]]
   
-  for (iteration in 1:sim.times){
-    if (trace) cat("Iteration:", iteration, ".\n")
-    result[[iteration]] = classify2(x,k,r,l,lambda,max.iter,threshold,trace,Cs.init,Ds.init,Es.init)
-    objs = c(objs, result[[iteration]]$objs)
+  if (.Platform$OS.type == "windows") {
+    result = lapply(rep(list(x),sim.times), classify2, k,r,l,lambda,max.iter,threshold,trace,Cs.init,Ds.init,Es.init)
+    objs = unlist(lapply(result, function(result){result$objs}))
+  } else {
+    result = mclapply(rep(list(x),sim.times), classify2, k,r,l,lambda,max.iter,threshold,trace,Cs.init,Ds.init,Es.init,mc.cores = n.cores)
+    objs = unlist(lapply(result, function(result){result$objs}))
   }
   result = result[[which(objs == min(objs))[1]]]
   return(result)
@@ -285,7 +276,7 @@ simulation  = function(n,p,q,k,r,l,error,lambda,iteration=1){
 }
 
 
-label_for_circle = function(abc,k,r,l,Cs.init,Ds.init,Es.init,sim.time,lambda,xmiss){
+label_for_krl = function(abc,k,r,l,Cs.init,Ds.init,Es.init,sim.time,lambda,xmiss){
   #label_for_circle(abc=c(1,1,1),k,r,l,Cs.init,Ds.init,Es.init,20,lambda=0,xmiss)
   a = abc[1]; b = abc[2]; c = abc[3]
   return(list(label2(xmiss, k[a], r[b], l[c], lambda = lambda, 
@@ -346,15 +337,11 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     
     
     if (.Platform$OS.type == "windows") {
-      res = apply(krl,MARGIN=2,label_for_circle,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss)
+      res = apply(krl,MARGIN=2,label_for_krl,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss)
     } else {
       krl_list = as.list(as.data.frame(krl))
-      res = mclapply(krl_list, label_for_circle,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss,mc.cores=n.cores)
+      res = mclapply(krl_list, label_for_krl,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss,mc.cores=n.cores)
     }
-    
-    
-    
-    
     
     
     for (a in 1:dim(krl)[2]){
@@ -372,8 +359,9 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   #comparing every mean with the mean with higher k,r,l
   IndicatorArray <- 1 * (results.mean[1:(length(k) - 1), 1:(length(r) - 
                                                               1), 1:(length(l) - 1)] <= results.mean[2:length(k), 2:length(r), 2:length(l)] + results.se[2:length(k), 2:length(r), 2:length(l)])
-  if (max(IndicatorArray) == 0) 
-    return(list(estimated_krl = c(max(k), max(r), max(l))))
+  if (max(IndicatorArray) == 0) {
+    warning("The krl has reached the upper boundary. Please enlarger the range.")
+    return(list(estimated_krl = c(max(k),max(r),max(l))))}
   
   #outer(outer(matrix(1:4,2),matrix(5:8,2)),matrix(1:4,2))
   ModeIndex <- outer(outer(k[-length(k)], r[-length(r)],  "*"), l[-length(l)], "*")
@@ -411,15 +399,14 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
 
 
 
-sim.choosekrl <- function(n,p,q,k,r,l,error=3,sim.times=5){
+sim.choosekrl <- function(n,p,q,k,r,l,error=1,sim.times=5){
   #n=20;p=40;q=30;k=2;r=4;l=3
   classification<-list()
   for(a in 1:sim.times){
     cat("Starting", a, fill=TRUE)
     #k=3;r=2;l=4;n=30;p=30;q=50
     x = get.data(n,p,q,k,r,l,error=error)$x
-    classification[[a]]<-sparse.choosekrl(x,k=2:5,r=2:5,l=2:5)$estimated_kr#estimate clusters
-    #if(is.null(classification[[a]])) 
+    classification[[a]]<-sparse.choosekrl(x,k=2:5,r=2:5,l=2:5)$estimated_krl#estimate clusters
   }
   return(classification)
 }
@@ -483,8 +470,16 @@ Calculatekrl<-function(results){
 
 
 #clusterobj is the return value of label2()
-CalculateBIC = function (x, clusterobj) 
+tensor.calculateBIC = function (x, clusterobj,method="new") 
 {
+  if (method == "new"){
+    npq = dim(x)
+    n = npq[1]; p = npq[2]; q = npq[3]
+    RSS=log(sum((x-clusterobj$judgeX)^2))*(n*p*q)
+    clusterobj$mus[abs(clusterobj$mus) < 1e-8] = 0
+    df=log(n*p*q)*sum(clusterobj$mus!=0)
+    return(RSS+df)
+  } else {
   mat <- array(rep(0,length(c(x))), dim=dim(x))
   Cs <- clusterobj$Cs
   Ds <- clusterobj$Ds
@@ -501,14 +496,51 @@ CalculateBIC = function (x, clusterobj)
   mat[clusterobj$judgeX == 0] <- mean(x[clusterobj$judgeX == 0])
   return(c(log(sum((x - mat)^2))*dim(x)[1]*dim(x)[2]*dim(x)[3]+log(dim(x)[1]* 
                   dim(x)[2]*dim(x)[3]) * sum(clusterobj$mus != 0),log(sum(x-mat)^2), sum(clusterobj$mus!=0)))
+  }
 }
 
 
 
 
-
 #lambda: A range of values of tuning parameters to be considered. All values must be non-negative.
-chooseLambda = function (x, k, r, l, lambda=NULL,sim.times=5) {
+chooseLambda = function (x, k, r, l, lambda=NULL,sim.times=5,method="new") {
+  if (is.null(lambda)){
+    lambda_0 =c(floor(dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l))
+    lambda = (dim(x)[1]*dim(x)[2]*dim(x)[3])/(k*r*l)* seq(0,2,by=0.1)
+  } 
+  if (.Platform$OS.type == "windows") {
+    bires = lapply(lambda,FUN=label2,x=x,k=k,r=r,l=l,sim.times=sim.times)
+    CBIC = lapply(bires,tensor.calculateBIC, x=x,method=method)
+    BIC = unlist(lapply(CBIC,FUN=function(BIC){return(BIC[1])}))
+    nonzero = unlist(lapply(bires, FUN=function(bires){bires$mus[abs(bires$mus)<1e-8]=0;return(sum(bires$mus!=0))}))
+  } else {
+    bires = mclapply(lambda,FUN=label2,x=x,k=k,r=r,l=l,sim.times=sim.times,mc.cores = n.cores)
+    CBIC = mclapply(bires,tensor.calculateBIC, x=x,method=method,mc.cores = n.cores)
+    BIC = unlist(mclapply(CBIC,FUN=function(BIC){return(BIC[1])}, mc.cores = n.cores))
+    nonzero = unlist(mclapply(bires, FUN=function(bires){bires$mus[abs(bires$mus)<1e-8]=0;return(sum(bires$mus!=0))},mc.cores = n.cores))
+  }
+  return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, 
+              nonzeromus = nonzero))
+}
+
+
+
+sim.chooseLambda = function(n,p,q,k,r,l,iteration,lambda,standarddeviation=4,center = FALSE,method="new"){
+  selectedLambda = 1:iteration
+  for(iter in 1:iteration){
+    cat("Iteration",iter,fill=TRUE)
+    set.seed(iter)
+    smp = get.data(n,p,q,k,r,l,error=standarddeviation,sort=FALSE)$x
+    if(center == TRUE)smp = smp - mean(smp)
+    selectedLambda[iter] = chooseLambda(smp,k,r,l,lambda=lambda,method=method)$lambda
+  }
+  return(selectedLambda)
+}
+
+
+
+#use lasso
+chooseLambda3 = function(x,k,r,l,lambda=NULL,sim.times=5){
   if (is.null(lambda)){
     lambda_0 =c(floor(dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l))
     lambda = (dim(x)[1]*dim(x)[2]*dim(x)[3])/(k*r*l)* seq(0,2,by=0.1)
@@ -519,67 +551,13 @@ chooseLambda = function (x, k, r, l, lambda=NULL,sim.times=5) {
   for (i in 1:length(lambda)) {
     bires <- label2(x, k, r, l, lambda = lambda[i],sim.times=sim.times)
     #return(bires$Cs)
-    CBIC = CalculateBIC(x, bires)
-    BIC[i] <- CBIC[1]
-    bires$mus[bires$mus < 1e-10] = 0
-    nonzero[i] <- sum(bires$mus != 0)
-    RSS[i] = CBIC[2]
-  }
-  return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, logRSS = RSS,
-              nonzeromus = nonzero))
-}
-
-
-
-sim.chooseLambda = function(n,p,q,k,r,l,iteration,lambda,standarddeviation=4){
-  selectedLambda = 1:iteration
-  for(iter in 1:iteration){
-    cat("Iteration",iter,fill=TRUE)
-    set.seed(iter)
-    smp = get.data(n,p,q,k,r,l,error=standarddeviation,sort=FALSE)$x
-    smp = smp - mean(smp)
-    #print(all(smp==tensor.x))
-    #cat("k=",k,"r=",r,"l=",l,"\n")
-    #print(chooseLambda(tensor.x,k,r,l,lambda=lambda))
-    selectedLambda[iter] = chooseLambda(smp,k,r,l,lambda=lambda)$lambda
-  }
-  return(selectedLambda)
-}
-
-
-
-
-
-chooseLambda4 = function (x, k, r, l, lambda=NULL) {
-  if (is.null(lambda)){
-    lambda_0 =c(floor(dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l)/50)
-    lambda = lambda=(dim(x)[1]*dim(x)[2]*dim(x)[3])/(k*r*l)* seq(0,2,by=0.1)
-  } 
-  x <- x - mean(x)
-  BIC <- rep(NA, length(lambda))
-  nonzero <- rep(NA, length(lambda))
-  for (i in 1:length(lambda)) {
-    bires <- label3(x, k, r, l, lambda = lambda[i])
-    BIC[i] <- CalculateBIC(x, bires)[1]
+    CBIC = CalculateBIC2(x, bires)
+    BIC[i] <- CBIC
+    bires$mus[abs(bires$mus) < 1e-10] = 0
     nonzero[i] <- sum(bires$mus != 0)
   }
-  return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, 
+  return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC,
               nonzeromus = nonzero))
-}
-
-
-sim.lambda_lasso = function(lambda,n,p,q,k,r,l,sparse.percent,sim.times=20){
-  error = c()
-  for (i in 1:sim.times){
-    data = get.data(n,p,q,k,r,l,sparse.percent = sparse.percent)
-    x = data$x
-    truth = data$truthX
-    x = label3(x,k,r,l,lambda=lambda)$judgeX
-    correct_zeros = c(correct_zeros, sum(c(x==0) & c(truth == 0))/sum(c(truth == 0)))
-    wrong_zeros = c(wrong_zeros, sum(c(x==0) & c(truth != 0))/sum(truth!=0))
-    error = c(error, error_lambda(x,truth))
-  }
-  return(list(error = c(mean(error),sd(error)), correct_zeros = c(mean(correct_zeros),sd(correct_zeros)), wrong_zeros = c(mean(wrong_zeros), sd(wrong_zeros))))
 }
 
 

@@ -1,6 +1,6 @@
 source('tensorsparse.R')
 source('plot.R')
-
+require("sparseBCnew")
 
 #simulate the data matrix>>>>>>>>>>>>>>>>>>>>>>>>>
 n=30;p=30;q=30;k=3;r=3;l=3
@@ -54,14 +54,14 @@ print(summaryRprof(filename="Rprof.out", lines="show"))
 
 
 #evaluate the sparse.choosekrl()>>>>>>>>>>>>>>>>>
-out <- sim.choosekrl(20,20,20,2,2,4,error=1,sim.times=10)
+out <- sim.choosekrl(20,20,20,2,2,4,error=1,sim.times=5)
 res<-Calculate(c(2,2,4),out)
 reskr<-Calculatekrl(out)
+cat("The correct rate is", res,", the mean krl and sd of krl we choose is", reskr, ".\n")
 
 #test the chooseLambda()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#need to redefine the cer!!!=====================!!!!!=================
-n=20;p=30;q=40;k=2;r=3;l=4
-set.seed(123)
+n=200;p=200;q=1;k=4;r=5;l=1
+set.seed(1)
 data = get.data(n,p,q,k,r,l,error=2,sort=TRUE,sparse.percent=0.5)
 test = data$x
 truth = data$truthX
@@ -69,108 +69,32 @@ truthCs = data$truthCs
 truthDs = data$truthDs
 truthEs = data$truthEs
 mus = data$mus
+binaryX = data$binaryX
+plot_tensor(binaryX)
 
 lambda_summary = chooseLambda(test,k,r,l);print(lambda_summary)
+print(lambda_summary)
 lambda = lambda_summary$lambda
-lambda_summary2 = chooseLambda2(test,k,r,l);print(lambda_summary2)
-lambda2 = lambda_summary2$minimum
 
+sim<-label2(test,k,r,l,lambda)
 
-sim = label2(test,k,r,l,threshold=5e-2,lambda=lambda,sim.times=5,trace=FALSE)
-judgeX = sim$judgeX
-correct_zeros = sum(c(judgeX==0) & c(truth == 0))/sum(c(truth == 0))
-cat("Correct zeros rate is", correct_zeros, ".\n")
-wrong_zeros = sum(c(judgeX==0) & c(truth != 0))/sum(truth!=0)
-cat("Wrong zeros rate is", wrong_zeros, ".\n")
-#true distribution of mu
-plot_tensor(truth)
-Sys.sleep(1.5)
-#plot_tensor_2(reorderClusters(truth,truthCs,truthDs,truthEs))
-#the input data matrix
-plot_tensor(test)
-Sys.sleep(1.5)
 cerC<-1-adjustedRand(truthCs,sim$Cs,randMethod=c("Rand"))
 cerD<-1-adjustedRand(truthDs,sim$Ds,randMethod=c("Rand"))
 cerE<-1-adjustedRand(truthEs,sim$Es,randMethod=c("Rand"))
 cat("The CER(clustering error rate) is ",cerC,",",cerD,",",cerE,".\n")
-#the result of classifying
-plot_tensor(judgeX)
 
 
-sim = label2(test,k,r,l,threshold=5e-2,lambda=lambda2,sim.times=5,trace=FALSE)
-judgeX = sim$judgeX
-correct_zeros = sum(c(judgeX==0) & c(truth == 0))/sum(c(truth == 0))
-cat("Correct zeros rate is", correct_zeros, ".\n")
-wrong_zeros = sum(c(judgeX==0) & c(truth != 0))/sum(truth!=0)
-cat("Wrong zeros rate is", wrong_zeros, ".\n")
-
-#true distribution of mu
-plot_tensor(truth)
-Sys.sleep(1.5)
-#plot_tensor_2(reorderClusters(truth,truthCs,truthDs,truthEs))
-#the input data matrix
 plot_tensor(test)
 Sys.sleep(1.5)
-cerC<-1-adjustedRand(truthCs,sim$Cs,randMethod=c("Rand"))
-cerD<-1-adjustedRand(truthDs,sim$Ds,randMethod=c("Rand"))
-cerE<-1-adjustedRand(truthEs,sim$Es,randMethod=c("Rand"))
-cat("The CER(clustering error rate) is ",cerC,",",cerD,",",cerE,".\n")
-#the result of classifying
-plot_tensor(judgeX)
-
-
-lambda_summary3 = chooseLambda3(test,k,r,l);print(lambda_summary3)
-lambda3 = lambda_summary3$minimum
-
-sim = label3(test,k,r,l,threshold=5e-2,lambda=lambda3,sim.times=5,trace=FALSE)
-judgeX = sim$judgeX
-correct_zeros = sum(c(judgeX==0) & c(truth == 0))/sum(c(truth == 0))
-cat("Correct zeros rate is", correct_zeros, ".\n")
-wrong_zeros = sum(c(judgeX==0) & c(truth != 0))/sum(truth!=0)
-cat("Wrong zeros rate is", wrong_zeros, ".\n")
-
-#true distribution of mu
 plot_tensor(truth)
 Sys.sleep(1.5)
-#plot_tensor_2(reorderClusters(truth,truthCs,truthDs,truthEs))
-#the input data matrix
-plot_tensor(test)
-Sys.sleep(1.5)
-cerC<-1-adjustedRand(truthCs,sim$Cs,randMethod=c("Rand"))
-cerD<-1-adjustedRand(truthDs,sim$Ds,randMethod=c("Rand"))
-cerE<-1-adjustedRand(truthEs,sim$Es,randMethod=c("Rand"))
-cat("The CER(clustering error rate) is ",cerC,",",cerD,",",cerE,".\n")
-#the result of classifying
-plot_tensor(judgeX)
-
-
-lambda_summary4 = chooseLambda4(test,k,r,l);print(lambda_summary4)
-lambda4 = lambda_summary4$minimum
-
-sim = label4(test,k,r,l,threshold=5e-2,lambda=lambda4,sim.times=5,trace=FALSE)
 judgeX = sim$judgeX
-correct_zeros = sum(c(judgeX==0) & c(truth == 0))/sum(c(truth == 0))
-cat("Correct zeros rate is", correct_zeros, ".\n")
-wrong_zeros = sum(c(judgeX==0) & c(truth != 0))/sum(truth!=0)
-cat("Wrong zeros rate is", wrong_zeros, ".\n")
-
-#true distribution of mu
-plot_tensor(truth)
-Sys.sleep(1.5)
-#plot_tensor_2(reorderClusters(truth,truthCs,truthDs,truthEs))
-#the input data matrix
-plot_tensor(test)
-Sys.sleep(1.5)
-cerC<-1-adjustedRand(truthCs,sim$Cs,randMethod=c("Rand"))
-cerD<-1-adjustedRand(truthDs,sim$Ds,randMethod=c("Rand"))
-cerE<-1-adjustedRand(truthEs,sim$Es,randMethod=c("Rand"))
-cat("The CER(clustering error rate) is ",cerC,",",cerD,",",cerE,".\n")
-#the result of classifying
 plot_tensor(judgeX)
 
+restensor<-(abs(judgeX)>1e-10)*1
+totalzero<-sum(restensor==0)/(n*p*q)
+correctzero<-sum(restensor[which(binaryX==0)]==0)/sum(binaryX==0)
+correctone<-sum(restensor[which(binaryX==1)]==1)/(n*p-sum(binaryX==0))
+totalincorrect<-sum(abs(restensor-binaryX))/(n*p)
+cat("Total zero rate is", totalzero, ", correct zero rate is", correctzero, ", correct one rate is", correctone, ", total incorrect rate is", totalincorrect,".")
 
-
-
-lambda=0.1;n=30;p=30;q=30;k=5;r=3;l=6;sparse.percent=0.3
-lambda_sim = sim.lambda_lasso(lambda,n,p,q,k,r,l,sparse.percent = sparse.percent)
-print(lambda_sim)
