@@ -6,7 +6,7 @@
 require("sparseBCnew")
 library(clues)
 
-Do<-function(n,p,k,r,iteration,lambda,standarddeviation=4,center=FALSE){
+Do<-function(n,p,k,r,iteration,lambda,standarddeviation=4,center=FALSE,method="new"){
 # Initialize some variables	
 cerrow<-c(rep(NA,iteration))	
 cercol<-c(rep(NA,iteration))
@@ -37,9 +37,9 @@ set.seed(iter)
   }	
   binaryX<-(truthmatrix!=0)*1
 	
-  if(center=TRUE) x<-x-mean(x)
+  if(center==TRUE) x<-x-mean(x)
   
-	  selectlambda<-sparseBC.BIC(x,k,r,lambda)$lambda
+	  selectlambda<-sparseBC.BIC(x,k,r,lambda,method)$lambda
 	  selectedlambda[iter]<-selectlambda
       biclustering<-sparseBC(x,k,r,selectlambda)
       resmatrix<-(abs(biclustering$mus)>1e-6)
