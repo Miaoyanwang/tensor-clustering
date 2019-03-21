@@ -73,7 +73,7 @@ mus = data$mus
 binaryX = data$binaryX
 plot_tensor(binaryX)
 
-lambda_summary = chooseLambda(test,k,r,l);print(lambda_summary)
+lambda_summary = chooseLambda(test,k,r,l,method="original");print(lambda_summary)
 lambda = lambda_summary$lambda
 
 sim<-label2(test,k,r,l,lambda)
