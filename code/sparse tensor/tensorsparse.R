@@ -178,21 +178,21 @@ ReNumber = function (Cs)
 }
 
 
-classify2 = function(x,k,r,l,lambda=0,max.iter=300,threshold = 1e-10,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
+classify2 = function(x,k,r,l,lambda=0,max.iter=1000,threshold = 1e-10,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL,nstart=20){
   #x=test;k=4;r=5;l=1;step.max=500;threshold=5e-3;max.iter=40;Cs.init=NULL;Ds.init=NULL;Es.init=NULL;lambda=0
   n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
   if(is.null(Cs.init)){
-    if(k==1) Cs = rep(1,n) else {Cs  = kmeans(tensor.unfold(x,1),k)$cluster}
+    if(k==1) Cs = rep(1,n) else {Cs  = kmeans(tensor.unfold(x,1),k,nstart = nstart)$cluster}
   } else {
     Cs = Cs.init
   }
   if(is.null(Ds.init)){
-    if(r==1) Ds = rep(1,p) else {Ds  = kmeans(tensor.unfold(x,2),r)$cluster}
+    if(r==1) Ds = rep(1,p) else {Ds  = kmeans(tensor.unfold(x,2),r,nstart = nstart)$cluster}
   } else {
     Ds = Ds.init
   }
   if(is.null(Es.init)){
-    if(l==1) Es = rep(1,q) else {Es  = kmeans(tensor.unfold(x,3),l)$cluster}
+    if(l==1) Es = rep(1,q) else {Es  = kmeans(tensor.unfold(x,3),l,nstart = nstart)$cluster}
   } else {
     Es = Es.init
   }
@@ -242,9 +242,9 @@ classify2 = function(x,k,r,l,lambda=0,max.iter=300,threshold = 1e-10,trace=FALSE
 }
 
 
-label2 = function(x,k,r,l,lambda=0,max.iter=1000,threshold = 1e-10,sim.times=5,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
+label2 = function(x,k,r,l,lambda=0,max.iter=1000,threshold = 1e-10,sim.times=1,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL){
   #x=test;lambda=1e-3;max.iter=200;threshold = 5e-3;sim.times=10
-  
+  if (sim.times == 1) return(classify2(x,k,r,l,lambda=lambda,max.iter = max.iter,threshold = threshold,Cs.init = Cs.init,Ds.init = Ds.init,Es.init = Es.init))
   if (.Platform$OS.type == "windows") {
     result = lapply(rep(list(x),sim.times), classify2, k,r,l,lambda,max.iter,threshold,trace,Cs.init,Ds.init,Es.init)
     objs = unlist(lapply(result, function(result){result$objs}))
@@ -287,7 +287,7 @@ label_for_krl = function(abc,k,r,l,Cs.init,Ds.init,Es.init,sim.time,lambda,xmiss
 
 
 #all k,r,l are vectors which is the selection range of k,r,l
-sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
+sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE,nstart=20) {
   #x=test;l=range.l;lambda=0;percent=0.2;trace=TRUE
   #k=2:4;r=2:4;l=2:4
   if ((1%%percent) != 0) 
@@ -308,17 +308,17 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
   Cs.init <- matrix(NA, nrow = dim(x)[1], ncol = length(k))
   #put the kmeans results into columns
   for (i in 1:length(k)) {
-    Cs.init[, i] <- kmeans(tensor.unfold(x), k[i], nstart = 20)$cluster
+    Cs.init[, i] <- kmeans(tensor.unfold(x), k[i], nstart = nstart)$cluster
   }
   
   Ds.init <- matrix(NA, nrow = dim(x)[2], ncol = length(r))
   for (j in 1:length(r)) {
-    Ds.init[, j] <- kmeans(tensor.unfold(x,2), r[j], nstart = 20)$cluster
+    Ds.init[, j] <- kmeans(tensor.unfold(x,2), r[j], nstart = nstart)$cluster
   }
   
   Es.init <- matrix(NA, nrow = dim(x)[3], ncol = length(l))
   for (j in 1:length(l)) {
-    Es.init[, j] <- kmeans(tensor.unfold(x,3), l[j], nstart = 20)$cluster
+    Es.init[, j] <- kmeans(tensor.unfold(x,3), l[j], nstart = nstart)$cluster
   }
   
   for (i in 1:numberoftimes) {#i = 1 
@@ -337,10 +337,10 @@ sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE) {
     
     
     if (.Platform$OS.type == "windows") {
-      res = apply(krl,MARGIN=2,label_for_krl,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss)
+      res = apply(krl,MARGIN=2,label_for_krl,k,r,l,Cs.init,Ds.init,Es.init,sim.time=1,lambda=lambda,xmiss=xmiss)
     } else {
       krl_list = as.list(as.data.frame(krl))
-      res = mclapply(krl_list, label_for_krl,k,r,l,Cs.init,Ds.init,Es.init,sim.time=5,lambda=lambda,xmiss=xmiss,mc.cores=n.cores)
+      res = mclapply(krl_list, label_for_krl,k,r,l,Cs.init,Ds.init,Es.init,sim.time=1,lambda=lambda,xmiss=xmiss,mc.cores=n.cores)
     }
     
     
@@ -503,18 +503,18 @@ tensor.calculateBIC = function (x, clusterobj,method="new")
 
 
 #lambda: A range of values of tuning parameters to be considered. All values must be non-negative.
-chooseLambda = function (x, k, r, l, lambda=NULL,sim.times=5,method="new") {
+chooseLambda = function (x, k, r, l, lambda=NULL,method="new") {
   if (is.null(lambda)){
     lambda_0 =c(floor(dim(x)[1]*dim(x)[2]*dim(x)[3]/k/r/l))
     lambda = (dim(x)[1]*dim(x)[2]*dim(x)[3])/(k*r*l)* seq(0,2,by=0.1)
   } 
   if (.Platform$OS.type == "windows") {
-    bires = lapply(lambda,FUN=label2,x=x,k=k,r=r,l=l,sim.times=sim.times)
+    bires = lapply(lambda,FUN=classify2,x=x,k=k,r=r,l=l)
     CBIC = lapply(bires,tensor.calculateBIC, x=x,method=method)
     BIC = unlist(lapply(CBIC,FUN=function(BIC){return(BIC[1])}))
     nonzero = unlist(lapply(bires, FUN=function(bires){bires$mus[abs(bires$mus)<1e-8]=0;return(sum(bires$mus!=0))}))
   } else {
-    bires = mclapply(lambda,FUN=label2,x=x,k=k,r=r,l=l,sim.times=sim.times,mc.cores = n.cores)
+    bires = mclapply(lambda,FUN=classify2,x=x,k=k,r=r,l=l,mc.cores = n.cores)
     CBIC = mclapply(bires,tensor.calculateBIC, x=x,method=method,mc.cores = n.cores)
     BIC = unlist(mclapply(CBIC,FUN=function(BIC){return(BIC[1])}, mc.cores = n.cores))
     nonzero = unlist(mclapply(bires, FUN=function(bires){bires$mus[abs(bires$mus)<1e-8]=0;return(sum(bires$mus!=0))},mc.cores = n.cores))
@@ -522,7 +522,6 @@ chooseLambda = function (x, k, r, l, lambda=NULL,sim.times=5,method="new") {
   return(list(lambda = lambda[which(BIC == min(BIC))[1]], BIC = BIC, 
               nonzeromus = nonzero))
 }
-
 
 
 sim.chooseLambda = function(n,p,q,k,r,l,iteration,lambda,standarddeviation=4,center = FALSE,method="new"){
