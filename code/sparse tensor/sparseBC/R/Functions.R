@@ -82,10 +82,23 @@ Objective <- function(x, mus, Cs, Ds,lambda=0){
 ############################################
 # Function to calculate BIC as in Section 5.2
 ############################################
-CalculateBIC <- function(x,bires){
-    return(log(sum((x-bires$mus)^2))*nrow(x)*ncol(x) + nrow(x)*ncol(x)*log(sum(bires$Mus!=0)))
-}
-
+CalculateBIC <- function(x,biclustobj){
+    #mat <- matrix(0, nrow=nrow(x), ncol=ncol(x))
+    #Cs <- biclustobj$Cs
+    #Ds <- biclustobj$Ds
+    #for(i in unique(Cs)){
+    #	for(j in unique(Ds)){
+    #		if(biclustobj$Mus[i,j]!=0){
+    #			 mat[Cs==i,Ds==j] <- mean(x[Cs==i,Ds==j])
+    #		}
+    #	}
+    #}
+    #mat[abs(biclustobj$mus)<=1e-8] <- mean(x[abs(biclustobj$mus)<=1e-8])
+    #return(log(sum((x-mat)^2))*nrow(x)*ncol(x) + log(nrow(x)*ncol(x))*sum(biclustobj$Mus!=0))
+        RSS=log(sum((x-biclustobj$mus)^2))*nrow(x)*ncol(x)
+       df=log(nrow(x)*ncol(x))*sum(biclustobj$Mus!=0)
+       return(RSS+df)
+    }
 
 #################################################
 ## Update Sigma using the graphical lasso
@@ -264,21 +277,17 @@ ReNumberMatrix <- function(Cs){
 # Function to Calculate BIC for Matrix MVN
 #####################################################
 CalculateBICMatrix <- function(x,mclustering){
-    #mat <- matrix(0, nrow=nrow(x), ncol=ncol(x))
-    #Cs <- mclustering$Cs
-    #Ds <- mclustering$Ds
-	
-    # for(i in unique(Cs)){
-    #	for(j in unique(Ds)){
-    #		if(mclustering$Mus[i,j]!=0){
-    #			 mat[Cs==i,Ds==j] <- mean(x[Cs==i,Ds==j])
-    #		}
-    #	}
-    #}
-    
-    mat=mclustering$mus
-    
-    #mat[mclustering$mus==0] <- mean(x[mclustering$mus==0])
+	mat <- matrix(0, nrow=nrow(x), ncol=ncol(x))
+	Cs <- mclustering$Cs
+	Ds <- mclustering$Ds
+	for(i in unique(Cs)){
+		for(j in unique(Ds)){
+			if(mclustering$Mus[i,j]!=0){
+				 mat[Cs==i,Ds==j] <- mean(x[Cs==i,Ds==j])
+			}
+		}
+	}
+	mat[mclustering$mus==0] <- mean(x[mclustering$mus==0])
 	return(log(sum((x-mat)^2))*nrow(x)*ncol(x) + log(nrow(x)*ncol(x))*sum(mclustering$Mus!=0))
 }
 

@@ -59,6 +59,7 @@ function(x,k,r,lambda,nstart=20, Cs.init=NULL, Ds.init=NULL, max.iter=1000,thres
  	out$Ds <- Ds
  	out$objs <- objs
  	out$mus <- mus[Cs,Ds]
+ 	mus[which(abs(mus)<=1e-8)] <- 0
  	out$Mus <- mus
  	out$iteration <- i 	 	 		
 	out$cl <- cl

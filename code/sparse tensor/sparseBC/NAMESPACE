@@ -9,3 +9,7 @@ S3method(image,matrixBC)
 
 import(glasso)
 import(fields)
+importFrom("grDevices", "dev.new", "heat.colors")
+importFrom("graphics", "axis", "image", "title")
+importFrom("stats", "kmeans", "sd")
+importFrom("utils", "tail")

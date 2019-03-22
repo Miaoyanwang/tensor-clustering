@@ -1,6 +1,6 @@
-639ce0c4221d3b3955792cfcbc395bd8 *DESCRIPTION
-80ef30bb6950c59b6b0fad66203baeb5 *NAMESPACE
-147f5d64fda215b9d459e73c8ef47eb6 *R/Functions.R
+e6ec9362211dcfded28f074624b06318 *DESCRIPTION
+aecc9f7c820d2e7f9ae5eb6e3bb1deaf *NAMESPACE
+7b5b2cc2bcec180ac57b5462cf5602f6 *R/Functions.R
 a3724d87be5eb40001096752cee1ba15 *R/image.matrixBC.R
 bdbdc9eda0200cc381c7615ed247c27f *R/image.sparseBC.R
 dd7c556c0e615b9dc08560bf2f244448 *R/matrixBC.BIC.R
@@ -9,7 +9,7 @@ dafc3a1330d802dbd9af94ddbc920b1b *R/print.matrixBC.R
 4fa2f58e9d2f1d4bda45acfe955dbc09 *R/print.sparseBC.R
 4c17dcfca2f8c40fb4aa141987f69659 *R/sparseBC-internal.R
 c7256ae79a24645a79bb5b32baa914da *R/sparseBC.BIC.R
-07642e45b7b649ab40323ed25134f49c *R/sparseBC.R
+dd0f6d6e072eb663e9c26b02071978e1 *R/sparseBC.R
 f95d201ee76ec8975c35926ba028ccec *R/sparseBC.choosekr.R
 c4ce0eabe0d2875a829020084ecd83be *R/summary.matrixBC.R
 9943cd3f3e9cca8933b402bf83411862 *R/summary.sparseBC.R

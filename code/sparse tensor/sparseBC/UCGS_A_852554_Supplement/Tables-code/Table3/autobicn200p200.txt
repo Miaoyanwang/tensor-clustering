@@ -1,0 +1,14 @@
+Method
+Biclustering Auto Lambda,115
+rowCER
+0.028,0.007
+colCER
+0.041,0.0066
+CorrectZero
+0.2917,0.0448
+CorrectNonZero
+0.9931,0.002
+Sparsity
+0.1549,0.0255
+SparsityError
+0.3514,0.0246
