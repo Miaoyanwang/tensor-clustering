@@ -4,6 +4,33 @@ library(pracma)
 library(gtools)
 library(rgl)
 library("RColorBrewer")
+
+#################################
+####  function to plot tensor
+# author: prof.Wang
+marker = list(color = brewer.pal(9, "RdBu"))
+
+### function to plot 3d array
+plot_tensor=function(tensor){
+  
+  position=positionfun(dim(tensor))$position
+  quan=c(quantile(tensor,(0:8)/8),max(tensor))
+  col=tensor
+  for(i in 1:9){
+    col[(tensor>=quan[i])&(tensor<quan[i+1])]=marker$color[i]
+  }
+  
+  plot3d(position[,1],position[,2],position[,3],col=col,alpha=0.3,size=5,xlab="",ylab="",zlab="")
+}
+## function to find the array index
+positionfun=function(d){
+  x=rep(1,d[2])%x%rep(1,d[3])%x%c(1:d[1])
+  y=rep(1,d[3])%x%(c(1:d[2])%x%rep(1,d[1]))
+  z=c(1:d[3])%x%rep(1,d[1])%x%rep(1,d[2])
+  position=cbind(x,y,z)
+  return(list("position"=position))
+}
+#########################################
 #######################
 # author: prof. Wang
 glm_modify=function(y,x,start){
@@ -12,10 +39,10 @@ glm_modify=function(y,x,start){
   ini_loglik=sum(log(inv.logit((2*y-1)*(x%*%start))))
   
   ## Option 1: glm fittig with default initilization
-  fit1 = glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = TRUE))
+  fit1 = glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F))
 
   ## Option 2: glm with user specified initilization
-  fit2= glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = TRUE),start=start)
+  fit2= glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F),start=start)
 
   ## report the result whichever gives the highest likelihood
   if(max(logLik(fit1),logLik(fit2))<ini_loglik) return (list(start, ini_loglik))
@@ -24,7 +51,7 @@ glm_modify=function(y,x,start){
   
 }
 
-#######################
+#######################  matrix form glm
 
 
 glm_f = function(y_and_start,X)  ## rbind y and initialized value
@@ -56,28 +83,6 @@ glm_mat = function(Y_and_Start,X){
 }
 ############################################################
 ########################################################################
-
-# glm_f = function(y,X,start)  ## rbind y and initialized value
-# {
-#   ml = glm(y ~ -1 + X, family = binomial(link = 'logit'),
-#                     control = glm.control(maxit = 100, trace = F),start = start)
-#   coe = ml$coefficients
-#   lglk = logLik(ml)
-#   return(list(coe,lglk))
-# }
-# 
-# #    form U = X*Beta
-# glm_mat = function(Y,X,start){
-#   
-#   Y
-# 
-#   la = mapply(glm_f,Y,X,start)
-#   re = t(matrix(unlist(la), nrow = p, byrow=T))
-#   beta = re[1:R,]
-#   lglk = sum(re[R + 1,])
-#   return(list(beta,lglk))
-# }
-
 #####  some test
 set.seed(37)
 X = matrix(rnorm(30,5,9),10,3)
@@ -101,6 +106,7 @@ re[[2]]
 ####
 
 
+#################  update
 
 update_binary = function(ts, core_shape, Nsim){
   ## get initialization
@@ -215,7 +221,7 @@ data[is.na(data)] = 0
 data[1,1,]
 
 
-up = update_binary(data,c(5,5,6),30)
+up = update_binary(data,c(5,5,6),5)
 
 plot(up$lglk,type = 'b')
 up$lglk
@@ -226,20 +232,28 @@ kmC = kmeans(up$C,centers = 6)
 
 table(kmeans(up$A,centers = 4)$cluster)
 
+nrmlz = function(x) x/sqrt(sum(x^2))    ## normalize membnership matrix's column
+
 mem_A = model.matrix(~ -1 + factor(kmA$cluster))
 rownames(mem_A) = con
 mem_A = rbind(mem_A[mem_A[,1] == 1,],mem_A[mem_A[,2] == 1,],
       mem_A[mem_A[,3] == 1,],mem_A[mem_A[,4] == 1,],mem_A[mem_A[,5] == 1,])
+mem_A = apply(mem_A,2,nrmlz)
+
 
 mem_B = model.matrix(~ -1 + factor(kmB$cluster))
 rownames(mem_B) = con
 mem_B = rbind(mem_B[mem_B[,1] == 1,],mem_B[mem_B[,2] == 1,],
               mem_B[mem_B[,3] == 1,],mem_B[mem_B[,4] == 1,],mem_B[mem_B[,5] == 1,])
+mem_B = apply(mem_B,2,nrmlz)
+
+
 
 mem_C = model.matrix(~ -1 + factor(kmC$cluster))
 rownames(mem_C) = relname
 mem_C = rbind(mem_C[mem_C[,1] == 1,],mem_C[mem_C[,2] == 1,],mem_C[mem_C[,3] == 1,],
               mem_C[mem_C[,4] == 1,],mem_C[mem_C[,5] == 1,],mem_C[mem_C[,6] == 1,])
+mem_C = apply(mem_C,2,nrmlz)
 
 
 
@@ -297,3 +311,4 @@ U_hat = simulation$U_hat[7]
 
 
 simulation$MSE
+
