@@ -1,5 +1,4 @@
-source('tensorsparse.R')
-source('plot.R')
+require("tensorsparse")
 require("sparseBCnew")
 
 #simulate the data matrix>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -8,12 +7,9 @@ data = get.data(n,p,q,k,r,l,error=2,sort=TRUE)
 test = data$x
 truth = data$truthX
 plot_tensor(test)
-truthCs = data$truthCs
-truthDs = data$truthDs
-truthEs = data$truthEs
 
 #better method to get labels>>>>>>>>>>>>>>>>>>>>>>>
-sim = label2(test,k,r,l,threshold=5e-2,lambda=0,sim.times=5,trace=FALSE)
+sim = label2(test,k,r,l,threshold=5e-2,lambda=0,sim.times=1,trace=FALSE)
 judgeX = sim$judgeX
 #true distribution of mu
 plot_tensor(truth)
@@ -22,10 +18,7 @@ Sys.sleep(1.5)
 #the input data matrix
 plot_tensor(test)
 Sys.sleep(1.5)
-cerC<-1-adjustedRand(truthCs,sim$Cs,randMethod=c("Rand"))
-cerD<-1-adjustedRand(truthDs,sim$Ds,randMethod=c("Rand"))
-cerE<-1-adjustedRand(truthEs,sim$Es,randMethod=c("Rand"))
-cat("The CER(clustering error rate) is ",cerC,",",cerD,",",cerE,".\n")
+cer(sim,data)
 #the result of classifying
 plot_tensor(judgeX)
 
