@@ -8,16 +8,12 @@ output: html_document
 ```{r}
 rm(list=ls())
 
-package = FALSE
+package = TRUE
 draw=TRUE
 run=TRUE
 
-if(!require("clues")){
-    install.packages("clues")
-    stopifnot(require("clues"))
-  }
+require(clues)
 require("tensorsparse")
-
 if (package == TRUE){
   require("sparseBCnew")
 } else {
@@ -57,7 +53,7 @@ cat("the nonzeromus calculated by tensorsparse is ", verlam$nonzeromus, ".\n")
 ```
 
 ```{r}
-splam = sparseBC.BIC(test[,,1],k,r,lambda = lambda)
+splam = sparseBC.BIC(test[,,1],k,r,lambda = lambda, method=method)
 cat("the lambda sparseBC choose is ", splam$lambda, ".\n")
 cat("the nonzeromus calculated by sparseBC is ", splam$nonzeromus, ".\n")
 ```
