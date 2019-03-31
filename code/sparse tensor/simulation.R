@@ -1,3 +1,4 @@
+rm(list=ls())
 require("tensorsparse")
 require("sparseBCnew")
 
@@ -9,7 +10,7 @@ truth = data$truthX
 plot_tensor(test)
 
 #better method to get labels>>>>>>>>>>>>>>>>>>>>>>>
-sim = label2(test,k,r,l,threshold=5e-2,lambda=0,sim.times=1,trace=FALSE)
+sim = classify2(test,k,r,l,threshold=5e-2,lambda=0,trace=FALSE)
 judgeX = sim$judgeX
 #true distribution of mu
 plot_tensor(truth)
@@ -28,8 +29,7 @@ n=30;p=30;q=30;k=3;r=3;l=3;error=1;lambda=0;iteration=50
 simulation(n,p,q,k,r,l,error,lambda,iteration)
 
 
-#one method to selecting k,r,l>>>>>>>>>>>>>>>>>>>>>>
-#find the bottleneck
+#two methods to selecting k,r,l>>>>>>>>>>>>>>>>>>>>>>
 n=30;p=30;q=30;k=3;r=3;l=3
 data = get.data(n,p,q,k,r,l,error=2,sort=TRUE)
 test = data$x
@@ -38,19 +38,27 @@ plot_tensor(test)
 truthCs = data$truthCs
 truthDs = data$truthDs
 truthEs = data$truthEs
-#source(file="simulation.R", keep.source=TRUE)
-Rprof(filename="Rprof.out", line.profiling=TRUE)
+
 range.k = 2:4; range.r = 2:4; range.l = 2:4
-sparse.choosekrl(test,range.k,range.r,range.l,trace=TRUE)
-Rprof(NULL)
-print(summaryRprof(filename="Rprof.out", lines="show"))
+
+sparse.choosekrl(test,range.k,range.r,range.l,trace=TRUE)#cross validation
+choosekrl_bic(test,range.k,range.r,range.l)#by bic
 
 
-#evaluate the sparse.choosekrl()>>>>>>>>>>>>>>>>>
-out <- sim.choosekrl(20,20,20,2,2,4,error=1,sim.times=10)
+#evaluate the choosekrl_bic()>>>>>>>>>>>>>>>>>
+out <- sim.choosekrl(20,20,20,2,2,4,error=1,sim.times=10,mode="bic")
 res<-Calculate(c(2,2,4),out)
 reskr<-Calculatekrl(out)
+cat("The krl choosed by bic:\n")
 cat("The correct rate is", res,", meank=",reskr$meank,", meanr=",reskr$meanr, ", meanl=", reskr$meanl, ", sd(k)=", reskr$sdek, ", sd(r)=", reskr$sder, ", sd(l)=",reskr$sdel,".\n")
+
+#evaluate the sparse.choosekrl()>>>>>>>>>>>>>>>>>
+out <- sim.choosekrl(20,20,20,2,2,4,error=1,sim.times=10,mode="crossvalidation")
+res<-Calculate(c(2,2,4),out)
+reskr<-Calculatekrl(out)
+cat("The krl choosed by cross validation:\n")
+cat("The correct rate is", res,", meank=",reskr$meank,", meanr=",reskr$meanr, ", meanl=", reskr$meanl, ", sd(k)=", reskr$sdek, ", sd(r)=", reskr$sder, ", sd(l)=",reskr$sdel,".\n")
+
 
 
 #test the chooseLambda()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
