@@ -2,28 +2,40 @@
 ######################################################
 # Soft Thresholding Funtion
 ######################################################
-Soft <- function(a,b){
-  
+Soft <- function(a,b,method="L0"){
   if(b<0) stop("Can soft-threshold by a nonnegative quantity only.")
-  return(sign(a)*pmax(0,abs(a)-b))
-
+  if (method=="L0") return(sign(a) * ifelse(abs(a)>b, abs(a), 0))
+  if (method=="L1") return(sign(a)*pmax(0,abs(a)-b))
+  stop("No such kind of method:", method,".\n")
 }
 
 ######################################################
 # Update the mean for different biclusters
 ######################################################
-UpdateMus <- function(x, Cs, Ds, lambda=0){
+UpdateMus <- function(x, Cs, Ds, lambda=0, method="L0"){
 
   uniqCs <- sort(unique(Cs))
   uniqDs <- sort(unique(Ds))
   mus <- matrix(NA, nrow=length(uniqCs), ncol=length(uniqDs))
-
-  for(k in uniqCs){
-    for(r in uniqDs){
-      if(lambda==0)  mus[k,r] <- mean(x[Cs==k,Ds==r])
-      if(lambda>0) mus[k,r] <- Soft(mean(x[Cs==k,Ds==r]), lambda/(sum(Cs==k)*sum(Ds==r)))
-      if(lambda<0) stop("Cannot have a negative tuning parameter value.")
-    }
+  
+  ####################### modify by Miaoyan ##############
+  if(method=="L0"){
+      for(k in uniqCs){
+          for(r in uniqDs){
+              if(lambda==0)  mus[k,r] <- mean(x[Cs==k,Ds==r])
+              if(lambda>0) mus[k,r] <- Soft(mean(x[Cs==k,Ds==r]), lambda/sqrt((sum(Cs==k)*sum(Ds==r))),method=method)
+              if(lambda<0) stop("Cannot have a negative tuning parameter value.")
+          }
+      }
+  }
+  else if(method=="L1"){
+      for(k in uniqCs){
+          for(r in uniqDs){
+              if(lambda==0)  mus[k,r] <- mean(x[Cs==k,Ds==r])
+              if(lambda>0) mus[k,r] <- Soft(mean(x[Cs==k,Ds==r]), lambda/(sum(Cs==k)*sum(Ds==r)),method=method)
+              if(lambda<0) stop("Cannot have a negative tuning parameter value.")
+          }
+      }  
   }
   
   return(mus)
@@ -72,33 +84,38 @@ ReNumber <- function(Cs){
 # Objective function that we want to minimize
 # Equation (2) in the paper
 ######################################################
-Objective <- function(x, mus, Cs, Ds,lambda=0){
-
-  return(sum((x-mus[Cs,Ds])^2)+2*lambda*sum(abs(mus)))
-
+Objective <- function(x, mus, Cs, Ds,lambda=0,method="L0"){
+  if(method=="L0") return(sum((x-mus[Cs,Ds])^2)+2*lambda*sum(mus != 0))
+  if(method=="L1") return(sum((x-mus[Cs,Ds])^2)+2*lambda*sum(abs(mus)))
+  stop("No such kind of method:", method,".\n")
 }
 
 
 ############################################
 # Function to calculate BIC as in Section 5.2
 ############################################
-CalculateBIC <- function(x,biclustobj){
-    #mat <- matrix(0, nrow=nrow(x), ncol=ncol(x))
-    #Cs <- biclustobj$Cs
-    #Ds <- biclustobj$Ds
-    #for(i in unique(Cs)){
-    #	for(j in unique(Ds)){
-    #		if(biclustobj$Mus[i,j]!=0){
-    #			 mat[Cs==i,Ds==j] <- mean(x[Cs==i,Ds==j])
-    #		}
-    #	}
-    #}
-    #mat[abs(biclustobj$mus)<=1e-8] <- mean(x[abs(biclustobj$mus)<=1e-8])
-    #return(log(sum((x-mat)^2))*nrow(x)*ncol(x) + log(nrow(x)*ncol(x))*sum(biclustobj$Mus!=0))
-        RSS=log(sum((x-biclustobj$mus)^2))*nrow(x)*ncol(x)
-       df=log(nrow(x)*ncol(x))*sum(biclustobj$Mus!=0)
-       return(RSS+df)
-    }
+#CalculateBIC <- function(x,biclustobj){
+#	mat <- matrix(0, nrow=nrow(x), ncol=ncol(x))
+#	Cs <- biclustobj$Cs
+#	Ds <- biclustobj$Ds
+#	for(i in unique(Cs)){
+#		for(j in unique(Ds)){
+#			if(biclustobj$Mus[i,j]!=0){
+#				 mat[Cs==i,Ds==j] <- mean(x[Cs==i,Ds==j])
+#			}
+#		}
+#	}
+#	mat[abs(biclustobj$mus)<=1e-8] <- mean(x[abs(biclustobj$mus)<=1e-8])
+#	return(log(sum((x-mat)^2))*nrow(x)*ncol(x) + log(nrow(x)*ncol(x))*sum(biclustobj$Mus!=0))
+#}
+
+
+
+
+
+
+
+
 
 #################################################
 ## Update Sigma using the graphical lasso

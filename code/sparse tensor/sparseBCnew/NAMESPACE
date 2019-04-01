@@ -1,4 +1,4 @@
-export(matrixBC.BIC,matrixBC,sparseBC,sparseBC.choosekr,sparseBC.BIC,summary.sparseBC,image.sparseBC,summary.matrixBC,image.matrixBC)
+export(matrixBC.BIC,matrixBC,sparseBC,sparseBC.choosekr,sparseBC.BIC,summary.sparseBC,image.sparseBC,summary.matrixBC,image.matrixBC,CalculateBIC)
 
 S3method(print,sparseBC)
 S3method(summary,sparseBC)

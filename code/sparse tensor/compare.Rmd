@@ -7,6 +7,8 @@ output: html_document
 
 ```{r}
 rm(list=ls())
+install.packages("tensorsparse_1.3.tar",type="source",repos=NULL)
+install.packages("sparseBCnew_1.3.tar",type="source",repos=NULL)
 
 package = TRUE
 draw=TRUE
@@ -41,7 +43,7 @@ binaryX = data$binaryX
 
 lambda_0 =c(floor(n*p*q/k/r/l))
 
-if (method == "L0") lambda = (n*p*q)/(k*r*l)*seq(0,2,by=0.05)
+if (method == "L0") lambda = sqrt((n*p*q)/(k*r*l))*seq(0,2,by=0.05)
 if (method == "L1") lambda = (n*p*q)/(k*r*l)*seq(0,2,by=0.05)
 ```
 

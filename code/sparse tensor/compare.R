@@ -21,7 +21,7 @@ lambda_0 =c(floor(n*p*q/k/r/l))
 
 
 method = "L1"
-if (method == "L0") lambda = (n*p*q)/(k*r*l)*seq(0,2,by=0.05)
+if (method == "L0") lambda = sqrt(n*p*q)/(k*r*l)*seq(0,2,by=0.05)
 if (method == "L1") lambda = (n*p*q)/(k*r*l)*seq(0,2,by=0.05)
 
 verlam = chooseLambda(test,k,r,l,lambda=lambda,method=method)
@@ -36,7 +36,7 @@ cat("the lambda sparseBC choose is ", splam$lambda, ".\n")
 cat("the nonzeromus calculated by sparseBC is ", splam$nonzeromus, ".\n")
 cat("=================================================================\n")
 #the result of tensor
-sim = label2(test,4,5,1,threshold=1e-10,lambda=verlam$lambda,sim.times=5,trace=FALSE)
+sim = label2(test,4,5,1,threshold=1e-10,lambda=verlam$lambda,sim.times=5,trace=FALSE,method=method)
 judgeX = sim$judgeX
 
 plot_tensor(test)
@@ -47,12 +47,13 @@ Sys.sleep(0.5)
 
 plot_tensor(judgeX)
 
+error=sum((judgeX-truth)^2)
 
 cat("The result of with the lambda tensorsparse choose:\n")
 sparse.evaluate(sim,data)
 cat("=================================================================\n")
 #result of sparseBC
-sim = label2(test,4,5,1,threshold=1e-10,lambda=splam$lambda,sim.times=5,trace=FALSE)
+sim = label2(test,4,5,1,threshold=1e-10,lambda=splam$lambda,sim.times=5,trace=FALSE,method=method)
 judgeX = sim$judgeX
 
 plot_tensor(test)
@@ -62,6 +63,7 @@ plot_tensor(truth)
 Sys.sleep(0.5)
 plot_tensor(judgeX)
 
+error=sum((judgeX-truth)^2)
 
 cat("The result of with the lambda sparseBC choose:\n")
 sparse.evaluate(sim,data)
@@ -69,6 +71,8 @@ cat("=================================================================\n")
 #compare the label result
 tc = classify2(test,4,5,1,threshold=1e-10,lambda=verlam$lambda,trace=FALSE,method=method)
 mc = sparseBC(test[,,1],4,5,lambda=verlam$lambda,center = FALSE,method=method)
+error=sum((tc$judgeX-truth)^2)
+
 
 similarityC<-adjustedRand(tc$Cs,mc$Cs,randMethod=c("Rand"))
 similarityD<-adjustedRand(tc$Ds,mc$Ds,randMethod=c("Rand"))

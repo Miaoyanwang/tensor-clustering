@@ -8,7 +8,7 @@ This function performs sparse biclustering on an n by p matrix.  Details are giv
 }
 \usage{
 sparseBC(x, k, r, lambda, nstart = 20, Cs.init = NULL, Ds.init = NULL,
- max.iter = 1000,threshold=1e-10,center=TRUE)
+ max.iter = 1000,threshold=1e-10,center=FALSE,method="L0")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -42,7 +42,9 @@ Threshold value for convergence.  The default is 1e-10.
   \item{center}{
 Mean center the data matrix before performing sparse biclustering.  The default is TRUE.
 }
-
+  \item{method}{
+  Two options: "L0" and "L1" which refers to the corresponding penalty.
+  }
 }
 \details{
  This implements sparse biclustering using Algorithm (1) described in Tan and Witten (2014) 'Sparse biclustering of transposable data', which estimates the  row labels for the observations and column labels for the features.  The mean of each bicluster is encouraged to be sparse using the lasso penalty.  Details are given in Algorithm (1) in Tan and Witten (2014). 

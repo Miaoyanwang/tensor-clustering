@@ -7,7 +7,7 @@ Do tuning parameter (lambda) selection for sparse biclustering via BIC criterion
 We assume that both K and R are known.  A range of values of lambda is usually considered - value that results in the lowest BIC is selected.
 }
 \usage{
-sparseBC.BIC(x, k, r, lambda)
+sparseBC.BIC(x, k, r, lambda, method="L0")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,6 +23,9 @@ The number of column clusters, i.e., the number of clusters for the features.
   \item{lambda}{
 A range of values of tuning parameters to be considered.  All values must be non-negative.
 }
+  \item{method}{
+  Two options: "L0" and "L1" which refers to the corresponding penalty.
+  }
 }
 \details{
 This implements the tuning parameter selection using BIC criterion for sparse biclustering as described in Section 5.2 in Tan and Witten (2014) 'Sparse biclustering of transposable data'.  The BIC criterion is BIC = np x log(RSS) + np log(q) where RSS is the usual residual sum of squares, and q is the number of non-zero bicluster mean in the output of sparseBC.  We select the value of lambda that leads to the smallest BIC.  

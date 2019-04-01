@@ -1,5 +1,5 @@
 sparseBC <-
-function(x,k,r,lambda,nstart=20, Cs.init=NULL, Ds.init=NULL, max.iter=1000,threshold=1e-10,center=TRUE){
+function(x,k,r,lambda,nstart=20, Cs.init=NULL, Ds.init=NULL, max.iter=1000,threshold=1e-10,center=FALSE,method="L0"){
 	
 	
     if(is.null(Cs.init)){
@@ -20,25 +20,25 @@ function(x,k,r,lambda,nstart=20, Cs.init=NULL, Ds.init=NULL, max.iter=1000,thres
     }
     
     cl <- match.call()
-	mus <- UpdateMus(x, Cs, Ds,lambda=lambda)
+	mus <- UpdateMus(x, Cs, Ds,lambda=lambda,method=method)
 	objs <- 1e15
 	improvement <- 1e10
 	i<-1
 	
 	while(improvement>(threshold) && i<=max.iter){
 		Cs <- UpdateClusters(x,mus,Cs,Ds)
-		objs <- c(objs, Objective(x, mus,Cs,Ds,lambda=lambda))
+		objs <- c(objs, Objective(x, mus,Cs,Ds,lambda=lambda,method=method))
 		Cs<-ReNumber(Cs)
 		
-		mus <- UpdateMus(x, Cs, Ds, lambda=lambda)
-		objs <- c(objs, Objective(x, mus,Cs,Ds,lambda=lambda))
+		mus <- UpdateMus(x, Cs, Ds, lambda=lambda,method=method)
+		objs <- c(objs, Objective(x, mus,Cs,Ds,lambda=lambda,method=method))
 		
 		Ds <- UpdateClusters(t(x),t(mus),Ds,Cs)
-		objs <- c(objs, Objective(x, mus,Cs,Ds,lambda=lambda))
+		objs <- c(objs, Objective(x, mus,Cs,Ds,lambda=lambda,method=method))
 		Ds<-ReNumber(Ds)
 		
-		mus <- UpdateMus(x, Cs, Ds,lambda=lambda)
-		objs <- c(objs, Objective(x, mus,Cs,Ds,lambda=lambda))
+		mus <- UpdateMus(x, Cs, Ds,lambda=lambda,method=method)
+		objs <- c(objs, Objective(x, mus,Cs,Ds,lambda=lambda,method=method))
 		
 		improvement <- abs(objs[length(objs)]-objs[length(objs)-4])/abs(objs[length(objs)-4])	
 		i<-i+1
