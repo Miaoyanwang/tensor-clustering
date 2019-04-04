@@ -21,8 +21,8 @@ lambda_0 =c(floor(n*p*q/k/r/l))
 
 
 method = "L1"
-if (method == "L0") lambda = sqrt(n*p*q)/(k*r*l)*seq(0,2,by=0.05)
-if (method == "L1") lambda = (n*p*q)/(k*r*l)*seq(0,2,by=0.05)
+if (method == "L0") lambda = seq(0,2^2,by=0.05)
+if (method == "L1") lambda = sqrt((n*p*q)/(k*r*l))*seq(0,2,by=0.05)
 
 verlam = chooseLambda(test,k,r,l,lambda=lambda,method=method)
 cat("the lambda tensorsparse choose is", verlam$lambda,".\n")
