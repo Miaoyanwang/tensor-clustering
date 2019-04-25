@@ -5,112 +5,75 @@ require("tensorsparse")
 ###   Table 4    #######################
 ########################################
 
+
 set.seed(1)
-n=40;p=40;q=40;k=3;r=5;l=4;error=4;sparserate=0.5;iteration = 50
-lambda_bar = mean(sim.chooseLambda(n,p,q,k,r,l,sparserate,iteration,sqrt((n*p*q)/(k*r*l))*seq(0,2,by=0.05)*error,error))
-lambda_range=c(0,100,200,lambda_bar)
-sparsityrate = 1:iteration
-correctzerorate = 1:iteration
-correctonerate = 1:iteration
-totalincorrectrate = 1:iteration
-cerC = 1:iteration
-cerD = 1:iteration
-cerE = 1:iteration
-for(lambda in lambda_range){
-  for(iter in 1:iteration){
-    set.seed(iter)
-    raw = get.data(n,p,q,k,r,l,error,TRUE,sparserate)
-    bires = classify2(raw$x,k,r,l,lambda)
-    result = sparse.evaluate(bires,raw,FALSE)
-    sparsityrate[iter] = result$sparsityrate
-    correctzerorate[iter] = result$correctzerorate
-    correctonerate[iter] = result$correctonerate
-    totalincorrectrate[iter] = result$totalincorrectrate
-    cerC[iter] = result$cerC
-    cerD[iter] = result$cerD
-    cerE[iter] = result$cerE
+cat("The first situation:\n")
+n = 50; p = 50; q = 50; k = 3; r = 5; l = 4
+our_mse = 1:3; cp_mse = 1:3
+for (i in 1:3){
+  cat("When the noise is", c(4,8,12)[i], ":\n")
+  for (iter in 1:50){
+    error = c(4,8,12)[i]
+    try = get.data(n,p,q,k,r,l,error=error)
+    krl = choosekrl_bic(try$x,2:5,2:5,2:5)
+    k = krl$estimated_krl[1]; r = krl$estimated_krl[2]; l = krl$estimated_krl[3]
+    lambda = chooseLambda(try$x,k,r,l,lambda=sqrt((n*p*q)/(k*r*l))*seq(0,2,by=0.05))
+    our_result = classify2(try$x,k,r,l,lambda$lambda)
+    our_mse[i] = sparse.evaluate(our_result,try,CER=FALSE,show=FALSE)$mse
+    cp_result = cp_kmeans(try$x,2:5,2:5,2:5)
+    cp_mse[i] = sparse.evaluate(cp_result,try,CER=FALSE,show=FALSE)$mse
   }
-  cat("when lambda =", lambda, ":\n")
-  cat("sparsity rate=", round(mean(sparsityrate),4), "(", round(sd(sparsityrate),4), "),\n",
-      "correct zero rate=", round(mean(correctzerorate),4), "(", round(sd(correctzerorate),4), "),\n",
-      "correct one rate=", round(mean(correctonerate),4), "(", round(sd(correctonerate),4), "),\n",
-      "total correct rate=", round(1-mean(totalincorrectrate),4), "(", round(sd(totalincorrectrate),4), "),\n",
-      "cerC=", round(mean(cerC),4), "(", round(sd(cerC),4), "),\n",
-      "cerD=", round(mean(cerD),4), "(", round(sd(cerD),4), "),\n",
-      "cerE=", round(mean(cerC),4), "(", round(sd(cerE),4), ").\n"
-  )
+  cat("The mse of our method is:", round(mean(our_mse),4),"(", round(sd(our_mse),4),");\n")
+  cat("the mse of cp k-means is:", round(mean(cp_mse), 4),"(", round(sd(cp_mse),4), ").\n")
 }
 
+
 set.seed(2)
-n=40;p=40;q=40;k=3;r=5;l=4;error=8;sparserate=0.5;iteration = 50
-lambda_bar = mean(sim.chooseLambda(n,p,q,k,r,l,sparserate,iteration,sqrt((n*p*q)/(k*r*l))*seq(0,2,by=0.05)*error,error))
-lambda_range=c(0,100,200,lambda_bar)
-sparsityrate = 1:iteration
-correctzerorate = 1:iteration
-correctonerate = 1:iteration
-totalincorrectrate = 1:iteration
-cerC = 1:iteration
-cerD = 1:iteration
-cerE = 1:iteration
-for(lambda in lambda_range){
-  for(iter in 1:iteration){
-    set.seed(iter)
-    raw = get.data(n,p,q,k,r,l,error,TRUE,sparserate)
-    bires = classify2(raw$x,k,r,l,lambda)
-    result = sparse.evaluate(bires,raw,FALSE)
-    sparsityrate[iter] = result$sparsityrate
-    correctzerorate[iter] = result$correctzerorate
-    correctonerate[iter] = result$correctonerate
-    totalincorrectrate[iter] = result$totalincorrectrate
-    cerC[iter] = result$cerC
-    cerD[iter] = result$cerD
-    cerE[iter] = result$cerE
+cat("The second situation:\n")
+n = 50; p = 50; q = 50
+our_mse = 1:3; cp_mse = 1:3
+for (i in 1:3){
+  cat("When the noise is", c(4,8,12)[i], ":\n")
+  for (iter in 1:50){
+    error = c(4,8,12)[i]
+    try = get.data(n,p,q,multiplicative = 2, error=error)
+    krl = choosekrl_bic(try$x,2:5,2:5,2:5)
+    k = krl$estimated_krl[1]; r = krl$estimated_krl[2]; l = krl$estimated_krl[3]
+    lambda = chooseLambda(try$x,k,r,l,lambda=sqrt((n*p*q)/(k*r*l))*seq(0,2,by=0.05))
+    our_result = classify2(try$x,k,r,l,lambda$lambda)
+    our_mse[i] = sparse.evaluate(our_result,try,CER=FALSE,show=FALSE)$mse
+    cp_result = cp_kmeans(try$x,2:5,2:5,2:5,)
+    cp_mse[i] = sparse.evaluate(cp_result,try,CER=FALSE,show=FALSE)$mse
   }
-  cat("when lambda =", lambda, ":\n")
-  cat("sparsity rate=", round(mean(sparsityrate),4), "(", round(sd(sparsityrate),4), "),\n",
-      "correct zero rate=", round(mean(correctzerorate),4), "(", round(sd(correctzerorate),4), "),\n",
-      "correct one rate=", round(mean(correctonerate),4), "(", round(sd(correctonerate),4), "),\n",
-      "total correct rate=", round(1-mean(totalincorrectrate),4), "(", round(sd(totalincorrectrate),4), "),\n",
-      "cerC=", round(mean(cerC),4), "(", round(sd(cerC),4), "),\n",
-      "cerD=", round(mean(cerD),4), "(", round(sd(cerD),4), "),\n",
-      "cerE=", round(mean(cerC),4), "(", round(sd(cerE),4), ").\n"
-  )
+  cat("The mse of our method is:", round(mean(our_mse),4),"(", round(sd(our_mse),4),");\n")
+  cat("the mse of cp k-means is:", round(mean(cp_mse), 4),"(", round(sd(cp_mse),4), ").\n")
 }
 
 
 set.seed(3)
-n=40;p=40;q=40;k=3;r=5;l=4;error=8;sparserate=0.8;iteration = 50
-lambda_bar = mean(sim.chooseLambda(n,p,q,k,r,l,sparserate,iteration,sqrt(2*(n*p*q)/(k*r*l))*seq(2,6,by=0.1),error))
-lambda_range=c(0,100,200,lambda_bar)
-sparsityrate = 1:iteration
-correctzerorate = 1:iteration
-correctonerate = 1:iteration
-totalincorrectrate = 1:iteration
-cerC = 1:iteration
-cerD = 1:iteration
-cerE = 1:iteration
-for(lambda in lambda_range){
-  #lambda = lambda_bar
-  for(iter in 1:iteration){
-    set.seed(iter)
-    raw = get.data(n,p,q,k,r,l,error,TRUE,sparserate)
-    bires = classify2(raw$x,k,r,l,lambda)
-    result = sparse.evaluate(bires,raw,FALSE)
-    sparsityrate[iter] = result$sparsityrate
-    correctzerorate[iter] = result$correctzerorate
-    correctonerate[iter] = result$correctonerate
-    totalincorrectrate[iter] = result$totalincorrectrate
-    cerC[iter] = result$cerC
-    cerD[iter] = result$cerD
-    cerE[iter] = result$cerE
+cat("The third situation:\n")
+n = 50; p = 50; q = 50
+for (i in 1:3){
+  cat("When the noise is", c(4,8,12)[i], ":\n")
+  for (iter in 1:50){
+    our_mse = 1:50; cp_mse = 1:50
+    error = c(4,8,12)[i]
+    try = get.data(n,p,q,multiplicative = 1, error=error)
+    krl = choosekrl_bic(try$x,2:5,2:5,2:5)
+    k = krl$estimated_krl[1]; r = krl$estimated_krl[2]; l = krl$estimated_krl[3]
+    lambda = chooseLambda(try$x,k,r,l,lambda=sqrt((n*p*q)/(k*r*l))*seq(0,2,by=0.05))
+    our_result = classify2(try$x,k,r,l,lambda$lambda)
+    our_mse[i] = sparse.evaluate(our_result,try,CER=FALSE,show=FALSE)$mse
+    cp_result = cp_kmeans(try$x,2:5,2:5,2:5)
+    cp_mse[i] = sparse.evaluate(cp_result,try,CER=FALSE,show=FALSE)$mse
   }
-  cat("when lambda =", lambda, ":\n")
-  cat("sparsity rate=", round(mean(sparsityrate),4), "(", round(sd(sparsityrate),4), "),\n",
-      "correct zero rate=", round(mean(correctzerorate),4), "(", round(sd(correctzerorate),4), "),\n",
-      "correct one rate=", round(mean(correctonerate),4), "(", round(sd(correctonerate),4), "),\n",
-      "total correct rate=", round(1-mean(totalincorrectrate),4), "(", round(sd(totalincorrectrate),4), "),\n",
-      "cerC=", round(mean(cerC),4), "(", round(sd(cerC),4), "),\n",
-      "cerD=", round(mean(cerD),4), "(", round(sd(cerD),4), "),\n",
-      "cerE=", round(mean(cerC),4), "(", round(sd(cerE),4), ").\n"
-  )
+  cat("The mse of our method is:", round(mean(our_mse),4),"(", round(sd(our_mse),4),");\n")
+  cat("the mse of cp k-means is:", round(mean(cp_mse), 4),"(", round(sd(cp_mse),4), ").\n")
 }
+
+
+
+
+
+
+
