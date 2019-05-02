@@ -17,7 +17,7 @@ for (i in 1:3){
 }
 
 set.seed(2)
-n=40;p=40;q=40;k=3;r=4;l=2;iteration=50
+n=40;p=40;q=40;k=4;r=4;l=4;iteration=50
 for (i in 1:3){
   error = c(4,8,12)[i]
   out = sim.choosekrl(n,p,q,k,r,l,error,iteration)
@@ -28,7 +28,7 @@ for (i in 1:3){
 }
 
 set.seed(3)
-n=40;p=45;q=50;k=3;r=4;l=2;iteration=50
+n=40;p=40;q=80;k=4;r=4;l=4;iteration=50
 for (i in 1:3){
   error = c(4,8,12)[i]
   out = sim.choosekrl(n,p,q,k,r,l,error,iteration)
