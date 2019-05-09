@@ -1,0 +1,275 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2018
+
+% ready for submission
+% \usepackage{neurips_2018}
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+ % \usepackage[preprint]{neurips_2018}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+ \usepackage[final]{neurips_2019}
+% to avoid loading the natbib package, add option nonatbib:
+%     \usepackage[nonatbib]{neurips_2018}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{subfig}
+\usepackage[english]{babel}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{appendix}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{exam}{Example}
+\newtheorem{proof}{Proof}
+\input macros.tex
+
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+  \mathop{%
+    \mathchoice
+    {\underbrace{\displaystyle#1}}%
+    {\underbrace{\textstyle#1}}%
+    {\underbrace{\scriptstyle#1}}%
+    {\underbrace{\scriptscriptstyle#1}}%
+  }\limits
+}
+\usepackage{xr}
+\externaldocument{nips_2019_miaoyan}
+
+\title{Supplements for ``Multi-way block localization via sparse tensor clustering''}
+
+
+\author{%
+Yuchen Zeng \\
+University of Wisconsin -- Madison\\
+ \texttt{yzeng58@wisc.edu} \\
+\And
+Miaoyan Wang \\
+University of Wisconsin -- Madison\\
+\texttt{miaoyan.wang@wisc.edu} \\
+}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{appendices}
+\section{Proofs}
+	
+\subsection{Proof of Proposition~\ref{prop:factors}}
+Let $\tS=\{\mathbb{P}_{\Theta}\colon \Theta\in\tP\}$ be the family of (either Gaussian or Bernoulli) tensor block models~\eqref{eq:Tucker}, where $\Theta=\tC \times_1\mM_1\times_2\cdots\times_K\mM_K$ parameterizes the mean block tensor. Since the mapping $\Theta\mapsto\mathbb{P}_{\Theta}$ is one-to-one, $\Theta$ is identifiable. Now suppose there are two decompositions of $\Theta=\Theta(\{\mM_k\}, \tC)=\Theta(\{\tilde \mM_k\}, \tilde \tC)$. Based on the Assumption~\ref{ass:core}, we have
+\begin{equation}\label{eq:equality}
+\Theta=\tC \times_1\mM_1\times_2\cdots\times_K\mM_K=\tilde \tC \times_1\tilde \mM_1\times_2\cdots\times_K\tilde  \mM_K,
+\end{equation}
+where $\tC$, $\tilde \tC\in\mathbb{R}^{R_1\times \cdots \times R_K}$ are two irreducible cores, and $\mM_k,\tilde \mM_k\in\{0,1\}^{R_k\times d_k}$ are membership matrices for all $k\in[K]$. We will prove by contradiction that $\mM_k$ and $\tilde \mM_k$ induce the same partition of $[d_k]$, for all $k\in[K]$. 
+
+Suppose the above claim does not hold. Then there exists a mode $k\in[K]$ such that the $\mM_k, \tilde \mM_k$ induce two different partitions of $[d_k]$. Without loss of generality, we assume $k=1$. The definition of partition implies that there exists a pair of indices $i\neq j, i,j\in[d_1]$, such that, $i,j$ belong to the same cluster based on $\mM_k$, but they belong to different clusters based on $\tlde \mM_k$. Let $\tC\subset [d_1] $ denote the cluster that $i$ (or $j$) belong to based on $\mM_k$, and $\tA, \tB\subset[d_1]$ denote the two different clusters that $i$, $j$ belongs to based on $\tilde \mM_k$. Based on the left-hand side of \eqref{eq:equality}
+\begin{equation}\label{eq:cluster1}
+\Theta(i,i_2,\ldots,i_K)=\Theta(j,i_2,\ldots,i_K),\quad \text{for all } (i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K].
+\end{equation}
+ On the other hand, \eqref{eq:equality} implies
+\begin{equation}\label{eq:cluster2}
+\Theta(i,i_2,\ldots,i_K)=\Theta(k,i_2,\ldots,i_K),\quad \text{for all } k\in \tA \text{ and }(i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K],
+\end{equation}
+and
+\begin{equation}\label{eq:cluster3}
+\Theta(j,i_2,\ldots,i_K)=\Theta(k,i_2,\ldots,i_K),\quad \text{for all } k\in \tB \text{ and }(i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K].
+\end{equation}
+
+Combining~\eqref{eq:cluster1}, \eqref{eq:cluster2} and \eqref{eq:cluster3}, we have
+\[
+\Theta(i,i_2,\ldots,i_K)=\Theta(k,i_2,\ldots,i_K),\quad \text{for all } k\in \tA\cup \tB \text{ and }(i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K].
+\]
+Therefore, one can merge $\tA, \tB$ into one cluster along the mode 1. This contradicts the irreducibility of the core tensor $\tilde \tC$. Therefore, $\mM_1$ and $\tilde \mM_1$ induce a same partition of $[d_1]$, and thus they are equal up to permutations. The proof is now complete. 
+
+
+%Based on the definition of membership matrix, $\mM_k\mM_k'=\text{diag}(R_1,\ldots,R_K)$ is a diagonal matrix and thus invertible. Multiplying $\mM_k'(\mM_k\mM_k')^{-1}$ to the $k$-th mode of Equation~\eqref{eq:equality} gives
+%\begin{equation}\label{eq:core}
+%\tC=\tilde \tC \times_1\left(\tilde \mM_1 \mM_1'(\mM_1\mM_1')^{-1}\right) \times_2\cdots\times_K \left(\tilde   \mM_K \mM_K'(\mM_K\mM_K')^{-1}\right).
+%\end{equation}
+%Define $\mB_k=\tilde \mM_k \mM_k'(\mM_k\mM_k')^{-1}$. It remains to show that each $\mB_k$ is a permutation matrix. 
+
+
+%Now, the definition of membership matrix implies that $\mB_k$ is a column-wise normalized confusion matrix, where its $(r,s)$-th entry is
+%\[
+%\mB_{k,(r,s)}={ \#\{i\in[d]: \tilde \mM_k(i)=r, \mM_k(i)=s\}\over \#\{i\in[d]: \mM_k(i)=s\}}\in[0,1],
+%\] 
+%where $\#$ denotes the cardinality size of the set. Plugging $\mB_k$ back to the Equations~\eqref{eq:equality} and~\eqref{eq:core} yields
+%\begin{equation}\label{eq:cluster}
+%\tilde \tC \times_1 \left(\mB_1\mM_1\right) \times_2 \cdots\times_K \left(\mB_K\mM_K\right)=\tilde \tC \times_1 \tilde \mM_1 \times_2 \cdots\times_K \tilde \mM_K.
+%\end{equation}
+%Both sides of the above expression represent a block tensor with a same core. Let us consider the mode-1 structure first. Based on the Assumption~\ref{ass:core}, $\mB_1\mM_1$ has full row rank. Furthermore, the mode-$1$ partition is determined by $\mM_1$, because multiplying a $R_1$-by-$R_1$ confusion matrix $B_1$ will not change the cluster allocation. On the right-hand hand, the mode-$1$ partition is determined by $\tilde \mM_1$. Therefore the partition encoded in $\mM_1$ is the same as that in $\tilde \mM_1$. Equivalently, $\mB_1$ must be a permutation matrix. The proof is complete by applying the same argument to all $k\in[K]$. 
+
+\subsection{Proof of Theorem~\ref{thm:main}}
+To study the performance of the least-square estimator $\hat \Theta$, we need to introduce some additional notations. The membership matrix $\mM_k$ can be viewed as a onto function $\mM_k\colon [d_k]\maps [R_k]$, and with a little abuse of notation, we still use $\mM_k$ to denote the mapping function. Correspondingly, we use $\mM_k(i)\in[R_k]$ to denote the cluster label for the element $i\in[d_k]$. 
+
+
+\subsection{Sparse clustering}	
+\begin{lemma}
+		Let $\mathbf{Y} \in \mathbb{R}^n$ be a response vector and $\mathbf{X} \in \mathbb{R}^{n\times p}$ the design matrix. Assume the response vector $\mathbf{Y}$ is mean-centered, i.e., $\sum_iY_i=0$. Suppose that $\mathbf{X}$ is an orthogonal design matrix with $X^TX=diag(n_1,...,n_p)$. Define the ordinary least-square estimate $\hat{\bm{\beta}}_{ols} = (\hat{\beta}_{ols,1},...,\hat{\beta}^T_{ols,p})^T$. Consider the following constrained optimization: 
+		\begin{equation*}
+		\bm{
+			\hat{\beta}} = \argmin\{\frac{1}{2}||\mathbf{Y}-\mathbf{X}\bm{\beta}||^2_2+\lambda pen(\bm{\beta})\}
+		\end{equation*}
+		1. Case 1: L-0 penalization. $pen(\bm{\beta}) = ||\bm{\beta}||_0$:\\
+		Under the change of tuning parameter $\lambda' := f(\lambda)=\sqrt{2\lambda}$  such that $\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
+		\begin{equation*}
+		\hat{\beta}_i = \hat{\beta}_{ols,i}\mathbb{I}_{|\hat{\beta}_{ols,i}|>\frac{\lambda'}{\sqrt{n_i}}}\ for\ all\ i=1,...,p
+		\end{equation*}
+		2. Case 2: L-1 penalization. $pen(\bm{\beta})= ||\bm{\beta}||_1$:\\
+		$\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
+		\begin{equation*}
+		\hat{\beta}_i = sign(\hat{\beta_{ols,i}})(|\hat{\beta_{ols,i}}|-\frac{\lambda}{n_i})_+\ for\ all\ i=1,2,...,p
+		\end{equation*}
+		
+	\end{lemma}
+	\begin{proof}
+		The thing we want to minimize is
+		\begin{equation*}
+		L=\frac{1}{2}||\mathbf{Y-X}\bm{\beta}||^2_2+\lambda||\bm{\beta}_0||=\frac{1}{2}(\mathbf{Y-X}\bm{\beta})^T(\mathbf{Y-X}\bm{\beta})+\lambda ||\bm{\beta}||_0=L_1+L_2
+		\end{equation*} 
+		where $L_1=\frac{1}{2}(\mathbf{Y-X}\bm{\beta})^T(\mathbf{Y-X}\bm{\beta})$, $L_2=\lambda ||\bm{\beta}||_0$. 
+	
+	\textbf{Case 1:}\par 
+	 Here we view the optimization problem as a case in linear regression. 
+	The $L_1$ is exactly the $RSS/2$ in this case. So we compare the increment of $L_1$  when $L_2$ takes different values. We denote $z$ as the number of  non-zero elements in $\bm{\beta}$.\\
+	(1) Consider the case we have no constraint on $z$. Thus we only have to minimize $L_1$. By the knowledge of linear regression, we know the unique minimizer is $\bm{\hat{\beta}_{ols}}=\mathbf{(X^TX)^{-1}XY}$. Assume there are $m$ zero elements in $\bm{\hat{\beta}_{ols}}$ where $0\leq m \leq p$ \\
+	(2) Consider the case we have constraint on $z$: $z = i$, where $i=0,1,2,...,m$. Obviously, among these cases the $L$ can be minimized if and only if $i=m$. So, $z=m$ and $\bm{\hat{\beta}}=\bm{\hat{\beta}_{ols}}$ is the minimizer of $L$ when $0\leq z\leq m$.
+	(3) Consider the case that we have constraint on $x$: $z=m+1$. Then we have to take one more non-zero element in $\bm{\beta}$ to be zero. Suppose we take $\hat{\beta}_l \neq 0$ to be 0. Then we obtain 
+	\begin{equation*}
+		2L_1 -SSE(\beta_1,...,\beta_{l-1},\beta_{l+1},...,\beta_p)=SSR(\beta_l)
+	\end{equation*}
+	by the columns in $\mathbf{X}$ are orthogonal to each other. Additionally,
+	\begin{equation*}
+		SSR(\beta_l) = \mathbf{Y}^T(\mathbf{H-H_l})\mathbf{Y} 
+	\end{equation*}
+	where $\mathbf{H=X(X^TX)^{-1}X}=\sum_{i=1}^p\frac{1}{n_i}\mathbf{x_{(i)}x_{(i)}^T}$, $\mathbf{H_l} = \sum_{i\neq j}\mathbf{x_{(i)}x_{(i)}^T}$, $\hat{\beta}_l = \frac{1}{n_l}\mathbf{x_{l}Y}$. Thus, we can simplify the second equation as:
+	\begin{equation*}
+		SSR(\beta_l) = n_l\hat{\beta}_l^2
+	\end{equation*}
+	Thus, by taking $\hat{\beta}_l$ as 0, there is $\frac{n_l\hat{\beta}_l^2}{2}$ increment on $L_1$, $\lambda$ decrement on $L_2$. Obviously, if the increment of $L_1$ is larger than the decrement $L_2$, we should not take $\hat{\beta_l}$ as 0; conversely, if the increment of $L_1$ is less than the decrement of $L_2$, taking $\hat{\beta_l}$ as 0 can lessen the L.\\
+	(4) As we discussed, if there is still at least one element in $\bm{\beta_k}$ that satisfies that $\frac{n_k\hat{\beta}_k^2}{2}\leq\lambda$, we can keep reducing $L$ by taking $\bm{\beta_k}$ as 0 until all remain non-zero elements in $\hat{\beta}$ do not satisfy $\frac{n_k\hat{\beta}_k^2}{2}\leq\lambda$. Then we can minimize $L$.\par 
+	Over all, the $\bm{\beta}$ that minimized $L$ is:
+	\begin{equation*}
+			\hat{\beta}_i = \hat{\beta}_{ols,i}\mathbb{I}_{|\hat{\beta}_{ols,i}|>\frac{\lambda'}{\sqrt{n_i}}}\ for\ all\ i=1,...,p
+	\end{equation*}
+	
+\textbf{Case 2:}\par
+Here we use the properties of subderivative. Taking subderivative of $L$, we obtain
+	
+\begin{equation*}
+\frac{\partial L}{\partial \beta_j} = 
+\begin{cases}
+\{n_j\beta_j-\mathbf{x_{(j)}^TY}+\lambda\} &\mbox{if $\beta_j>0$}\\
+ [n_j\beta_j-\mathbf{x_{(j)}^TY}-\lambda, n_j\beta_j-\mathbf{x_{(j)}^TY}+\lambda]&\mbox{if $\beta_j=0$}\\
+\{n_j\beta_j-\mathbf{x_{(j)}^TY}-\lambda\} &\mbox{if $\beta_j<0$}\\
+\end{cases}
+\end{equation*}
+Because $\beta_j$ minimize $L$ if and only if $0 \in \frac{\partial L}{\partial \beta_j}$ and  $\mathbf{X}$ is orthogonal, we get:
+\begin{equation*}
+\hat{\beta_j} = 
+\begin{cases}
+\frac{\mathbf{x_{(j)}^TY}+\lambda}{n_j}&\mbox{if $\hat{\beta_j}<0$}\\
+0 &\mbox{if $\hat{\beta_j}=0$}\\
+\frac{\mathbf{x_{(j)}^TY}-\lambda}{n_j}&\mbox{if $\hat{\beta_j}>0$}\\
+\end{cases}
+\end{equation*}
+Here, $\bm{\hat{\beta}}_{ols} = \mathbf{(X^TX)^{-1}X^TY} = diag(1/n_1, ..., 1/n_p)X^TY$, so $\hat{\beta}_{ols,j}=\frac{\mathbf{x_{(j)}^TY}}{n_j}$. Then the solution of $\hat{\beta_j}$ can be simplified as:
+\begin{equation*}
+	\hat{\beta}_i = sign(\hat{\beta_{ols,i}})(|\hat{\beta_{ols,i}}|-\frac{\lambda}{n_i})_+\ for\ all\ i=1,2,...,p
+\end{equation*}
+\end{proof}
+
+
+\begin{table}[http]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		$n_1$&$n_2$&$n_3$&$d_1$&$d_2$&$d_3$&noise&CER (mode 1)&CER (mode 2)&CER (mode 3)\\ \hline
+		40&40&40&3&5&4&4&
+		$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&40&3&5&4&8&$\mathbf{0(0)}$&0.0095(0.0247)&0.0021(0.0145) \\
+		40&40&40&3&5&4&12&0.0038(0.0138)&0.0331(0.0453)&0.0222(0.0520)\\
+
+		40&40&80&3&5&4&4&$\mathbf{0(0)}$&0.0017(0.0121)&$\mathbf{0(0)}$\\
+		40&40&80&3&5&4&8&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&80&3&5&4&12&$\mathbf{0(0)}$&$0.0257(0.0380)$&$0.0026(0.0064)$\\
+
+		40&40&40&4&4&4&4&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&40&4&4&4&8&0.0023(0.0165)&0.0034(0.0239)&$\mathbf{0(0)}$\\
+		40&40&40&4&4&4&12&0.0519(0.0744)&0.0414(0.0697)&0.0297(0.0644)\\
+		
+		40&40&80&4&4&4&4&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&80&4&4&4&8&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&80&4&4&4&12&0.0132(0.0405)&0.0106(0.0366)&0.0043(0.0168) \\
+		\hline
+	\end{tabular}
+	\caption{Given the true $d_1,d_2,d_3$, the simulation results is calculated across 50 tensors each time. }
+	\label{t1}
+\end{table}
+
+
+
+\begin{table}[http]
+	\centering
+	\resizebox{\textwidth}{20mm}{
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		$n_1$&$n_2$&$n_3$&$d_1$&$d_2$&$d_3$&noise&overall accuracy&estimated $d_1$&estimated $d_2$&estimated $d_3$\\ \hline
+		40&40&40&3&5&4&4&$\mathbf{1}$&3(0)&5(0)&4(0)\\
+		40&40&40&3&5&4&8&0.74&3(0)&4.76(0.0610)&3.98(0.02)\\
+		40&40&40&3&5&4&12&0.02&2.8(0.0571)&3.58(0.1072)&3.3(0.0915)\\
+		40&40&40&4&4&4&4&$\mathbf{1}$&4(0)&4(0)&4(0)\\
+		40&40&40&4&4&4&8&0.88&3.94(0.0339)&3.96(0.0280)&3.96(0.0280)\\
+		40&40&40&4&4&4&12&0.04&3.08(0.0983)&3.12(0.1016)&3.12(0.0975)\\
+		40&40&80&4&4&4&4&$\mathbf{1}$&4(0)&4(0)&4(0)\\
+		40&40&80&4&4&4&8&1&4(0)&4(0)&4(0)\\
+		40&40&80&4&4&4&12&0.78&3.9(0.0429)&3.92(0.0388)&3.96(0.04)\\
+		\hline
+	\end{tabular}}
+	\caption{The simulation results across 50 tensors each time from estimating the $d_1,d_2,d_3$.}
+	\label{t2}
+\end{table}
+
+
+\begin{table}[http]
+	\centering
+	\resizebox{\textwidth}{20mm}{
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		sparsity rate&noise&method&estimated sparsity Rate&Correct Zero Rate&Correct One Rate&Total Correct Rate  \\ \hline
+		0.5&4&$\lambda=0$&0(0)&0(0)&1(0)&0.5075(0.0676)\\
+		0.5&4&$\lambda=100$&0.5677(0.0667)&1(0)&0.8519(0.0678)&0.9248(0.0377)\\
+		0.5&4&$\lambda=200$&0.5952(0.0688)&1(0)&0.7975(0.0787)&0.8973(0.0433)\\
+		0.5&4&$\bar{\lambda}=86.61396$&0.5606(0.0668)&$\mathbf{0.9993(0.0035)}$&$\mathbf{0.8655(0.0685)}$&$\mathbf{0.9312(0.0377)}$\\
+		0.5&8&$\lambda=0$&0(0)&0(0)&1(0)&0.5075(0.0676)\\
+		0.5&8&$\lambda=100$&0.5072(0.068)&0.879(0.0898)&0.8554(0.0634)&0.8665(0.0559)\\
+		0.5&8&$\lambda=200$&0.5884(0.0618)&0.9753(0.034)&0.7877(0.0776)&0.8794(0.0492)\\
+		0.5&8&$\bar{\lambda}=344.3656$&0.6298(0.0652)&0.9956(0.0128)&0.7259(0.0873)&0.8586(0.0518)\\
+		0.8&8&$\lambda=0$&0(0)&0(0)&1(0)&0.2029(0.0541)\\
+		0.8&8&$\lambda=100$&0.6458(0.0646)&0.7453(0.0616)&0.7136(0.2017)&0.7435(0.0668)\\
+		0.8&8&$\lambda=200$&0.7947(0.0627)&0.9119(0.0601)&0.6259(0.2376)&0.8589(0.0698)\\
+		0.8&8&$\bar{\lambda}=246.9212$&0.826(0.0622)&0.9462(0.0412)&0.6077(0.2495)&0.8841(0.0602)\\
+		\hline
+	\end{tabular}}
+	\caption{Results for Simulation 6 over 50 simulated data sets ($n_1=40, n_2=40, n_3=40,  d_1=3, d_2=5, d_3=4$.}
+	\label{t5}
+\end{table}
+
+
+\end{appendices}
+\end{document}

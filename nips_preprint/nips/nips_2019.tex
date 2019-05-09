@@ -26,6 +26,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{amsmath}
 \usepackage{bm}
+\usepackage{subfig}
 \usepackage[english]{babel}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -107,423 +108,167 @@ Here is an example of tensor clustering by using our proposed method.
 \end{figure}
 \subsection{Notation}
 We use $\tT$, $\tX$, and $\tE$ to represent input, signal, and noise tensors, respectively. For any set $J$, $|J|$ denotes its cardinality. $[n]$ represents the set $\{1,2,\ldots,n\}$. $\mx\otimes \my$ is the Kronecker product of two vectors. 
-Papers to be submitted to NeurIPS 2018 must be prepared according to the
-instructions presented here. Papers may only be up to eight pages long,
-including figures. Additional pages \emph{containing only acknowledgments and/or
-  cited references} are allowed. Papers that exceed eight pages of content
-(ignoring references) will not be reviewed, or in any other way considered for
-presentation at the conference.
 
-The margins in 2018 are the same as since 2007, which allow for $\sim$$15\%$
-more words in the paper compared to earlier years.
-
-Authors are required to use the NeurIPS \LaTeX{} style files obtainable at the
-NeurIPS website as indicated below. Please make sure you use the current files
-and not previous versions. Tweaking the style files may be grounds for
-rejection.
 
 \subsection{Problem formulation}
-In 
-
-\begin{center}
-  \url{http://www.neurips.cc/}
-\end{center}
-The file \verb+neurips_2018.pdf+ contains these instructions and illustrates the
-various formatting requirements your NeurIPS paper must satisfy.
-
-The only supported style file for NeurIPS 2018 is \verb+neurips_2018.sty+,
-rewritten for \LaTeXe{}.  \textbf{Previous style files for \LaTeX{} 2.09,
-  Microsoft Word, and RTF are no longer supported!}
-
-The \LaTeX{} style file contains three optional arguments: \verb+final+, which
-creates a camera-ready copy, \verb+preprint+, which creates a preprint for
-submission to, e.g., arXiv, and \verb+nonatbib+, which will not load the
-\verb+natbib+ package for you in case of package clash.
-
-\paragraph{New preprint option for 2018}
-If you wish to post a preprint of your work online, e.g., on arXiv, using the
-NeurIPS style, please use the \verb+preprint+ option. This will create a
-nonanonymized version of your work with the text ``Preprint. Work in progress.''
-in the footer. This version may be distributed as you see fit. Please \textbf{do
-  not} use the \verb+final+ option, which should \textbf{only} be used for
-papers accepted to NeurIPS.
-
-At submission time, please omit the \verb+final+ and \verb+preprint+
-options. This will anonymize your submission and add line numbers to aid
-review. Please do \emph{not} refer to these line numbers in your paper as they
-will be removed during generation of camera-ready copies.
-
-The file \verb+neurips_2018.tex+ may be used as a ``shell'' for writing your
-paper. All you have to do is replace the author, title, abstract, and text of
-the paper with your own.
-
-The formatting instructions contained in these style files are summarized in
-Sections \ref{gen_inst}, \ref{headings}, and \ref{others} below.
-
-\section{General formatting instructions}
-\label{gen_inst}
-
-The text must be confined within a rectangle 5.5~inches (33~picas) wide and
-9~inches (54~picas) long. The left margin is 1.5~inch (9~picas).  Use 10~point
-type with a vertical spacing (leading) of 11~points.  Times New Roman is the
-preferred typeface throughout, and will be selected for you by default.
-Paragraphs are separated by \nicefrac{1}{2}~line space (5.5 points), with no
-indentation.
-
-The paper title should be 17~point, initial caps/lower case, bold, centered
-between two horizontal rules. The top rule should be 4~points thick and the
-bottom rule should be 1~point thick. Allow \nicefrac{1}{4}~inch space above and
-below the title to rules. All pages should start at 1~inch (6~picas) from the
-top of the page.
-
-For the final version, authors' names are set in boldface, and each name is
-centered above the corresponding address. The lead author's name is to be listed
-first (left-most), and the co-authors' names (if different address) are set to
-follow. If there is only one co-author, list both author and co-author side by
-side.
-
-Please pay special attention to the instructions in Section \ref{others}
-regarding figures, tables, acknowledgments, and references.
-
-\section{Headings: first level}
-\label{headings}
-
-All headings should be lower case (except for first word and proper nouns),
-flush left, and bold.
-
-First-level headings should be in 12-point type.
-
-\subsection{Headings: second level}
-
-Second-level headings should be in 10-point type.
-
-\subsubsection{Headings: third level}
-
-Third-level headings should be in 10-point type.
-
-\paragraph{Paragraphs}
-
-There is also a \verb+\paragraph+ command available, which sets the heading in
-bold, flush left, and inline with the text, with the heading followed by 1\,em
-of space.
-\section{Tuning Paraneter Selection}
-There are four tuning parameters in our tensor clustering proposal: 
-\begin{itemize}
-	\item the number of clusters in each modes: K (mode 1), R (model 2), L (mode 3);
-	\item the penalty coefficient $\lambda$.
-\end{itemize}
-\subsection{Selection of K, R, L}
-We use BIC to select the best K, R, L here. Given a range of K, R, L, we use our former approach to do tensor clustering for all combinations of K, R, L and calculate the BIC for each of them separately using the formula:
+\textbf{Notations:}\\
+1. $K$: the number of dimensions of the data;\\
+2. $n_i$: the number of observations in the $i$th mode, $i=1,2,...,K$;\\
+3. $d_i$: the number of clusters in the $i$th mode, $i=1,2,...,K$;\\
+4. $c_{ij}$: the $j$th cluster of the $i$th mode, $i=1,2,...,K$, $j=1,...,d_i$;\\
+5. $q$: the number of non-zero clusters;\\
+%======================Wait for verify===================================
+6. $c$: the degree of freedom while doing tensor clustering: $\sum_{i=1}^Kd_ilog(n_i)$;\\
+%======================Wait for verify===================================
+7. $S$: the rank while producing multiplicative data.
+\section{Tuning Parameter Selection}
+Before doing tensor clustering, we need to select appropriate tuning parameters. 
+There are $K+1$ tuning parameters in our tensor clustering proposal: the number of clusters in each modes: $d_1$, $d_2$, ..., $d_K$ and the penalty coefficient $\lambda$. For both the number of clusters and the penalty coefficient, we try to use BIC and cross validation to find the best choice. It turns out the BIC is faster when the accuracy is almost the same, so we use BIC to select the tuning parameters. \par
 \begin{equation*}
-	BIC = npq\times log(RSS)+(q+c)log(npq)
+BIC = \prod_{i=1}^K n_i\times log(RSS)+(q+c)log(\prod_{i=1}^K n_i)
 \end{equation*}
-Here n, p, q denote the dimension of the data in each mode; q is the number of clusters have non-zero means; c denotes the degrees of freedom while doint the clustering.\par 
- Because in non-sparse case, there may be many reasonable K, R, L, we choose the K, R, L which is the smallest among all K, R, L whose BIC is the smallest. The results are shown as Table \ref{t2}. 
-\subsection{Selection of $\lambda$}
-We use BIC to select the $\lambda$, too. After estimating the K, R, L, we use the estimated K, R, L to do tensor clustering. First we choose a reasonable range for $\lambda$ according to the following theorem:
-\begin{theorem}
-	Let $\mathbf{Y} \in \mathbb{R}^n$ be a response vector and $\mathbf{X} \in \mathbb{R}^{n\times p}$ the design matrix. Assume the response vector $\mathbf{Y}$ is mean-centered, i.e., $\sum_iY_i=0$. Suppose that $\mathbf{X}$ is an orthogonal design matrix with $X^TX=diag(n_1,...,n_p)$. Define the ordinary least-square estimate $\hat{\bm{\beta}}_{ols} = (\hat{\beta}_{ols,1},...,\hat{\beta}^T_{ols,p})^T$. Consider the following constrained optimization: 
-	\begin{equation*}
-		\bm{
-		\hat{\beta}} = argmin\{\frac{1}{2}||\mathbf{Y}-\mathbf{X}\bm{\beta}||^2_2+\lambda pen(\bm{\beta})\}
-	\end{equation*}
-	1. Case 1: L-0 penalization. $pen(\bm{\beta}) = ||\bm{\beta}||_0$:\\
-	 Under the change of tuning parameter $\lambda' := f(\lambda)=\sqrt{2\lambda}$  such that $\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
-	\begin{equation*}
-		\hat{\beta}_i = \hat{\beta}_{ols,i}\mathbb{I}_{|\hat{\beta}_{ols,i}|>\frac{\lambda'}{\sqrt{n_i}}}\ for\ all\ i=1,...,p
-	\end{equation*}
-	2. Case 2: L-1 penalization. $pen(\bm{\beta})= ||\bm{\beta}||_1$:\\
-	$\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
-	\begin{equation*}
-		\hat{\beta}_i = sign(\hat{\beta_{ols,i}})(|\hat{\beta_{ols,i}}|-\frac{\lambda}{n_i})_+\ for\ all\ i=1,2,...,p
-	\end{equation*}
-	
-\end{theorem}
-Next, we do the tensor clustering for all $\lambda$ in the selected range of $\lambda$ and calculate the BIC. Finally we choose the smallest $\lambda$ with smallest BIC. The performance can be evaluated according to the $\bar{\lambda}$ in Table \ref{t4}.
+
+As for the number of clusters, given a range of $d_1$, $d_2$, ..., $d_K$, we do the tensor clustering for all combinations of $d_1$, $d_2$, ..., $d_K$ with $\lambda=0$ and calculate the BIC for each of them separately using the formula above. We choose the $d_1$, $d_2$, ..., $d_K$ which is the smallest among all combinations of $d_1$, $d_2$, ..., $d_K$ whose BIC is the smallest. \par
+
+ After estimating the $d_1$, $d_2$, ..., $d_K$, we use the estimated number of clusters to do tensor clustering when given a reasonable range of $\lambda$. We perform the tensor clustering and calculate the BIC on all $\lambda$ in the given range. Then we select the smallest $\lambda$ with smallest BIC.
+
 \section{Simulation and Evaluation}
-Given the approach of clustering in the former section, we evaluate the performance of it under different conditions: 
-\begin{itemize}
-	\item given a non-sparse tensor and true cluster numbers of each mode, estimate the underlying mean signal;
-	\item given a non-sparse tensor, estimate the cluster numbers of different modes;
-	\item given a non-sparse tensor, estimate the underlying mean signal;
-	\item given a sparse tensor, choose a appropriate $\lambda$, estimate the cluster numvers of different modes and estimate the underlying mean signal.
-\end{itemize}
-Here are the statistics we would use to evaluate the performance in different cases:
-\begin{itemize}
-	\item CER(clustering error rate): the adjusted rand index between two paritions. This statistic measure the agreement between the true partition and estimated partition of the data tensor. In this case, we have three kinds of CER in total: CER of mode 1, CER of mode 2 and CER of mode 3. In non-sparse case, we use CER to evaluate the performance;
-	\item Total Incorrect Rate (eg. Table \ref{t4}): the proportion of misjudgement while determining whether the mean signal is zero. We use this in sparse case. Because when the data tensor is sparse, then different clusters can have the same mean: 0. In this case, we can have multiple reasonable partitions of the modes. Thus, CER is inapplicable at this time;
-	\item Correct Zero Rate: the proportion of zero elements are correctly identified in the underlying mean tensor;
-	\item Correct One Rate: the proportion of non-zero elements are correctly identified in the underlying mean tensor.
-\end{itemize}
-Here we give a brief elaboration on how to generate the data. As for non-sparse tensor, given the cluster numbers K, R, L and the size of the tensor n*p*q, we assign the labels to each modes randomly. Next we randomly select the mean signal of clusters from Unif(-3,3) and add noise which comes from normal distribution with given standard deviation. Then we get the non-sparse tensor. As for sparse tensor, we randomly assign 0 to the mean of some  clusters with given sparsity rate (the proportion of 0 elements) and then follow the same steps.
-\subsection{Simulation 1: clustering results with true cluster numers in each mode (non-sparse tensor)}
-We generate 50 non-sparse tensors with the same noise, size and cluster numbers each time. Here we choose $K=3$, $R=5$, $L=4$ specifically. We use our approach (Algorithm \ref{alg:B}) to do the clustering with given K,R,L and the result is shown as Table \ref{t1}.\par 
-In both data size: 40*40*40 and 50*50*50, the CER on all modes are 0 when the noise is 0 and 5. As the noise goes up, the CER is increased. Furthermore, the CER becomes smaller as the data size become larger.
+For simplicity, we only consider the situation $K=3$ here. 
+Given the approach of clustering in the former section, we will evaluate the performance of it in different aspects on non-sparse and sparse tensor. When the tensor is non-sparse, first, we would assess the relationship between MSE and the data size; second, we would verify the clustering approach when true $d_1$, ..., $d_K$ is given; third, we would evaluate the approach of estimating the number of clusters; fourth, we would evaluate the synergistic performance of selecting $d_1$, ..., $d_K$ and clustering; fifth, we would check the performance of our approach in a different kind of tensor and compare it with other clustering approach. As for sparse tensor, we would evaluate the whole process: selecting $d_1$, ..., $d_K$, choosing $\lambda$, doing tensor clustering.\par 
+
+There are the statistics we would use to evaluate the performance in different cases:\\
+(1) CER(clustering error rate): the adjusted rand index between two paritions. This statistic measure the agreement between the true partition and estimated partition of the data tensor. In this case, we have three kinds of CER in total: CER of mode 1, CER of mode 2 and CER of mode 3;\\
+(2) Total Correct Rate: 1 - the proportion of misjudgement while determining whether the mean signal is zero.;\\
+(3) Correct Zero Rate: the proportion of zero elements are correctly identified in the underlying mean tensor;\\
+(4) Correct One Rate: the proportion of non-zero elements are correctly identified in the underlying mean tensor.\\
+(5) Error: measuring the difference between the underlying means and the estimated means.\par  
+
+In non-sparse cases, we mainly use CER as an indicator to judge whether our proposal methods are good or bad because it is more intuitive for us to evaluate the performance of our approach comparing with MSE. However, it has some constraints. In sparse cases, different clusters can have the same mean: 0. In this case, we can have multiple reasonable partitions of the modes. Thus, CER is inapplicable at this time and we use  total correct rate, correct zero rate and correct one rate to be the indicator when the tensor is sparse.
+\par
+
+
+Here we give a brief elaboration on the main way we use to generate the data. As for non-sparse tensor, given the cluster numbers $d_1$, ..., $d_K$ and the size of the tensor $n_1n_2n_3$, we assign the labels to each modes randomly. Next we randomly select the mean signal of clusters from Unif(-3,3) and add noise which comes from normal distribution with given standard deviation. Then we get the non-sparse tensor. As for sparse tensor, we randomly assign 0 to the mean of some  clusters with given sparsity rate (the proportion of 0 elements) and then follow the same steps. We name this kind of tensor as tensor with constant clusters.\par 
+
+\textbf{Non-sparse case.} We begin with verifying the relationship between MSE and the sample size. The theoretical result indicates that the boundary of $RMSE=\sqrt{MSE}= \sqrt{\frac{error}{n_1n_2n_3}}$ decreases with respect to sample size. Here we let $n_1$ to take values from 20 to 70, and $n_2=\frac{n_1logd_1}{logd_2}$,, $n_3 = \frac{n_1logd_1}{logd_3}$. As for $d_1, d_2, d_3$, we take them from $\{(4,4,4),(4,8,8),(8,8,8),(8,8,12)\}$. We simulated each situation 50 times and get the average RMSE among those cases. According to the panel (a) of Figure \ref{fig3}, obviously, with sample size going up, the RMSE goes down. Additionally, the panel (b) of Figure \ref{fig3} indicates the RMSE decreases roughly at the rate of $1/N$ where $N=\sqrt{n_2n_3/logd_1}$ is the rescaled sample size.\par 
+
+\begin{figure}
+	\centering
+	\subfloat[]{\includegraphics[scale=0.5]{figures/figure3/non-scale.pdf}}
+	\subfloat[]{\includegraphics[scale=0.5]{figures/figure3/rescale.pdf}}
+	\caption{Plots of the root mean squared error (RMSE) verus sample size when using our tensor clustering algorithm. Each curve corresponds to a fixed $(d_1,d_2,d_3)$. (a): Plots of average RMSE over 50 simulations against $n_1$; (b): Plots of averge RMSE over 50 simulations against $\sqrt{n_2n_3/logd_1}$. }
+	
+	\label{fig3}
+\end{figure}
+
+In the second simulation, we generate 50 non-sparse tensors with the same noise, size and cluster numbers each time. We use our approach (Algorithm \ref{alg:B}) to do the clustering and the result is shown as Table \ref{t1}. In both data size: 40*40*40 and 40*40*80, the CER on all modes are 0 when the noise is 4. As the noise goes up, the CER is increased gradually. Furthemore, from the $d_1=3, d_2=5, d_3=4$ cases, we notice that the CER of mode $i$ seems to be smaller when the number of clusters in the $i$th mode is less. \par 
+
 \begin{table}
 	\centering
-	\begin{tabular}{|c|c|c|c|c|c|c|}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
 		\hline
-		n&p&q&noise&cer(mode 1)&cer(mode 2)&cer(mode3)\\ \hline
-		40&40&40&0&0(0)&0(0)&0(0) \\
-		40&40&40&5&0(0)&0(0)&0(0) \\
-		40&40&40&10&0.0021(0.0145)&0.0231(0.0393)&0.0106 (0.0368)\\
-		40&40&40&15&0.1983(0.1532)&0.1768(0.0834)&0.1906(0.1138) \\
-		50&50&50&0&0(0)&0(0)&0(0) \\
-		50&50&50&5&0(0)&0(0)&0(0) \\
-		50&50&50&10&0(0)&0.0043(0.0181)&0.0024(0.0173) \\
-		50&50&50&15&0.0133(0.0441)&0.0485(0.0514)&0.0258(0.0578) \\
+		$n_1$&$n_2$&$n_3$&$d_1$&$d_2$&$d_3$&noise&CER (mode 1)&CER (mode 2)&CER (mode 3)\\ \hline
+		40&40&40&3&5&4&4&
+		$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&40&3&5&4&8&$\mathbf{0(0)}$&0.0095(0.0247)&0.0021(0.0145) \\
+		40&40&40&3&5&4&12&0.0038(0.0138)&0.0331(0.0453)&0.0222(0.0520)\\
+
+		40&40&80&3&5&4&4&$\mathbf{0(0)}$&0.0017(0.0121)&$\mathbf{0(0)}$\\
+		40&40&80&3&5&4&8&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&80&3&5&4&12&$\mathbf{0(0)}$&$0.0257(0.0380)$&$0.0026(0.0064)$\\
+
+		40&40&40&4&4&4&4&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&40&4&4&4&8&0.0023(0.0165)&0.0034(0.0239)&$\mathbf{0(0)}$\\
+		40&40&40&4&4&4&12&0.0519(0.0744)&0.0414(0.0697)&0.0297(0.0644)\\
+		
+		40&40&80&4&4&4&4&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&80&4&4&4&8&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&80&4&4&4&12&0.0132(0.0405)&0.0106(0.0366)&0.0043(0.0168) \\
 		\hline
 	\end{tabular}
-	\caption{Results for Simulation 1 over 50 simulated data sets (k=3, r=5, l=4)}
+	\caption{Given the true $d_1,d_2,d_3$, the simulation results is calculated across 50 tensors each time. }
 	\label{t1}
 \end{table}
-\subsection{Simulation 2: estimation on cluster numbers (non-sparse tensor)}
-We generate 50 non-sparse tensors with the same noise, size and cluster numbers in each case in Table \ref{t2}. As expected, the overall accuracy goes down as the noise increased, and goes up as the data size increased. 
-Finally, we only evaluate the performance of estimation on cluster numbers on non-sparse tensor, because in sparse case, the reasonable cluster numbers may not be unique.
+
+
+To evaluate the performace of our approach on selecting the number of clusters, we generate 50 non-sparse tensors with the same noise, size and cluster numbers in each case in Table \ref{t2} as the third simulation.  The reason why we only evaluate the performance of estimation on cluster numbers on non-sparse tensor is in sparse case, the reasonable cluster numbers may not be unique. As expected, we achieve 100\% accuracy when the noise is 4, again. The overall accuracy goes down as the noise increased. Additionally, we notice that the smaller $d_i$ is, the more accurate the estimated value is. There are two extremely low overall accuracy which appears when noise is 12 and the tensoe size is 40*40*40. However, the accuracy is improved quickly as the tensor size is enlarged to 40*40*80. We found that not only the accuracy of mode 3 decreased after we add observations on mode 3, but also the accuracy of other two modes decreased a lot. The reason is the length of an observation in mode 1 and mode 2 is longer than before. Therefore, it is very important for us to get enough observations to guarantee the overall accuracy.\par
+
 \begin{table}
 	\centering
 	\resizebox{\textwidth}{20mm}{
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline
-		n&p&q&K&R&L&noise&overall accuracy&estimated K&estimated R&estimated L\\ \hline
-		40&40&40&3&5&4&1&0.98&3(0)&5(0)&4.02(0.02)\\
-		40&40&40&3&5&4&4&1&3(0)&5(0)&4(0)\\
-		40&40&40&3&5&4&8&0.7&3 (0)&4.72(0.0641427)&3.98(0.02)\\
-		40&40&40&3&4&2&1&1&3(0)&4(0)&2(0)\\
-		40&40&40&3&4&2&4&1&3(0)&4(0)&2(0)\\
-		40&40&40&3&4&2&8&0.88&3 (0)&3.88(0.0464)&2 (0)\\
-		50&50&50&3&4&2&1&1&3(0)&4(0)&2(0)\\
-		50&50&50&3&4&2&4&1&3(0)&4(0)&2(0)\\
-		50&50&50&3&4&2&8&0.98&3 (0)&3.98(0.02)&2 (0)\\
+		$n_1$&$n_2$&$n_3$&$d_1$&$d_2$&$d_3$&noise&overall accuracy&estimated $d_1$&estimated $d_2$&estimated $d_3$\\ \hline
+		40&40&40&3&5&4&4&$\mathbf{1}$&3(0)&5(0)&4(0)\\
+		40&40&40&3&5&4&8&0.74&3(0)&4.76(0.0610)&3.98(0.02)\\
+		40&40&40&3&5&4&12&0.02&2.8(0.0571)&3.58(0.1072)&3.3(0.0915)\\
+		40&40&40&4&4&4&4&$\mathbf{1}$&4(0)&4(0)&4(0)\\
+		40&40&40&4&4&4&8&0.88&3.94(0.0339)&3.96(0.0280)&3.96(0.0280)\\
+		40&40&40&4&4&4&12&0.04&3.08(0.0983)&3.12(0.1016)&3.12(0.0975)\\
+		40&40&80&4&4&4&4&$\mathbf{1}$&4(0)&4(0)&4(0)\\
+		40&40&80&4&4&4&8&1&4(0)&4(0)&4(0)\\
+		40&40&80&4&4&4&12&0.78&3.9(0.0429)&3.92(0.0388)&3.96(0.04)\\
 		\hline
 	\end{tabular}}
-	\caption{Results for Simulation 2 over 50 simulated data sets}
+	\caption{The simulation results across 50 tensors each time from estimating the $d_1,d_2,d_3$.}
 	\label{t2}
 \end{table}
-\subsection{Simulation 3: clustering results without given true cluster numbers in each mode (non-sparse tensor) }
-In this simulation, the true cluster numbers are not given, so we estimate them first and then use the estimated true cluster numbers to estimate the parition of clusters as well as underlying mean signals. We set the true cluster numbers to be $K=3, R=5, L=4$, and the results are shown in Table \ref{t3}.
+
+In the forth simulation, the true cluster numbers are not given, so we estimate them first and then use the estimated true cluster numbers to estimate the parition of clusters as well as underlying mean signals. We set the true cluster numbers to be $d_1=3, d_2=5, d_3=4$ specifically here, and the results are shown in Table \ref{t3}. By looking into each mode separately, as the sample size of that mode increased , the CER of that mode decreased without any exception.\par  
 \begin{table}
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
-		n&p&q&noise&cer(mode 1)&cer(mode 2)&cer(mode3)\\ \hline
-		40&40&40&1&0(0)&0(0)&0(0) \\
-		40&40&40&4&0(0)&0(0)&0(0) \\
-		40&40&40&8&0(0)&0.013(0.0226)&0.0106 (0.0368)\\
-		50&50&50&1&0(0)&0(0)&0(0) \\
-		50&50&50&4&0(0)&0(0)&0(0) \\
-		50&50&50&8&0(0)&0.0014(0.0102)&0.0024(0.0173) \\
+		$n_1$&$n_2$&$n_3$&noise&CER(mode 1)&CER(mode 2)&CER(mode3)\\ \hline
+		40&40&40&4&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&40&8&$\mathbf{0(0)}$&0.0136(0.0226)&0.0005(0.0036) \\
+		40&40&40&12&0.0365(0.0789)&0.12(0.0878)&0.0802(0.1009)\\
+		40&45&50&4&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&45&50&8&$\mathbf{0(0)}$&0.0027(0.0121)&$\mathbf{0(0)}$\\
+		40&45&50&12&0.0158(0.0489)&0.0641(0.0629)&0.0336(0.0647)\\
 		\hline
 	\end{tabular}
-	\caption{Results for Simulation 3 over 50 simulated data sets (K=3, R=5, L=4)}
+	\caption{The CERs over 50 simulated tensors ($d_1=3, d_2=5, d_3=4$) each time.}
 	\label{t3}
 \end{table}
-\subsection{Simulation 4: clustering results without given true cluster numbers in each mode (sparse tensor)}
-We also test the performace of our approach under different $\lambda$ when the data is sparse. The $\bar{\lambda}$ in Table \ref{t4} is the mean $\lambda$ we choose across 50 simulations on the same sparsity rate. According to Table \ref{t4}, the correct zero rate is increased with the increment on $\lambda$ while the correct one rate is exactly the opposite. As for the $\lambda$ we choose, it shows that the total incorrect rate all are lower than 0.06 here, indicating approximately 94\% accuracy among the three cases.
-\begin{table}
-	\centering
-	\resizebox{\textwidth}{25mm}{
-	\begin{tabular}{|c|c|c|c|c|c|c|}
-		\hline
-		sparsity rate&error&method&estimated sparsity Rate&Correct Zero Rate&Correct One Rate&Total Incorrect Rate  \\ \hline
-		0.5&1&$\lambda=0$&0 ( 0 ) &0 ( 0 )&1 ( 0 )&0.4925 ( 0.0676 )\\
-		0.5&1&$\lambda=5$&0.5235 ( 0.0661) & 1 ( 0 )& 0.9396 ( 0.0499 )&0.0310 ( 0.0269 )\\
-		0.5&1&$\lambda=10$&0.5489 ( 0.0655 ) & 1 ( 0 )&0.8890( 0.0540)&0.0564 ( 0.0297 )\\
-		0.5&1&$\lambda=15$&0.5706 ( 0.0703 )&1 ( 0 )& 0.8455( 0.0715 )& 0.0781 ( 0.0386 )\\
-		0.5&1&$\bar{\lambda}=4.0825$&0.5201 ( 0.0648 )&1 ( 0 )&0.9467 ( 0.0489 ) &0.0276 ( 0.0266)\\
-		0.5&3&$\lambda=0$&0 ( 0 ) &0 ( 0 )&1 ( 0 )&0.4925 ( 0.0676 )\\
-		0.5&3&$\lambda=5$& 0.4556 ( 0.0671 ) & 0.8647 ( 0.0828 )&0.9404 ( 0.0512 )& 0.0975 ( 0.0507 )\\
-		0.5&3&$\lambda=10$&0.5475 ( 0.0654 )&0.9997 ( 0.0024 )&0.8914 ( 0.0548 )&0.0554 ( 0.03)\\
-		0.5&3&$\lambda=15$&0.5717 ( 0.0672 )&1 ( 0 )&0.844 ( 0.0691 )& 0.0792 ( 0.0388 )\\
-		0.5&3&$\bar{\lambda}=10.71244$&0.5513 ( 0.0661 )&1 ( 0 )&0.8843 ( 0.0573 ) &0.0588 ( 0.0311 )\\
-		0.8&1&$\lambda=0$&0 ( 0 ) &0 ( 0 )&1 ( 0 )&0.7971 ( 0.0541 )\\
-		0.8&1&$\lambda=5$&0.807 ( 0.0558 ) & 1 ( 0 )& 0.9477 ( 0.0658 )&0.0099 ( 0.0132 )\\
-		0.8&1&$\lambda=10$&0.8148 ( 0.0573 )& 1 ( 0 )&0.9057 ( 0.0925 )&0.0177 ( 0.0182 )\\
-		0.8&1&$\lambda=15$&0.8249 ( 0.0587 )&1 ( 0 )& 0.8537 ( 0.1164 )&0.0278 ( 0.0232 )\\
-		0.8&1&$\bar{\lambda}=3.527265$&0.8034 ( 0.056 )&0.9978 ( 0.0105 )&0.9566 ( 0.0625 )&0.0099 ( 0.0139 )\\
-		\hline
-	\end{tabular}}
-	\caption{Results for Simulation 4 over 50 simulated data sets (n=40, p=40, q=40,  K=3, R=5, L=4)}
-	\label{t4}
-\end{table}
 
-\subsection{Citations within the text}
-
-The \verb+natbib+ package will be loaded for you by default.  Citations may be
-author/year or numeric, as long as you maintain internal consistency.  As to the
-format of the references themselves, any style is acceptable as long as it is
-used consistently.
-
-The documentation for \verb+natbib+ may be found at
-\begin{center}
-  \url{http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf}
-\end{center}
-Of note is the command \verb+\citet+, which produces citations appropriate for
-use in inline text.  For example,
-\begin{verbatim}
-   \citet{hasselmo} investigated\dots
-\end{verbatim}
-produces
-\begin{quote}
-  Hasselmo, et al.\ (1995) investigated\dots
-\end{quote}
-
-If you wish to load the \verb+natbib+ package with options, you may add the
-following before loading the \verb+neurips_2018+ package:
-\begin{verbatim}
-   \PassOptionsToPackage{options}{natbib}
-\end{verbatim}
-
-If \verb+natbib+ clashes with another package you load, you can add the optional
-argument \verb+nonatbib+ when loading the style file:
-\begin{verbatim}
-   \usepackage[nonatbib]{neurips_2018}
-\end{verbatim}
-
-As submission is double blind, refer to your own published work in the third
-person. That is, use ``In the previous work of Jones et al.\ [4],'' not ``In our
-previous work [4].'' If you cite your other papers that are not widely available
-(e.g., a journal paper under review), use anonymous author names in the
-citation, e.g., an author of the form ``A.\ Anonymous.''
-
-\subsection{Footnotes}
-
-Footnotes should be used sparingly.  If you do require a footnote, indicate
-footnotes with a number\footnote{Sample of the first footnote.} in the
-text. Place the footnotes at the bottom of the page on which they appear.
-Precede the footnote with a horizontal rule of 2~inches (12~picas).
-
-Note that footnotes are properly typeset \emph{after} punctuation
-marks.\footnote{As in this example.}
-
-\subsection{Figures}
+In the fifth simulation, we generate the tensor in two different ways. The new way to generate data is using $\sum_{s=1}^{S}d_s\mathbf{u_s}\mathbf{v_s}^T$ after giving the $S$.  First we randomly choose $\mathbf{u_s}$ and $\mathbf{v_s}$ from normal distribution where $i=1,...,S$. Then we add noise which is also sampled from normal distribution with given standard deviation. We name the tensor generated in this way as tensor with multiplicative clusters. In this simulation, we would check whether our method is still robust on the tensors with multiplicative cluster. Meanwhile, we would compare the performance of our approach with CPD k-means (do k-means clustering after using CP decomposition on the data tensor) under different noise and different kinds of tensor. To be more specific, when the data a a tensor with  multiplicative clusters we just use the true rank that we use to generate the data tensor to do the CP k-means. As for the parameter $d_1, d_2, d_3$ in kmeans, we also use the true parameter. We apply the true $d_1, d_2, d_3$ in our method, too. When the data is a tensor with constant clusters, we still use true $d_1, d_2, d_3$ in both methods. But for CPD k-means, we use BIC to select the best $S$ according to the formula: $error+\frac{log(n_1n_2n_3)(n_1+n_2+n_3-2)S}{n_1n_2n_3}$.  Here we set  $n_1=50,n_2=50,n_3=50$ and $d_1=4,d_2=4,d_3=4$ in all the cases, and add noise 0,10,20 to generate the tensors. Additionally, as for tensor with constant clusters, I randomly select underlying signals between -3 and 3; as for tensors with multiplicative clusters, I randomly select the elements of $\mathbf{u_s}$ and $\mathbf{v_s}$ between -3 and 3. Thus the mean signal of tensor with multiplicative clusters would be bigger than that of tensors with constant clusters. Therefore, the same noise would have bigger effect on the tensor with constant clusters. Our result is shown in Figure \ref{fig4}. To our surprise, our approach is not only better at working on tensor with constant clusters, but also better at working on tensor with multiplicative clusters. Furthermore, our approach shows more robustness under different level of noise, too. \par 
 
 \begin{figure}
-  \centering
-  \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-  \caption{Sample figure caption.}
+	\centering
+	\subfloat[]{\includegraphics[scale=0.5]{figures/figure4/multidata.pdf}}
+	\subfloat[]{\includegraphics[scale=0.5]{figures/figure4/constantdata.pdf}}
+	\caption{Plots of the mean CER C verus noise when using our tensor clustering algorithm and CPD k-means where $n_1=n_2=n_3=50, d_1=d_2=d_3=4$. Each curve corresponds to different method. (a): Plots of average CER in mode 1 over 50 simulations against noise while the  data is a tensor with multiplicative clusters where $S=3$; (b): Plots of averge CER in mode 1 over 50 simulations against noise while the data is a tensor with constant clusters.}
+	\label{fig4}
 \end{figure}
 
-All artwork must be neat, clean, and legible. Lines should be dark enough for
-purposes of reproduction. The figure number and caption always appear after the
-figure. Place one line space before the figure caption and one line space after
-the figure. The figure caption should be lower case (except for first word and
-proper nouns); figures are numbered consecutively.
 
-You may use color figures.  However, it is best for the figure captions and the
-paper body to be legible if the paper is printed in either black/white or in
-color.
 
-\subsection{Tables}
-
-All tables must be centered, neat, clean and legible.  The table number and
-title always appear before the table.  See Table~\ref{sample-table}.
-
-Place one line space before the table title, one line space after the
-table title, and one line space after the table. The table title must
-be lower case (except for first word and proper nouns); tables are
-numbered consecutively.
-
-Note that publication-quality tables \emph{do not contain vertical rules.} We
-strongly suggest the use of the \verb+booktabs+ package, which allows for
-typesetting high-quality, professional tables:
-\begin{center}
-  \url{https://www.ctan.org/pkg/booktabs}
-\end{center}
-This package was used to typeset Table~\ref{sample-table}.
+\textbf{Sparse case.} We also test the performace of our approach under different $\lambda$ when the data is sparse. The $\bar{\lambda}$ in Table \ref{t5} is the mean $\lambda$ we choose across 50 simulations on the same sparsity rate. According to Table \ref{t5}, the correct zero rate is increased with the increment on $\lambda$ while the correct one rate is exactly the opposite. As for the $\lambda$ we choose, it shows that the lowest total correct rate is 0.8586, which appears when noise is 8 and sparsity rate is 0.8. Overall, the $\lambda$ we select by BIC is fairly good, which does works better than other $\lambda$.
 
 \begin{table}
-  \caption{Sample table title}
-  \label{sample-table}
-  \centering
-  \begin{tabular}{lll}
-    \toprule
-    \multicolumn{2}{c}{Part}                   \\
-    \cmidrule(r){1-2}
-    Name     & Description     & Size ($\mu$m) \\
-    \midrule
-    Dendrite & Input terminal  & $\sim$100     \\
-    Axon     & Output terminal & $\sim$10      \\
-    Soma     & Cell body       & up to $10^6$  \\
-    \bottomrule
-  \end{tabular}
+	\centering
+	\resizebox{\textwidth}{20mm}{
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		sparsity rate&noise&method&estimated sparsity Rate&Correct Zero Rate&Correct One Rate&Total Correct Rate  \\ \hline
+		0.5&4&$\lambda=0$&0(0)&0(0)&1(0)&0.5075(0.0676)\\
+		0.5&4&$\lambda=100$&0.5677(0.0667)&1(0)&0.8519(0.0678)&0.9248(0.0377)\\
+		0.5&4&$\lambda=200$&0.5952(0.0688)&1(0)&0.7975(0.0787)&0.8973(0.0433)\\
+		0.5&4&$\bar{\lambda}=86.61396$&0.5606(0.0668)&$\mathbf{0.9993(0.0035)}$&$\mathbf{0.8655(0.0685)}$&$\mathbf{0.9312(0.0377)}$\\
+		0.5&8&$\lambda=0$&0(0)&0(0)&1(0)&0.5075(0.0676)\\
+		0.5&8&$\lambda=100$&0.5072(0.068)&0.879(0.0898)&0.8554(0.0634)&0.8665(0.0559)\\
+		0.5&8&$\lambda=200$&0.5884(0.0618)&0.9753(0.034)&0.7877(0.0776)&0.8794(0.0492)\\
+		0.5&8&$\bar{\lambda}=344.3656$&0.6298(0.0652)&0.9956(0.0128)&0.7259(0.0873)&0.8586(0.0518)\\
+		0.8&8&$\lambda=0$&0(0)&0(0)&1(0)&0.2029(0.0541)\\
+		0.8&8&$\lambda=100$&0.6458(0.0646)&0.7453(0.0616)&0.7136(0.2017)&0.7435(0.0668)\\
+		0.8&8&$\lambda=200$&0.7947(0.0627)&0.9119(0.0601)&0.6259(0.2376)&0.8589(0.0698)\\
+		0.8&8&$\bar{\lambda}=246.9212$&0.826(0.0622)&0.9462(0.0412)&0.6077(0.2495)&0.8841(0.0602)\\
+		\hline
+	\end{tabular}}
+	\caption{Results for Simulation 6 over 50 simulated data sets ($n_1=40, n_2=40, n_3=40,  d_1=3, d_2=5, d_3=4$.}
+	\label{t5}
 \end{table}
 
-\section{Final instructions}
-
-Do not change any aspects of the formatting parameters in the style files.  In
-particular, do not modify the width or length of the rectangle the text should
-fit into, and do not change font sizes (except perhaps in the
-\textbf{References} section; see below). Please note that pages should be
-numbered.
-
-\section{Preparing PDF files}
-
-Please prepare submission files with paper size ``US Letter,'' and not, for
-example, ``A4.''
-
-Fonts were the main cause of problems in the past years. Your PDF file must only
-contain Type 1 or Embedded TrueType fonts. Here are a few instructions to
-achieve this.
-
-\begin{itemize}
-
-\item You should directly generate PDF files using \verb+pdflatex+.
-
-\item You can check which fonts a PDF files uses.  In Acrobat Reader, select the
-  menu Files$>$Document Properties$>$Fonts and select Show All Fonts. You can
-  also use the program \verb+pdffonts+ which comes with \verb+xpdf+ and is
-  available out-of-the-box on most Linux machines.
-
-\item The IEEE has recommendations for generating PDF files whose fonts are also
-  acceptable for NeurIPS. Please see
-  \url{http://www.emfield.org/icuwb2010/downloads/IEEE-PDF-SpecV32.pdf}
-
-\item \verb+xfig+ "patterned" shapes are implemented with bitmap fonts.  Use
-  "solid" shapes instead.
-
-\item The \verb+\bbold+ package almost always uses bitmap fonts.  You should use
-  the equivalent AMS Fonts:
-\begin{verbatim}
-   \usepackage{amsfonts}
-\end{verbatim}
-followed by, e.g., \verb+\mathbb{R}+, \verb+\mathbb{N}+, or \verb+\mathbb{C}+
-for $\mathbb{R}$, $\mathbb{N}$ or $\mathbb{C}$.  You can also use the following
-workaround for reals, natural and complex:
-\begin{verbatim}
-   \newcommand{\RR}{I\!\!R} %real numbers
-   \newcommand{\Nat}{I\!\!N} %natural numbers
-   \newcommand{\CC}{I\!\!\!\!C} %complex numbers
-\end{verbatim}
-Note that \verb+amsfonts+ is automatically loaded by the \verb+amssymb+ package.
-
-\end{itemize}
-
-If your file contains type 3 fonts or non embedded TrueType fonts, we will ask
-you to fix it.
-
-\subsection{Margins in \LaTeX{}}
-
-Most of the margin problems come from figures positioned by hand using
-\verb+\special+ or other commands. We suggest using the command
-\verb+\includegraphics+ from the \verb+graphicx+ package. Always specify the
-figure width as a multiple of the line width as in the example below:
-\begin{verbatim}
-   \usepackage[pdftex]{graphicx} ...
-   \includegraphics[width=0.8\linewidth]{myfile.pdf}
-\end{verbatim}
-See Section 4.4 in the graphics bundle documentation
-(\url{http://mirrors.ctan.org/macros/latex/required/graphics/grfguide.pdf})
-
-A number of width problems arise when \LaTeX{} cannot properly hyphenate a
-line. Please give LaTeX hyphenation hints using the \verb+\-+ command when
-necessary.
-
-\subsubsection*{Acknowledgments}
-
-Use unnumbered third level headings for the acknowledgments. All acknowledgments
-go at the end of the paper. Do not include acknowledgments in the anonymized
-submission, only in the final paper.
 
 \section*{References}
 
@@ -550,7 +295,25 @@ recall at excitatory recurrent synapses and cholinergic modulation in rat
 hippocampal region CA3. {\it Journal of Neuroscience} {\bf 15}(7):5249-5262.
 
 \begin{appendices}
-	\section{Proof of Theorems}
+	\section{Lemma and Theorems}
+	\begin{lemma}
+		Let $\mathbf{Y} \in \mathbb{R}^n$ be a response vector and $\mathbf{X} \in \mathbb{R}^{n\times p}$ the design matrix. Assume the response vector $\mathbf{Y}$ is mean-centered, i.e., $\sum_iY_i=0$. Suppose that $\mathbf{X}$ is an orthogonal design matrix with $X^TX=diag(n_1,...,n_p)$. Define the ordinary least-square estimate $\hat{\bm{\beta}}_{ols} = (\hat{\beta}_{ols,1},...,\hat{\beta}^T_{ols,p})^T$. Consider the following constrained optimization: 
+		\begin{equation*}
+		\bm{
+			\hat{\beta}} = argmin\{\frac{1}{2}||\mathbf{Y}-\mathbf{X}\bm{\beta}||^2_2+\lambda pen(\bm{\beta})\}
+		\end{equation*}
+		1. Case 1: L-0 penalization. $pen(\bm{\beta}) = ||\bm{\beta}||_0$:\\
+		Under the change of tuning parameter $\lambda' := f(\lambda)=\sqrt{2\lambda}$  such that $\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
+		\begin{equation*}
+		\hat{\beta}_i = \hat{\beta}_{ols,i}\mathbb{I}_{|\hat{\beta}_{ols,i}|>\frac{\lambda'}{\sqrt{n_i}}}\ for\ all\ i=1,...,p
+		\end{equation*}
+		2. Case 2: L-1 penalization. $pen(\bm{\beta})= ||\bm{\beta}||_1$:\\
+		$\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
+		\begin{equation*}
+		\hat{\beta}_i = sign(\hat{\beta_{ols,i}})(|\hat{\beta_{ols,i}}|-\frac{\lambda}{n_i})_+\ for\ all\ i=1,2,...,p
+		\end{equation*}
+		
+	\end{lemma}
 	\begin{proof}
 		The thing we want to minimize is
 		\begin{equation*}
@@ -612,14 +375,13 @@ Here, $\bm{\hat{\beta}}_{ols} = \mathbf{(X^TX)^{-1}X^TY} = diag(1/n_1, ..., 1/n_
 		\caption{Block Localization}
 		\label{alg:B}
 		\begin{algorithmic}
-			\STATE {Initialize $C_1,...,C_K$,$D_1,...,D_R$ and $E_1,...,E_L$ by performing one-way k-means clustering on the columns and on the rows of the data matrix $X$.}
+			\STATE {Initialize $c_{11}, c_{12},...,c_{1d_1}$, $c_{21}, c_{22},...,c_{2d_2}$ and $c_{K1}, c_{K2},...,c_{Kd_K}$ by performing one-way k-means clustering on the columns and on the rows of the data matrix $X$.}
 			\REPEAT 
-			\STATE (a) Holding $C_1,...,C_K$,$D_1,...,D_R$ and $E_1,...,E_L$ fixed, solve (1) with respect to $\mathbf{\mu}$ using LASSO regression.
-			\STATE (b) Holding  $\mathbf{\mu}$, $D_1,...,D_R$ and $E_1,...,E_L$ fixed, solve (1) with respect to $C_1,...,C_K$, by assigning the $i$th observation to the row cluster for which $\sum_{r=1}^R\sum_{l=1}^L\sum_{j\in D_r}\sum_{m\in E_l}(X_{ijm}-\mu_{krl})^2$ is smallest.
-			\STATE (c) repeat (a).
-			\STATE (d) Holding  $\mathbf{\mu}$, $C_1,...,C_K$ and $E_1,...,E_L$ fixed, solve (1) with respect to $D_1,...,D_R$, by assigning the $i$th observation to the column cluster for which $\sum_{k=1}^K\sum_{l=1}^L\sum_{i\in C_k}\sum_{m\in E_l}(X_{ijm}-\mu_{krl})^2$ is smallest.
-			\STATE (e) repeat (a).
-			\STATE (f) Holding  $\mathbf{\mu}$, $C_1,...,C_K$ and $D_1,...,D_R$ fixed, solve (1) with respect to $E_1,...,E_L$, by assigning the $i$th observation to the cluster of the third dimension for which $\sum_{k=1}^K\sum_{r=1}^R\sum_{i\in C_k}\sum_{j\in D_r}(X_{ijm}-\mu_{krl})^2$ is smallest.
+			\FOR{i in \{1,2,...,K\}}
+			\STATE (a) holding the clusters of all modes fixed, solve $\bm{\mu}$ by minimizing the loss function with L-0 penalty on $\bm{\mu}$, that is,
+			$\mu_{r_1,r_2,...,r_K} = S(\frac{\sum_{i=1}^K\sum_{l_i\in c_{r_i}}X_{l_1,l_2,...,l_K}}{\prod_{i=1}^{K}|c_{r_i}|},\frac{\sqrt{2\lambda}}{\sqrt{\prod_{i=1}^{K}|c_{r_i}|}})$
+			\STATE (b) holding  $\bm{\mu}$ and the clusters of other $i-1$ modes fixed, minimizing the loss function with L-0 penalty with respect to $c_{i,1},...c_{i,d_i}$ by assigning each observation in mode $i$ to the cluster in mode $i$ whose mean signal is closet to it.
+		\ENDFOR
 			\UNTIL{Convergence} 
 		\end{algorithmic}
 	\end{algorithm}

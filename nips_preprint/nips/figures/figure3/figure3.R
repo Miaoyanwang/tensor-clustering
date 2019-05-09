@@ -1,26 +1,49 @@
 rm(list=ls())
 require(tensorsparse)
+require(ggplot2)
 
 ########################################
 ###   Figure 3    ######################
 ########################################
 
-n=60;p=60;q=60;k=6;r=6;l=7;error=0.5;sparse.percent=0.4;multiplicative=2
-set.seed(1)
-data = get.data(n,p,q,k,r,l,error,TRUE,sparse.percent,multiplicative)
-truth = data$truthX
-input = data$x
-
-selected_krl = choosekrl_bic(input,k=5:8,r=5:8,l=5:8)$estimated_krl
-lambda = chooseLambda(input,selected_krl[1,1],selected_krl[1,2],selected_krl[1,3])$lambda
-
-output = classify2(input,selected_krl[1,1],selected_krl[1,2],selected_krl[1,3],lambda = lambda)
-plot_tensor(input)
-Sys.sleep(1)
-plot_tensor(truth)
-Sys.sleep(1)
-plot_tensor(output$judgeX)
+mse = function(bires, data){
+  npq = dim(bires$judgeX)
+  n = npq[1]; p = npq[2]; q = npq[3]
+  return(sum((bires$judgeX-data$truthX)^2)/n/p/q)
+} 
 
 
-cat("The evaluation of our method:\n")
-sparse.evaluate(output,data)
+mse.re1 = c()
+
+p1 = c(); q1 = c()
+range.k = c(4,4,8,8); range.r = c(4,8,8,8); range.l = c(4,8,8,12)
+for (n in seq(20,70,by=5)){
+  for (i in 1:4){
+    set.seed(i)
+    k = range.k[i]; r = range.r[i]; l = range.l[i]
+    p = floor(n*log(k)/log(r)); q = floor(n*log(k)/log(l))
+    p1 = c(p1, p); q1 = c(q1, q)
+    mse_in = c()
+    for (j in 1:50){
+      data = get.data(n,p,q,k,r,l)
+      bires = classify2(data$x, k, r, l)
+      mse_in = c(mse_in, mse(bires, data))
+    }
+    mse.re1 = c(mse.re1, mean(mse_in))
+  }
+}
+
+figure1 = data.frame(npq = rep(seq(20,70,by=5),each=4), d1d2d3 = as.factor(rep(c('d1=4,d2=4,d3=4','d1=4,d2=8,d3=8',"d1=8,d2=8,d3=8","d1=8,d2=8,d3=12"), times=11)), 
+                     sqrtmse = sqrt(mse.re1), rescalednpq = sqrt(p1*q1/log(rep(c(4,4,8,8),times=11))))
+
+pdf("non-scale.pdf",width=5,height=3)
+ggplot(data=figure1, aes(x=npq,y=sqrtmse))+geom_line(aes(color=d1d2d3))+geom_point(aes(shape=krl))+
+  labs(x=expression(sample~size~n[1]), y=expression(sqrt(mse)))
+dev.off()
+
+pdf("rescale.pdf",width=5,height=3)
+ggplot(data=figure1, aes(x=rescalednpq,y=sqrtmse))+geom_line(aes(color=d1d2d3))+geom_point(aes(shape=krl))+
+  labs(x='rescaled sample size N', y=expression(sqrt(mse)))
+dev.off()
+
+
