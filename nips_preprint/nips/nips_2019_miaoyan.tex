@@ -108,7 +108,9 @@ We say that an event $A$ occurs ``with high probability'' if $\mathbb{P}(\mA)$ t
 
 We use lower-case letters ($a,b,u,v,\ldots$) for scalars and vectors. We use upper-case boldface letters ($\mA,\mB,\mC,\ldots$) for matrices, and calligraphy letter ($\tA, \tB, \tC,\ldots$) for tensors of order $K\geq 3$. $\mx\otimes \my$ is the Kronecker product of two vectors. For any set $J$, $|J|$ denotes its cardinality. $[d]$ represents the set $\{1,2,\ldots,d\}$. 
 
-A clustering of $d$ objects can be represented by a partition of the index set $[d]=\{1,\ldots,d\}$ into $R$ disjoint non-empty subsets. We refer to $R$ the clustering size. It is often convenient to represent the clustering (or partition) using the ``membership matrix''. A membership matrix $\mM$ is an $d$-by-$R$ matrix whose $(i,j)$-entry is 1 if and only if the element $i$ belongs to the cluster $j$, and 0 otherwise. Based on the definition, $\mM$ is binary matrix with orthogonal columns, and the matrix elements sum up to $d$. Throughout the paper, we will use the terms ``partition'', ``clustering'', and ``membership matrix'' exchangeably. 
+A clustering of $d$ objects can be represented by a partition of the index set $[d]=\{1,\ldots,d\}$ into $R$ disjoint non-empty subsets. We refer to $R$ the clustering size. It is often convenient to represent the clustering (or partition) using the ``membership matrix''. A membership matrix $\mM$ is an $d$-by-$R$ matrix whose $(i,j)$-entry is 1 if and only if the element $i$ belongs to the cluster $j$, and 0 otherwise. Based on the definition, $\mM$ is binary matrix with orthogonal columns, and the matrix elements sum up to $d$. The membership matrix $\mM$ can also be viewed as a mapping $\mM:[d]\mapsto[R]$. With a little abuse of notation, we still use the $\mM$ to denote the mapping, and use $\mM(i)$ to denote the cluster label that entry $i$ belongs to. Accordingly, we write $\mM\in[R]^d$. 
+
+Throughout the paper, we will use the terms ``partition'', ``clustering'', and ``membership matrix'' exchangeably. 
 
 For a higher-order tensor, the above concepts can be applied to each of the modes. We use the term ``mode-$k$ clustering'' to refer to the partition along the $k$-th mode of the tensor, and reserve ``block'' to mean a multi-way block in the Cartesian product of mode-$k$ clusters. 
 
@@ -142,23 +144,24 @@ More generally, our model also applied to hybrid error distributions in which di
 
 
 We consider a least-square approach for estimating model~\eqref{eq:model}. Let $\Theta=\tC\times_1\mM_1\times_2\cdots\times_K\mM_K$ denote the mean signal tensor with block structure. The mean tensor is assumed to belong to the following parameter space
-\begin{equation}\label{eq:space}
-\tP_{R_1,\ldots,R_K}=\{ \Theta\colon \Theta=\tC\times_1\mM_1\times_2\cdots\times_K\mM_K, \text{where }\mM_k \text{ is a membership matrix}, k\in[K]\}.
-\end{equation}
+\begin{align}\label{eq:space}
+\tP_{R_1,\ldots,R_K}=&\ \big\{ \Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}\colon \Theta=\tC\times_1\mM_1\times_2\cdots\times_K\mM_K, \text{with some}\\
+ &\quad \text{membership matrices $\mM_k$'s and a core tensor $\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}$}\big\}.
+\end{align}
 We note that the clustering sizes $(R_1,\ldots,R_K)$ is typically unknown and have to be determined from data empirically. As in most previous work on tensor clustering, we assume that clustering sizes are fixed in our theoretical analysis and simply write $\tP$ for short. The general case for adapting unknown clustering sizes will be addressed in Section~\ref{sec:tuning}. We propose a least-square estimator for model~\eqref{eq:model}
 \begin{equation}\label{eq:estimate}
 \hat \Theta=\argmin_{\Theta\in\tP}\left\{ -2\langle \tY,\Theta\rangle + \FnormSize{}{\Theta}^2\right\}.
 \end{equation}
-The objective is equal (ignoring constants) to the sum of squares $\FnormSize{}{\tY-\Theta}^2$ and hence the name of our estimator. Estimating $\Theta$ consists of finding both the core tensor $\tC$ and the membership matrix estimates $\{\mM_k\}$. Before we discuss the properties of $\hat \Theta$, we present the identifiability of $\{ \mM_k\}$ and $\tC$ from $\Theta$. 
+The objective is equal (ignoring constants) to the sum of squares $\FnormSize{}{\tY-\Theta}^2$ and hence the name of our estimator. Estimating $\Theta$ consists of finding both the core tensor $\tC$ and the membership matrix estimates $\mM_k$'s. Before we discuss the properties of $\hat \Theta$, we present the identifiability of $\mM_k$'s and $\tC$ from $\Theta$. 
 
-The following irreducible assumption is necessary for the tensor blocks to be identifiable. 
+The following irreducible assumption is necessary for the tensor block model to be identifiable. 
 \begin{ass}[Irreducible cores]\label{ass:core}
 The core tensor $\tC$ is called irreducible if it cannot be written as a block tensor with the number of mode-$k$ clusters smaller than $R_k$, for any $k\in[K]$. 
 \end{ass}
 In the matrix case $(K=2)$, the assumption is equivalent to saying that $\tC$ has no two identical rows and no two identical columns. In the higher-order case, it requires that none of order-($K$-$1$) fibers of $\tC$ are identical. Note that the being irreducible is a weaker assumption than being full rank. 
 
 \begin{prop}[Identifiability]\label{prop:factors}
-Consider a Gaussian or Bernoulli tensor block model~\eqref{eq:Tucker}. Suppose the core tensor satisfies Assumption~\ref{ass:core}. Then the factor matrices $\mM_k$'s are identifiable, up to permutations of cluster labels. 
+Consider a Gaussian or Bernoulli tensor block model~\eqref{eq:Tucker}. Suppose the core tensor satisfies Assumption~\ref{ass:core}. Then every factor matrix $\mM_k$ is identifiable up to permutations of cluster labels. 
 \end{prop}
 
 Our identifiability result is stronger than the classical Tucker model. In a classical Tucker model~\cite{zhang2018tensor,kolda2009tensor} and many other factor analyses~\cite{darton1980rotation,abdi2003factor}, the factors are identifiable only up to orthogonal rotations. In those models, the (column) space spanned by $\mM_k$ can be recovered, but not the individual factors. In contrast, our model does not suffer from rotational invariance, and as we show in Section~\ref{sec:theory}, every single factor can be consistently estimated in high dimensions. This brings a benefit to the interpretation of tensor factors in the block model.  
@@ -167,18 +170,33 @@ Our identifiability result is stronger than the classical Tucker model. In a cla
 
 
 \section{Statistical convergence}\label{sec:theory}
-In this section, we provide the convergence rate for the least squares estimator~\eqref{eq:estimate}. While the least square gives maximum likelihood estimator (MLE) for the Gaussian tensor model, the same assertion does not hold for the other types of distribution such as stochastic tensor block model. Surprisingly, we will show that, with very high probability, a simple least-square estimator can achieve a convergence rate that is nearly the same as the optimal one in a general class of block tensors. 
+In this section, we assess the estimation accuracy of the least-squares estimator~\eqref{eq:estimate}. While the least squares corresponds to the maximum likelihood estimator (MLE) for Gaussian tensor model, the same assertion does not hold for the other types of distribution such as stochastic tensor block model. Surprisingly, we will show that, with very high probability, a simple least-square estimator can achieve a convergence rate that is nearly the same as the optimal one in a general class of block tensors. 
 
-\begin{theorem} \label{thm:main}
-Let $\hat \Theta$ the least square estimator for model~\eqref{eq:model}. There exists constants $C_1, C_2>0$ such that 
+For the true signal tensor $\trueT\in\tP$ and its estimator $\hat \Theta\in\tP$, define
 \[
-\FnormSize{}{\hat \Theta-\trueT}\leq C_1 \sigma^2 \left( \prod_k R_k+\sum_k d_k \log R_k\right),
+\text{Loss}(\trueT,\hat \Theta)={1\over \prod_k d_k}\FnormSize{}{\trueT-\hat \Theta}^2. 
 \]
-with very high probability uniformly over $\trueT\in\tP_{\mR}$ and all error distribution satisfying~\eqref{eq:noise}. 
+
+\begin{theorem}[Convergence] \label{thm:main}
+Let $\hat \Theta$ be the least-square estimator of $\trueT$ under model~\eqref{eq:model}. There exist two constants $C_1, C_2>0$ such that, with very high probability,  
+\begin{equation}\label{eq:bound}
+\text{Loss}(\trueT,\hat \Theta)\leq {C_1 \sigma^2\over  \prod_k d_k} \left(\prod_k R_k+\sum_k d_k \log R_k\right),
+\end{equation}
+holds uniformly over $\trueT\in\tP_{\mR}$ and all error distribution satisfying~\eqref{eq:noise}. 
 \end{theorem}
 
-We discuss the implication of the error bound. When $\sigma$ is bounded, the rate in Theorem~\ref{thm:main} can be decomposed into two parts. The part involving $\sum_k R_k$ reflects the number of mean parameters in the block structure, while the part involving $\sum_k d_k \log R_k$ results from the complexity of estimating the block structure of each of the modes. In contrast, the minimax rate for tensor Tucker decomposition with low rank would be $\sum_kd_kR_k$, since without any other constraint the block assumption implies that the multilinear rank of the mean tensor $\trueT$ is $(R_1,\ldots,R_K)$. Note that $\sum_k R_k+ \sum_k d_k \log R_k\ll \sum_k d_k R_k$ as both $d_{\min}=\min_kd_k$ and $R_{\min}=\min_k d_k$ tend to infinity. Therefore, by fully exploiting the block structure we obtain a much better convergence rate than only using the low rank assumption. 
+The convergence rate in~\eqref{eq:bound} consists of two parts. The first part $\prod_k R_k$ reflects the complexity for estimating the core tensor $\tC$, while the second part $\sum_k d_k \log R_k$ results from the complexity for estimating the supports of $\mM_k$'s. It is the price that one has to pay for not knowing the locations of the blocks.  
 
+We now compare our bound with existing literature. The classical Tucker tensor decomposition has a minimax convergence rate $\sum_kd_kR'_k$~\cite{zhang2018tensor}, where $R'_k$ is the multilinear rank at mode $k$. In the case of block model, this yields $\sum_kd_kR_k$, because the mode-$k$ rank is bounded by the number of clusters in mode-$k$. Now, as both the dimension $d_{\min}=\min_kd_k$ and clustering size $R_{\min}=\min_k R_k$ tend to infinity, we have $\prod_k R_k+ \sum_k d_k \log R_k\ll \sum_k d_k R_k$. Therefore, by fully exploiting the block structure, we obtain a better convergence rate than previously possible. 
+
+Our bound also generalizes the previous results on structured matrix estimation in network analysis~\cite{gao2016optimal,gao2018minimax}. The optimal convergence rate for estimating the (matrix) stochastic block model was $R_1R_2+d_1\log R_1+d_2\log R_2$~\cite{gao2016optimal}, which fits into our special case when $K=2$. 
+Earlier work~\cite{gao2018minimax} suggests the following heuristics on the sample complexity for high-dimensional matrix problems:
+\begin{equation}\label{eq:intuition}
+{\text{(number of parameters)}+ \log \text{(complexity of models)}\over \text{number of samples}}.
+\end{equation}
+Our result supports this important principle for general $K\geq 2$. Note that, in tensor estimation, the total number of entries corresponds to the sample size $\prod_k d_k$, the number of parameters is $\prod_k R_k$, and combinatoric complexity for estimating block models is of order $\prod_k R_k^{d_k}$. The principle~\eqref{eq:intuition} thus provide an intuition for~\eqref{eq:bound}. 
+
+The optimality of the least-square estimator is safeguarded by the following information-theoretical lower bound.
 \begin{theorem}[Minimax] Under the Gaussian or Bernoulli tensor block models, there exist some constants $\alpha_0>0, \beta_0\in(0,1)$, such that
 \[
 \inf_{\hat \Theta}\sup_{\Theta \in \tP}\mathbb{P}\left\{ \FnormSize{}{\hat \Theta-\trueT}^2> c_0\sigma^2 \prod_k R_k+\sum d_k \log R_k\right\}>\beta_0.
@@ -186,35 +204,54 @@ We discuss the implication of the error bound. When $\sigma$ is bounded, the rat
 (add the proof)
 \end{theorem}
 
-To study the partition consistency, we need the following identification conditions:
+We next study the clustering consistency of our method. Let $\hat \mM_k$ denote the estimated membership matrix corresponding to $\hat\Theta$, and $\trueM$ the true membership matrix. We define the clustering error rate as $\text{CER}(\hat \mM_k, \trueM)=d_k^{-1}\sum_{i\in[d_k]}\mathds{1}_{\{\hat \mM_k(i)=\trueM(i)\}}$. 
 
-
-We define the clustering error as $\text{MER}(\mA, \mB)=d_k^{-1}\sum_{i\in[d_k]}\mathds{1}_{\{\mA(i)=\mB(i)\}}$. The following Theorem~\eqref{thm:partition} implies that our method achieves partition consistence. 
-\begin{theorem}[Partition consistency]\label{thm:partition}
-Let $\hat \mM_k$ denote the estimated membership matrix. Suppose the core tensor is irreducible. Then for fixed block sizes $\mM$ and increasing dimension $d_{\text{min}}$, the proportions of misclassified modes converge to zero in probability; i.e. there exist permutation matrices $\{\mP_k\}$ such that for any $\delta>0$,
+The following Theorem implies that our method achieves clustering consistence. 
+\begin{theorem}[Clustering consistency]\label{thm:partition}
+Suppose the Assumption~\eqref{ass:core} holds. Let $\hat \mM_k$'s be the estimators from~\eqref{eq:estimate}. Then the proportions of misclassified indices goes to zero in probability; i.e. there exist permutation matrices $\mP_k$'s such that
 \[
-\bigcup_k\left\{ \hat\mM_k: \text{MER}(\hat \mM_k, \mP_k\mM_{\text{true},k})> \delta\right\} \rightarrow 0, \quad \text{in probability}.
+\sum_k \text{CER}(\hat \mM_k, \mP_k\trueM) \rightarrow 0, \quad \text{in probability}. 
 \]
 \end{theorem}
+(add the proof)
+Under stronger distribution assumptions on $\tE$, we can establish the finite-sample convergence rate for the clustering accuracy. See more results in the Supplements. 
 
 \section{Numerical Implementation}
-It can be viewed as a higher-order $K$-means clustering in that the block means $\{c_{r_1,\ldots,r_K}\}$ serve as the role of centroids. 
+\subsection{Alternating optimization}
+We introduce an alternating optimization for solving~\eqref{eq:estimate}. Note that the optimization~\eqref{eq:estimate} can be written as
+\begin{align}\label{eq:op}
+(\hat \tC, \{\hat \mM_k\})&=\argmin_{\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}, \text{ membership matrices $\mM_k$'s}} f(\tC,\{\mM_k\}),\notag\\
+ \text{where}&\quad f(\tC,\{\mM_k\})=\FnormSize{}{\tY-\tC\times_1\mM_1\times_2\ldots\times_K\mM_K}^2.\notag
+\end{align}
+The decision variables consists of $K+1$ blocks of variables, one for the core tensor $\tC$ and $K$ for the membership matrices $\mM_k$. Given the collection of $\hat \mM_k$'s, the core tensor estimate $\hat \tC=\argmin_{\tC}f(\tC,\{\hat \mM_k\})$ has a closed-form solution, which is simply the sample average within each tensor block. Given $\hat \tC$ and the $K-1$ membership matrices, the estimation of the mode-$k$ clustering reduces to a classical $k$-mean problem. This observation suggests that we can iteratively update one block of variables at a time while keeping other others fixed. The full procedure is described in Algorithm~\ref{alg:B}.
 
-\subsection{Block relaxation algorithm}
-	\begin{algorithm}
-		\caption{Block Localization}
+	\begin{algorithm}\caption{Multiway clustering for tensor block models}
 		\label{alg:B}
 		\begin{algorithmic}
-			\STATE {Initialize $c_{11}, c_{12},...,c_{1d_1}$, $c_{21}, c_{22},...,c_{2d_2}$ and $c_{K1}, c_{K2},...,c_{Kd_K}$ by performing one-way k-means clustering on the columns and on the rows of the data matrix $X$.}
+
+			\STATE {Initialize the marginal clusterings by performing one-way $k$-means clustering on each of the modes on the tensor $\tY$.}
 			\REPEAT 
-			\FOR{i in \{1,2,...,K\}}
-			\STATE (a) holding the clusters of all modes fixed, solve $\bm{\mu}$ by minimizing the loss function with L-0 penalty on $\bm{\mu}$, that is,
-			$\mu_{r_1,r_2,...,r_K} = S(\frac{\sum_{i=1}^K\sum_{l_i\in c_{r_i}}X_{l_1,l_2,...,l_K}}{\prod_{i=1}^{K}|c_{r_i}|},\frac{\sqrt{2\lambda}}{\sqrt{\prod_{i=1}^{K}|c_{r_i}|}})$
-			\STATE (b) holding  $\bm{\mu}$ and the clusters of other $i-1$ modes fixed, minimizing the loss function with L-0 penalty with respect to $c_{i,1},...c_{i,d_i}$ by assigning each observation in mode $i$ to the cluster in mode $i$ whose mean signal is closet to it.
+			\STATE  (a) Update the core tensor $\tC$:
+			\STATE Holding the clustering fixed, minimize the objective with respect to $\tC$. for each $(r_1,\ldots,r_K)\in[R_1]\times \cdots [R_K]$,
+			\[
+			C_{r_1,\ldots,r_K}={1\over \prod_k|\mM_k^{-1}(i_k)|}\sum_{\mM_1^{-1}(r_1)\times\cdots\times \mM_K^{-1}(r_K)}\tY_{i_1,\ldots,i_K}
+			\]
+			\STATE (b) Update membership matrices $\mM_k$'s:
+				\FOR{$k$ in $\{1,2,...,K\}$}
+			Minimize the objective with respect to $\mM_k$ by assigning each mode-$k$ index to the cluster whose mean signal is most closet to it. 
+			
+			\STATE Update $\mM_k$: for each $a\in[d_k]$,
+			\[
+			\mM_k(a)=\argmin_{r\in[R_K]}\sum_{\mI_{-k}}\left(\tC_{\mM_1(i_1),\ldots,r,\ldots,\mM_K(i_K)}-\tY_{i_1,\ldots,a,\ldots,i_K}\right)^2
+			\]
+			where $\mI_{-k}=(i_1,\ldots,i_{k-1},i_{k+1},\ldots,i_K)$ denotes the indices in all modes except the $k$-th mode. 
 		\ENDFOR
+		
 			\UNTIL{Convergence} 
 		\end{algorithmic}
 	\end{algorithm}
+The above algorithm can be viewed as a higher-order $K$-means clustering in which the block means $\tC$ serve as the role of centroids. Each iteration will reduces the value of the objective function, which is bounded from above. Therefore the convergence is guaranteed. Since the objective is non-convex, one cannot guarantee a local optimum. Following~, we initialize the algorithm multiple times using random initialization. 
+
 	
 \subsection{Tuning Parameter Selection}~\label{sec:tuning}
 Before doing tensor clustering, we need to select appropriate tuning parameters. 
@@ -231,7 +268,7 @@ After estimating the $d_1$, $d_2$, ..., $d_K$, we use the estimated number of cl
 
 
 \section{Regularized estimation}
-In practice, the data tensor few blocks plus white noisy. See (Figure). We emphasize that there are a large number of regularization techniques for different purpose. Here we illustrate with using \emph{sparsity} regularization on block means for localizing the most important blocks among tensor entries. This problem can be viewed as an analogue of variable selection but now the block serves the role of variables. We propose the following regularized least square 
+In practice, the data tensor few blocks plus white noisy. See (Figure). There are a large number of regularization techniques for different purpose. Here we illustrate with using \emph{sparsity} regularization on block means for localizing the most important blocks among tensor entries. This problem can be viewed as an analogue of variable selection but now the block serves the role of variables. We propose the following regularized least square 
 \[
 \argmin_{\Theta\in \tP}\left\{\FnormSize{}{\tY-\Theta}^2+\lambda \normSize{}{\tC}_\rho
 \right\},
@@ -253,16 +290,33 @@ We choose to penalize the block means $\tC$ but not the signal tensor $\Theta$. 
 
 \section{Simulation and Evaluation}
 For simplicity, we only consider the situation $K=3$ here. 
-Given the approach of clustering in the former section, we will evaluate the performance  in different aspects on non-sparse and sparse tensor. When the tensor is non-sparse, first, we assess the relationship between MSE and the data size; second, we would verify the clustering approach when true $d_1$, ..., $d_K$ is given; third, we would evaluate the approach of estimating the number of clusters; fourth, we would evaluate the synergistic performance of selecting $d_1$, ..., $d_K$ and clustering; fifth, we would check the performance of our approach in a different kind of tensor and compare it with other clustering approach. As for sparse tensor, we would evaluate the whole process: selecting $d_1$, ..., $d_K$, choosing $\lambda$, doing tensor clustering.\par 
+Given the approach of clustering in the former section, we will evaluate the performance  in different aspects on non-sparse and sparse tensor. For non-sparse tensor, we assess the following four aspects.
+
+first, we assess the relationship between MSE and the data size; 
+
+second, we verify the clustering approach when true $d_1$, ..., $d_K$ is given; 
+
+third, we evaluate the accuracy for estimating the number of clusters; 
+
+fourth, we evaluate the synergistic performance of selecting $d_1$, ..., $d_K$ and clustering; 
+
+fifth, we would check the performance of our approach in a different kind of tensor and compare it with other clustering approach. 
+
+As for sparse tensor, we would evaluate the whole process: selecting $d_1$, ..., $d_K$, choosing $\lambda$, doing tensor clustering.\par 
 
 There are the statistics we would use to evaluate the performance in different cases:\\
-(1) CER(clustering error rate): the adjusted rand index between two paritions. This statistic measure the agreement between the true partition and estimated partition of the data tensor. In this case, we have three kinds of CER in total: CER of mode 1, CER of mode 2 and CER of mode 3;\\
-(2) Total Correct Rate: 1 - the proportion of misjudgement while determining whether the mean signal is zero.;\\
-(3) Correct Zero Rate: the proportion of zero elements are correctly identified in the underlying mean tensor;\\
-(4) Correct One Rate: the proportion of non-zero elements are correctly identified in the underlying mean tensor.\\
-(5) Error: measuring the difference between the underlying means and the estimated means.\par  
+(1) CER (clustering error rate): the adjusted rand index between two partitions. This statistic measures the agreement between the true partition and estimated partition of the data tensor. In this case, we have three kinds of CER in total: CER of mode 1, CER of mode 2 and CER of mode 3;\\
+(2) MSE: measuring the difference between the underlying means and the estimated means.\par  
 
-In non-sparse cases, we mainly use CER as an indicator to judge whether our proposal methods are good or bad because it is more intuitive for us to evaluate the performance of our approach comparing with MSE. However, it has some constraints. In sparse cases, different clusters can have the same mean: 0. In this case, we can have multiple reasonable partitions of the modes. Thus, CER is inapplicable at this time and we use  total correct rate, correct zero rate and correct one rate to be the indicator when the tensor is sparse.
+For sparsity tensor, we further consider the following three statistics:
+(3) Total Correct Rate: 1 - the proportion of misjudgment while determining whether the mean signal is zero.;\\
+(4) Correct Zero Rate: the proportion of zero elements are correctly identified in the underlying mean tensor;\\
+(5) Correct One Rate: the proportion of non-zero elements are correctly identified in the underlying mean tensor.\\
+
+
+In non-sparse cases, we mainly use CER (both CER and MSE??) as an indicator to assess our proposal methods because it is more intuitive for us to evaluate the performance of our approach comparing with MSE. 
+
+However, it has some constraints. In sparse cases, different clusters can have the same mean: 0. In this case, we can have multiple reasonable partitions of the modes. Thus, CER is inapplicable at this time and we use  total correct rate, correct zero rate and correct one rate to be the indicator when the tensor is sparse. 
 \par
 
 

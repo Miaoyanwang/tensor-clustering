@@ -77,22 +77,22 @@ Let $\tS=\{\mathbb{P}_{\Theta}\colon \Theta\in\tP\}$ be the family of (either Ga
 \end{equation}
 where $\tC$, $\tilde \tC\in\mathbb{R}^{R_1\times \cdots \times R_K}$ are two irreducible cores, and $\mM_k,\tilde \mM_k\in\{0,1\}^{R_k\times d_k}$ are membership matrices for all $k\in[K]$. We will prove by contradiction that $\mM_k$ and $\tilde \mM_k$ induce the same partition of $[d_k]$, for all $k\in[K]$. 
 
-Suppose the above claim does not hold. Then there exists a mode $k\in[K]$ such that the $\mM_k, \tilde \mM_k$ induce two different partitions of $[d_k]$. Without loss of generality, we assume $k=1$. The definition of partition implies that there exists a pair of indices $i\neq j, i,j\in[d_1]$, such that, $i,j$ belong to the same cluster based on $\mM_k$, but they belong to different clusters based on $\tlde \mM_k$. Let $\tC\subset [d_1] $ denote the cluster that $i$ (or $j$) belong to based on $\mM_k$, and $\tA, \tB\subset[d_1]$ denote the two different clusters that $i$, $j$ belongs to based on $\tilde \mM_k$. Based on the left-hand side of \eqref{eq:equality}
+Suppose the above claim does not hold. Then there exists a mode $k\in[K]$ such that the $\mM_k, \tilde \mM_k$ induce two different partitions of $[d_k]$. Without loss of generality, we assume $k=1$. The definition of partition implies that there exists a pair of indices $i\neq j, i,j\in[d_1]$, such that, $i,j$ belong to the same cluster based on $\mM_k$, but they belong to different clusters based on $\tilde \mM_k$. Let $\tC\subset [d_1] $ denote the cluster that $i$ (or $j$) belong to based on $\mM_k$, and $\tA, \tB\subset[d_1]$ denote the two different clusters that $i$, $j$ belongs to based on $\tilde \mM_k$. Based on the left-hand side of \eqref{eq:equality}
 \begin{equation}\label{eq:cluster1}
-\Theta(i,i_2,\ldots,i_K)=\Theta(j,i_2,\ldots,i_K),\quad \text{for all } (i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K].
+\Theta_{i,i_2,\ldots,i_K}=\Theta_{j,i_2,\ldots,i_K},\quad \text{for all } (i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K].
 \end{equation}
  On the other hand, \eqref{eq:equality} implies
 \begin{equation}\label{eq:cluster2}
-\Theta(i,i_2,\ldots,i_K)=\Theta(k,i_2,\ldots,i_K),\quad \text{for all } k\in \tA \text{ and }(i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K],
+\Theta_{i,i_2,\ldots,i_K}=\Theta_{k,i_2,\ldots,i_K},\quad \text{for all } k\in \tA \text{ and }(i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K],
 \end{equation}
 and
 \begin{equation}\label{eq:cluster3}
-\Theta(j,i_2,\ldots,i_K)=\Theta(k,i_2,\ldots,i_K),\quad \text{for all } k\in \tB \text{ and }(i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K].
+\Theta_{j,i_2,\ldots,i_K}=\Theta_{k,i_2,\ldots,i_K},\quad \text{for all } k\in \tB \text{ and }(i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K].
 \end{equation}
 
 Combining~\eqref{eq:cluster1}, \eqref{eq:cluster2} and \eqref{eq:cluster3}, we have
 \[
-\Theta(i,i_2,\ldots,i_K)=\Theta(k,i_2,\ldots,i_K),\quad \text{for all } k\in \tA\cup \tB \text{ and }(i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K].
+\Theta{i,i_2,\ldots,i_K}=\Theta_{k,i_2,\ldots,i_K},\quad \text{for all } k\in \tA\cup \tB \text{ and }(i_2,\ldots,i_K)\in[d_2]\times\cdots\times [d_K].
 \]
 Therefore, one can merge $\tA, \tB$ into one cluster along the mode 1. This contradicts the irreducibility of the core tensor $\tilde \tC$. Therefore, $\mM_1$ and $\tilde \mM_1$ induce a same partition of $[d_1]$, and thus they are equal up to permutations. The proof is now complete. 
 
@@ -115,30 +115,70 @@ Therefore, one can merge $\tA, \tB$ into one cluster along the mode 1. This cont
 %Both sides of the above expression represent a block tensor with a same core. Let us consider the mode-1 structure first. Based on the Assumption~\ref{ass:core}, $\mB_1\mM_1$ has full row rank. Furthermore, the mode-$1$ partition is determined by $\mM_1$, because multiplying a $R_1$-by-$R_1$ confusion matrix $B_1$ will not change the cluster allocation. On the right-hand hand, the mode-$1$ partition is determined by $\tilde \mM_1$. Therefore the partition encoded in $\mM_1$ is the same as that in $\tilde \mM_1$. Equivalently, $\mB_1$ must be a permutation matrix. The proof is complete by applying the same argument to all $k\in[K]$. 
 
 \subsection{Proof of Theorem~\ref{thm:main}}
-To study the performance of the least-square estimator $\hat \Theta$, we need to introduce some additional notations. The membership matrix $\mM_k$ can be viewed as a onto function $\mM_k\colon [d_k]\maps [R_k]$, and with a little abuse of notation, we still use $\mM_k$ to denote the mapping function. Correspondingly, we use $\mM_k(i)\in[R_k]$ to denote the cluster label for the element $i\in[d_k]$. 
+To study the performance of the least-square estimator $\hat \Theta$, we need to introduce some additional notations. We view the membership matrix $\mM_k$ as a onto function $\mM_k\colon [d_k]\mapsto [R_k]$, and with a little abuse of notation, we still use $\mM_k$ to denote the mapping function. Correspondingly, we use $\mM_k(i)\in[R_k]$ to denote the cluster label for the element $i\in[d_k]$.  The parameter space $\tP$ can be equivalently written as
+\begin{align}
+\tP=&\big\{ \Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}\colon \Theta_{i_1,\ldots,i_K}=\tC_{r_1,\ldots,r_K} \text{ for } (i_1,\ldots,i_K)\in\mM^{-1}_1(r_1)\times \cdots \times \mM_K^{-1}(r_K)\notag \\
+&\ \text{ with some membership matrices $\mM_k$'s and a core tensor $\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}$} \big\}.\notag
+\end{align}
+In other words, the mean signal tensor $\Theta$ is a piecewise constant with respect to the blocks in the Cartesian product of the mode-$k$ clusters, $ \mM^{-1}_1(r_1)\times \cdots \times \mM_K^{-1}(r_K)$, for all $(r_1,\ldots,r_K)\in[R_1]\times \cdots\times [R_K]$. 
 
+Let $d=\prod_k d_k$ and $R=\prod_k R_k$. We define $\tD(s)$ to be the set of $d$-dimensional vectors with at most $s$ distinct entry values. 
+By identifying the tensors in $\tP$ as $d$-dimensional vectors, we have $\tP\subset \tD^d(R)$.
+
+
+Now consider the least-estimate estimator
+\[
+\hat \Theta=\argmin_{\Theta\in\tP}\{-2\langle \tY, \Theta\rangle+\FnormSize{}{\Theta}^2 \}=\argmin_{\Theta\in\tP}\{\FnormSize{}{\tY-\Theta}^2 \}.
+\]
+Based on Proposition~\ref{prop:bound}, we have
+\[
+\FnormSize{}{\hat \Theta-\trueT} \leq 2\sup_{\mu\in (\tP-\tP') \cap \mB^d_2}\langle \mu ,\tE\rangle,
+\]
+where $(\tP-\tP')=\{\mu-\mu'\colon \mu, \mu'\in\tP\}$ and $\mB^{d}_2$ denotes the Euclidean unit ball in dimension $d$. Based on the definition we have
+\[
+(\tP-\tP')\subset \tD^d(R^2).
+\]
+
+(to be finished...)
+\begin{align}
+\sup_{\mu\in (\tP-\tP')\cap \mB^d_2}\langle \mu ,\tE\rangle&\leq \sup_{\mu\in \tD(R^2)\cap\mB^d_2}\langle \mu, \tE\rangle\\
+&\leq \sup_{|\ms|= R^2}\sup_{\mu\in\mB_2^{\ms}}\langle \mu, \tE\rangle\\
+&\leq2\sigma \log\left(6^{R^2}{d \choose R^2}\right)\\
+&\leq 2\sigma R^2+....
+\end{align}
+with probability at least $1-\exp(R^2)$
+
+For fixed $\mM_k$'s, $\tC$ is a linear space of dimension no greater than $R^2$. 
+%Let $\tD$ denote a subset of $\mathbb{R}$ with $\prod_k R_k$ finite elements. We also call $\tD$ an alphabet with $|\tD|=\prod_k$. Then
+%\[
+%\tP\subset \{\Theta\colon \Theta\in \tD^{d_1\times \cdots d_K}\}.
+%\]
+
+\subsection{Proof of}
 
 \subsection{Sparse clustering}	
 \begin{lemma}
-		Let $\mathbf{Y} \in \mathbb{R}^n$ be a response vector and $\mathbf{X} \in \mathbb{R}^{n\times p}$ the design matrix. Assume the response vector $\mathbf{Y}$ is mean-centered, i.e., $\sum_iY_i=0$. Suppose that $\mathbf{X}$ is an orthogonal design matrix with $X^TX=diag(n_1,...,n_p)$. Define the ordinary least-square estimate $\hat{\bm{\beta}}_{ols} = (\hat{\beta}_{ols,1},...,\hat{\beta}^T_{ols,p})^T$. Consider the following constrained optimization: 
-		\begin{equation*}
-		\bm{
-			\hat{\beta}} = \argmin\{\frac{1}{2}||\mathbf{Y}-\mathbf{X}\bm{\beta}||^2_2+\lambda pen(\bm{\beta})\}
-		\end{equation*}
-		1. Case 1: L-0 penalization. $pen(\bm{\beta}) = ||\bm{\beta}||_0$:\\
-		Under the change of tuning parameter $\lambda' := f(\lambda)=\sqrt{2\lambda}$  such that $\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
-		\begin{equation*}
-		\hat{\beta}_i = \hat{\beta}_{ols,i}\mathbb{I}_{|\hat{\beta}_{ols,i}|>\frac{\lambda'}{\sqrt{n_i}}}\ for\ all\ i=1,...,p
-		\end{equation*}
-		2. Case 2: L-1 penalization. $pen(\bm{\beta})= ||\bm{\beta}||_1$:\\
-		$\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
-		\begin{equation*}
-		\hat{\beta}_i = sign(\hat{\beta_{ols,i}})(|\hat{\beta_{ols,i}}|-\frac{\lambda}{n_i})_+\ for\ all\ i=1,2,...,p
-		\end{equation*}
+\end{lemma}
+
+Let $\mathbf{Y} \in \mathbb{R}^n$ be a response vector and $\mathbf{X} \in \mathbb{R}^{n\times p}$ the design matrix. Assume the response vector $\mathbf{Y}$ is mean-centered, i.e., $\sum_iY_i=0$. Suppose that $\mathbf{X}$ is an orthogonal design matrix with $X^TX=diag(n_1,...,n_p)$. Define the ordinary least-square estimate $\hat{\bm{\beta}}_{ols} = (\hat{\beta}_{ols,1},...,\hat{\beta}^T_{ols,p})^T$. Consider the following constrained optimization: 
+\begin{equation*}
+\bm{\hat{\beta}} = \argmin\{\frac{1}{2}||\mathbf{Y}-\mathbf{X}\bm{\beta}||^2_2+\lambda pen(\bm{\beta})\}
+\end{equation*}
+1. Case 1: L-0 penalization. $pen(\bm{\beta}) = ||\bm{\beta}||_0$:\\
+Under the change of tuning parameter $\lambda' := f(\lambda)=\sqrt{2\lambda}$  such that $\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
+\begin{equation*}
+\hat{\beta}_i = \hat{\beta}_{ols,i}\mathbb{I}_{|\hat{\beta}_{ols,i}|>\frac{\lambda'}{\sqrt{n_i}}}\ for\ all\ i=1,...,p
+\end{equation*}
+2. Case 2: L-1 penalization. $pen(\bm{\beta})= ||\bm{\beta}||_1$:\\
+$\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
+\begin{equation*}
+\hat{\beta}_i = sign(\hat{\beta_{ols,i}})(|\hat{\beta_{ols,i}}|-\frac{\lambda}{n_i})_+\ for\ all\ i=1,2,...,p
+\end{equation*}
 		
-	\end{lemma}
-	\begin{proof}
-		The thing we want to minimize is
+
+	
+
+		We want to minimize
 		\begin{equation*}
 		L=\frac{1}{2}||\mathbf{Y-X}\bm{\beta}||^2_2+\lambda||\bm{\beta}_0||=\frac{1}{2}(\mathbf{Y-X}\bm{\beta})^T(\mathbf{Y-X}\bm{\beta})+\lambda ||\bm{\beta}||_0=L_1+L_2
 		\end{equation*} 
@@ -192,7 +232,7 @@ Here, $\bm{\hat{\beta}}_{ols} = \mathbf{(X^TX)^{-1}X^TY} = diag(1/n_1, ..., 1/n_
 \begin{equation*}
 	\hat{\beta}_i = sign(\hat{\beta_{ols,i}})(|\hat{\beta_{ols,i}}|-\frac{\lambda}{n_i})_+\ for\ all\ i=1,2,...,p
 \end{equation*}
-\end{proof}
+
 
 
 \begin{table}[http]

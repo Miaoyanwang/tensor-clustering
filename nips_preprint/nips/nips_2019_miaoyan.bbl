@@ -26,4 +26,17 @@ Robin~A Darton.
 Herv{\'e} Abdi.
 \newblock Factor rotations in factor analyses.
 
+\bibitem{gao2016optimal}
+Chao Gao, Yu~Lu, Zongming Ma, and Harrison~H Zhou.
+\newblock Optimal estimation and completion of matrices with biclustering
+  structures.
+\newblock {\em The Journal of Machine Learning Research}, 17(1):5602--5630,
+  2016.
+
+\bibitem{gao2018minimax}
+Chao Gao and Zongming Ma.
+\newblock Minimax rates in network analysis: Graphon estimation, community
+  detection and hypothesis testing.
+\newblock {\em arXiv preprint arXiv:1811.06055}, 2018.
+
 \end{thebibliography}
