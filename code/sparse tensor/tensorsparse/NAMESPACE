@@ -12,7 +12,7 @@ export(tensor.calculateBIC)
 export(cer)
 export(sparse.evaluate)
 export(plot_tensor)
-
+export(choosekrl_bic)
 
 import(RColorBrewer)
 import(viridis)

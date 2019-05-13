@@ -1,6 +1,5 @@
 #' calculate the correct rate of the result of sparse.choosekrl()
 #' 
-#' calculate the correct rate of the result of sparse.choosekrl()
 #' @param true true k, r, l
 #' @param results result returned by sparse.choosekrl()
 #' 

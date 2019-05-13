@@ -39,4 +39,9 @@ Chao Gao and Zongming Ma.
   detection and hypothesis testing.
 \newblock {\em arXiv preprint arXiv:1811.06055}, 2018.
 
+\bibitem{aloise2009np}
+Daniel Aloise, Amit Deshpande, Pierre Hansen, and Preyas Popat.
+\newblock Np-hardness of euclidean sum-of-squares clustering.
+\newblock {\em Machine learning}, 75(2):245--248, 2009.
+
 \end{thebibliography}

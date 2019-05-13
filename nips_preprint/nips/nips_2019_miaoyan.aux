@@ -27,7 +27,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2}Preliminaries}{1}{section.2}}
 \citation{madeira2004biclustering}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces (a): $60\times 60\times 60$ sparse tensor; (b) true underlying means; (c) mean signal estimated by our approach with estimated number of clusters and estimated $\lambda $.\relax }}{2}{figure.caption.3}}
-\newlabel{fig2}{{2}{2}{(a): $60\times 60\times 60$ sparse tensor; (b) true underlying means; (c) mean signal estimated by our approach with estimated number of clusters and estimated $\lambda $.\relax }{figure.caption.3}{}}
+\newlabel{fig:2}{{2}{2}{(a): $60\times 60\times 60$ sparse tensor; (b) true underlying means; (c) mean signal estimated by our approach with estimated number of clusters and estimated $\lambda $.\relax }{figure.caption.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Tensor block model}{2}{section.3}}
 \newlabel{eq:model}{{1}{2}{Tensor block model}{equation.3.1}{}}
 \newlabel{eq:Tucker}{{2}{2}{Tensor block model}{equation.3.2}{}}
@@ -40,29 +40,34 @@
 \newlabel{eq:estimate}{{6}{3}{Tensor block model}{equation.3.6}{}}
 \newlabel{ass:core}{{1}{3}{Irreducible cores}{ass.1}{}}
 \newlabel{prop:factors}{{1}{3}{Identifiability}{prop.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Statistical convergence}{3}{section.4}}
+\newlabel{sec:theory}{{4}{3}{Statistical convergence}{section.4}{}}
 \citation{zhang2018tensor}
 \citation{gao2016optimal}
 \citation{gao2018minimax}
 \citation{gao2016optimal}
 \citation{gao2018minimax}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Statistical convergence}{4}{section.4}}
-\newlabel{sec:theory}{{4}{4}{Statistical convergence}{section.4}{}}
-\newlabel{thm:main}{{1}{4}{Convergence}{theorem.1}{}}
-\newlabel{eq:bound}{{7}{4}{Convergence}{equation.4.7}{}}
+\newlabel{thm:main}{{1}{4}{Convergence rate}{theorem.1}{}}
+\newlabel{eq:bound}{{7}{4}{Convergence rate}{equation.4.7}{}}
 \newlabel{eq:intuition}{{8}{4}{Statistical convergence}{equation.4.8}{}}
-\newlabel{thm:partition}{{3}{5}{Clustering consistency}{theorem.3}{}}
+\newlabel{thm:partition}{{3}{4}{Clustering consistency}{theorem.3}{}}
+\citation{aloise2009np}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Numerical Implementation}{5}{section.5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Alternating optimization}{5}{subsection.5.1}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Multiway clustering for tensor block models\relax }}{5}{algorithm.1}}
-\newlabel{alg:B}{{1}{5}{Multiway clustering for tensor block models\relax }{algorithm.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Tuning Parameter Selection}{6}{subsection.5.2}}
-\newlabel{sec:tuning}{{5.2}{6}{Tuning Parameter Selection}{subsection.5.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Regularized estimation}{6}{section.6}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Simulation and Evaluation}{6}{section.7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Plots of the root mean squared error (RMSE) verus sample size when using our tensor clustering algorithm. Each curve corresponds to a fixed $(d_1,d_2,d_3)$. (a): Plots of average RMSE over 50 simulations against $n_1$; (b): Plots of averge RMSE over 50 simulations against $\sqrt  {n_2n_3/logd_1}$. \relax }}{7}{figure.caption.4}}
-\newlabel{fig3}{{3}{7}{Plots of the root mean squared error (RMSE) verus sample size when using our tensor clustering algorithm. Each curve corresponds to a fixed $(d_1,d_2,d_3)$. (a): Plots of average RMSE over 50 simulations against $n_1$; (b): Plots of averge RMSE over 50 simulations against $\sqrt {n_2n_3/logd_1}$. \relax }{figure.caption.4}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{7}{subfigure.3.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{7}{subfigure.3.2}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Multiway clustering based on tensor block models\relax }}{5}{algorithm.1}}
+\newlabel{alg:B}{{1}{5}{Multiway clustering based on tensor block models\relax }{algorithm.1}{}}
+\newlabel{eq:ols}{{9}{5}{Multiway clustering based on tensor block models\relax }{equation.5.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Tuning parameter selection}{5}{subsection.5.2}}
+\newlabel{sec:tuning}{{5.2}{5}{Tuning parameter selection}{subsection.5.2}{}}
+\newlabel{eq:BIC}{{10}{6}{Tuning parameter selection}{equation.5.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Extension to regularized estimation}{6}{section.6}}
+\newlabel{eq:lasso}{{11}{6}{Extension to regularized estimation}{equation.6.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Experiments}{6}{section.7}}
+\newlabel{sec:simulation}{{7}{6}{Experiments}{section.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Plots of the root mean squared error (RMSE) verus sample size when using our tensor clustering algorithm. Each curve corresponds to a fixed $(d_1,d_2,d_3)$. (a): Plots of average RMSE over 50 simulations against $n_1$; (b): Plots of averge RMSE over 50 simulations against $\sqrt  {n_2n_3/logd_1}$. \relax }}{8}{figure.caption.4}}
+\newlabel{fig3}{{3}{8}{Plots of the root mean squared error (RMSE) verus sample size when using our tensor clustering algorithm. Each curve corresponds to a fixed $(d_1,d_2,d_3)$. (a): Plots of average RMSE over 50 simulations against $n_1$; (b): Plots of averge RMSE over 50 simulations against $\sqrt {n_2n_3/logd_1}$. \relax }{figure.caption.4}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{8}{subfigure.3.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{8}{subfigure.3.2}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The CERs over 50 simulated tensors ($d_1=3, d_2=5, d_3=4$) each time.\relax }}{8}{table.caption.5}}
 \newlabel{t3}{{1}{8}{The CERs over 50 simulated tensors ($d_1=3, d_2=5, d_3=4$) each time.\relax }{table.caption.5}{}}
 \bibstyle{unsrt}
@@ -74,6 +79,7 @@
 \bibcite{abdi2003factor}{5}
 \bibcite{gao2016optimal}{6}
 \bibcite{gao2018minimax}{7}
+\bibcite{aloise2009np}{8}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Plots of the mean CER C verus noise when using our tensor clustering algorithm and CPD k-means where $n_1=n_2=n_3=50, d_1=d_2=d_3=4$. Each curve corresponds to different method. (a): Plots of average CER in mode 1 over 50 simulations against noise while the data is a tensor with multiplicative clusters where $S=3$; (b): Plots of averge CER in mode 1 over 50 simulations against noise while the data is a tensor with constant clusters.\relax }}{9}{figure.caption.6}}
 \newlabel{fig4}{{4}{9}{Plots of the mean CER C verus noise when using our tensor clustering algorithm and CPD k-means where $n_1=n_2=n_3=50, d_1=d_2=d_3=4$. Each curve corresponds to different method. (a): Plots of average CER in mode 1 over 50 simulations against noise while the data is a tensor with multiplicative clusters where $S=3$; (b): Plots of averge CER in mode 1 over 50 simulations against noise while the data is a tensor with constant clusters.\relax }{figure.caption.6}{}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{9}{subfigure.4.1}}

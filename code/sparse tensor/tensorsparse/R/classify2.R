@@ -1,11 +1,11 @@
-#' do tensor clustering
+#' perform tensor clustering
 #' 
-#' do tensor clustering
+#' perform tensor clustering
 #' @param x a three-dimensional array
-#' @param k the clusters number of mode 1
-#' @param r the clusters number of mode 2
-#' @param l the clusters number of mode 3
-#' @param lambda a positive numeric value
+#' @param k the number of clusters in mode 1
+#' @param r the number of clusters in mode 2
+#' @param l the number of clusters in mode 3
+#' @param lambda the sparsity parameter in the sparse clustering
 #' @param max.iter maximum times of iteration
 #' @param threshold ...
 #' @param trace ...
@@ -13,7 +13,7 @@
 #' @param Ds.init ...
 #' @param Es.init ...
 #' @param nstart ...
-#' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.
+#' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicates Lasso penalty, and "L0" indicates sparse subset penalty
 #' @param center ...
 #' @return a list \code{judgeX}
 #'                \code{Cs} clustering result in mode 1 

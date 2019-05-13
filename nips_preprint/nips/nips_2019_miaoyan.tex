@@ -29,7 +29,7 @@
 \usepackage{subfig}
 \usepackage[english]{babel}
 \usepackage{algorithm}
-\usepackage{algorithmic}
+%\usepackage{algorithmic}
 \usepackage{appendix}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -40,6 +40,12 @@
 \newtheorem{proof}{Proof}
 \input macros.tex
 \usepackage{dsfont}
+
+\usepackage{algpseudocode,algorithm}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+\algnewcommand\OUTPUT{\item[\algorithmicoutput]}
 
 
 \newcommand*{\KeepStyleUnderBrace}[1]{%f
@@ -56,7 +62,7 @@
 \externaldocument{nips_2019_supp}
 
 
-\title{Multi-way block localization vis sparse tensor clustering}
+\title{Multi-way block localization via tensor-based clustering}
 
 
 \author{%
@@ -97,7 +103,7 @@ Here is an example of tensor clustering by using our proposed method.
 	\includegraphics[scale=0.5]{figures/figure2/truth.png}
 	\includegraphics[scale=0.5]{figures/figure2/output.png}
 	\caption{(a): $60\times 60\times 60$ sparse tensor; (b) true underlying means; (c) mean signal estimated by our approach with estimated number of clusters and estimated $\lambda$.}
-	\label{fig2}
+	\label{fig:2}
 \end{figure}
 
 
@@ -108,7 +114,7 @@ We say that an event $A$ occurs ``with high probability'' if $\mathbb{P}(\mA)$ t
 
 We use lower-case letters ($a,b,u,v,\ldots$) for scalars and vectors. We use upper-case boldface letters ($\mA,\mB,\mC,\ldots$) for matrices, and calligraphy letter ($\tA, \tB, \tC,\ldots$) for tensors of order $K\geq 3$. $\mx\otimes \my$ is the Kronecker product of two vectors. For any set $J$, $|J|$ denotes its cardinality. $[d]$ represents the set $\{1,2,\ldots,d\}$. 
 
-A clustering of $d$ objects can be represented by a partition of the index set $[d]=\{1,\ldots,d\}$ into $R$ disjoint non-empty subsets. We refer to $R$ the clustering size. It is often convenient to represent the clustering (or partition) using the ``membership matrix''. A membership matrix $\mM$ is an $d$-by-$R$ matrix whose $(i,j)$-entry is 1 if and only if the element $i$ belongs to the cluster $j$, and 0 otherwise. Based on the definition, $\mM$ is binary matrix with orthogonal columns, and the matrix elements sum up to $d$. The membership matrix $\mM$ can also be viewed as a mapping $\mM:[d]\mapsto[R]$. With a little abuse of notation, we still use the $\mM$ to denote the mapping, and use $\mM(i)$ to denote the cluster label that entry $i$ belongs to. Accordingly, we write $\mM\in[R]^d$. 
+A clustering of $d$ objects can be represented by a partition of the index set $[d]=\{1,\ldots,d\}$ into $R$ disjoint non-empty subsets. We refer to $R$ the clustering size. It is often convenient to represent the clustering (or partition) using the ``membership matrix''. A membership matrix $\mM$ is an $d$-by-$R$ matrix whose $(i,j)$-entry is 1 if and only if the element $i$ belongs to the cluster $j$, and 0 otherwise. Based on the definition, $\mM$ is binary matrix with orthogonal columns, and the matrix elements sum up to $d$. The membership matrix $\mM$ can also be viewed as a mapping $\mM:[d]\mapsto[R]$. With a little abuse of notation, we still use the $\mM$ to denote the mapping, and use $\mM(i)$ to denote the cluster label that entry $i$ belongs to. 
 
 Throughout the paper, we will use the terms ``partition'', ``clustering'', and ``membership matrix'' exchangeably. 
 
@@ -148,7 +154,7 @@ We consider a least-square approach for estimating model~\eqref{eq:model}. Let $
 \tP_{R_1,\ldots,R_K}=&\ \big\{ \Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}\colon \Theta=\tC\times_1\mM_1\times_2\cdots\times_K\mM_K, \text{with some}\\
  &\quad \text{membership matrices $\mM_k$'s and a core tensor $\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}$}\big\}.
 \end{align}
-We note that the clustering sizes $(R_1,\ldots,R_K)$ is typically unknown and have to be determined from data empirically. As in most previous work on tensor clustering, we assume that clustering sizes are fixed in our theoretical analysis and simply write $\tP$ for short. The general case for adapting unknown clustering sizes will be addressed in Section~\ref{sec:tuning}. We propose a least-square estimator for model~\eqref{eq:model}
+As in most previous work on tensor clustering, we assume that clustering size $\mR=(R_1,\ldots,R_K)$ are known in our theoretical analysis and simply write $\tP$ for short. In practice, $\mR$ needs to be determined from data; we address this general case in Section~\ref{sec:tuning}. The least-square estimator for model~\eqref{eq:model} is
 \begin{equation}\label{eq:estimate}
 \hat \Theta=\argmin_{\Theta\in\tP}\left\{ -2\langle \tY,\Theta\rangle + \FnormSize{}{\Theta}^2\right\}.
 \end{equation}
@@ -177,7 +183,7 @@ For the true signal tensor $\trueT\in\tP$ and its estimator $\hat \Theta\in\tP$,
 \text{Loss}(\trueT,\hat \Theta)={1\over \prod_k d_k}\FnormSize{}{\trueT-\hat \Theta}^2. 
 \]
 
-\begin{theorem}[Convergence] \label{thm:main}
+\begin{theorem}[Convergence rate] \label{thm:main}
 Let $\hat \Theta$ be the least-square estimator of $\trueT$ under model~\eqref{eq:model}. There exist two constants $C_1, C_2>0$ such that, with very high probability,  
 \begin{equation}\label{eq:bound}
 \text{Loss}(\trueT,\hat \Theta)\leq {C_1 \sigma^2\over  \prod_k d_k} \left(\prod_k R_k+\sum_k d_k \log R_k\right),
@@ -197,7 +203,7 @@ Earlier work~\cite{gao2018minimax} suggests the following heuristics on the samp
 Our result supports this important principle for general $K\geq 2$. Note that, in tensor estimation, the total number of entries corresponds to the sample size $\prod_k d_k$, the number of parameters is $\prod_k R_k$, and combinatoric complexity for estimating block models is of order $\prod_k R_k^{d_k}$. The principle~\eqref{eq:intuition} thus provide an intuition for~\eqref{eq:bound}. 
 
 The optimality of the least-square estimator is safeguarded by the following information-theoretical lower bound.
-\begin{theorem}[Minimax] Under the Gaussian or Bernoulli tensor block models, there exist some constants $\alpha_0>0, \beta_0\in(0,1)$, such that
+\begin{theorem}[Information-theoretical bound] Under the Gaussian or Bernoulli tensor block models, there exist some constants $\alpha_0>0, \beta_0\in(0,1)$, such that
 \[
 \inf_{\hat \Theta}\sup_{\Theta \in \tP}\mathbb{P}\left\{ \FnormSize{}{\hat \Theta-\trueT}^2> c_0\sigma^2 \prod_k R_k+\sum d_k \log R_k\right\}>\beta_0.
 \]
@@ -223,74 +229,82 @@ We introduce an alternating optimization for solving~\eqref{eq:estimate}. Note t
 (\hat \tC, \{\hat \mM_k\})&=\argmin_{\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}, \text{ membership matrices $\mM_k$'s}} f(\tC,\{\mM_k\}),\notag\\
  \text{where}&\quad f(\tC,\{\mM_k\})=\FnormSize{}{\tY-\tC\times_1\mM_1\times_2\ldots\times_K\mM_K}^2.\notag
 \end{align}
-The decision variables consists of $K+1$ blocks of variables, one for the core tensor $\tC$ and $K$ for the membership matrices $\mM_k$. Given the collection of $\hat \mM_k$'s, the core tensor estimate $\hat \tC=\argmin_{\tC}f(\tC,\{\hat \mM_k\})$ has a closed-form solution, which is simply the sample average within each tensor block. Given $\hat \tC$ and the $K-1$ membership matrices, the estimation of the mode-$k$ clustering reduces to a classical $k$-mean problem. This observation suggests that we can iteratively update one block of variables at a time while keeping other others fixed. The full procedure is described in Algorithm~\ref{alg:B}.
+The decision variables consists of $K+1$ blocks of variables, one for the core tensor $\tC$ and $K$ for the membership matrices $\mM_k$'s. We notice that, if any $K$ out of the $K+1$ blocks of variables are known, then the last block of variables can be solved explicitly. This observation suggests that we can iteratively update one block of variables at a time while keeping other others fixed. Specifically, given the collection of $\hat \mM_k$'s, the core tensor estimate $\hat \tC=\argmin_{\tC}f(\tC,\{\hat \mM_k\})$ collects the sample averages within each tensor block. Given the block mean $\hat \tC$ and $K-1$ membership matrices, the last membership matrix can be solved using simple nearest neighbor search over only $R_k$ discrete points. The full procedure is described in Algorithm~\ref{alg:B}.
 
-	\begin{algorithm}\caption{Multiway clustering for tensor block models}
-		\label{alg:B}
-		\begin{algorithmic}
+\begin{algorithm}
+\caption{Multiway clustering based on tensor block models}\label{alg:B}
+\begin{algorithmic}[1]
+\INPUT Data tensor $\tY\in \mathbb{R}^{d_1\times \cdots \times d_K}$, clustering size $\mR=(R_1,\ldots,R_K)$.
+\OUTPUT Block mean tensor $\hat \tC\in\mathbb{R}^{R_1\times \cdots\times R_K}$, and the membership matrices $\hat \mM_k$. 
+\State Initialize the marginal clustering by performing independent $k$-means on each of the $K$ modes.
+\Repeat
+\State Update the core tensor $\hat \tC=\entry{\hat c_{r_1,\ldots,r_K}}$. Specifically, for each $(r_1,\ldots,r_K)\in[R_1]\times \cdots [R_K]$,
+\begin{equation}\label{eq:ols}
+\hat c_{r_1,\ldots,r_K}={1\over n_{r_1,\ldots,r_K}}\sum_{\hat \mM_1^{-1}(r_1)\times\cdots\times \hat \mM_K^{-1}(r_K)}{\tY_{i_1,\ldots,i_K}},
+\end{equation}
+where $n_{r_1,\ldots,r_K}=\prod_k|\hat \mM_k^{-1}(r_k)|$ is the number of entries in the block indexed by $(r_1,\ldots,r_K)$. 
+\State Update membership matrices $\hat \mM_k$'s:
+\For{$k$ in $\{1,2,...,K\}$}
+\State Update the mode-$k$ membership matrix $\hat \mM_k$. Specifically, for each $a\in[d_k]$, assign the cluster label $\hat \mM_k(a)\in[R_k]$ for which	\[
+\hat \mM_k(a)=\argmin_{r\in[R_K]}\sum_{\mI_{-k}}\left(c_{\hat \mM_1(i_1),\ldots,r,\ldots,\hat \mM_K(i_K)}-\tY_{i_1,\ldots,a,\ldots,i_K}\right)^2,
+\]
+where $\mI_{-k}=(i_1,\ldots,i_{k-1},i_{k+1},\ldots,i_K)$ denotes the coordinates except the $k$-th mode. 
+\EndFor
+\Until{Convergence} 
+\end{algorithmic}
+\end{algorithm}
+The above algorithm can be viewed as a higher-order extension for the ordinary (one-way) $k$-means algorithm. The core tensor $\tC$ serves as the role of centroids. As each iteration reduces the value of the objective function, which is bounded below, convergence of the algorithm is guaranteed. On the other hand, obtaining the global optimizer for such a non-convex optimization is typically difficult, even for the one-way $k$-means~\cite{aloise2009np}. As such, we run the algorithm multiple times, using random initializations of the independent one-way $k$-mean on each of the $K$ modes. 
 
-			\STATE {Initialize the marginal clusterings by performing one-way $k$-means clustering on each of the modes on the tensor $\tY$.}
-			\REPEAT 
-			\STATE  (a) Update the core tensor $\tC$:
-			\STATE Holding the clustering fixed, minimize the objective with respect to $\tC$. for each $(r_1,\ldots,r_K)\in[R_1]\times \cdots [R_K]$,
-			\[
-			C_{r_1,\ldots,r_K}={1\over \prod_k|\mM_k^{-1}(i_k)|}\sum_{\mM_1^{-1}(r_1)\times\cdots\times \mM_K^{-1}(r_K)}\tY_{i_1,\ldots,i_K}
-			\]
-			\STATE (b) Update membership matrices $\mM_k$'s:
-				\FOR{$k$ in $\{1,2,...,K\}$}
-			Minimize the objective with respect to $\mM_k$ by assigning each mode-$k$ index to the cluster whose mean signal is most closet to it. 
-			
-			\STATE Update $\mM_k$: for each $a\in[d_k]$,
-			\[
-			\mM_k(a)=\argmin_{r\in[R_K]}\sum_{\mI_{-k}}\left(\tC_{\mM_1(i_1),\ldots,r,\ldots,\mM_K(i_K)}-\tY_{i_1,\ldots,a,\ldots,i_K}\right)^2
-			\]
-			where $\mI_{-k}=(i_1,\ldots,i_{k-1},i_{k+1},\ldots,i_K)$ denotes the indices in all modes except the $k$-th mode. 
-		\ENDFOR
-		
-			\UNTIL{Convergence} 
-		\end{algorithmic}
-	\end{algorithm}
-The above algorithm can be viewed as a higher-order $K$-means clustering in which the block means $\tC$ serve as the role of centroids. Each iteration will reduces the value of the objective function, which is bounded from above. Therefore the convergence is guaranteed. Since the objective is non-convex, one cannot guarantee a local optimum. Following~, we initialize the algorithm multiple times using random initialization. 
+\subsection{Tuning parameter selection}\label{sec:tuning}
+Our algorithm~\ref{alg:B} takes the number of clusters $\mR$ as an input. In practice such information is often unknown and $\mR$ needs to be estimated from the data $\tY$. We propose to select this tuning parameter using Bayesian information criterion (BIC), 
+\begin{equation}\label{eq:BIC}
+\text{BIC}(\mR) =  \log\left(\FnormSize{}{\tY-\hat \Theta}\right)+{ \sum_k \log d_k \over \prod_k d_k}p_e,
+\end{equation}
+where $p_e$ is the effective number of parameters in the model. In our case we take $p_e=\prod_k R_k+\sum_k d_k\log R_k$, which is inspired from~\eqref{eq:intuition}. We choose $\hat \mR$ that minimizes $\text{BIC}(\mR)$ via grid search. Our choice of BIC is based on heretics, and we test its empirical performance in Section~\ref{sec:simulation}.  
 
-	
-\subsection{Tuning Parameter Selection}~\label{sec:tuning}
-Before doing tensor clustering, we need to select appropriate tuning parameters. 
-There are $K+1$ tuning parameters in our tensor clustering proposal: the number of clusters in each modes: $d_1$, $d_2$, ..., $d_K$ and the penalty coefficient $\lambda$. For both the number of clusters and the penalty coefficient, we try to use BIC and cross validation to find the best choice. It turns out the BIC is faster when the accuracy is almost the same, so we use BIC to select the tuning parameters. \par
-\begin{equation*}
-\text{BIC}(\lambda,\mR) =  \log\left(\FnormSize{}{\tY-\hat \Theta}\right)+{ \sum_k \log d_k \over \prod_k d_k}p_e,
-\end{equation*}
-where $p_e$ is the effective number of parameters. We minimize BIC by a grid search. First select $\mR$ given $\lambda=0$, then update $\lambda$ using $\mR$. 
+\section{Extension to regularized estimation}
+In some large-scale applications, not every block in a data tensor is of equally importance. Examples include genome expression data, in which only a few entries represent the signals while the majority comes from the background noise (see Figure~\ref{fig:2}). Another example is community detection in a large sparse network, where only a few blocks represent the communities of interest and others represent small, noisy groups with weak connection.  Although our estimator~\eqref{eq:estimate} can still handle this scenario by assigning small value to some of the $\hat c_{r_1,\ldots,r_K}$'s, the estimates may suffer from high variance. It is thus beneficial to utilize regularized estimates for improved interpretability and better bias-variance trade-off. 
 
-As for the number of clusters, given a range of $d_1$, $d_2$, ..., $d_K$, we do the tensor clustering for all combinations of $d_1$, $d_2$, ..., $d_K$ with $\lambda=0$ and calculate the BIC for each of them separately using the formula above. We choose the $d_1$, $d_2$, ..., $d_K$ which is the smallest among all combinations of $d_1$, $d_2$, ..., $d_K$ whose BIC is the smallest. \par
-
-After estimating the $d_1$, $d_2$, ..., $d_K$, we use the estimated number of clusters to do tensor clustering when given a reasonable range of $\lambda$. We perform the tensor clustering and calculate the BIC on all $\lambda$ in the given range. Then we select the smallest $\lambda$ with smallest BIC.
-
-
-
-\section{Regularized estimation}
-In practice, the data tensor few blocks plus white noisy. See (Figure). There are a large number of regularization techniques for different purpose. Here we illustrate with using \emph{sparsity} regularization on block means for localizing the most important blocks among tensor entries. This problem can be viewed as an analogue of variable selection but now the block serves the role of variables. We propose the following regularized least square 
+Here we illustrate the regularized estimation using \emph{sparsity} on the block means for localizing important blocks in the data tensor. This problem can be cast into variable selection on the block parameters. We propose the following regularized least-square estimation:
 \[
-\argmin_{\Theta\in \tP}\left\{\FnormSize{}{\tY-\Theta}^2+\lambda \normSize{}{\tC}_\rho
+\hat \Theta^{\text{sparse}}=\argmin_{\Theta\in \tP}\left\{\FnormSize{}{\tY-\Theta}^2+\lambda \normSize{}{\tC}_\rho
 \right\},
 \]
-where $\normSize{}{\tC}_\rho$ is the penalty function, $\lambda$ is the penalty tuning parameter, and $\rho$ is an index for the tensor norm. Because our goal is to penalty the entries with small mean, the Lasso penalty $(\rho=1)$ or sparse sub-set penalty $(\rho=0)$ is suitable. 
+where $\normSize{}{\tC}_\rho$ is the penalty function with $\rho$ being an index for the tensor norm, $\tC\in\matbb{R}^{R_1\times \cdots\times R_K}$ is the block means, and $\lambda$ is the penalty tuning parameter. Some widely used penalties include Lasso penalty $(\rho=1)$, sparse subset penalty $(\rho=0)$, ridge penalty $(\rho=\text{Frobenius norm})$, elastic net (linear combination of $\rho=1$ and $\rho=\text{Frobenius norm}$), among many others. 
 
-Sparse estimation incurs slight changes to Algorithm. When updating the core tensor $\tC$, we simply fit a penalized least square problem..
+For parsimony purpose, we only discuss the properties for Lasso and sparse subset penalties here; other penalizations can be derived similarly. Sparse estimation incurs slight changes to Algorithm~\ref{alg:B}. When updating the core tensor $\tC$ in~\eqref{eq:ols}, we  fit a penalized least square problem:
 \[
-\hat c_{\text{sparse}}=
-\begin{cases}
-\hat c_{\text{ols}}\mathds{1}_{\{|\hat c_{\text{ols}} |\geq {\lambda \over \sqrt{n}}\}}& \rho=1,\\
-\text{sign}(\hat c_{\text{ols}})\left( \hat c_{\text{ols}}-{\lambda \over n}  \right) &\rho=0.
-\end{cases}
+\hat \tC^{\text{sparse}}=\argmin_{\tC\in\mathbb{R}^{R_1\times \cdots\times R_K}} \FnormSize{}{\tY-\tC\times_1\hat \mM_1\times\cdots\times_K \hat \mM_K}^2+\lambda \normSize{}{\tC}_\rho.
 \]
-(See Lemma in Appendix). 
-We choose to penalize the block means $\tC$ but not the signal tensor $\Theta$. (do not want to penalize blocks of small size but with large entry values). Applying penalization to $\Theta$ amounts to choose different penalization parameters to $c_{r_1,\ldots,r_K}$.  
+The closed-form update for the entry-wise sparse estimate $\hat c^{\text{sparse}}_{r_1,\ldots,r_K}$ can be found (See Lemma~\ref{lem:sparse} in Appendix):
+\begin{equation}\label{eq:lasso}
+\hat c^{\text{sparse}}_{r_1,\ldots,r_K}=
+\begin{cases}
+\hat c^{\text{ols}}_{r_1,\ldots,r_K}\mathds{1}_{\{|\hat c^{\text{ols}}_{r_1,\ldots,r_K} |\geq {2\sqrt{\lambda} \over \sqrt{n_{r_1,\ldots,r_K}}}\}} & \text{if}\ \rho=1,\\
+\text{sign}(\hat c^{\text{ols}}_{r_1,\ldots,r_K})\left( \hat c^{\text{ols}}_{r_1,\ldots,r_K}-{2\lambda \over n_{r_1,\ldots,r_K}}  \right) &\text{if}\ \rho=0.
+\end{cases}
+\end{equation}
+where $\hat c^{\text{ols}}_{r_1,\ldots,r_K}$ denotes the ordinary least-square estimate in~\eqref{eq:ols}, for all $(r_1,\ldots,r_K)\in[d_1]\times\cdots[d_K]$. From Equation~\eqref{eq:lasso}, we note that the penalization on $\tC$ shrink some block means to zero, and the shrinkage depends on the block size. For two blocks with same mean $\hat c^{\text{ols}}_{r_1,\ldots,r_K}$, the smaller block receives a more stringent thresholding value $\lambda/ n_{r_1,\ldots,r_K}$. As such, our penalization encourages the identification of large blocks with high means. 
+
+
+In practice, the choice of penalty function $\rho$ often depends on the goals and interpretations in specific problems. Given a penalization, we choose to select the tuning parameter $\lambda$ via BIC~\eqref{eq:BIC}, where we modify $p_e$ into $p^{\text{sparse}}_e=\normSize{}{\hat \tC^{\text{sparse}}}_0+\sum_kd_k\log R_k$. Here $\normSize{}{\hat \tC^{\text{sparse}}}_0$ denotes the total number of non-zero blocks in the estimates. The empirical performance of this proposal will be evaluated in Section~\ref{sec:simulation}. 
 
 
 
-\section{Simulation and Evaluation}
-For simplicity, we only consider the situation $K=3$ here. 
-Given the approach of clustering in the former section, we will evaluate the performance  in different aspects on non-sparse and sparse tensor. For non-sparse tensor, we assess the following four aspects.
+\section{Experiments}\label{sec:simulation}
+In this section, we evaluate the finite-sample performance of our method. We consider both non-sparse and sparse tensors, and compare our clustering performance with the other popular tensor-based methods. The other methods we consider are (i) CP decomposition and (ii) Tucker decomposition, followed by $k$-means clusterings on the factors on each of the modes. We refer our method as TBM (tensor block model), and the other two methods as CP+$k$ means, and Tucker+$k$-means. In the sparse case, we also consider (iii) sparse CP decomposition and (iv) sparse Tucker decomposition, followed by $k$-means on the sparse factors. 
+
+There are the statistics we would use to evaluate the performance in different cases:\\
+(1) MSE: measuring the difference between the underlying means and the estimated means.\par  
+(2) CER (clustering error rate): the adjusted rand index between two partitions. This statistic measures the agreement between the true partition and estimated partition of the data tensor. In this case, we have three kinds of CER in total: CER of mode 1, CER of mode 2 and CER of mode 3;\\
+
+For sparsity tensor, we further consider the following three statistics:
+(3) Total Correct Rate: 1 - the proportion of misjudgment while determining whether the mean signal is zero.;\\
+(4) Correct Zero Rate: the proportion of zero elements are correctly identified in the underlying mean tensor;\\
+(5) Correct One Rate: the proportion of non-zero elements are correctly identified in the underlying mean tensor.\\
+
+{\bf Non-sparse case}.
+For non-sparse tensor, we assess the following four aspects.
 
 first, we assess the relationship between MSE and the data size; 
 
@@ -298,26 +312,9 @@ second, we verify the clustering approach when true $d_1$, ..., $d_K$ is given;
 
 third, we evaluate the accuracy for estimating the number of clusters; 
 
-fourth, we evaluate the synergistic performance of selecting $d_1$, ..., $d_K$ and clustering; 
-
 fifth, we would check the performance of our approach in a different kind of tensor and compare it with other clustering approach. 
 
 As for sparse tensor, we would evaluate the whole process: selecting $d_1$, ..., $d_K$, choosing $\lambda$, doing tensor clustering.\par 
-
-There are the statistics we would use to evaluate the performance in different cases:\\
-(1) CER (clustering error rate): the adjusted rand index between two partitions. This statistic measures the agreement between the true partition and estimated partition of the data tensor. In this case, we have three kinds of CER in total: CER of mode 1, CER of mode 2 and CER of mode 3;\\
-(2) MSE: measuring the difference between the underlying means and the estimated means.\par  
-
-For sparsity tensor, we further consider the following three statistics:
-(3) Total Correct Rate: 1 - the proportion of misjudgment while determining whether the mean signal is zero.;\\
-(4) Correct Zero Rate: the proportion of zero elements are correctly identified in the underlying mean tensor;\\
-(5) Correct One Rate: the proportion of non-zero elements are correctly identified in the underlying mean tensor.\\
-
-
-In non-sparse cases, we mainly use CER (both CER and MSE??) as an indicator to assess our proposal methods because it is more intuitive for us to evaluate the performance of our approach comparing with MSE. 
-
-However, it has some constraints. In sparse cases, different clusters can have the same mean: 0. In this case, we can have multiple reasonable partitions of the modes. Thus, CER is inapplicable at this time and we use  total correct rate, correct zero rate and correct one rate to be the indicator when the tensor is sparse. 
-\par
 
 
 Here we give a brief elaboration on the main way we use to generate the data. As for non-sparse tensor, given the cluster numbers $d_1$, ..., $d_K$ and the size of the tensor $n_1n_2n_3$, we assign the labels to each modes randomly. Next we randomly select the mean signal of clusters from Unif(-3,3) and add noise which comes from normal distribution with given standard deviation. Then we get the non-sparse tensor. As for sparse tensor, we randomly assign 0 to the mean of some  clusters with given sparsity rate (the proportion of 0 elements) and then follow the same steps. We name this kind of tensor as tensor with constant clusters.\par 
