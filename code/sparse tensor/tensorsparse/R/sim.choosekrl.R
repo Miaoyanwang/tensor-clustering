@@ -11,16 +11,17 @@
 #' @param sim.times simulation times
 #' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.
 #' @param mode two options: "bic", "crossvalidation".
+#' @param seed whether set seed to each simulation.
 #' @return A list of the krl result in different iteration.
 #' 
 
 
-sim.choosekrl <- function(n,p,q,k,r,l,error=1,sim.times=5,method="L0",mode="bic"){
-  #n=20;p=40;q=30;k=2;r=4;l=3
+sim.choosekrl <- function(n,p,q,k,r,l,error=1,sim.times=5,method="L0",mode="bic",seed=TRUE){
   classification<-list()
   if(mode == "bic"){
     for(a in 1:sim.times){
       cat("Starting", a, fill=TRUE)
+      if(seed == TRUE) set.seed(a)
       x = get.data(n,p,q,k,r,l,error=error)$x
       classification[[a]]<-choosekrl_bic(x,k=2:5,r=2:5,l=2:5,method=method)$estimated_krl#estimate clusters
     }
@@ -28,6 +29,7 @@ sim.choosekrl <- function(n,p,q,k,r,l,error=1,sim.times=5,method="L0",mode="bic"
   if(mode == "crossvalidation"){
     for(a in 1:sim.times){
       cat("Starting", a, fill=TRUE)
+      if(seed == TRUE) set.seed(a)
       x = get.data(n,p,q,k,r,l,error=error)$x
       classification[[a]]<-sparse.choosekrl(x,k=2:5,r=2:5,l=2:5,method=method)$estimated_krl#estimate clusters
     }

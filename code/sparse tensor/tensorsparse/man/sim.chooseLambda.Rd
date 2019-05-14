@@ -4,7 +4,7 @@
 \alias{sim.chooseLambda}
 \title{simulation: choose the best lambda when the range is given}
 \usage{
-sim.chooseLambda(n, p, q, k, r, l, iteration, lambda,
+sim.chooseLambda(n, p, q, k, r, l, sparse, iteration, lambda,
   standarddeviation = 4, center = FALSE, method = "L0")
 }
 \arguments{
@@ -19,6 +19,8 @@ sim.chooseLambda(n, p, q, k, r, l, iteration, lambda,
 \item{r}{the clusters number of mode 2}
 
 \item{l}{the clusters number of mode 3}
+
+\item{sparse}{the sparse percent of data}
 
 \item{iteration}{iteration times}
 

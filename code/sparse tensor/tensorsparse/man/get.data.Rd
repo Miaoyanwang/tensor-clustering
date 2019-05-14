@@ -4,8 +4,9 @@
 \alias{get.data}
 \title{generate a random tensor}
 \usage{
-get.data(n, p, q, k, r, l, error = 3, sort = TRUE,
-  sparse.percent = 0, center = FALSE, mumin = -3, mumax = 3)
+get.data(n, p, q, k = NULL, r = NULL, l = NULL, error = 3,
+  sort = TRUE, sparse.percent = 0, multiplicative = 0,
+  center = FALSE, seed = NULL, mumin = -3, mumax = 3)
 }
 \arguments{
 \item{n}{the dimension of mode 1}
@@ -24,9 +25,13 @@ get.data(n, p, q, k, r, l, error = 3, sort = TRUE,
 
 \item{sort}{if TRUE, the data belongs to the same clusters would assemble together}
 
-\item{sparse.percent}{the proportion of 0 mean}
+\item{sparse.percent}{the proportion of 0 mean in normal case; the proportion of 0 of each vector in multiplicative case}
+
+\item{multiplicative}{if !=0, then produce overlapping multiplicative data, the number refers to the number of overlapping}
 
 \item{center}{if center sum(x) = 0}
+
+\item{seed}{default is NULL, otherwise would set seedd to corresponding point}
 
 \item{mumin}{...}
 

@@ -12,6 +12,7 @@
 #'                \code{BIC} ...
 #' 
 choosekrl_bic = function (x,k,r,l,lambda=0,sim.times=1,method="L0"){
+  #k = 2:5;r=2:5;l=2:5;lambda=0;sim.times=1;method="L0"
     ## x = x - mean(x) ## commented out by Miaoyan
   if (sum(diff(k) <= 0) > 0 || sum(diff(r) <= 0) > 0 || sum(diff(l) <= 0) > 0) 
     stop("k and r has to be an increasing sequence.  Please sort k and r before using the function")

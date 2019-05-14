@@ -4,12 +4,16 @@
 \alias{sparse.evaluate}
 \title{evaluate the accuracy of the model when inputting a sparse tensor}
 \usage{
-sparse.evaluate(bires, data)
+sparse.evaluate(bires, data, CER = TRUE, show = TRUE)
 }
 \arguments{
 \item{bires}{the return list of label2()}
 
 \item{data}{the return list of get.data()}
+
+\item{CER}{if true, it would return CER also}
+
+\item{show}{whether print the result}
 }
 \description{
 evaluate the accuracy of the model when inputting a sparse tensor

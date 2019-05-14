@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulation.R
 \name{simulation}
 \alias{simulation}
-\title{simulation: choose the best lambda when the range is given}
+\title{simulation: get the mean cer over many iterations}
 \usage{
 simulation(n, p, q, k, r, l, error, lambda, iteration = 1,
   method = "L0")
@@ -22,12 +22,12 @@ simulation(n, p, q, k, r, l, error, lambda, iteration = 1,
 
 \item{error}{the standard deviation when producing data}
 
-\item{lambda}{a vector of possible lambda, for example: lambda = c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200)}
+\item{lambda}{...}
 
 \item{iteration}{iteration times}
 
 \item{method}{two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.}
 }
 \description{
-choose the best lambda for a certain range.
+get the mean cer over many iterations
 }

@@ -7,6 +7,7 @@
 #' @param k the clusters number of mode 1
 #' @param r the clusters number of mode 2
 #' @param l the clusters number of mode 3
+#' @param sparse the sparse percent of data
 #' @param iteration iteration times
 #' @param lambda a vector of possible lambda, for example: lambda = c(0,50,100,200,300,400,500,600,700,800,900,1000,1100,1200)
 #' @param standarddeviation the standard deviation when producing data
@@ -14,12 +15,12 @@
 #' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.
 #' @return a list \code{selectedlambda} a vector of lambdas with lowest BIC in each iteration
 #' 
-sim.chooseLambda = function(n,p,q,k,r,l,iteration,lambda,standarddeviation=4,center = FALSE,method="L0"){
+sim.chooseLambda = function(n,p,q,k,r,l,sparse,iteration,lambda,standarddeviation=4,center = FALSE,method="L0"){
   selectedLambda = 1:iteration
   for(iter in 1:iteration){
     cat("Iteration",iter,fill=TRUE)
     set.seed(iter)
-    smp = get.data(n,p,q,k,r,l,error=standarddeviation,sort=FALSE)$x
+    smp = get.data(n,p,q,k,r,l,error=standarddeviation,sort=FALSE,sparse.percent = sparse)$x
     if(center == TRUE)smp = smp - mean(smp)
     selectedLambda[iter] = chooseLambda(smp,k,r,l,lambda=lambda,method=method)$lambda
   }

@@ -4,7 +4,7 @@
 \alias{tensor.calculateBIC}
 \title{Calculate BIC}
 \usage{
-tensor.calculateBIC(x, clusterobj, method = "L0")
+tensor.calculateBIC(x, clusterobj, method = "L0", apply = "main")
 }
 \arguments{
 \item{x}{a three-dimensional array}
@@ -12,6 +12,8 @@ tensor.calculateBIC(x, clusterobj, method = "L0")
 \item{clusterobj}{the return object of label2()}
 
 \item{method}{two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.}
+
+\item{apply}{"main": apply in the main formula; "cp": apply in the CPD k-means.}
 }
 \value{
 a vector [1]BIC, [2]nonzeromus

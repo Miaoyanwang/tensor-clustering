@@ -1,11 +1,11 @@
-#' perform tensor clustering
+#' do tensor clustering
 #' 
-#' perform tensor clustering in a more stable way
+#' do tensor clustering in a more stable way
 #' @param x a three-dimensional array
-#' @param k the number of clusters in mode 1
-#' @param r the number of clusters in mode 2
-#' @param l the number of clusters in mode 3
-#' @param lambda the sparsity parameter in the sparse clustering
+#' @param k the clusters number of mode 1
+#' @param r the clusters number of mode 2
+#' @param l the clusters number of mode 3
+#' @param lambda a positive numeric value
 #' @param max.iter maximum times of iteration
 #' @param threshold ...
 #' @param sim.times the times of calling classify2() with different seeds.
@@ -13,14 +13,12 @@
 #' @param Cs.init ...
 #' @param Ds.init ...
 #' @param Es.init ...
-#' @param nstart ...
-#' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicates Lasso penalty, and "L0" indicates sparse subset penalty
-#' @param center ...
-#' @return a list \code{judgeX}
+#' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.
+#' @return a list \code{judgeX} ...
 #'                \code{Cs} clustering result in mode 1 
 #'                \code{Ds} clustering result in mode 2
 #'                \code{Es} clustering result in mode 3
-#'                \code{mus}
+#'                \code{mus} ...
 #' 
 #' 
 label2 = function(x,k,r,l,lambda=0,max.iter=1000,threshold = 1e-10,sim.times=1,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL,method="L0"){

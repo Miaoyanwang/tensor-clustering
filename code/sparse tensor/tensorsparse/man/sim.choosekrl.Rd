@@ -5,7 +5,7 @@
 \title{simulation: choose the best k,r,l to do clustering when the ranges are given}
 \usage{
 sim.choosekrl(n, p, q, k, r, l, error = 1, sim.times = 5,
-  method = "L0", mode = "bic")
+  method = "L0", mode = "bic", seed = TRUE)
 }
 \arguments{
 \item{n}{the dimension of mode 1}
@@ -27,6 +27,8 @@ sim.choosekrl(n, p, q, k, r, l, error = 1, sim.times = 5,
 \item{method}{two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.}
 
 \item{mode}{two options: "bic", "crossvalidation".}
+
+\item{seed}{whether set seed to each simulation.}
 }
 \value{
 A list of the krl result in different iteration.

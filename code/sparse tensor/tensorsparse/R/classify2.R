@@ -1,11 +1,11 @@
-#' perform tensor clustering
+#' do tensor clustering
 #' 
-#' perform tensor clustering
+#' do tensor clustering
 #' @param x a three-dimensional array
-#' @param k the number of clusters in mode 1
-#' @param r the number of clusters in mode 2
-#' @param l the number of clusters in mode 3
-#' @param lambda the sparsity parameter in the sparse clustering
+#' @param k the clusters number of mode 1
+#' @param r the clusters number of mode 2
+#' @param l the clusters number of mode 3
+#' @param lambda a positive numeric value
 #' @param max.iter maximum times of iteration
 #' @param threshold ...
 #' @param trace ...
@@ -13,7 +13,7 @@
 #' @param Ds.init ...
 #' @param Es.init ...
 #' @param nstart ...
-#' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicates Lasso penalty, and "L0" indicates sparse subset penalty
+#' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.
 #' @param center ...
 #' @return a list \code{judgeX}
 #'                \code{Cs} clustering result in mode 1 
@@ -52,13 +52,13 @@ classify2 = function(x,k,r,l,lambda=0,max.iter=1000,threshold = 1e-15,trace=FALS
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda, method=method))
     Cs <- ReNumber(Cs)
     k = length(unique(Cs))
-    mu.array = UpdateMus.tensor(x,Cs,Ds,Es,lambda,method=method)
+    #mu.array = UpdateMus.tensor(x,Cs,Ds,Es,lambda,method=method)
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda, method=method))
     Ds = UpdateClusters.tensor(tensor.unfold(x,2),tensor.unfold(mu.array,2),Ds,(rep(Es,each=n)-1)*k+rep(Cs,times=q))
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda, method=method))
     Ds <- ReNumber(Ds)
     r = length(unique(Ds))
-    mu.array = UpdateMus.tensor(x,Cs,Ds,Es,lambda,method=method)
+    #mu.array = UpdateMus.tensor(x,Cs,Ds,Es,lambda,method=method)
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda, method=method))
     Es = UpdateClusters.tensor(tensor.unfold(x,3),tensor.unfold(mu.array,3),Es,(rep(Ds,each=n)-1)*k+rep(Cs,times=p))
     objs <- c(objs, Objective(x, mu.array, Cs, Ds, Es, lambda = lambda, method=method))

@@ -80,7 +80,7 @@ UpdateMus.tensor = function (x, Cs, Ds, Es, lambda=0, method="L0") {
           for (r in uniqDs){
               for (l in uniqEs){
                   if (lambda == 0) mus[k,r,l] = mean(x[Cs==k,Ds==r,Es==l])
-                  if (lambda > 0) mus[k,r,l] = Soft(mean(x[Cs==k,Ds==r,Es==l]),lambda/sqrt(sum(Cs==k)*sum(Ds==r)*sum(Es==l)),method=method)
+                  if (lambda > 0) mus[k,r,l] = Soft(mean(x[Cs==k,Ds==r,Es==l]),sqrt(2*lambda)/sqrt(sum(Cs==k)*sum(Ds==r)*sum(Es==l)),method=method)
                   ### modified by Miaoyan
                   ## Soft(mean(x[Cs==k,Ds==r,Es==l]),lambda/sum(Cs==k)*sum(Ds==r)*sum(Es==l),method=method)
                   if (lambda < 0) stop("Cannot have a negative tuning parameter value.")
@@ -143,8 +143,58 @@ positionfun=function(d){
 }
 
 
+mse = function(bires, data){
+    npq = dim(bires$judgeX)
+    n = npq[1]; p = npq[2]; q = npq[3]
+    return(sum((bires$judgeX-data$truthX)^2)/n/p/q)
+} 
 
 
 
+label_for_cp = function(multiplicative=1,x,k,r,l){
+  cp_result = cp(as.tensor(x),num_components = multiplicative)
+  lambda = cp_result$lambdas
+  fitted=attributes(cp_result$est)$data
+  
 
+  n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
+  mus = array(rep(0,n*p*q),c(n,p,q))
+  Cs = kmeans(cp_result$U[[1]],k)$cluster
+  Ds = kmeans(cp_result$U[[2]],r)$cluster
+  Es = kmeans(cp_result$U[[3]],l)$cluster
+  
+  for(i in 1:k){
+      for(j in 1:r){
+          for(k in 1:l){
+              mu[Cs==i,Ds==j,Es==l]=mean(x[Cs==1,Ds==j,Es==l])
+          }
+          }
+      }
+  # for (s in 1:multiplicative){
+  # m1 = 1:n; m2 = 1:p; m3 = 1:q
+  # for (i in 1:k) m1[Cs == i] = mean(cp_result$U[[1]][,s][Cs==i])
+  # for (i in 1:r) m2[Ds == i] = mean(cp_result$U[[2]][,s][Ds==i])
+  # for (i in 1:l) m3[Es == i] = mean(cp_result$U[[3]][,s][Es==i])
+  # m1 = new("Tensor",3L,c(dim(x)[1],1L,1L),data=m1)
+  # m2 = matrix(m2,ncol=1)
+  #  m3 = matrix(m3,ncol=1)
+  #  mus = mus + lambda[s]*ttm(ttm(m1,m2,2),m3,3)@data
+  #}
+  return(list(judgeX=fitted,s=multiplicative,Cs=Cs,Ds=Ds,Es=Es,blockmean=mus))
+}
+
+
+cluster2block=function(Cs,Ds,Es){
+    d=c(length(Cs),length(Ds),length(Es))
+    r=c(length(unique(Cs)),length(unique(Ds)),length(unique(Es)))
+    block=array(0,dim=d)
+    for(i in 1:r[1]){
+        for(j in 1:r[2]){
+            for(k in 1:r[3]){
+               block[which(Cs==i),which(Ds==j),which(Es==k)]=paste(unique(Cs)[i],unique(Ds)[j],unique(Es)[k]) 
+            }
+        }
+    }
+    return(block)
+    }
 

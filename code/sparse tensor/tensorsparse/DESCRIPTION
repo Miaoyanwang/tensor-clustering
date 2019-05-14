@@ -7,11 +7,11 @@ Author: Miaoyan Wang, Yuchen Zeng
 Maintainer: Yuchen Zeng <yzeng58@wisc.edu>
 Depends: glasso
 Imports: fields, glmnet, rgl, reshape, mvtnorm, HDCI, clues, parallel,
-        RColorBrewer, viridis
+        RColorBrewer, viridis, rTensor, methods
 Description: Used for tensor clustering.
 License: GPL (>= 2)
 NeedsCompilation: no
-Packaged: 2019-03-30 19:14:31 UTC; cengyuchen
+Packaged: 2019-05-02 20:05:48 UTC; cengyuchen
 Repository: CRAN
 Date/Publication: 2019-03-25 05:40:05 UTC
 RoxygenNote: 6.1.1

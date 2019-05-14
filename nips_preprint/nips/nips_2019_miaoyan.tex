@@ -258,7 +258,7 @@ The above algorithm can be viewed as a higher-order extension for the ordinary (
 \subsection{Tuning parameter selection}\label{sec:tuning}
 Our algorithm~\ref{alg:B} takes the number of clusters $\mR$ as an input. In practice such information is often unknown and $\mR$ needs to be estimated from the data $\tY$. We propose to select this tuning parameter using Bayesian information criterion (BIC), 
 \begin{equation}\label{eq:BIC}
-\text{BIC}(\mR) =  \log\left(\FnormSize{}{\tY-\hat \Theta}\right)+{ \sum_k \log d_k \over \prod_k d_k}p_e,
+\text{BIC}(\mR) =  \log\left(\FnormSize{}{\tY-\hat \Theta}^2\right)+{ \sum_k \log d_k \over \prod_k d_k}p_e,
 \end{equation}
 where $p_e$ is the effective number of parameters in the model. In our case we take $p_e=\prod_k R_k+\sum_k d_k\log R_k$, which is inspired from~\eqref{eq:intuition}. We choose $\hat \mR$ that minimizes $\text{BIC}(\mR)$ via grid search. Our choice of BIC is based on heretics, and we test its empirical performance in Section~\ref{sec:simulation}.  
 
