@@ -14,7 +14,7 @@
 #' @param seed whether set seed to each simulation.
 #' @return A list of the krl result in different iteration.
 #' 
-
+#' @export
 
 sim.choosekrl <- function(n,p,q,k,r,l,error=1,sim.times=5,method="L0",mode="bic",seed=TRUE){
   classification<-list()

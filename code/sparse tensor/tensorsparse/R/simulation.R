@@ -11,6 +11,7 @@
 #' @param lambda ...
 #' @param iteration iteration times
 #' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.
+#' @export
 simulation  = function(n,p,q,k,r,l,error,lambda,iteration=1,method="L0"){
   cer = c()
   for (i in 1:iteration){

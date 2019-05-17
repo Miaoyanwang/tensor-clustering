@@ -266,6 +266,36 @@ Here, $\bm{\hat{\beta}}_{ols} = \mathbf{(X^TX)^{-1}X^TY} = diag(1/n_1, ..., 1/n_
 
 \begin{table}[http]
 	\centering
+	\begin{tabular}{c|c|c|c}
+		\hline
+		Dimensions &True clustering sizes&Noise&Estimated clustering sizes\\ 
+$(d_1,d_2,d_3)$&$(R_1,R_2,R_3)$&$(\sigma)$&$(\hat R_1,\hat R_2,\hat R_3)$\\
+		\hline
+		%$(50,60,80)$&$(3,4,5)$&4&$(,\ ,\ )\pm (0,\ 0,\ 0)$\\
+		%$(50,60,80)$&$(3,4,5)$&8&$(,\ ,\ )\pm (0,\ 0.02,\ 0.06)$ \\
+		%$(50,60,80)$&$(3,4,5)$&12&$(,\ ,\ )\pm (0.06,\ 0.09,\ 0.11)$\\
+		%$(50,60,80)$&$(4,5,10)$&4&$(,,,)\pm (0,0,0)$\\
+		%$(50,60,80)$&$(4,5,10)$&8&$(3.94,3.96,3.96)\pm (0.03,0.03,0.03)$\\
+		%$(50,60,80)$&$(4,5,10)$&12&$(3.08,3.12,3.12)\pm(0.10,0.10,0.10)$\\
+		$(40,40,40)$&$(4,4,4)$&4&$({\bf 4},\ {\bf 4},\ {\bf 4})\pm (0,\ 0,\ 0)$\\
+		$(40,40,40)$&$(4,4,4)$&8&$({\bf 3.94},\ {\bf 3.96},\ {\bf 3.96})\pm (0.03,\ 0.03,\ 0.03)$\\
+		$(40,40,40)$&$(4,4,4)$&12&$(3.08,\ 3.12,\ 3.12)\pm (0.10,0.10,0.10)$\\
+		\hline
+		$(40,40,80)$&$(4,4,4)$&4&$({\bf 4},\ {\bf 4},\ {\bf 4})\pm (0,\ 0,\ 0)$\\
+		$(40,40,80)$&$(4,4,4)$&8&$({\bf 4},\ {\bf 4},\ {\bf 4})\pm (0,\ 0,\ 0)$\\
+		$(40,40,80)$&$(4,4,4)$&12&$({\bf 3.96},\ {\bf 3.96},\ 3.92)\pm (0.04,0.04,0.04)$\\
+			\hline
+		$(40,40,40)$&$(2,3,4)$&4&$({\bf 2},\ {\bf 3},\ {\bf 4})\pm (0,\ 0,\ 0)$\\
+		$(40,40,40)$&$(2,3,4)$&8&$({\bf 2},{\bf \ 3},\ {\bf 3.96})\pm (0,\ 0,\ 0.03)$ \\
+		$(40,40,40)$&$(2,3,4)$&12&$({\bf 2},\ {\bf 2.96},\ 3.60)\pm (0,\ 0.05,\ 0.09)$
+		%\hline
+	\end{tabular}
+	\caption{The simulation results across 50 tensors each time from estimating the $d_1,d_2,d_3$. Highlight estimates that is no significant away from the truth based on a $Z$ test.}\label{t2}
+\end{table}
+
+
+\begin{table}[http]
+	\centering
 	\resizebox{\textwidth}{20mm}{
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline
@@ -285,30 +315,41 @@ Here, $\bm{\hat{\beta}}_{ols} = \mathbf{(X^TX)^{-1}X^TY} = diag(1/n_1, ..., 1/n_
 	\label{t2}
 \end{table}
 
-
-\begin{table}[http]
+\begin{table}
 	\centering
-	\resizebox{\textwidth}{20mm}{
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
-		sparsity rate&noise&method&estimated sparsity Rate&Correct Zero Rate&Correct One Rate&Total Correct Rate  \\ \hline
-		0.5&4&$\lambda=0$&0(0)&0(0)&1(0)&0.5075(0.0676)\\
-		0.5&4&$\lambda=100$&0.5677(0.0667)&1(0)&0.8519(0.0678)&0.9248(0.0377)\\
-		0.5&4&$\lambda=200$&0.5952(0.0688)&1(0)&0.7975(0.0787)&0.8973(0.0433)\\
-		0.5&4&$\bar{\lambda}=86.61396$&0.5606(0.0668)&$\mathbf{0.9993(0.0035)}$&$\mathbf{0.8655(0.0685)}$&$\mathbf{0.9312(0.0377)}$\\
-		0.5&8&$\lambda=0$&0(0)&0(0)&1(0)&0.5075(0.0676)\\
-		0.5&8&$\lambda=100$&0.5072(0.068)&0.879(0.0898)&0.8554(0.0634)&0.8665(0.0559)\\
-		0.5&8&$\lambda=200$&0.5884(0.0618)&0.9753(0.034)&0.7877(0.0776)&0.8794(0.0492)\\
-		0.5&8&$\bar{\lambda}=344.3656$&0.6298(0.0652)&0.9956(0.0128)&0.7259(0.0873)&0.8586(0.0518)\\
-		0.8&8&$\lambda=0$&0(0)&0(0)&1(0)&0.2029(0.0541)\\
-		0.8&8&$\lambda=100$&0.6458(0.0646)&0.7453(0.0616)&0.7136(0.2017)&0.7435(0.0668)\\
-		0.8&8&$\lambda=200$&0.7947(0.0627)&0.9119(0.0601)&0.6259(0.2376)&0.8589(0.0698)\\
-		0.8&8&$\bar{\lambda}=246.9212$&0.826(0.0622)&0.9462(0.0412)&0.6077(0.2495)&0.8841(0.0602)\\
+		$n_1$&$n_2$&$n_3$&noise&CER(mode 1)&CER(mode 2)&CER(mode3)\\ \hline
+		40&40&40&4&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&40&40&8&$\mathbf{0(0)}$&0.0136(0.0226)&0.0005(0.0036) \\
+		40&40&40&12&0.0365(0.0789)&0.12(0.0878)&0.0802(0.1009)\\
+		40&45&50&4&$\mathbf{0(0)}$&$\mathbf{0(0)}$&$\mathbf{0(0)}$\\
+		40&45&50&8&$\mathbf{0(0)}$&0.0027(0.0121)&$\mathbf{0(0)}$\\
+		40&45&50&12&0.0158(0.0489)&0.0641(0.0629)&0.0336(0.0647)\\
 		\hline
-	\end{tabular}}
-	\caption{Results for Simulation 6 over 50 simulated data sets ($n_1=40, n_2=40, n_3=40,  d_1=3, d_2=5, d_3=4$.}
-	\label{t5}
+	\end{tabular}
+	\caption{The CERs over 50 simulated tensors ($d_1=3, d_2=5, d_3=4$) each time.}
+	\label{t3}
 \end{table}
+
+\begin{figure}
+\includegraphics[width=.5\textwidth]{figures/sparse}
+\end{figure}
+
+\begin{tabular}[ccc]
+ "China"   "Cuba" "Poland"   "USSR" & UK/USA& 4
+\end{tabular}
+
+\begin{itemize}
+\item 2 (Exports): reltreaties, booktranslation, relbooktranslations, relexports, exports3
+\item 4 (Independence): "timesinceally"  "independence" 
+\item 5 (NGO): relintergovorgs"          "relngo"   "intergovorgs3"        "ngoorgs3" 
+\item 6 (edunvote)"treaties"      "conferences"   "weightedunvote" "unweightedunvote" "intergovorgs"              "ngo" 
+\item 9 (tourist):"officialvisits"      "exportbooks"   "relexportbooks"          "tourism" "reltourism"         "tourism3"          "exports" "militaryalliance" 
+ "commonbloc2" 
+
+\end{itemize}
+
 
 
 \end{appendices}

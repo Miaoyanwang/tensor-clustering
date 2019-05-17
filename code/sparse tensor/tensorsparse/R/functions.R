@@ -1,3 +1,5 @@
+library("parallel")
+library("rTensor")
 n.cores = detectCores()
 ReNumber2 = function(Cs){
   #Cs=c(2,2)
@@ -166,7 +168,7 @@ label_for_cp = function(multiplicative=1,x,k,r,l){
   for(i in 1:k){
       for(j in 1:r){
           for(k in 1:l){
-              mu[Cs==i,Ds==j,Es==l]=mean(x[Cs==1,Ds==j,Es==l])
+              mus[Cs==i,Ds==j,Es==k]=mean(x[Cs==1,Ds==j,Es==k])
           }
           }
       }
@@ -184,14 +186,19 @@ label_for_cp = function(multiplicative=1,x,k,r,l){
 }
 
 
-cluster2block=function(Cs,Ds,Es){
+cluster2block=function(mu,Cs,Ds,Es){
     d=c(length(Cs),length(Ds),length(Es))
     r=c(length(unique(Cs)),length(unique(Ds)),length(unique(Es)))
     block=array(0,dim=d)
     for(i in 1:r[1]){
         for(j in 1:r[2]){
             for(k in 1:r[3]){
+                if(mu[i,j,k]==0){
+                    block[which(Cs==i),which(Ds==j),which(Es==k)]="0 0 0"
+                }
+                else{
                block[which(Cs==i),which(Ds==j),which(Es==k)]=paste(unique(Cs)[i],unique(Ds)[j],unique(Es)[k]) 
+                }
             }
         }
     }

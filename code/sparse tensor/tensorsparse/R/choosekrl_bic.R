@@ -11,6 +11,7 @@
 #' @return a list \code{estimated_krl} ...\\
 #'                \code{BIC} ...
 #' 
+#' @export
 choosekrl_bic = function (x,k,r,l,lambda=0,sim.times=1,method="L0"){
   #k = 2:5;r=2:5;l=2:5;lambda=0;sim.times=1;method="L0"
     ## x = x - mean(x) ## commented out by Miaoyan

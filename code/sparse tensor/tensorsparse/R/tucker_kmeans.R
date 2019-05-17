@@ -5,27 +5,29 @@
 #' @param k ...
 #' @param r ...
 #' @param l ...
+#' @param multiplicative the number of components
+#' @param max.s the max value when selecting s
 #' 
 #' @return a list with only one element: judgeX
 #' 
-
+#' @export
 
 
 tucker_means = function(x,k,r,l){
-    tucker_result = tucker(as.tensor(data$x),c(k,r,l))
+    tucker_result = tucker(as.tensor(x),c(k,r,l))
     fitted=attributes(tucker_result$est)$data
     
     
     n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
     mus = array(rep(0,n*p*q),c(n,p,q))
-    Cs = kmeans(cp_result$U[[1]],k)$cluster
-    Ds = kmeans(cp_result$U[[2]],r)$cluster
-    Es = kmeans(cp_result$U[[3]],l)$cluster
+    Cs = kmeans(tucker_result$U[[1]],k)$cluster
+    Ds = kmeans(tucker_result$U[[2]],r)$cluster
+    Es = kmeans(tucker_result$U[[3]],l)$cluster
     
     for(i in 1:k){
         for(j in 1:r){
             for(k in 1:l){
-                mu[Cs==i,Ds==j,Es==l]=mean(x[Cs==1,Ds==j,Es==l])
+                mus[Cs==i,Ds==j,Es==k]=mean(x[Cs==i,Ds==j,Es==k])
             }
         }
     }

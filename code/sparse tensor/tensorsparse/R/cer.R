@@ -6,6 +6,7 @@
 #' 
 #' @return the cer in all modes.
 #' 
+#' @export
 cer = function(bires,data){
   cerC<-1-adjustedRand(data$truthCs,bires$Cs,randMethod=c("Rand"))
   cerD<-1-adjustedRand(data$truthDs,bires$Ds,randMethod=c("Rand"))

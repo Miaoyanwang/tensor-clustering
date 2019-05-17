@@ -3,6 +3,7 @@
 #' draw 3d plot of tensor
 #' @param tensor a three-dimensional array
 #' 
+#' @export
 plot_tensor=function(tensor){
   
   n=prod(dim(tensor))   

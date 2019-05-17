@@ -9,6 +9,7 @@
 #'         \code{sdk}
 #'         \code{sdr}
 #'         \code{sdl}
+#' @export
 Calculatekrl<-function(results){
   k<-rep(NA,length(results))
   r<-rep(NA,length(results))

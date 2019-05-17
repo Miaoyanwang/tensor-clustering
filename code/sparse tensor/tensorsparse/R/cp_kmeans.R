@@ -10,7 +10,7 @@
 #' 
 #' @return a list with only one element: judgeX
 #' 
-
+#' @export
 
 
 cp_kmeans= function(x,k,r,l,multiplicative=NULL,max.s=NULL){

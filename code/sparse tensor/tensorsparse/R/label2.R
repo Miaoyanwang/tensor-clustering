@@ -21,6 +21,7 @@
 #'                \code{mus} ...
 #' 
 #' 
+#' @export
 label2 = function(x,k,r,l,lambda=0,max.iter=1000,threshold = 1e-10,sim.times=1,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL,method="L0"){
   #x=test;lambda=1e-3;max.iter=200;threshold = 5e-3;sim.times=10
   if (sim.times == 1) return(classify2(x,k,r,l,lambda=lambda,max.iter = max.iter,threshold = threshold,Cs.init = Cs.init,Ds.init = Ds.init,Es.init = Es.init,method=method))

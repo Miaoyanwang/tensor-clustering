@@ -1,4 +1,4 @@
-rm(list=ls())
+ rm(list=ls())
 require(tensorsparse)
 require(ggplot2)
 
@@ -33,12 +33,13 @@ for (n in seq(20,70,by=5)){
   }
 }
 
-figure1 = data.frame(npq = rep(seq(20,70,by=5),each=4), d1d2d3 = as.factor(rep(c('d1=4,d2=4,d3=4','d1=4,d2=8,d3=8',"d1=8,d2=8,d3=8","d1=8,d2=8,d3=12"), times=11)), 
+
+figure1 = data.frame(npq = rep(seq(20,70,by=5),each=4), d1d2d3 = as.factor(rep(c('R1=4,R2=4,R3=4','R1=4,R2=8,R3=8',"R1=8,R2=8,R3=8","R1=8,R2=8,R3=12"), times=11)), 
                      sqrtmse = sqrt(mse.re1), rescalednpq = sqrt(p1*q1/log(rep(c(4,4,8,8),times=11))))
 
 pdf("non-scale.pdf",width=5,height=3)
 ggplot(data=figure1, aes(x=npq,y=sqrtmse))+geom_line(aes(color=d1d2d3))+geom_point(aes(shape=krl))+
-  labs(x=expression(sample~size~n[1]), y=expression(sqrt(mse)))
+  labs(x=expression(sample~size~n[1]), y="Root Mean Squared Error (RMSE)")
 dev.off()
 
 pdf("rescale.pdf",width=5,height=3)

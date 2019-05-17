@@ -4,7 +4,7 @@
 #' @param true true k, r, l
 #' @param results result returned by sparse.choosekrl()
 #' 
-#' 
+#' @export
 Calculate<-function(true,results){
   real<-matrix(true,ncol=3)
   percent<-0

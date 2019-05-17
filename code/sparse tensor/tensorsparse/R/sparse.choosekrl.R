@@ -15,6 +15,7 @@
 #'                \code{results.se} ...\\
 #'                \code{results.maen} ...\\
 #' 
+#' @export
 sparse.choosekrl = function (x,k,r,l,lambda=0,percent=0.2,trace=FALSE,nstart=20,sim.times=1,method="L0") {
   #x=test;l=range.l;lambda=0;percent=0.2;trace=TRUE
   #k=2:4;r=2:4;l=2:4

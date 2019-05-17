@@ -11,12 +11,13 @@
 #'                \code{BIC} the corresponding BIC for each lambda in the given range;
 #'                \code{nonzeromus} the number clusters with non-zero mean.
 #' 
+#' @export
 chooseLambda = function (x, k, r, l, lambda=NULL,method="L0") {
   ##x = x - mean(x) commented out by Miaoyan
   if (is.null(lambda)){
     n=dim(x)[1];p=dim(x)[2];q=dim(x)[3]
-    if (method == "L0") lambda = sqrt((n*p*q)/(k*r*l))*seq(0,2,by=0.05)
-    if (method == "L1") lambda = (n*p*q)/(k*r*l)*seq(0,2,by=0.05)
+    if (method == "L0") lambda = sqrt((n*p*q)/(k*r*l))*seq(0,2,by=0.1)
+    if (method == "L1") lambda = (n*p*q)/(k*r*l)*seq(0,2,by=0.1)
     if (is.null(lambda)) stop("No such kind of method:", method, ".\n")
   } 
   if (.Platform$OS.type == "windows") {

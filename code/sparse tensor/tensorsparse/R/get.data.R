@@ -23,11 +23,12 @@
 #'                \code{mus} 
 #'                \code{binaryX}
 #' 
+#' @export
 get.data = function(n,p,q,k=NULL,r=NULL,l=NULL,error=3,sort=TRUE,sparse.percent=0,multiplicative=0,center=FALSE,seed=NULL,mumin = -3, mumax = 3){
   if(!is.null(seed)) set.seed(seed)
   if(multiplicative == 0){
     mus = runif(k*r*l,mumin,mumax)#take the mean of k*r*l biclusters/cubes
-    if(sparse.percent!=0) mus[1:floor(k*r*l*sparse.percent)] = 0
+    if(sparse.percent!=0) mus[sample(k*r*l,floor(k*r*l*sparse.percent),replace=F)]= 0
     mus = array(mus,c(k,r,l))
   
   if(is.null(mus)) stop("multiplicative must be a positive integer!") 

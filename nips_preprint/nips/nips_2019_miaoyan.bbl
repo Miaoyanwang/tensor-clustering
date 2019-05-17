@@ -44,4 +44,9 @@ Daniel Aloise, Amit Deshpande, Pierre Hansen, and Preyas Popat.
 \newblock Np-hardness of euclidean sum-of-squares clustering.
 \newblock {\em Machine learning}, 75(2):245--248, 2009.
 
+\bibitem{chi2018provable}
+Eric~C Chi, Brian~R Gaines, Will~Wei Sun, Hua Zhou, and Jian Yang.
+\newblock Provable convex co-clustering of tensors.
+\newblock {\em arXiv preprint arXiv:1803.06518}, 2018.
+
 \end{thebibliography}

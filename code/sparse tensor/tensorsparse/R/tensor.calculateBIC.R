@@ -7,6 +7,7 @@
 #' @param apply "main": apply in the main formula; "cp": apply in the CPD k-means.
 #' @return a vector [1]BIC, [2]nonzeromus
 #' 
+#' @export
 tensor.calculateBIC = function (x, clusterobj,method="L0",apply="main") 
 {
     if(apply!="main" & apply!="cp") stop("parameter apply does not take such a value named", apply, ".\n")

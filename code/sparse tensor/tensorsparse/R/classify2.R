@@ -22,6 +22,7 @@
 #'                \code{mus}
 #' 
 #' 
+#' @export
 classify2 = function(x,k,r,l,lambda=0,max.iter=1000,threshold = 1e-15,trace=FALSE,Cs.init=NULL,Ds.init=NULL,Es.init=NULL,nstart=20,method="L0",center=FALSE){
   n = dim(x)[1]; p = dim(x)[2]; q = dim(x)[3]
   if(center == TRUE) {

@@ -15,6 +15,7 @@
 #' @param method two options: "L0", "L1". Two methods use different penalties, where "L1" indicating Lasso penalty.
 #' @return a list \code{selectedlambda} a vector of lambdas with lowest BIC in each iteration
 #' 
+#' @export
 sim.chooseLambda = function(n,p,q,k,r,l,sparse,iteration,lambda,standarddeviation=4,center = FALSE,method="L0"){
   selectedLambda = 1:iteration
   for(iter in 1:iteration){
