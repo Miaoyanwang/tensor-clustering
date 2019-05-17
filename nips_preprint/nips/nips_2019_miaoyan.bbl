@@ -1,4 +1,52 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{cong2015tensor}
+Fengyu Cong, Qiu-Hua Lin, Li-Dan Kuang, Xiao-Feng Gong, Piia Astikainen, and
+  Tapani Ristaniemi.
+\newblock Tensor decomposition of {EEG} signals: a brief review.
+\newblock {\em Journal of neuroscience methods}, 248:59--69, 2015.
+
+\bibitem{zhou2013tensor}
+Hua Zhou, Lexin Li, and Hongtu Zhu.
+\newblock Tensor regression with applications in neuroimaging data analysis.
+\newblock {\em Journal of the American Statistical Association},
+  108(502):540--552, 2013.
+
+\bibitem{nickel2011three}
+Maximilian Nickel, Volker Tresp, and Hans-Peter Kriegel.
+\newblock A three-way model for collective learning on multi-relational data.
+\newblock In {\em International Conference on Machine Learning}, volume~11,
+  pages 809--816, 2011.
+
+\bibitem{socher2013reasoning}
+Richard Socher, Danqi Chen, Christopher~D Manning, and Andrew Ng.
+\newblock Reasoning with neural tensor networks for knowledge base completion.
+\newblock In {\em Advances in neural information processing systems}, pages
+  926--934, 2013.
+
+\bibitem{tang2013tensor}
+Yichuan Tang, Ruslan Salakhutdinov, and Geoffrey Hinton.
+\newblock Tensor analyzers.
+\newblock In {\em International Conference on Machine Learning}, pages
+  163--171, 2013.
+
+\bibitem{liu2013tensor}
+Ji~Liu, Przemyslaw Musialski, Peter Wonka, and Jieping Ye.
+\newblock Tensor completion for estimating missing values in visual data.
+\newblock {\em IEEE transactions on pattern analysis and machine intelligence},
+  35(1):208--220, 2013.
+
+\bibitem{wang2017three}
+Miaoyan Wang, Jonathan Fischer, and Yun~S Song.
+\newblock Three-way clustering of multi-tissue multi-individual gene expression
+  data using constrained tensor decomposition.
+\newblock {\em bioRxiv 229245}, 2017.
+
+\bibitem{hore2016tensor}
+Victoria Hore, Ana Vi{\~n}uela, Alfonso Buil, Julian Knight, Mark~I McCarthy,
+  Kerrin Small, and Jonathan Marchini.
+\newblock Tensor decomposition for multiple-tissue gene expression experiments.
+\newblock {\em Nature genetics}, 48(9):1094, 2016.
 
 \bibitem{madeira2004biclustering}
 Sara~C Madeira and Arlindo~L Oliveira.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  16 MAY 2019 23:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  17 MAY 2019 10:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -984,95 +984,84 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-<figures/figure1/input.png, id=56, 255.95625pt x 255.95625pt>
+<figures/figure1/input.png, id=65, 255.95625pt x 255.95625pt>
 File: figures/figure1/input.png Graphic file (type png)
 
 <use figures/figure1/input.png>
-Package pdftex.def Info: figures/figure1/input.png used on input line 93.
+Package pdftex.def Info: figures/figure1/input.png used on input line 101.
 (pdftex.def)             Requested size: 89.58601pt x 89.58601pt.
 
-<figures/figure1/truth.png, id=58, 254.9525pt x 254.9525pt>
-File: figures/figure1/truth.png Graphic file (type png)
-
-<use figures/figure1/truth.png>
-Package pdftex.def Info: figures/figure1/truth.png used on input line 94.
-(pdftex.def)             Requested size: 89.2347pt x 89.2347pt.
-
-<figures/figure1/output.png, id=59, 255.95625pt x 255.95625pt>
+<figures/figure1/output.png, id=67, 255.95625pt x 255.95625pt>
 File: figures/figure1/output.png Graphic file (type png)
 
 <use figures/figure1/output.png>
-Package pdftex.def Info: figures/figure1/output.png used on input line 95.
+Package pdftex.def Info: figures/figure1/output.png used on input line 103.
 (pdftex.def)             Requested size: 89.58601pt x 89.58601pt.
 
-<figures/figure1/k_means.png, id=60, 255.95625pt x 255.95625pt>
-File: figures/figure1/k_means.png Graphic file (type png)
 
-<use figures/figure1/k_means.png>
-Package pdftex.def Info: figures/figure1/k_means.png used on input line 96.
-(pdftex.def)             Requested size: 89.58601pt x 89.58601pt.
- [1
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[1
 
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./figur
-es/figure1/input.png> <./figures/figure1/truth.png> <./figures/figure1/output.p
-ng> <./figures/figure1/k_means.png>]
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+[2 <./figures/figure1/input.png> <./figures/figure1/output.png>]
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 147.
+(amsmath)                 on input line 160.
 
-[2] [3]
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 216.
+[3]
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 229.
 
  (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 )
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 237.
-
 [4]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 250.
 
-LaTeX Warning: Reference `fig:2' on page 5 undefined on input line 268.
 
-[5] <figures/figure3/decay.pdf, id=183, 641.75323pt x 225.23483pt>
+LaTeX Warning: Reference `fig:2' on page 5 undefined on input line 281.
+
+[5] <figures/figure3/decay.pdf, id=196, 641.75323pt x 225.23483pt>
 File: figures/figure3/decay.pdf Graphic file (type pdf)
 
 <use figures/figure3/decay.pdf>
-Package pdftex.def Info: figures/figure3/decay.pdf used on input line 308.
-(pdftex.def)             Requested size: 397.48499pt x 139.50323pt.
+Package pdftex.def Info: figures/figure3/decay.pdf used on input line 321.
+(pdftex.def)             Requested size: 317.9892pt x 111.60327pt.
  [6 <./figures/figure3/decay.pdf>]
-<figures/test.pdf, id=319, 761.08223pt x 278.87764pt>
+<figures/test.pdf, id=332, 761.08223pt x 278.87764pt>
 File: figures/test.pdf Graphic file (type pdf)
  <use figures/test.pdf>
-Package pdftex.def Info: figures/test.pdf used on input line 324.
-(pdftex.def)             Requested size: 397.48499pt x 145.64697pt.
+Package pdftex.def Info: figures/test.pdf used on input line 337.
+(pdftex.def)             Requested size: 317.9892pt x 116.51929pt.
 
 [7 <./figures/test.pdf>]
 
-LaTeX Warning: Reference `' on page 8 undefined on input line 336.
+LaTeX Warning: Reference `' on page 8 undefined on input line 349.
 
 (./nips_2019_miaoyan.bbl [8])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 377.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 391.
  [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 377.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 391.
  (./nips_2019_miaoyan.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 377.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 377.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 391.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 391.
 Package rerunfilecheck Info: File `nips_2019_miaoyan.out' has not changed.
 (rerunfilecheck)             Checksum: 66DED3A751FDC39E1B3D536B88345014;789.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 377.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 391.
  ) 
 Here is how much of TeX's memory you used:
- 11834 strings out of 493014
- 176617 string characters out of 6133351
- 315706 words of memory out of 5000000
+ 11858 strings out of 493014
+ 176807 string characters out of 6133351
+ 310941 words of memory out of 5000000
  14913 multiletter control sequences out of 15000+600000
- 58587 words of font info for 186 fonts, out of 8000000 for 9000
+ 59747 words of font info for 198 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  44i,14n,42p,1129b,510s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{lemma.1} has been referenced but does not exist, 
@@ -1102,10 +1091,10 @@ f-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2016/texmf-dist/
 fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
 1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/time
 s/utmri8a.pfb>
-Output written on nips_2019_miaoyan.pdf (9 pages, 631211 bytes).
+Output written on nips_2019_miaoyan.pdf (9 pages, 532613 bytes).
 PDF statistics:
- 521 PDF objects out of 1000 (max. 8388607)
- 403 compressed objects within 5 object streams
- 59 named destinations out of 1000 (max. 500000)
- 25223 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 536 PDF objects out of 1000 (max. 8388607)
+ 422 compressed objects within 5 object streams
+ 67 named destinations out of 1000 (max. 500000)
+ 25213 words of extra memory for PDF output out of 29859 (max. 10000000)
 

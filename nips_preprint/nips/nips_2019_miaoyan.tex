@@ -81,20 +81,33 @@ Miaoyan Wang \\
 \maketitle
 
 \begin{abstract}
-We consider the task of simultaneously clustering each mode of a large noisy tensor. We assume that the tensor elements are distributed with a block-specific mean and propose a least-square estimation for multi-way clustering. An $\ell_1$ penalty is applied to the block-means in order to select and identify important blocks. We show that our method is applicable to large tensors with a wide range of multi-way cluster structure, including a single block, multiple blocks, checkerboard clusters, 1-way or lower-way blocks. Our proposal amounts to a sparse, multi-way version of $k$-mean clustering, and a relaxation of our proposal yields the tensor Tucker decomposition. The performance of our proposals are demonstrated in simulations and on... 
+We consider the problem of simultaneously clustering each mode of a large noisy tensor. We assume that the tensor elements are distributed with a block-specific mean and propose a tensor block model for multi-way clustering. The statistical convergence of the estimator is established, and we show that the resulting clustering achieves partition consistency. A sparse estimation is further develop for identifying the important blocks. Our proposal amounts to a sparse, higher-order generalization of $k$-mean clustering, and a relaxation of our proposal yields the tensor Tucker decomposition. The performance of our proposals are demonstrated in simulations and on multi-tissue gene expression datasets.
 \end{abstract}
 
 \section{Introduction}
-In recent years, much interest has centered around the unsupervised analysis of high-dimensional high-order tensor data. 
 
-Here is an example of tensor clustering by using our proposed method.
+Higher-order tensors have recently received increasing attention in many fields, such as neuroscience~\cite{cong2015tensor,zhou2013tensor}, social networks~\cite{nickel2011three,socher2013reasoning}, computer vision~\cite{tang2013tensor,liu2013tensor}, and genomics~\cite{wang2017three,hore2016tensor}. ... real value. In a different setting. 
+
+The goal of the present paper is to develop a method and related theory for the estimation of tensors with block structure. We propose a unified estimation procedure for tensors with multi-way clustering structure. We establish high probability upper bounds for the mean squared errors of the resulting estimators. We consider the task of simultaneously clustering each mode of a large noisy tensor. Figure~\eqref{fig:1} shows an example of tensor clustering by using our proposed method.
+
+We extend our method to sparse block model. We impose and such model is able to handle. ...
+
+If only a low rank constraint is imposed on the mean tensor, then the problem becomes what is known in the literature as low-rank tensor estimation. An impressive list of methods and theories have been develop for this problem, including but not limit to tensor CP decomposition, Tucker decomposition, and train decomposition. In this paper we investigate an alternative block structure assumption, which was first proposed by in the case of matrices... Note that a block structure automatically implies low-rankness. However, if one applied a low rank tensor estimation algorithm directly in the current setting, the resulting estimator suffers an inferior error bound. Thus, a full exploitation of the block structure is necessary, which is the focus of the current paper. 
+
+The results of our paper also facilitates the detection of large blocks. .. There are also a line of works on three-way clustering. Most of the work takes two-step procedure, by. As we shown in the Analysis and Simulation, we... 
+
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.35]{figures/figure1/input.png}
-	\includegraphics[scale=0.35]{figures/figure1/truth.png}
+	%\includegraphics[scale=0.35]{figures/figure1/truth.png}
 	\includegraphics[scale=0.35]{figures/figure1/output.png}
-	\includegraphics[scale=0.35]{figures/figure1/k_means.png}
-	\caption{(a): a $60\times 60\times 60$ tensor with 5 clusters in each mode; (b): true underlying mean signal within each cluster; (c): mean signal estimated by our proposed approach with true number of clusters (5, 5, 5); (d): mean signal estimated by k-means clustering on each mode with true number of clusters (5 , 5, 5).}
+	%\includegraphics[scale=0.35]{figures/figure1/k_means.png}
+	\caption{(a). a $60\times 60\times 60$ noisy tensor with 5 clusters in each mode; %(b): true underlying mean signal within each cluster; 
+	(b). Mean signal estimated by our proposed estimator.
+	(c). a $60\times 60 \times 60$ noisy tensor with sparse multi-way blocks. 
+	(d) Mean signal estimated by our proposed estimator.   
+	%(d): mean signal estimated by k-means clustering on each mode with true number of clusters (5 , 5, 5).
+	}
 	\label{fig:1}
 \end{figure}
 
@@ -110,16 +123,16 @@ Here is an example of tensor clustering by using our proposed method.
 
 \section{Preliminaries}
 
-We say that an event $A$ occurs ``with high probability'' if $\mathbb{P}(\mA)$ tends to 1 as the dimension $d_{\min}=\min\{d_1,\ldots,d_k\}$ tends to infinity. We say that $A$ occurs ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of $d$. 
-
-
-We use lower-case letters ($a,b,u,v,\ldots$) for scalars and vectors. We use upper-case boldface letters ($\mA,\mB,\mC,\ldots$) for matrices, and calligraphy letter ($\tA, \tB, \tC,\ldots$) for tensors of order $K\geq 3$. $\mx\otimes \my$ is the Kronecker product of two vectors. For any set $J$, $|J|$ denotes its cardinality. $[d]$ represents the set $\{1,2,\ldots,d\}$. 
 
 A clustering of $d$ objects can be represented by a partition of the index set $[d]=\{1,\ldots,d\}$ into $R$ disjoint non-empty subsets. We refer to $R$ the clustering size. It is often convenient to represent the clustering (or partition) using the ``membership matrix''. A membership matrix $\mM$ is an $d$-by-$R$ matrix whose $(i,j)$-entry is 1 if and only if the element $i$ belongs to the cluster $j$, and 0 otherwise. 
 %Based on the definition, $\mM$ is binary matrix with orthogonal columns, and the matrix elements sum up to $d$. 
 The membership matrix $\mM$ can also be viewed as a mapping $\mM:[d]\mapsto[R]$. With a little abuse of notation, we still use the $\mM$ to denote the mapping, and use $\mM(i)$ to denote the cluster label that entry $i$ belongs to. Throughout the paper, we will use the terms ``partition'', ``clustering'', and ``membership matrix'' exchangeably. 
 
-For a higher-order tensor, the above concepts can be applied to each of the modes. We use the term ``cluster'' to refer to the partition along the $k$-th mode of the tensor, and reserve ``block'' for the multi-way block in the tensor. 
+For a higher-order tensor, the above concepts can be applied to each of the modes. We use the term ``cluster'' to refer to the partition along the $k$-th mode of the tensor, and reserve ``block'' for the multi-way block in the tensor. We say that an event $A$ occurs ``with high probability'' if $\mathbb{P}(\mA)$ tends to 1 as the dimension $d_{\min}=\min\{d_1,\ldots,d_k\}$ tends to infinity. We say that $A$ occurs ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of $d$. 
+
+
+We use lower-case letters ($a,b,u,v,\ldots$) for scalars and vectors. We use upper-case boldface letters ($\mA,\mB,\mC,\ldots$) for matrices, and calligraphy letter ($\tA, \tB, \tC,\ldots$) for tensors of order $K\geq 3$. $\mx\otimes \my$ is the Kronecker product of two vectors. For any set $J$, $|J|$ denotes its cardinality. $[d]$ represents the set $\{1,2,\ldots,d\}$. 
+
 
 \section{Tensor block model}
 Let $\tY=\entry{y_{i_1,\ldots,i_K}}\in\mathbb{R}^{d_1\times \cdots\times d_K}$ denote an order-$K$, $(d_1,\ldots,d_K)$-dimensional data tensor. The main assumption on tensor block model is that the observed data tensor $\tY$ is a noisy realization of an underlying tensor that exhibits a checkerbox structure (see Figure~\ref{fig:1}). Specifically, suppose that there are $R_k$ clusters along the $k$-th mode of the tensor for $k\in[K]$. If the tensor entry $y_{i_1,\ldots,i_K}$ belongs to the block jointly determined by the $r_k$-th mode-$k$ cluster with $r_k\in[R_k]$, then we assume that 
@@ -183,7 +196,7 @@ In this section, we assess the estimation accuracy of the least-squares estimato
 \end{equation}
 where $\trueT\in\tP$ is the true mean tensor and $\hat \Theta\in\tP$ is the estimator. 
 
-While the least squares corresponds to the maximum likelihood estimator (MLE) for Gaussian tensor model, the same assertion does not hold for the other types of distribution such as stochastic tensor block model. Surprisingly, we will show that, with very high probability, a simple least-square estimator can achieve a nearly optimal convergence rate in a general class of block tensor models.  
+%While the least squares corresponds to the maximum likelihood estimator (MLE) for Gaussian tensor model, the same assertion does not hold for the other types of distribution such as stochastic tensor block model. Surprisingly, we will show that, with very high probability, a simple least-square estimator can achieve a nearly optimal convergence rate in a general class of block tensor models.  
 
 
 \begin{theorem}[Convergence rate] \label{thm:main}
@@ -305,7 +318,7 @@ We generate noisy order-3 tensors under the tensor block model~\eqref{eq:model}.
 
 \begin{figure}[http]
 \centering
-\includegraphics[width=1\textwidth]{figures/figure3/decay.pdf}
+\includegraphics[width=.8\textwidth]{figures/figure3/decay.pdf}
 \caption{Estimation error for block tensors with Gaussian noise. Each curve corresponds to a fixed clustering size $\mR$. (a) Plot of average RMSE against $d_1$. (b) Plot of average RMSE against rescaled sample size $N=\sqrt{d_2d_3/\log R_1}$. 
 }\label{fig:RMSE}
 \end{figure}
@@ -321,7 +334,7 @@ Next, we compare our method with two popular low-rank tensor estimation methods:
 
 \begin{figure}
 	\centering
-\includegraphics[width=\textwidth]{figures/test}
+\includegraphics[width=.8\textwidth]{figures/test}
 	\caption{Performance comparison in terms of RMSE and CER. (a) Plot of the estimation error against noise. (b) Boxplot of the clustering error against noise for tensors of dimension $(40,40,40)$. (c) Boxplot of the clustering error against noise for tensors of dimension $(60,60,60)$.} \label{fig4}
 \end{figure}
 
@@ -359,9 +372,11 @@ We utilize $\ell0$-penalized TBM and select the sparse parameter $\lambda$ via B
 %\end{figure}
 
 \section{Real data analysis}
-Lastly, we applied our method on two real data sets, one is a real-valued tensor and another is a Bernoulli-valued tensor. The real-valued dataset consists of gene expressions from 13 brain tissues, 100 individuals, and 193 genes. The dataset is obtained from GTEx contortion, and the gene list comes from... We subtract the overall mean and apply the penalized TBM method on this tensor. Tensor blocks are identified. We select 10 blocks and . We find that tissues are collected.
+Lastly, we applied our method on two real data sets, one is a real-valued tensor and another is a Bernoulli-valued tensor. The real-valued dataset consists of gene expressions from 13 brain tissues, 193 individuals, and 362 genes. The dataset is obtained from GTEx contortion, and the gene list comes from... We subtract the overall mean and apply the penalized TBM method on this tensor. Tensor blocks are identified. We select 10 blocks and . We find that tissues are collected.
 
-Another dataset we consider is the \emph{Nations} data. The nations data set is a $14\times 14 \times 56$ binary tensor consisting of 56 political relationships of 14 countries between 1950 and 1965. There are 78.9\% of entries are zero. We applied the BIC criterion and choose $\mR=(5,5,9)$ and $\lambda=0.4$. 
+Another dataset we consider is the \emph{Nations} data. The nations data set is a $14\times 14 \times 56$ binary tensor consisting of 56 political relationships of 14 countries between 1950 and 1965. There are 78.9\% of entries are zero. We applied the BIC criterion and choose $\mR=(5,5,9)$ and $\lambda=0.4$. The countries are clustered into 5 groups: USA, UK, east, nural 
+
+We order the block by the mead and find that there are 17 blocks with mean 1.  
 
 
 \section{Conclusion}

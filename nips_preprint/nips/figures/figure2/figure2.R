@@ -7,7 +7,7 @@ require(tensorsparse)
 
 n=60;p=60;q=60;k=6;r=6;l=7;error=1;sparse.percent=0.8
 set.seed(1)
-data = get.data(n,p,q,k,r,l,error,TRUE,sparse.percent)
+data = get.data(n,p,q,k,r,l,error,sparse.percent)
 truth = data$truthX
 input = data$x
 

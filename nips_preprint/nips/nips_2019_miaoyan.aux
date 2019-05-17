@@ -16,16 +16,24 @@
 \gdef\HyperFirstAtBeginDocument#1{#1}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{cong2015tensor}
+\citation{zhou2013tensor}
+\citation{nickel2011three}
+\citation{socher2013reasoning}
+\citation{tang2013tensor}
+\citation{liu2013tensor}
+\citation{wang2017three}
+\citation{hore2016tensor}
 \select@language{english}
 \@writefile{toc}{\select@language{english}}
 \@writefile{lof}{\select@language{english}}
 \@writefile{lot}{\select@language{english}}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces (a): a $60\times 60\times 60$ tensor with 5 clusters in each mode; (b): true underlying mean signal within each cluster; (c): mean signal estimated by our proposed approach with true number of clusters (5, 5, 5); (d): mean signal estimated by k-means clustering on each mode with true number of clusters (5 , 5, 5).\relax }}{1}{figure.caption.2}}
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:1}{{1}{1}{(a): a $60\times 60\times 60$ tensor with 5 clusters in each mode; (b): true underlying mean signal within each cluster; (c): mean signal estimated by our proposed approach with true number of clusters (5, 5, 5); (d): mean signal estimated by k-means clustering on each mode with true number of clusters (5 , 5, 5).\relax }{figure.caption.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Preliminaries}{1}{section.2}}
 \citation{madeira2004biclustering}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces (a). a $60\times 60\times 60$ noisy tensor with 5 clusters in each mode; (b). Mean signal estimated by our proposed estimator. (c). a $60\times 60 \times 60$ noisy tensor with sparse multi-way blocks. (d) Mean signal estimated by our proposed estimator. \relax }}{2}{figure.caption.2}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:1}{{1}{2}{(a). a $60\times 60\times 60$ noisy tensor with 5 clusters in each mode; (b). Mean signal estimated by our proposed estimator. (c). a $60\times 60 \times 60$ noisy tensor with sparse multi-way blocks. (d) Mean signal estimated by our proposed estimator. \relax }{figure.caption.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Tensor block model}{2}{section.3}}
 \newlabel{eq:model}{{1}{2}{Tensor block model}{equation.3.1}{}}
 \newlabel{eq:Tucker}{{2}{2}{Tensor block model}{equation.3.2}{}}
@@ -34,7 +42,6 @@
 \citation{kolda2009tensor}
 \citation{darton1980rotation}
 \citation{abdi2003factor}
-\citation{zhang2018tensor}
 \newlabel{eq:space}{{4}{3}{Tensor block model}{equation.3.4}{}}
 \newlabel{eq:estimate}{{6}{3}{Tensor block model}{equation.3.6}{}}
 \newlabel{ass:core}{{1}{3}{Irreducible cores}{ass.1}{}}
@@ -42,17 +49,18 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4}Statistical convergence}{3}{section.4}}
 \newlabel{sec:theory}{{4}{3}{Statistical convergence}{section.4}{}}
 \newlabel{eq:MSE}{{7}{3}{Statistical convergence}{equation.4.7}{}}
-\newlabel{thm:main}{{1}{3}{Convergence rate}{theorem.1}{}}
-\newlabel{eq:bound}{{8}{3}{Convergence rate}{equation.4.8}{}}
+\citation{zhang2018tensor}
 \citation{gao2016optimal}
 \citation{gao2018minimax}
 \citation{gao2016optimal}
 \citation{gao2018minimax}
-\citation{aloise2009np}
+\newlabel{thm:main}{{1}{4}{Convergence rate}{theorem.1}{}}
+\newlabel{eq:bound}{{8}{4}{Convergence rate}{equation.4.8}{}}
 \newlabel{eq:intuition}{{9}{4}{Statistical convergence}{equation.4.9}{}}
 \newlabel{thm:partition}{{2}{4}{Clustering consistency}{theorem.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Numerical Implementation}{4}{section.5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Alternating optimization}{4}{subsection.5.1}}
+\citation{aloise2009np}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Multiway clustering based on tensor block models\relax }}{5}{algorithm.1}}
 \newlabel{alg:B}{{1}{5}{Multiway clustering based on tensor block models\relax }{algorithm.1}{}}
 \newlabel{eq:ols}{{10}{5}{Multiway clustering based on tensor block models\relax }{equation.5.10}{}}
@@ -72,16 +80,24 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Comparison with alternative methods}{7}{subsection.7.2}}
 \bibstyle{unsrt}
 \bibdata{tensor_wang}
-\bibcite{madeira2004biclustering}{1}
-\bibcite{zhang2018tensor}{2}
-\bibcite{kolda2009tensor}{3}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Results for sparse tensor block estimation under dimension $\bm  {d}=(40,40,40)$. The reported $\mathaccentV {bar}016\lambda $ is the mean of $\lambda $ selected across 50 simulations using our proposed BIC criterion. Number in bold indicates no significant difference between the estimate and the ground truth, based on a $z$-test with a level 0.05.\relax }}{8}{table.caption.5}}
 \newlabel{t5}{{1}{8}{Results for sparse tensor block estimation under dimension $\md =(40,40,40)$. The reported $\bar \lambda $ is the mean of $\lambda $ selected across 50 simulations using our proposed BIC criterion. Number in bold indicates no significant difference between the estimate and the ground truth, based on a $z$-test with a level 0.05.\relax }{table.caption.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {8}Real data analysis}{8}{section.8}}
 \@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{8}{section.9}}
-\bibcite{darton1980rotation}{4}
-\bibcite{abdi2003factor}{5}
-\bibcite{gao2016optimal}{6}
-\bibcite{gao2018minimax}{7}
-\bibcite{aloise2009np}{8}
-\bibcite{chi2018provable}{9}
+\bibcite{cong2015tensor}{1}
+\bibcite{zhou2013tensor}{2}
+\bibcite{nickel2011three}{3}
+\bibcite{socher2013reasoning}{4}
+\bibcite{tang2013tensor}{5}
+\bibcite{liu2013tensor}{6}
+\bibcite{wang2017three}{7}
+\bibcite{hore2016tensor}{8}
+\bibcite{madeira2004biclustering}{9}
+\bibcite{zhang2018tensor}{10}
+\bibcite{kolda2009tensor}{11}
+\bibcite{darton1980rotation}{12}
+\bibcite{abdi2003factor}{13}
+\bibcite{gao2016optimal}{14}
+\bibcite{gao2018minimax}{15}
+\bibcite{aloise2009np}{16}
+\bibcite{chi2018provable}{17}
