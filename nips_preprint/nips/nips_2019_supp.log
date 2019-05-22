@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  16 MAY 2019 22:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  22 MAY 2019 04:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -749,11 +749,7 @@ Package: xr 1994/05/28 v5.02 eXternal References (DPC)
 )
 Package xr Info: IMPORTING LABELS FROM nips_2019_miaoyan.aux on input line 50.
 
-(./nips_2019_supp.aux
-
-LaTeX Warning: Label `t2' multiply defined.
-
-)
+(./nips_2019_supp.aux)
 \openout1 = `nips_2019_supp.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 65.
@@ -771,7 +767,8 @@ LaTeX Font Info:    ... okay on input line 65.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 65.
 LaTeX Font Info:    ... okay on input line 65.
 LaTeX Font Info:    Try loading font information for T1+ptm on input line 65.
- (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1ptm.fd
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
 *geometry* driver: auto-detecting
@@ -933,49 +930,140 @@ LaTeX Font Info:    Try loading font information for U+stmry on input line 68.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 68.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 68.
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-Package microtype Info: Loading generic settings for font family
-(microtype)             `cmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
+
+LaTeX Warning: No \author given.
+
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 71.
- [1
+
+LaTeX Warning: Reference `eq:equality' on page 1 undefined on input line 80.
+
+
+LaTeX Warning: Reference `eq:equality' on page 1 undefined on input line 84.
+
+
+LaTeX Warning: Reference `eq:cluster1' on page 1 undefined on input line 93.
+
+
+LaTeX Warning: Reference `eq:cluster2' on page 1 undefined on input line 93.
+
+
+LaTeX Warning: Reference `eq:cluster3' on page 1 undefined on input line 93.
+
+[1
 
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
-LaTeX Warning: Reference `prop:bound' on page 2 undefined on input line 133.
+Package amsmath Warning: Foreign command \over;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 145.
+
+[2]
+./nips_2019_supp.tex:200: Missing } inserted.
+<inserted text> 
+                }
+l.200 ...sum_{\mj\in \hat \mM^{-1}(\mr)}\tE_{\mj}$
+                                                   follows independent Gauss...
+
+? 
+
+LaTeX Font Warning: Command \large invalid in math mode on input line 209.
+
+
+LaTeX Warning: Reference `prop:bound' on page 3 undefined on input line 220.
 
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 148.
+(amsmath)                 on input line 234.
 
-[2]
+[3]
+./nips_2019_supp.tex:260: Undefined control sequence.
+l.260 \hat c^{\text{ols}}_{r_1,\ldots,r_K}\mathds
+                                                 {1}_{\{|\hat c^{\text{ols}}...
+
+? 
+LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 279.
 
 LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
-(Font)              using `U/stmry/m/n' instead on input line 190.
+(Font)              using `U/stmry/m/n' instead on input line 281.
 
-<figures/sparse.pdf, id=74, 433.62pt x 289.08pt>
+[4] <figures/sparse.pdf, id=78, 433.62pt x 289.08pt>
 File: figures/sparse.pdf Graphic file (type pdf)
  <use figures/sparse.pdf>
-Package pdftex.def Info: figures/sparse.pdf used on input line 336.
+Package pdftex.def Info: figures/sparse.pdf used on input line 427.
 (pdftex.def)             Requested size: 198.7425pt x 132.4976pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 341.
 
-[3] [4] [5 <./figures/sparse.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 341.
+
+./nips_2019_supp.tex:432: LaTeX Error: Illegal character in array arg.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.432  "
+        China"   "Cuba" "Poland"   "USSR" & UK/USA& 4
+? 
+./nips_2019_supp.tex:432: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.432  "China"   "Cuba" "Poland"   "USSR" &
+                                            UK/USA& 4
+? 
+./nips_2019_supp.tex:432: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.432 ...ina"   "Cuba" "Poland"   "USSR" & UK/USA&
+                                                   4
+? 
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 436.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 436.
+ [5]
+
+./nips_2019_supp.tex:447: LaTeX Error: \begin{proof} on input line 266 ended by
+ \end{appendices}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.447 \end{appendices}
+                      
+? 
+
+./nips_2019_supp.tex:448: LaTeX Error: \begin{appendices} on input line 70 ende
+d by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.448 \end{document}
+                    
+? 
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 448.
+[6 <./figures/sparse.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 448.
  (./nips_2019_supp.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 341.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 341.
-Package rerunfilecheck Info: File `nips_2019_supp.out' has not changed.
-(rerunfilecheck)             Checksum: 802AE2FB0A1ED64B6F00A88B789C23E3;325.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 448.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 448.
 
+
+Package rerunfilecheck Warning: File `nips_2019_supp.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `nips_2019_supp.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  9A27674F4EB5552F3B2A2741E4CC454E;263.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -983,20 +1071,24 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 341.
- ) 
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 448.
+ )
+(\end occurred inside a group at level 1)
+
+### semi simple group (level 1) entered at line 70 (\begingroup)
+### bottom level 
 Here is how much of TeX's memory you used:
- 11188 strings out of 493014
- 166229 string characters out of 6133351
- 333104 words of memory out of 5000000
- 14435 multiletter control sequences out of 15000+600000
- 35821 words of font info for 94 fonts, out of 8000000 for 9000
+ 11225 strings out of 493014
+ 166331 string characters out of 6133351
+ 327078 words of memory out of 5000000
+ 14438 multiletter control sequences out of 15000+600000
+ 49505 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,13n,42p,714b,416s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{theorem.1} has been referenced but does not exist
-, replaced by a fixed one
+ 44i,13n,42p,715b,517s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{theorem.1} has been referenced but 
+does not exist, replaced by a fixed one
 
 pdfTeX warning (dest): name{ass.1} has been referenced but does not exist, repl
 aced by a fixed one
@@ -1007,32 +1099,33 @@ t, replaced by a fixed one
 pdfTeX warning (dest): name{prop.1} has been referenced but does not exist, rep
 laced by a fixed one
 
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/
-usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/local/texlive/
-2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2016/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/amsfonts/cmextra/cmmib5.pfb></usr/local/texlive/2016
-/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/texlive/
-2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2016/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texmf-
-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts
-/type1/urw/times/utmr8a.pfb>
-Output written on nips_2019_supp.pdf (5 pages, 243904 bytes).
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texl
+ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texlive/
+2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2016
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2016/t
+exmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib5.pfb></usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/
+2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2016/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-
+dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb></usr/local/texlive/2016/texm
+f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fon
+ts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/
+urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/
+utmri8a.pfb>
+Output written on nips_2019_supp.pdf (6 pages, 257275 bytes).
 PDF statistics:
- 173 PDF objects out of 1000 (max. 8388607)
- 142 compressed objects within 2 object streams
- 30 named destinations out of 1000 (max. 500000)
- 18990 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 181 PDF objects out of 1000 (max. 8388607)
+ 147 compressed objects within 2 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 24070 words of extra memory for PDF output out of 24883 (max. 10000000)
 

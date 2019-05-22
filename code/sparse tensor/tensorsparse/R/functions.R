@@ -182,7 +182,7 @@ label_for_cp = function(multiplicative=1,x,k,r,l){
   #  m3 = matrix(m3,ncol=1)
   #  mus = mus + lambda[s]*ttm(ttm(m1,m2,2),m3,3)@data
   #}
-  return(list(judgeX=fitted,s=multiplicative,Cs=Cs,Ds=Ds,Es=Es,blockmean=mus))
+  return(list(judgeX=fitted,s=multiplicative,Cs=Cs,Ds=Ds,Es=Es,blockmean=mus,mus=fitted))
 }
 
 

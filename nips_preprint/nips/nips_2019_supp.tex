@@ -49,24 +49,24 @@
 \usepackage{xr}
 \externaldocument{nips_2019_miaoyan}
 
-\title{Supplements for ``Multi-way block localization via sparse tensor clustering''}
+\title{Supplements for ``Multi-way clustering via tensor block models''}
 
 
-\author{%
-Yuchen Zeng \\
-University of Wisconsin -- Madison\\
- \texttt{yzeng58@wisc.edu} \\
-\And
-Miaoyan Wang \\
-University of Wisconsin -- Madison\\
-\texttt{miaoyan.wang@wisc.edu} \\
-}
+%\author{%
+%Yuchen Zeng \\
+%University of Wisconsin -- Madison\\
+ %\texttt{yzeng58@wisc.edu} \\
+%\And
+%Miaoyan Wang \\
+%University of Wisconsin -- Madison\\
+%\texttt{miaoyan.wang@wisc.edu} \\
+%}
 
 \begin{document}
 
 \maketitle
 
-
+\vspace{-2cm}
 \begin{appendices}
 \section{Proofs}
 	
@@ -113,15 +113,102 @@ Therefore, one can merge $\tA, \tB$ into one cluster along the mode 1. This cont
 %\tilde \tC \times_1 \left(\mB_1\mM_1\right) \times_2 \cdots\times_K \left(\mB_K\mM_K\right)=\tilde \tC \times_1 \tilde \mM_1 \times_2 \cdots\times_K \tilde \mM_K.
 %\end{equation}
 %Both sides of the above expression represent a block tensor with a same core. Let us consider the mode-1 structure first. Based on the Assumption~\ref{ass:core}, $\mB_1\mM_1$ has full row rank. Furthermore, the mode-$1$ partition is determined by $\mM_1$, because multiplying a $R_1$-by-$R_1$ confusion matrix $B_1$ will not change the cluster allocation. On the right-hand hand, the mode-$1$ partition is determined by $\tilde \mM_1$. Therefore the partition encoded in $\mM_1$ is the same as that in $\tilde \mM_1$. Equivalently, $\mB_1$ must be a permutation matrix. The proof is complete by applying the same argument to all $k\in[K]$. 
+%\subsection{Proof of Theorem~\ref{thm:main}}
+%We first present three lemmas that will be used in the proof of Theorem~\ref{thm:main}. 
+%\begin{lemma} 
+%\end{lemma}
 
 \subsection{Proof of Theorem~\ref{thm:main}}
-To study the performance of the least-square estimator $\hat \Theta$, we need to introduce some additional notations. We view the membership matrix $\mM_k$ as a onto function $\mM_k\colon [d_k]\mapsto [R_k]$, and with a little abuse of notation, we still use $\mM_k$ to denote the mapping function. Correspondingly, we use $\mM_k(i)\in[R_k]$ to denote the cluster label for the element $i\in[d_k]$.  The parameter space $\tP$ can be equivalently written as
-\begin{align}
-\tP=&\big\{ \Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}\colon \Theta_{i_1,\ldots,i_K}=\tC_{r_1,\ldots,r_K} \text{ for } (i_1,\ldots,i_K)\in\mM^{-1}_1(r_1)\times \cdots \times \mM_K^{-1}(r_K)\notag \\
-&\ \text{ with some membership matrices $\mM_k$'s and a core tensor $\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}$} \big\}.\notag
-\end{align}
-In other words, the mean signal tensor $\Theta$ is a piecewise constant with respect to the blocks in the Cartesian product of the mode-$k$ clusters, $ \mM^{-1}_1(r_1)\times \cdots \times \mM_K^{-1}(r_K)$, for all $(r_1,\ldots,r_K)\in[R_1]\times \cdots\times [R_K]$. 
+To study the performance of the least-square estimator $\hat \Theta$, we need to introduce some additional notations. We view the membership matrix $\mM_k$ as an onto function $\mM_k\colon [d_k]\mapsto [R_k]$, and with a little abuse of notation, we still use $\mM_k$ to denote the mapping function. Correspondingly, we use $\mM_k(i_k)$ to denote the cluster label for the element $i_k\in[d_k]$, and $\mM^{-1}_k(r_k)$ the group of elements in cluster $r_k\in[R_k]$.
 
+To simplify notation, we define $\mi=(i_1,\ldots,i_K)$, $\mr=(r_1,\ldots,r_K)$, and $\mM^{-1}(\mi)=\mM_1^{-1}(r_1)\times \cdots \times \mM^{-1}_K(r_K)$. 
+The parameter space $\tP$ can be equivalently written as
+\begin{align}
+\tP=&\big\{ \Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}\colon \Theta_{\mi}=\tC_{\mr} \text{ for }\mi \in\mM^{-1}(\mr)\text{ and a core tensor $\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}$} \big\}.\notag
+\end{align}
+That is, the mean signal tensor $\Theta$ is a piecewise constant with respect to the blocks in the Cartesian product of the mode-$k$ clusters, $\mM^{-1}(\mi)$, for all $\mr \in[R_1]\times \cdots\times [R_K]$. 
+
+The estimate $\hat \Theta$ consists of two components: the mean parameter $\tC$ and the clustering (structure) parameter $ \mM\colon [d_1]\times \cdots [d_K]\mapsto [R_1]\times \cdots \times [R_K]$. We introduce an intermediate estimate 
+\[
+\bar \Theta =\mathbb{E}(\hat \Theta|\hat \mM)=\mathbb{E}(\hat \tC\times_1 \hat \mM_1\times\cdots \times_K \hat \mM_K|\hat \mM),
+\] 
+where the expectation is taken with respect to the $\hat \tC$ (which is a function of the data $\tY$). Note that, given the structure estimate $\hat \mM$, the mean estimate $\hat \tC$ is simply the sample average of $\tY$ within the blocks defined by $\hat \mM$. Therefore, 
+%\begin{align}
+%\bar \Theta=\mathbb{E}(\hat \tC|\hat \mM)\times_1\hat \mM_1\times\cdots \times_k \hat \mM_K&=\tC\times_1 (\mB_1\hat \mM_1)\cdots \times_K(\mB_K\hat \mM_K)\\
+%&=\KeepStyleUnderBrace{(\tC\times_1\mB_1\times \cdots \times_K \mB_K)}_{\bar \tC}\times_1\hat \mM_1\times_2 \cdots \times_K\hat \mM_K
+%\end{align}
+%where $\mB_k=\mM_k\hat \mM'_k(\hat \mM_k\hat \mM'_k)^{-1}$ is the (row-normalized) confusion matrix between $\mM_k$ and $\mM'_k$, for all $k\in[K]$.
+Note that $\hat \Theta$ is the minimizer of $\FnormSize{}{\Theta -\tY}$. By Lemma 1, 
+\[
+\FnormSize{}{\hat \Theta -\trueT}\leq 2 \langle \hat \Theta-\bar\Theta,\ \tY-\trueT \rangle+2\FnormSize{}{\hat \Theta-\bar\Theta} \delta +2 \delta^2
+\]
+where $\delta=|\langle {\bar \Theta -\trueT\over  \FnormSize{}{\bar \Theta-\trueT}}, \tY-\trueT  \rangle|.$
+
+\begin{lemma} With probability at least $1-\exp(\prod_k R_k + \sum_k d_k \log R_k)$
+\[
+\langle\hat \Theta -\bar \Theta, \tY-\trueT\rangle\leq C_1\sigma^2 \left( \prod_k R_k+\sum_k R_k\log d_K\right),
+\]
+holds uniformly over $\hat \mM$. 
+\end{lemma}
+
+\begin{proof}
+ For any fixed index $\mi\in[d_1]\times \cdots [d_K]$. Suppose that the index $\mi$ belongs to the block $\mr$ according to $\hat \mM$; i.e. $\hat \mM(\mi)=\mr$. Then
+\[
+\hat \Theta_{\mi}={1\over |\hat \mM^{-1}(\mr)|} \sum_{\mj\in\hat \mM^{-1}(\mr)}\tY_{\mj}.
+\]
+By the definition of $\bar \Theta=\mathbb{E}(\hat \Theta|\hat \mM)$, we have
+\begin{align}
+\hat \Theta_{\mi}-\bar \Theta_{\mi}&={1\over |\hat \mM^{-1}(\mr)|} \sum_{\mj\in\hat \mM^{-1}(\mr)}\left(\tY_{\mj}-\mathbb{E}(\tY_{\mj})\right)\\
+&={1\over| \hat \mM^{-1}(\mr)|} \sum_{\mj\in\hat \mM^{-1}(\mr)}\tE_{\mj}
+\end{align}
+Therefore, 
+\[
+\langle \hat \Theta-\bar \Theta, \tY-\trueT\rangle=\sum_{\mr}\left({1\over \sqrt{|\hat \mM^{-1}(\mr)|}} \sum_{\mj\in\hat \mM^{-1}(\mr)}\tE_{\mj}\right)^2
+\]
+Note that $\tE_{\mj}$ follows the independent sub-Gaussian-$\sigma^2$ assumption. Hence
+\[
+{1\over \sqrt{|\hat \mM^{-1}(\mr)|}} \sum_{\mj\in\hat \mM^{-1}(\mr)}\tE_{\mj}
+\]
+follows sub-Gaussian with-$\sigma^2$. There are $\prod_k R_k$ choices of $\mr$. By union bound, with probability at least $1-\exp(\prod_k R_k+\sum_k d_k\log R_k)$
+\[
+|\hat \Theta-\bar\Theta, \tY-\trueT| \leq C_1 \sigma^2 \left(\prod_k R_k+\sum_k d_k \log R_k\right)
+\]
+uniformly holds for all $\hat \mM$.
+\end{proof}
+\begin{lemma} With probability at least $1-\exp(\sum_k d_k \log R_k)$,
+\[
+\Big \langle{ \bar \Theta -\trueT \over \FnormSize{}{\bar \Theta -\trueT}},\ \tY-\trueT \Big \rangle\leq C_2\sigma\left(\prod_k d_k+\sum_k d_k \log R_k \right)^{1/2}.
+\]
+\end{lemma}
+\begin{proof}
+Define 
+\[
+\tB=\{ \entry{\tC}: \}
+\]
+\end{proof}
+
+\begin{lemma} With probability at least $1-\exp(\sum_k R_k+\sum_k R_k\log d_k)$,
+\[
+\FnormSize{}{\hat \Theta -\bar \Theta}\leq C_3\sigma\left(\prod_k R_k+\sum_k d_k \log R_k \right)^{1/2}.
+\]
+\end{lemma}
+
+\begin{proof} From the proof of Lemma 1, we have
+\[
+\FnormSize{}{\hat \Theta-\bar \Theta}^2=\sum_{\mr}{1\over |\mM^{-1}(\mr)|}\left(\sum_{\mj \in \hat \mM^{-1}(\mr)}\tE_{\mj}\right)^2.
+\]
+Note that ${{1\over \sqrt{|\mM^{-1}(\mr)|}}\sum_{\mj\in \hat \mM^{-1}(\mr)}\tE_{\mj}$ follows independent Gaussian-$\sigma$. (same as Lemma 1?) So
+\[
+\FnormSize{}{\hat \Theta-\bar \Theta} \leq C \sigma\left(\prod_k R_k+\sum_k d_k \log R_k\right)
+\]
+uniformly over $\mM$.
+\end{proof}
+
+\begin{lemma} Let $\ma, \mb\in\mathbb{R}^d$ be two vectors and $\normSize{}{\cdot}$ the Euclidean norm in $\mathbb{R}^2$. If $\normSize{}{\mb}\leq \normSize{}{\ma}$, then the following hold for any $\mx\in\mathbb{R}^d$:
+\[
+\normSize{}{\ma-\mb}\leq 2 \langle \mx,\ma\rangle  + 2\normSize{}{\mx}\delta+2\delta^2,\quad \text{with}\quad \delta=\Big|\large \Big\langle{\ma-\mb-\mx\over\normSize{}{\ma-\mb-\mx}},\ \ma \Big\rangle\Big|
+\]
+\end{lemma}
 Let $d=\prod_k d_k$ and $R=\prod_k R_k$. We define $\tD(s)$ to be the set of $d$-dimensional vectors with at most $s$ distinct entry values. 
 By identifying the tensors in $\tP$ as $d$-dimensional vectors, we have $\tP\subset \tD^d(R)$.
 
@@ -141,7 +228,12 @@ where $(\tP-\tP')=\{\mu-\mu'\colon \mu, \mu'\in\tP\}$ and $\mB^{d}_2$ denotes th
 
 (to be finished...)
 \begin{align}
-\sup_{\mu\in (\tP-\tP')\cap \mB^d_2}\langle \mu ,\tE\rangle&\leq \sup_{\mu\in \tD(R^2)\cap\mB^d_2}\langle \mu, \tE\rangle\\
+\FnormSize{}{\hat \Theta-\trueT}&\leq 2\sup_{\mu\in\tD(R)} \sup_{\mu'\in \tD(R)} \Big\langle {\mu-\mu'\over \FnormSize{}{\mu-\mu'}}, \tE \Big\rangle\\
+&\leq \sup_{\mu\in \tD(R)}\sup_{\mu'\in \tD(R)\cap \mB_2(\mu)}\langle \mu', \tE  \rangle\\
+&\leq \sup_{\mu \in \tD(R)} 6^R{d \choose R}
+\end{align}
+\begin{align}
+\sup_{\mu\in (\tP-\tP')\cap \mB^d_2}\langle \mu ,\tE\rangle&\leq \sup_{\mu\in \tD()\cap\mB^d_2}\sup_{\tP} \langle \mu, \tE\rangle\\
 &\leq \sup_{|\ms|= R^2}\sup_{\mu\in\mB_2^{\ms}}\langle \mu, \tE\rangle\\
 &\leq2\sigma \log\left(6^{R^2}{d \choose R^2}\right)\\
 &\leq 2\sigma R^2+....
@@ -154,39 +246,38 @@ For fixed $\mM_k$'s, $\tC$ is a linear space of dimension no greater than $R^2$.
 %\tP\subset \{\Theta\colon \Theta\in \tD^{d_1\times \cdots d_K}\}.
 %\]
 
-\subsection{Proof of}
-
 \subsection{Sparse clustering}
 \begin{lemma}\label{lem:sparse}
+Consider the regularized least-square estimation,
+\[
+\hat \Theta^{\text{sparse}}=\argmin_{\Theta\in \tP}\left\{\FnormSize{}{\tY-\Theta}^2+\lambda \normSize{}{\tC}_\rho
+\right\},
+\]
+where $\normSize{}{\tC}_\rho$ is the penalty function with $\rho$ being an index for the tensor norm, $\tC=\entry{c_{r_1,\ldots,r_K}}\in\mathbb{R}^{R_1\times \cdots\times R_K}$ is the block means, and $\lambda$ is the penalty tuning parameter. Then we have
+\begin{equation}\label{eq:lasso}
+\hat c^{\text{sparse}}_{r_1,\ldots,r_K}=
+\begin{cases}
+\hat c^{\text{ols}}_{r_1,\ldots,r_K}\mathds{1}_{\{|\hat c^{\text{ols}}_{r_1,\ldots,r_K} |\geq {2\sqrt{\lambda} \over \sqrt{n_{r_1,\ldots,r_K}}}\}} & \text{if}\ \rho=1,\\
+\text{sign}(\hat c^{\text{ols}}_{r_1,\ldots,r_K})\left( \hat c^{\text{ols}}_{r_1,\ldots,r_K}-{2\lambda \over n_{r_1,\ldots,r_K}}  \right) &\text{if}\ \rho=0.
+\end{cases}
+\end{equation}
 \end{lemma}
 
-Let $\mathbf{Y} \in \mathbb{R}^n$ be a response vector and $\mathbf{X} \in \mathbb{R}^{n\times p}$ the design matrix. Assume the response vector $\mathbf{Y}$ is mean-centered, i.e., $\sum_iY_i=0$. Suppose that $\mathbf{X}$ is an orthogonal design matrix with $X^TX=diag(n_1,...,n_p)$. Define the ordinary least-square estimate $\hat{\bm{\beta}}_{ols} = (\hat{\beta}_{ols,1},...,\hat{\beta}^T_{ols,p})^T$. Consider the following constrained optimization: 
+\begin{proof}
+We cast the problem into a regularized least square. Note that
+\[
+\Theta=\tC\times_1\mM_1\times \cdots \mM_K.
+\]
+Let $\mX=\mM_1\otimes \ldots \otimes \mM_K\in \mathbb{R}^{d\times R}$, where $d=\prod_k d_k$ and $R=\prod_k R_k$. The problem is equivalent to a linear regression with $\mY=\text{vec}(\tY)$ as the response and $\mX$ as the design matrix. Note that $\mX$ is an orthogonal matrix with $\mX^T\mX=\text{diag}(n_1,\ldots,n_{R})$, where $n_r$ is the block size. 
+Consider the following constrained optimization: 
 \begin{equation*}
-\bm{\hat{\beta}} = \argmin\{\frac{1}{2}||\mathbf{Y}-\mathbf{X}\bm{\beta}||^2_2+\lambda pen(\bm{\beta})\}
-\end{equation*}
-1. Case 1: L-0 penalization. $pen(\bm{\beta}) = ||\bm{\beta}||_0$:\\
-Under the change of tuning parameter $\lambda' := f(\lambda)=\sqrt{2\lambda}$  such that $\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
-\begin{equation*}
-\hat{\beta}_i = \hat{\beta}_{ols,i}\mathbb{I}_{|\hat{\beta}_{ols,i}|>\frac{\lambda'}{\sqrt{n_i}}}\ for\ all\ i=1,...,p
-\end{equation*}
-2. Case 2: L-1 penalization. $pen(\bm{\beta})= ||\bm{\beta}||_1$:\\
-$\bm{\hat{\beta}} = (\hat{\beta}_1,..., \hat{\beta}_p)^T$ has a closed-form solution:
-\begin{equation*}
-\hat{\beta}_i = sign(\hat{\beta_{ols,i}})(|\hat{\beta_{ols,i}}|-\frac{\lambda}{n_i})_+\ for\ all\ i=1,2,...,p
-\end{equation*}
-		
+L=||\mathbf{Y-X}\bm{\beta}||^2_2+\lambda||\bm{\beta}_0||=(\mathbf{Y-X}\bm{\beta})^T(\mathbf{Y-X}\bm{\beta})+\lambda ||\bm{\beta}||_0=L_1+L_2
+\end{equation*} 
+where $L_1=(\mathbf{Y-X}\bm{\beta})^T(\mathbf{Y-X}\bm{\beta})$, $L_2=\lambda ||\bm{\beta}||_0$. 
 
 	
-
-		We want to minimize
-		\begin{equation*}
-		L=\frac{1}{2}||\mathbf{Y-X}\bm{\beta}||^2_2+\lambda||\bm{\beta}_0||=\frac{1}{2}(\mathbf{Y-X}\bm{\beta})^T(\mathbf{Y-X}\bm{\beta})+\lambda ||\bm{\beta}||_0=L_1+L_2
-		\end{equation*} 
-		where $L_1=\frac{1}{2}(\mathbf{Y-X}\bm{\beta})^T(\mathbf{Y-X}\bm{\beta})$, $L_2=\lambda ||\bm{\beta}||_0$. 
-	
-	\textbf{Case 1:}\par 
-	 Here we view the optimization problem as a case in linear regression. 
-	The $L_1$ is exactly the $RSS/2$ in this case. So we compare the increment of $L_1$  when $L_2$ takes different values. We denote $z$ as the number of  non-zero elements in $\bm{\beta}$.\\
+\textbf{Case 1: $\rho=0$}\par 
+The $L_1$ is exactly the $RSS$ in this case. So we compare the increment of $L_1$  when $L_2$ takes different values. We denote $z$ the number of  non-zero elements in $\bm{\beta}$.\\
 	(1) Consider the case we have no constraint on $z$. Thus we only have to minimize $L_1$. By the knowledge of linear regression, we know the unique minimizer is $\bm{\hat{\beta}_{ols}}=\mathbf{(X^TX)^{-1}XY}$. Assume there are $m$ zero elements in $\bm{\hat{\beta}_{ols}}$ where $0\leq m \leq p$ \\
 	(2) Consider the case we have constraint on $z$: $z = i$, where $i=0,1,2,...,m$. Obviously, among these cases the $L$ can be minimized if and only if $i=m$. So, $z=m$ and $\bm{\hat{\beta}}=\bm{\hat{\beta}_{ols}}$ is the minimizer of $L$ when $0\leq z\leq m$.
 	(3) Consider the case that we have constraint on $x$: $z=m+1$. Then we have to take one more non-zero element in $\bm{\beta}$ to be zero. Suppose we take $\hat{\beta}_l \neq 0$ to be 0. Then we obtain 
@@ -290,7 +381,7 @@ $(d_1,d_2,d_3)$&$(R_1,R_2,R_3)$&$(\sigma)$&$(\hat R_1,\hat R_2,\hat R_3)$\\
 		$(40,40,40)$&$(2,3,4)$&12&$({\bf 2},\ {\bf 2.96},\ 3.60)\pm (0,\ 0.05,\ 0.09)$
 		%\hline
 	\end{tabular}
-	\caption{The simulation results across 50 tensors each time from estimating the $d_1,d_2,d_3$. Highlight estimates that is no significant away from the truth based on a $Z$ test.}\label{t2}
+	\caption{The simulation results across 50 tensors each time from estimating the $d_1,d_2,d_3$. Highlight estimates that is no significant away from the truth based on a $Z$ test.}\label{tab:rank}
 \end{table}
 
 
@@ -334,6 +425,7 @@ $(d_1,d_2,d_3)$&$(R_1,R_2,R_3)$&$(\sigma)$&$(\hat R_1,\hat R_2,\hat R_3)$\\
 
 \begin{figure}
 \includegraphics[width=.5\textwidth]{figures/sparse}
+\caption{Sparse tensor}\label{fig:sparse}
 \end{figure}
 
 \begin{tabular}[ccc]
