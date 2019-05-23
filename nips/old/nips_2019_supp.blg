@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: nips_2019_supp.aux
+The style file: unsrt.bst
+Database file #1: tensor_wang.bib
+Warning--empty journal in rigollet2015high
+Warning--empty year in rigollet2015high
+You've used 2 entries,
+            1791 wiz_defined-function locations,
+            480 strings with 4445 characters,
+and the built_in function-call counts, 322 in all, are:
+= -- 21
+> -- 19
+< -- 0
++ -- 7
+- -- 5
+* -- 18
+:= -- 63
+add.period$ -- 5
+call.type$ -- 2
+change.case$ -- 2
+chr.to.int$ -- 0
+cite$ -- 4
+duplicate$ -- 16
+empty$ -- 29
+format.name$ -- 5
+if$ -- 64
+int.to.chr$ -- 0
+int.to.str$ -- 2
+missing$ -- 2
+newline$ -- 12
+num.names$ -- 2
+pop$ -- 9
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 7
+stack$ -- 0
+substring$ -- 0
+swap$ -- 1
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 2
+width$ -- 3
+write$ -- 19
+(There were 2 warnings)

@@ -71,7 +71,7 @@ UpdateMus.tensor = function (x, Cs, Ds, Es, lambda=0, method="L0") {
     for (r in uniqDs){
       for (l in uniqEs){
         if (lambda == 0) mus[k,r,l] = mean(x[Cs==k,Ds==r,Es==l])
-        if (lambda > 0) mus[k,r,l] = Soft(mean(x[Cs==k,Ds==r,Es==l]),lambda/(sum(Cs==k)*sum(Ds==r)*sum(Es==l)),method=method)
+        if (lambda > 0) mus[k,r,l] = Soft(mean(x[Cs==k,Ds==r,Es==l]),lambda/(2*sum(Cs==k)*sum(Ds==r)*sum(Es==l)),method=method)
         if (lambda < 0) stop("Cannot have a negative tuning parameter value.")
       }
     }
@@ -82,7 +82,7 @@ UpdateMus.tensor = function (x, Cs, Ds, Es, lambda=0, method="L0") {
           for (r in uniqDs){
               for (l in uniqEs){
                   if (lambda == 0) mus[k,r,l] = mean(x[Cs==k,Ds==r,Es==l])
-                  if (lambda > 0) mus[k,r,l] = Soft(mean(x[Cs==k,Ds==r,Es==l]),sqrt(2*lambda)/sqrt(sum(Cs==k)*sum(Ds==r)*sum(Es==l)),method=method)
+                  if (lambda > 0) mus[k,r,l] = Soft(mean(x[Cs==k,Ds==r,Es==l]),sqrt(lambda/(sum(Cs==k)*sum(Ds==r)*sum(Es==l))),method=method)
                   ### modified by Miaoyan
                   ## Soft(mean(x[Cs==k,Ds==r,Es==l]),lambda/sum(Cs==k)*sum(Ds==r)*sum(Es==l),method=method)
                   if (lambda < 0) stop("Cannot have a negative tuning parameter value.")

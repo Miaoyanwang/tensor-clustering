@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{rigollet2015high}
+Phillippe Rigollet and Jan-Christian H{\"u}tter.
+\newblock High dimensional statistics.
+
+\bibitem{wang2017three}
+Miaoyan Wang, Jonathan Fischer, and Yun~S Song.
+\newblock Three-way clustering of multi-tissue multi-individual gene expression
+  data using constrained tensor decomposition.
+\newblock {\em Annals of Applied Statistics, in press}, 2019.
+
+\end{thebibliography}
