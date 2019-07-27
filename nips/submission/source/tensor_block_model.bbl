@@ -110,11 +110,6 @@ Chao Gao and Zongming Ma.
   detection and hypothesis testing.
 \newblock {\em arXiv preprint arXiv:1811.06055}, 2018.
 
-\bibitem{zhang2018tensor}
-Anru Zhang and Dong Xia.
-\newblock Tensor {SVD}: Statistical and computational limits.
-\newblock {\em IEEE Transactions on Information Theory}, 2018.
-
 \bibitem{darton1980rotation}
 Robin~A Darton.
 \newblock Rotation in factor analysis.
@@ -127,12 +122,29 @@ Herv{\'e} Abdi.
 \newblock {\em Encyclopedia for Research Methods for the Social Sciences, Sage:
   Thousand Oaks}, pages 792--795, 2003.
 
+\bibitem{zhang2018tensor}
+Anru Zhang and Dong Xia.
+\newblock Tensor {SVD}: Statistical and computational limits.
+\newblock {\em IEEE Transactions on Information Theory}, 2018.
+
 \bibitem{gao2016optimal}
 Chao Gao, Yu~Lu, Zongming Ma, and Harrison~H Zhou.
 \newblock Optimal estimation and completion of matrices with biclustering
   structures.
 \newblock {\em The Journal of Machine Learning Research}, 17(1):5602--5630,
   2016.
+
+\bibitem{anandkumar2014tensor}
+Animashree Anandkumar, Rong Ge, Daniel Hsu, Sham~M Kakade, and Matus Telgarsky.
+\newblock Tensor decompositions for learning latent variable models.
+\newblock {\em The Journal of Machine Learning Research}, 15(1):2773--2832,
+  2014.
+
+\bibitem{wang2017tensor}
+Miaoyan Wang and Yun Song.
+\newblock Tensor decompositions via two-mode higher-order {SVD} ({HOSVD}).
+\newblock In {\em Artificial Intelligence and Statistics}, pages 614--622,
+  2017.
 
 \bibitem{aloise2009np}
 Daniel Aloise, Amit Deshpande, Pierre Hansen, and Preyas Popat.

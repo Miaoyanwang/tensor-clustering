@@ -81,10 +81,10 @@ Miaoyan Wang \\
 
 \maketitle
 
-\vspace{-.5cm}
+\vspace{-.3cm}
 \begin{abstract}
 \vspace{-.2cm}
-We consider the problem of identifying multiway block structure from a large noisy tensor. Such problems arise frequently in applications such as genomics, recommendation system, topic modeling, and sensor network localization. We propose a tensor block model, develop a unified least-square estimation, and obtain the theoretical accuracy guarantees for multiway clustering. The statistical convergence of the estimator is established, and we show that the associated clustering procedure achieves partition consistency. A sparse regularization is further developed for identifying important blocks with elevated means. The proposal handles a broad range of data types, including binary, continuous, and hybrid observations. Through simulation and application to two real datasets, we demonstrate the outperformance of our approach compared to the state-of-the art.
+We consider the problem of identifying multiway block structure from a large noisy tensor. Such problems arise frequently in applications such as genomics, recommendation system, topic modeling, and sensor network localization. We propose a tensor block model, develop a unified least-square estimation, and obtain the theoretical accuracy guarantees for multiway clustering. The statistical convergence of the estimator is established, and we show that the associated clustering procedure achieves partition consistency. A sparse regularization is further developed for identifying important blocks with elevated means. The proposal handles a broad range of data types, including binary, continuous, and hybrid observations. Through simulation and application to two real datasets, we demonstrate the outperformance of our approach over previous methods. 
 \end{abstract}
 
 \section{Introduction}
@@ -102,14 +102,14 @@ Higher-order tensors have recently attracted increased attention in data-intensi
 
 This paper presents a new method and the associated theory for tensors with block structure. We develop a unified least-square estimation procedure for identifying multiway block structure. The proposal applies to a broad range of data types, including binary, continuous, and hybrid observations. We establish a high-probability error bound for the resulting estimator, and show that the procedure enjoys consistency guarantees on the block structure recovery as the dimension of the data tensor grows. Furthermore, we develop a sparse extension of the tensor block model for block selections. Figure~\ref{fig:1} shows two immediate examples of our method. When the data tensor possesses a checkerbox pattern modulo some unknown reordering of entries, our method amounts to multiway clustering that simultaneously clusters each mode of the tensor (Figure~\ref{fig:1}a). When the data tensor has no full checkerbox structure but contains a small numbers of sub-tensors of elevated means, we develop a sparse version of our method to detect these sub-tensors of interest (Figure~\ref{fig:1}b). 
 
-{\bf Related work.} Our work is closely related to, but also clearly distinctive from, the low-rank tensor decomposition. A number of methods have been developed for low-rank tensor estimation, including CANDECOMP/PARAFAC (CP) decomposition~\cite{hitchcock1927expression} and Tucker decomposition~\cite{tucker1966some}. The CP model decomposes a tensor into a sum of rank-1 tensors, whereas Tucker model decomposes a tensor into a core tensor multiplied by orthogonal matrices in each mode. In this paper we investigate an alternative block structure assumption, which has yet to be studied for higher-order tensors. Note that a block structure automatically implies Tucker low-rankness. However, as we will show in Section~\ref{sec:theory}, a direct application of low rank estimation to the current setting will result in an inferior estimator. Therefore, a full exploitation of the block structure is necessary; this is the focus of the current paper. 
+{\bf Related work.} Our work is closely related to, but also clearly distinctive from, the low-rank tensor decomposition. A number of methods have been developed for low-rank tensor estimation, including CANDECOMP/PARAFAC (CP) decomposition~\cite{hitchcock1927expression} and Tucker decomposition~\cite{tucker1966some}. The CP model decomposes a tensor into a sum of rank-1 tensors, whereas Tucker model decomposes a tensor into a core tensor multiplied by orthogonal matrices in each mode. In this paper we investigate an alternative block structure assumption, which has yet to be studied for higher-order tensors. Note that a block structure automatically implies low-rankness. However, as we will show in Section~\ref{sec:theory}, a direct application of low rank estimation to the current setting will result in an inferior estimator. Therefore, a full exploitation of the block structure is necessary; this is the focus of the current paper. 
 
 Our work is also connected to biclustering and its higher-order extensions~\cite{tan2014sparse,kolda2008scalable,wang2015multi}. Existing multiway clustering methods~\cite{kolda2008scalable,wang2015multi,hore2016tensor} typically take a two-step procedure, by first estimating a low-dimension representation of the data tensor and then applying clustering algorithms to the tensor factors. In contrast, our tensor block model takes a single shot to perform estimation and clustering simultaneously. This approach achieves a higher accuracy and an improved interpretability. Moreover, earlier solutions to multiway clustering~\cite{jegelka2009approximation,kolda2008scalable} focus on the algorithm effectiveness, leaving the statistical optimality of the estimators unaddressed. Very recently, Chi et al~\cite{chi2018provable} provides an attempt to study the statistical properties of the tensor block model. We will show that our estimator obtains a faster convergence rate than theirs, and the power is further boosted with a sparse regularity. 
 
-\vspace{-.2cm}
+\vspace{-.1cm}
 \section{Preliminaries}
-\vspace{-.2cm}
-We begin by reviewing a few basic factors about tensors~\cite{kolda2009tensor}. We use $\tY=\entry{y_{i_1,\ldots,i_K}}\in \mathbb{R}^{d_1\times \cdots\times d_K}$ to denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. The multilinear multiplication of a tensor $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ by matrice $\mM_k=\entry{m_{i_k,j_k}^{(k)}}\in\mathbb{R}^{d_k\times s_k}$ is defined as
+\vspace{-.1cm}
+We begin by reviewing a few basic factors about tensors~\cite{kolda2009tensor}. We use $\tY=\entry{y_{i_1,\ldots,i_K}}\in \mathbb{R}^{d_1\times \cdots\times d_K}$ to denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. The multilinear multiplication of a tensor $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ by matrices $\mM_k=\entry{m_{i_k,j_k}^{(k)}}\in\mathbb{R}^{d_k\times s_k}$ is defined as
 \[
 \tY \times_1\mM_1\ldots \times_K \mM_K=\entry{\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}m_{i_1,j_1}^{(1)}\ldots m_{i_K,j_K}^{(K)}},
 \]
@@ -123,25 +123,25 @@ A clustering of $d$ objects is a partition of the index set $[d]:=\{1,2,\ldots,d
 
 
 \section{Tensor block model}
-\vspace{-.3cm}
-Let $\tY=\entry{y_{i_1,\ldots,i_K}}\in\mathbb{R}^{d_1\times \cdots\times d_K}$ denote an order-$K$, $(d_1,\ldots,d_K)$-dimensional data tensor. The main assumption of tensor block model (TBM) is that the observed data tensor $\tY$ is a noisy realization of an underlying tensor that exhibits a checkerbox structure (see Figure~\ref{fig:1}a). Specifically, suppose the $k$-th mode of the tensor consists of $R_k$ clusters. If the tensor entry $y_{i_1,\ldots,i_K}$ belongs to the block determined by the $r_k$th cluster in the mode $k$ for $r_k\in[R_k]$, then we assume that 
+\vspace{-.1cm}
+Let $\tY=\entry{y_{i_1,\ldots,i_K}}\in\mathbb{R}^{d_1\times \cdots\times d_K}$ denote an order-$K$, $(d_1,\ldots,d_K)$-dimensional data tensor. The main assumption of tensor block model (TBM) is that the observed data tensor $\tY$ is a noisy realization of an underlying tensor that exhibits a checkerbox structure (see Figure~\ref{fig:1}a). Specifically, suppose that the $k$-th mode of the tensor consists of $R_k$ clusters. If the tensor entry $y_{i_1,\ldots,i_K}$ belongs to the block determined by the $r_k$th cluster in the mode $k$ for $r_k\in[R_k]$, then we assume that 
 \begin{equation}\label{eq:model}
 y_{i_1,\ldots,i_K}=c_{r_1,\ldots,r_K}+\varepsilon_{i_1,\ldots,i_K},\quad \text{for }(i_1,\ldots,i_K)\in[d_1]\times\cdots\times [d_K],
 \end{equation}
 where $c_{r_1,\ldots,r_K}$ is the mean of the tensor block indexed by $(r_1,\ldots,r_K)$,  and $\varepsilon_{i_1,\ldots,i_K}$'s are independent, mean-zero noise terms to be specified later. Our goal is to (i) find the clustering along each of the modes, and (ii) estimate the block means $\{c_{r_1,\ldots,r_K}\}$, such that a corresponding blockwise-constant checkerbox structure emerges in the data tensor. 
 
-The tensor block model~\eqref{eq:model} falls into a general class of non-overlapping, constant-mean clustering models~\cite{madeira2004biclustering}, in that each tensor entry belongs to exactly one block with a common mean. The TBM has a close connection with a special tensor Tucker model,
+The tensor block model~\eqref{eq:model} falls into a general class of non-overlapping, constant-mean clustering models~\cite{madeira2004biclustering}, in that each tensor entry belongs to exactly one block with a common mean. The TBM can be equivalently expressed as a special tensor Tucker model,
 \begin{equation}\label{eq:Tucker}
 \tY=\tC\times_1\mM_1\times_2\cdots \times_K \mM_K+\tE,
 \end{equation}
-where $\tC\in\mathbb{R}^{R_1\times\cdots\times R_K}$ is a core tensor consisting of block means, $\mM_k \in\{0,1\}^{R_k\times d_k}$ are membership matrices indicating the block allocations along mode $k$ for $k\in[K]$, and $\tE=\entry{\varepsilon_{i_1,\ldots,i_K}}$ is the noise tensor. %The distinction between our model~\eqref{eq:Tucker} and a classical Tucker model is that we require the factors $\mM_k$ to be membership matrices. 
-The TBM~\eqref{eq:Tucker} can be viewed as a super-sparse Tucker model, in the sense that the each column of $\mM_k$ consists of one copy of 1's and massive 0's. 
+where $\tC\in\mathbb{R}^{R_1\times\cdots\times R_K}$ is a core tensor consisting of block means, $\mM_k \in\{0,1\}^{R_k\times d_k}$ is a membership matrix indicating the block allocations along mode $k$ for $k\in[K]$, and $\tE=\entry{\varepsilon_{i_1,\ldots,i_K}}$ is the noise tensor. %The distinction between our model~\eqref{eq:Tucker} and a classical Tucker model is that we require the factors $\mM_k$ to be membership matrices. 
+We view the TBM~\eqref{eq:Tucker} as a super-sparse Tucker model, in the sense that the each column of $\mM_k$ consists of one copy of 1's and massive 0's. 
 
 We make a general assumption on the noise tensor $\tE$. The noise terms $\varepsilon_{i_1,\ldots,i_K}$'s are assumed to be independent, mean-zero $\sigma$-subgaussian, where $\sigma>0$ is the subgaussianity parameter. More precisely, 
 \begin{equation}\label{eq:noise}
 \mathbb{E}e^{\lambda \varepsilon_{i_1,\ldots,i_K}}\leq e^{\lambda^2\sigma^2/2},\quad \text{for all } (i_1,\ldots,i_K)\in[d_1]\times\cdots\times[d_K] \ \text{and all}\ \lambda\in\mathbb{R}.
 \end{equation}
-Th assumption~\eqref{eq:noise} includes many common situations such as Gaussian noise, Bernoulli noise, and noise with bounded support. In particular, we consider two important examples of the TBM:
+Th assumption~\eqref{eq:noise} incorporates common situations such as Gaussian noise, Bernoulli noise, and noise with bounded support. In particular, we consider two important examples of the TBM:
 \vspace{-.1cm}
 \begin{exam}[Gaussian tensor block model]
 Let $\tY$ be a continuous-valued tensor. The Gaussian tensor block model (GTBM) $y_{i_1,\ldots,i_K}  \sim_{\text{i.i.d.}} N(c_{r_1,\ldots,r_K},\sigma^2)$ is a special case of model~\eqref{eq:model}, with the subgaussianity parameter $\sigma$ equal to the error variance. The GTBM serves as the foundation for many tensor clustering algorithms~\cite{jegelka2009approximation,wang2017three,chi2018provable}. 
@@ -161,48 +161,47 @@ The core tensor $\tC$ is called irreducible if it cannot be written as a block t
 \end{ass}
 \vspace{-.1cm}
 In the matrix case $(K=2)$, the irreducibility is equivalent to saying that $\tC$ has no two identical rows and no two identical columns. In the higher-order case, the assumption requires that none of order-($K$-$1$) fibers of $\tC$ are identical. Note that irreducibility is a weaker assumption than full-rankness. 
-\vspace{-.5cm}
+\vspace{-.4cm}
 \begin{prop}[Identifiability]\label{prop:factors}
 Consider a Gaussian or Bernoulli TBM~\eqref{eq:model}. Under Assumption~\ref{ass:core}, the factor matrices $\mM_k$'s are identifiable up to permutations of cluster labels. 
 \end{prop}
 \vspace{-.1cm}
-The identifiability result in the TBM outperforms that in the classical Tucker model. In the Tucker~\cite{zhang2018tensor,kolda2009tensor} and many other factor analyses~\cite{darton1980rotation,abdi2003factor}, the factors are identifiable only up to orthogonal rotations. Those models recover only the (column) space spanned by $\mM_k$, but not the individual factors. In contrast, our model does not suffer from rotational invariance, and as we show in Section~\ref{sec:theory}, every single factor is consistently estimated in high dimensions. This brings a benefit to the interpretation of tensor factors in the block model.  
+The identifiability property for the TBM outperforms that for the classical factor model~\cite{darton1980rotation,abdi2003factor}. In the Tucker~\cite{zhang2018tensor,kolda2009tensor} and many other factor analyses~\cite{darton1980rotation,abdi2003factor}, the factors are identifiable only up to orthogonal rotations. Those models recover only the (column) space spanned by $\mM_k$, but not the individual factors. In contrast, our model does not suffer from rotational invariance, and as we show in Section~\ref{sec:theory}, every individual factor is consistently estimated in high dimensions. This brings a benefit to the interpretation of factors in the tensor block model.  
 
-We propose a least-square approach for estimating the TBM~\eqref{eq:model}. Let $\Theta=\tC\times_1\mM_1\times_2\cdots\times_K\mM_K$ denote the mean signal tensor with block structure. The mean tensor is assumed to belong to the following parameter space
+We propose a least-square approach for estimating the TBM. Let $\Theta=\tC\times_1\mM_1\times_2\cdots\times_K\mM_K$ denote the mean signal tensor with block structure. The mean tensor is assumed to belong to the following parameter space
 \begin{align}\label{eq:space}
 \tP_{R_1,\ldots,R_K}=&\ \big\{ \Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}\colon \Theta=\tC\times_1\mM_1\times_2\cdots\times_K\mM_K, \text{with some}\notag \\
  &\quad \text{membership matrices $\mM_k$'s and a core tensor $\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}$}\big\}\notag .
 \end{align}
-In the following theoretical analysis, we assume the clustering size $\mR=(R_1,\ldots,R_K)$ is known and simply write $\tP$ for short. The adaptation of unknown $\mR$ will be addressed in Section~\ref{sec:tuning}. The least-square estimator for model~\eqref{eq:model} is
+In the following theoretical analysis, we assume the clustering size $\mR=(R_1,\ldots,R_K)$ is known and simply write $\tP$ for short. The adaptation of unknown $\mR$ will be addressed in Section~\ref{sec:tuning}. The least-square estimator for the TBM~\eqref{eq:model} is
 \begin{equation}\label{eq:estimate}
 \hat \Theta=\argmin_{\Theta\in\tP}\left\{ -2\langle \tY,\Theta\rangle + \FnormSize{}{\Theta}^2\right\}.
 \end{equation}
-The objective is equal (ignoring constants) to the sum of squares $\FnormSize{}{\tY-\Theta}^2$ and hence the name of our estimator. %Finally, the permutation-invariance allows us to choose an ordering of indices for better visualization. The checkerbox pattern in Figure~\eqref{fig:1} thus should be interpreted as the estimate module some reordering along each of the modes. One can rearrange the indices in each mode to make the blocks contiguous; this amounts to multiplying $\mM_k$ by a permutation matrix $\mP_k\in\{0,1\}^{d_k\times d_k}$ and adjusting the core tensor $\tC$ by $\mP_k^{-1}$ accordingly. 
+The objective is equal (ignoring constants) to the sum of squares $\FnormSize{}{\tY-\Theta}^2$ and hence the name of our estimator. 
 
-\section{Theory}\label{sec:theory}
-\vspace{-.2cm}
-In this section, we establish the convergence rate of the least-squares estimator~\eqref{eq:estimate}. While the loss function corresponds to the likelihood for Gaussian tensor model, the same assertion does not hold for other types of distribution such as stochastic tensor block model. Surprisingly, we will show that, with very high probability, a simple least-square estimator achieves a nearly optimal convergence rate in a general class of block tensor models.  
+\section{Statistical convergence}\label{sec:theory}
+%\vspace{-.1cm}
+In this section, we establish the convergence rate of the least-squares estimator~\eqref{eq:estimate}. While the loss function corresponds to the likelihood for the Gaussian tensor model, the same assertion does not hold for other types of distribution such as stochastic tensor block model. Surprisingly, we will show that, with very high probability, a simple least-square estimator achieves a nearly optimal convergence rate in a general class of block tensor models.  
 
 We define the estimation accuracy using the mean squared error (MSE):
 \begin{equation}\label{eq:MSE}
 \text{MSE}(\trueT,\hat \Theta)={1\over \prod_k d_k}\FnormSize{}{\trueT-\hat \Theta}^2,
 \end{equation}
-where $\trueT, \hat \Theta\in\tP$ are the true and estimated mean tensor, respectively.
-
+where $\trueT, \hat \Theta\in\tP$ are the true and estimated mean tensors, respectively.
 
 \begin{theorem}[Convergence rate] \label{thm:main}
 Let $\hat \Theta$ be the least-square estimator of $\trueT$ under model~\eqref{eq:model}. There exists two constants $C_1, C_2>0$ such that,  
 \begin{equation}\label{eq:bound}
-\text{MSE}(\trueT,\hat \Theta)\leq {C_1 \sigma^2\over  \prod_k d_k} \left(\prod_k R_k+\sum_k d_k \log R_k\right),
+\text{MSE}(\trueT,\hat \Theta)\leq {C_1 \sigma^2\over  \prod_k d_k} \left(\prod_k R_k+\sum_k d_k \log R_k\right)
 \end{equation}
 holds with probability at least $1-\exp(-C_2\sum_k R_k+\sum_k d_k\log R_k)$ uniformly over $\trueT\in\tP$ and all error distribution satisfying~\eqref{eq:noise}. 
 \end{theorem}
 
 The convergence rate in~\eqref{eq:bound} consists of two parts. The first part $\prod_k R_k$ is the number of parameters in the core tensor $\tC$, while the second part $\sum_k d_k \log R_k$ reflects the the complexity for estimating $\mM_k$'s. It is the price that one has to pay for not knowing the locations of the blocks.  
 
-We compare our bound with existing literature. The Tucker tensor decomposition has a minimax convergence rate proportional to $\sum_kd_kR'_k$~\cite{zhang2018tensor}, where $R'_k$ is the multilinear rank in the mode $k$. Applying Tucker decomposition to the TBM yields $\sum_kd_kR_k$, because the mode-$k$ rank is bounded by the number of clusters in the mode $k$. Now, as both the dimension $d_{\min}=\min_kd_k$ and clustering size $R_{\min}=\min_k R_k$ tend to infinity, we have $\prod_k R_k+ \sum_k d_k \log R_k\ll \sum_k d_k R_k$. Therefore, by fully exploiting the block structure, we obtain a better convergence rate than previously possible. 
+We compare our bound with existing literature. The Tucker tensor decomposition has a minimax convergence rate proportional to $\sum_kd_kR'_k$~\cite{zhang2018tensor}, where $R'_k$ is the multilinear rank in the mode $k$. Applying Tucker decomposition to the TBM yields $\sum_kd_kR_k$, because the mode-$k$ rank is bounded by the number of mode-$k$ clusters. Now, as both the dimension $d_{\min}=\min_kd_k$ and clustering size $R_{\min}=\min_k R_k$ tend to infinity, we have $\prod_k R_k+ \sum_k d_k \log R_k\ll \sum_k d_k R_k$. Therefore, by fully exploiting the block structure, we obtain a better convergence rate than previously possible. 
 
-Recently, ~\cite{chi2018provable} proposed a convex-relaxation for estimating the TBM. In the special case when the tensor dimensions are equal at every mode $d_1=\ldots=d_K=d$, their estimator has a convergence rate of order $O(d^{-1})$ for all $K\geq 2$. As we see from~\eqref{eq:bound}, our estimate obtains a much better convergence rate $O(d^{-(K-1)})$, which is especially favorably as the order increases. 
+Recently, ~\cite{chi2018provable} proposed a convex relaxation for estimating the TBM. In the special case when the tensor dimensions are equal at every mode $d_1=\ldots=d_K=d$, their estimator has a convergence rate of order $\tO(d^{-1})$ for all $K\geq 2$. As we see from~\eqref{eq:bound}, our estimate obtains a much better convergence rate $\tO(d^{-(K-1)})$, which is especially favorable as the order increases. 
 
 
 The bound~\eqref{eq:bound} generalizes the previous results on structured matrix estimation in network analysis~\cite{gao2016optimal,gao2018minimax}. %The optimal convergence rate for estimating the (matrix) stochastic block model was $R_1R_2+d_1\log R_1+d_2\log R_2$~\cite{gao2016optimal}, which fits into our special case when $K=2$. 
@@ -210,25 +209,22 @@ Earlier work~\cite{gao2018minimax} suggests the following heuristics on the samp
 \begin{equation}\label{eq:intuition}
 {\text{(number of parameters)}+ \log \text{(complexity of models)}\over \text{number of samples}}.
 \end{equation}
-Our result supports this important principle for general $K\geq 2$. Note that, in the TBM, the sample size is the total number of entries $\prod_k d_k$, the number of parameters is $\prod_k R_k$, and combinatoric complexity for estimating block structure is of order $\prod_k R_k^{d_k}$. 
+Our result supports this important principle for general $K\geq 2$. Note that, in the TBM, the sample size is the total number of entries $\prod_k d_k$, the number of parameters is $\prod_k R_k$, and the combinatoric complexity for estimating block structure is of order $\prod_k R_k^{d_k}$. 
 %The principle~\eqref{eq:intuition} thus provide an intuition for~\eqref{eq:bound}. 
 
 
 We next study the clustering consistency of our method. Let $\mM_k, \mM'_k$ be two membership matrices in the mode $k$. We define the misclassification rate as $\text{MCR}(\mM_k,\mM'_k)=d_k^{-1}\sum_{i\in[d_k]}\mathds{1}\{\hat \mM_k(i)=\mM'_k(i)\}$. Here $\mM_k(i)$ (respectively, $\mM_k'(i)$) denotes the cluster label that entry $i$ belongs to, based on the partition induced by $\mM_k$ (respectively, $\mM_k'$). 
 \begin{theorem}[Clustering consistency]\label{thm:partition}
-Consider a TBM with the core tensor $\tC$ satisfying Assumption~\eqref{ass:core}. Let $\trueM$ be the true mode-$k$ membership matrix and $\hat \mM_k$ the estimator from~\eqref{eq:estimate}. As the dimension $d_{\min}$ tend to infinity, the proportions of misclassified entries go to zero in probability; i.e. there exist permutation matrices $\mP_k$'s such that
+Consider a TBM with the core tensor $\tC$ satisfying Assumption~\ref{ass:core}. Let $\trueM$ be the true mode-$k$ membership matrix and $\hat \mM_k$ the estimator from~\eqref{eq:estimate}. As the dimension $d_{\min}$ tend to infinity, the proportions of misclassified entries go to zero in probability; i.e. there exist permutation matrices $\mP_k$'s such that
 \[
 \sum_k \text{MCR}(\hat \mM_k, \mP_k\trueM) \rightarrow 0, \quad \text{in probability}.
 \]
-%\vspace{-.2cm}
 \end{theorem}
-\vspace{-.2cm}
-The above theorem shows that our estimate achieves consistency block structure recovery as the dimension of the data tensor grows. 
+The above theorem shows that our estimator consistently recovers the block structure as the dimension of the data tensor grows. 
 
-\section{Numerical Implementation}
-\vspace{-.2cm}
+\vspace{-.1cm}
+\section{Numerical implementation}
 \subsection{Alternating optimization}
-\vspace{-.2cm}
 We introduce an alternating optimization for solving~\eqref{eq:estimate}. Estimating $\Theta$ consists of finding both the core tensor $\tC$ and the membership matrices $\mM_k$'s. The optimization~\eqref{eq:estimate} can be written as
 \begin{align}\label{eq:op}
 (\hat \tC, \{\hat \mM_k\})&=\argmin_{\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}, \text{ membership matrices $\mM_k$'s}} f(\tC,\{\mM_k\}),\notag\\
@@ -236,6 +232,7 @@ We introduce an alternating optimization for solving~\eqref{eq:estimate}. Estima
 \end{align}
 The decision variables consist of $K+1$ blocks of variables, one for the core tensor $\tC$ and $K$ for the membership matrices $\mM_k$'s. We notice that, if any $K$ out of the $K+1$ blocks of variables are known, then the last block of variables can be solved explicitly. This observation suggests that we can iteratively update one block of variables at a time while keeping others fixed. Specifically, given the collection of $\hat \mM_k$'s, the core tensor estimate $\hat \tC=\argmin_{\tC}f(\tC,\{\hat \mM_k\})$ consists of the sample averages of each tensor block. Given the block mean $\hat \tC$ and $K-1$ membership matrices, the last membership matrix can be solved using a simple nearest neighbor search over only $R_k$ discrete points. The full procedure is described in Algorithm~\ref{alg:B}.
 
+\vspace{-.1cm}
 \begin{algorithm}
 \caption{Multiway clustering based on tensor block models}\label{alg:B}
 \begin{algorithmic}[1]
@@ -252,26 +249,27 @@ where $\mM^{-1}_k(r_k)$ denotes the indices that belong to the $r_k$th cluster i
 \For{$k$ in $\{1,2,...,K\}$}
 \State Update the mode-$k$ membership matrix $\hat \mM_k$. Specifically, for each $a\in[d_k]$, assign the cluster label $\hat \mM_k(a)\in[R_k]$:
 	\[
-\hat \mM_k(a)=\argmin_{r\in[R_k]}\sum_{\mI_{-k}}\left(c_{\hat \mM_1(i_1),\ldots,r,\ldots,\hat \mM_K(i_K)}-y_{i_1,\ldots,a,\ldots,i_K}\right)^2,
+\hat \mM_k(a)=\argmin_{r\in[R_k]}\sum_{\mI_{-k}}\left(\hat c_{\hat \mM_1(i_1),\ldots,r,\ldots,\hat \mM_K(i_K)}-y_{i_1,\ldots,a,\ldots,i_K}\right)^2,
 \]
 where $\mI_{-k}=(i_1,\ldots,i_{k-1},i_{k+1},\ldots,i_K)$ denotes the tensor coordinates except the $k$-th mode. 
 \EndFor
 \Until{Convergence} 
 \end{algorithmic}
 \end{algorithm}
+\vspace{-.2cm}
 
-Algorithm~\ref{alg:B} can be viewed as a higher-order extension of the ordinary (one-way) $k$-means algorithm. The core tensor $\tC$ serves as the role of centroids. As each iteration reduces the value of the objective function, which is bounded below, convergence of the algorithm is guaranteed. We recognize that obtaining the global optimizer for such a non-convex optimization is typically difficult~\cite{aloise2009np}. Following the common practice in non-convex optimization~\cite{zhou2013tensor}, we run the algorithm multiple times using random initialization on independent one-way $k$-means on each of the modes. The time complexity of the algorithm is described in the Supplements.
+Algorithm~\ref{alg:B} can be viewed as a higher-order extension of the ordinary (one-way) $k$-means algorithm. The core tensor $\tC$ serves as the role of centroids. As each iteration reduces the value of the objective function, which is bounded below, convergence of the algorithm is guaranteed. The per-iteration computational cost scales linearly with the sample size, $d=\prod_k d_k$, and this complexity matches the classical tensor methods~\cite{anandkumar2014tensor,wang2017tensor,zhang2018tensor}. We recognize that obtaining the global optimizer for such a non-convex optimization is typically difficult~\cite{aloise2009np,zhou2013tensor}. Following the common practice in non-convex optimization~\cite{zhou2013tensor}, we run the algorithm multiple times, using random initializations with independent one-way $k$-means on each of the modes. 
  
 \subsection{Tuning parameter selection}\label{sec:tuning}
-\vspace{-.2cm}
+\vspace{-.1cm}
 Algorithm~\ref{alg:B} takes the number of clusters $\mR$ as an input. In practice such information is often unknown and $\mR$ needs to be estimated from the data $\tY$. We propose to select this tuning parameter using Bayesian information criterion (BIC), 
 \begin{equation}\label{eq:BIC}
 \text{BIC}(\mR) =  \log\left(\FnormSize{}{\tY-\hat \Theta}^2\right)+{ \sum_k \log d_k \over \prod_k d_k}p_e,
 \end{equation}
 where $p_e$ is the effective number of parameters in the model. In our case we take $p_e=\prod_k R_k+\sum_k d_k\log R_k$, which is inspired from~\eqref{eq:intuition}. We choose $\hat \mR$ that minimizes $\text{BIC}(\mR)$ via grid search. Our choice of BIC aims to balance between the goodness-of-fit for the data and the degree of freedom in the population model. We test its empirical performance in Section~\ref{sec:simulation}.  
 
-\vspace{-.2cm}
-\section{Extension to regularized estimation}
+\vspace{-.1cm}
+\section{Extension to sparse estimation}
 \vspace{-.2cm}
 In some large-scale applications, not every block in a data tensor is of equal importance. For example, in the genome-wise expression data analysis, only a few entries represent the signals while the majority come from the background noise (see Figure~\ref{fig:1}b). %Another example is community detection in a large sparse network, where only a few blocks represent the communities of interest and others represent small, noisy groups with weak connection.  
 While our estimator~\eqref{eq:estimate} is still able to handle this scenario by assigning small values to some of the $\hat c_{r_1,\ldots,r_K}$'s, the estimates may suffer from high variance. It is thus beneficial to introduce regularized estimation for better bias-variance trade-off and improved interpretability. 
@@ -287,7 +285,7 @@ For parsimony purpose, we only discuss the Lasso and sparse subset penalties; ot
 %\[
 %\hat \tC^{\text{sparse}}=\argmin_{\tC\in\mathbb{R}^{R_1\times \cdots\times R_K}} \FnormSize{}{\tY-\tC\times_1\hat \mM_1\times\cdots\times_K \hat \mM_K}^2+\lambda \normSize{}{\tC}_\rho.
 %\]
-The closed form for the entry-wise sparse estimate $\hat c^{\text{sparse}}_{r_1,\ldots,r_K}$ is (see Proposition~\ref{prop:sparse} in Appendix):
+The closed form for the entry-wise sparse estimate $\hat c^{\text{sparse}}_{r_1,\ldots,r_K}$ is (see Lemma~\ref{prop:sparse} in the Supplements):
 \begin{equation}\label{eq:lasso}
 \hat c^{\text{sparse}}_{r_1,\ldots,r_K}=
 \begin{cases}
@@ -295,9 +293,7 @@ The closed form for the entry-wise sparse estimate $\hat c^{\text{sparse}}_{r_1,
 \text{sign}(\hat c^{\text{ols}}_{r_1,\ldots,r_K})\left(| \hat c^{\text{ols}}_{r_1,\ldots,r_K}|-{\lambda \over 2n_{r_1,\ldots,r_K}}  \right)_{+} &\text{if}\ \rho=1,
 \end{cases}
 \end{equation}
-where $a_{+}=\max(a,0)$ and $\hat c^{\text{ols}}_{r_1,\ldots,r_K}$ denotes the ordinary least-square estimate in~\eqref{eq:ols}.
-%From Equation~\eqref{eq:lasso}, we note that the penalization on $\tC$ shrink some block means to zero, and the shrinkage depends on the block size. For two blocks with same mean $\hat c^{\text{ols}}_{r_1,\ldots,r_K}$, the smaller block receives a more stringent thresholding value $\lambda/ n_{r_1,\ldots,r_K}$. As such, our penalization results in sparse estimates of the block means, and it is useful for detecting important blocks from a large data tensor. 
-The choice of penalties $\rho$ often depends on the study goals and interpretations in specific applications. Given a penalty function, we select the tuning parameter $\lambda$ via BIC~\eqref{eq:BIC}, where we modify $p_e$ into $p^{\text{sparse}}_e=\normSize{}{\hat \tC^{\text{sparse}}}_0+\sum_kd_k\log R_k$. Here $\normSize{}{\cdot}_0$ denotes the number of non-zero entries in the tensor. The empirical performance of this proposal will be evaluated in Section~\ref{sec:simulation}. 
+where $a_{+}=\max(a,0)$ and $\hat c^{\text{ols}}_{r_1,\ldots,r_K}$ denotes the ordinary least-square estimate in~\eqref{eq:ols}. The choice of penalty $\rho$ often depends on the study goals and interpretations in specific applications. Given a penalty function, we select the tuning parameter $\lambda$ via BIC~\eqref{eq:BIC}, where we modify $p_e$ into $p^{\text{sparse}}_e=\normSize{}{\hat \tC^{\text{sparse}}}_0+\sum_kd_k\log R_k$. Here $\normSize{}{\cdot}_0$ denotes the number of non-zero entries in the tensor. The empirical performance of this proposal will be evaluated in Section~\ref{sec:simulation}. 
 
 \vspace{-.2cm}
 \section{Experiments}\label{sec:simulation}
@@ -333,11 +329,10 @@ Next, we compare our TBM method with two popular low-rank tensor estimation meth
 
 We generate noisy block tensors with five clusters on each of the modes, and then assess both the estimation and clustering performance for each method. Note that TBM takes a single shot to perform estimation and clustering simultaneously, whereas CP and Tucker-based methods separate these two tasks in two steps. We use the RMSE to assess the estimation accuracy and use the clustering error rate (CER) to measure the clustering accuracy. The CER is calculated using the disagreements (i.e., one minus rand index) between the true and estimated block partitions in the three-way tensor. For fair comparison, we provide all methods the true number of clusters. 
 
-Figure~\ref{fig4}a shows that TBM achieves the lowest estimation error among the three methods. The gain in accuracy is more pronounced as the noise grows. Neither CP nor Tucker recovers the signal tensor, although Tucker appears to result in a modest clustering performance (Figure~\ref{fig4}b). One possible explanation is that Tucker factors have the orthogonality property which makes the subsequent $k$-means clustering easier than that for the CP factors. Figure~\ref{fig4}b-c shows that the clustering error increases with noise but decreases with dimension. This agrees with our expectation, as in tensorial data analysis, a larger dimension implies a larger sample size. 
+Figure~\ref{fig4}a shows that TBM achieves the lowest estimation error among the three methods. The gain in accuracy is more pronounced as the noise grows. Neither CP nor Tucker recovers the signal tensor, although Tucker appears to result in a modest clustering performance (Figure~\ref{fig4}b). One possible explanation is that the Tucker model imposes orthogonality to the factors, which make the subsequent $k$-means clustering easier than that for the CP factors. Figure~\ref{fig4}b-c shows that the clustering error increases with noise but decreases with dimension. This agrees with our expectation, as in tensor data analysis, a larger dimension implies a larger sample size. 
 
 
 \begin{figure}[h!]
-%\vspace{-.1cm}
 \centering
 \includegraphics[width=.8\textwidth]{figures/compare}
 \caption{\small Performance comparison in terms of RMSE and CER. (a) Estimation error against noise for tensors of dimension $(40,40,40)$. (b) Clustering error against noise for tensors of dimension $(40,40,40)$. (c) Clustering error against noise for tensors of dimension $(40,50,60)$.} \label{fig4}
@@ -346,11 +341,11 @@ Figure~\ref{fig4}a shows that TBM achieves the lowest estimation error among the
 
 
 \textbf{Sparse case.} We then evaluate the performance when the signal tensor is sparse. The simulated model is the same as before, except that we generate block means from a mixture of zero mass and Uniform[-3,3], with probability $p$ (sparsity rate) and $1-p$ respectively. %We generate noisy tensors of dimension $\md=(40,40,40)$ with varying levels of sparsity and noise. %The initial clustering size is set $\mR=(3,4,5)$, but the actual number of clusters may be smaller because zero-mean blocks could be merged together. We utilize $\ell0$-penalized TBM and primarily focus on the selection accuracy. 
-The performance accuracy is quantified via the the sparsity error rate, which is the proportion of entries that were incorrectly set to zero or incorrectly set to non-zero. We also report the proportion of true zero's that were correctly identified (correct zeros). 
+The performance is quantified via the the sparsity error rate, which is the proportion of entries that were incorrectly set to zero or incorrectly set to non-zero. We also report the proportion of true zero's that were correctly identified (correct zeros). 
 
-Table~\ref{t5} reports the BIC-selected $\lambda$ averaged across 50 simulations. We see a substantial benefit obtained by penalization. The proposed $\lambda$ is able to guide the algorithm to correctly identify zero's, while maintaining good accuracy in identifying non-zero's. The resulting sparsity level is close to the ground truth. The rows with $\lambda=0$ correspond to the three non-sparse algorithms (CP, Tucker, and non-sparse TBM). Because non-sparse algorithms fail to identify zero's, they show equally poor performance in all metrics. Supplementary Figure~\ref{fig:sparse} shows the estimation error and sparsity error against $\sigma$ when $\rho=0.8$. Again, the sparse TBM outperforms the other methods. 
+Table~\ref{t5} reports the BIC-selected $\lambda$ averaged across 50 simulations. We see a substantial benefit obtained by penalization. The proposed $\lambda$ is able to guide the algorithm to correctly identify zero's, while maintaining good accuracy in identifying non-zero's. The resulting sparsity level is close to the ground truth. The rows with $\lambda=0$ correspond to the three non-sparse algorithms (CP, Tucker, and non-sparse TBM). Because non-sparse algorithms fail to identify zero's, they show equally poor performance in all selection metrics. Supplementary Figure~\ref{fig:sparse} shows the estimation error and sparsity error against $\sigma$ when $\rho=0.8$. Again, the sparse TBM outperforms the other methods. 
 
-\vspace{-.1cm}
+
 \begin{table}[h!]
 \centering
 	 \resizebox{.9\textwidth}{!}{%
@@ -373,17 +368,18 @@ Table~\ref{t5} reports the BIC-selected $\lambda$ averaged across 50 simulations
 
 \vspace{-.4cm}
 \subsection{Real data analysis}
-\vspace{-.1cm}
-Lastly, we apply our method on two real datasets. We briefly summarize the main findings here; the detailed information can be found in the Supplements. 
+\vspace{-.05cm}
+Lastly, we apply our method on two real datasets. %We briefly summarize the main findings here; the detailed information can be found in the Supplements. 
+The first dataset is a real-valued tensor, consisting of approximate 1 million expression values from 13 brain tissues, 193 individuals, and 362 genes~\cite{wang2017three}. We subtracted the overall mean expression from the data, and applied the $\ell0$-penalized TBM to identify important blocks in the resulting tensor. The top blocks exhibit a clear tissues $\times$ genes specificity (Supplementary Tabel~\ref{tab:gene}). In particular, the top over-expressed block is driven by tissues \{\emph{Substantia nigra, Spinal cord}\} and genes \{\emph{GFAP, MBP}\}, suggesting their elevated expression across individuals. In fact, \emph{GFAP} encodes filament proteins for mature astrocytes and \emph{MBP} encodes myelin sheath for oligodendrocytes, both of which play important roles in the central nervous system~\cite{o2015reference}. Our method also identifies blocks with extremely negative means (i.e.\ under-expressed blocks). The top under-expressed block is driven by tissues \{\emph{Cerebellum, Cerebellar Hemisphere}\} and genes \{\emph{CDH9, GPR6, RXFP1, CRH, DLX5/6, NKX2-1, SLC17A8}\}. The gene \emph{DLX6} encodes proteins in the forebrain development~\cite{o2015reference}, whereas cerebellum tissues are located in the hindbrain brain. The opposite spatial function is consistent with the observed under-expression pattern. 
 
-The first dataset is a real-valued tensor, consisting of approximate 1 million expression values from 13 brain tissues, 193 individuals, and 362 genes~\cite{wang2017three}. We subtracted the overall mean expression from the data, and applied the $\ell0$-penalized TBM to identify important blocks in the resulting tensor. The top blocks exhibit clear tissues $\times$ genes specificity. In particular, the top over-expressed block is driven by tissues \{\emph{Substantia nigra, Spinal cord}\} and genes \{\emph{GFAP, MBP}\}, suggesting their elevated expression across individuals. In fact, \emph{GFAP} encodes filament proteins for mature astrocytes and \emph{MBP} encodes myelin sheath for oligodendrocytes, both of which play important roles in the central nervous system~\cite{o2015reference}. Our method also identifies blocks with extremely negative means (i.e.\ under-expressed blocks). The top under-expressed block is driven by tissues \{\emph{Cerebellum, Cerebellar Hemisphere}\} and genes \{\emph{CDH9, GPR6, RXFP1, CRH, DLX5/6, NKX2-1, SLC17A8}\}. The gene \emph{DLX6} encodes proteins in the forebrain development~\cite{o2015reference}, whereas cerebellum is located in the hindbrain brain. The observed under-expression pattern is perhaps explained by such opposite spatial functions. 
 
 The second dataset we consider is the \emph{Nations} data~\cite{nickel2011three}. This is a $14\times 14 \times 56$ binary tensor consisting of 56 political relationships of 14 countries between 1950 and 1965. We note that 78.9\% of the entries are zero. Again, we applied the $\ell0$-penalized TBM to identify important blocks in the data. 
-We found that the 14 countries are naturally partitioned into 5 clusters, two representing neutral countries \{\emph{Brazil, Egypt, India, Israel, Netherlands}\} and \{\emph{Burma, Indonesia, Jordan}\}, one eastern bloc \{\emph{China, Cuba, Poland, USSA}\}, and two western blocs, \{\emph{USA}\} and \{\emph{UK}\}. The relation types are partitioned into 7 clusters, among which the exports-related activities \{\emph{reltreaties, book translations, relbooktranslations, exports3, relexporsts}\} and NGO-related activities \{\emph{relintergovorgs, relngo, intergovorgs3, ngoorgs3}\} are two major clusters that involve the connection between neutral and western blocs. 
-\vspace{-.1cm}
+We found that the 14 countries are naturally partitioned into 5 clusters, two representing neutral countries \{\emph{Brazil, Egypt, India, Israel, Netherlands}\} and \{\emph{Burma, Indonesia, Jordan}\}, one eastern bloc \{\emph{China, Cuba, Poland, USSA}\}, and two western blocs, \{\emph{USA}\} and \{\emph{UK}\}. The relation types are partitioned into 7 clusters, among which the exports-related activities \{\emph{reltreaties, book translations, relbooktranslations, exports3, relexporsts}\} and NGO-related activities \{\emph{relintergovorgs, relngo, intergovorgs3, ngoorgs3}\} are two major clusters that involve the connection between neutral and western blocs. Other top blocks are described in the Supplement. 
+
+\vspace{-.05cm}
 \section{Conclusion}
-\vspace{-.1cm}
-We have developed a statistical setting for studying the tensor block model. Under the assumption that tensor entries are distributed with a block-specific mean, our estimator achieves a convergence rate $\tO( \sum_kd_k\log R_k)$ which is faster than previously possible. Our TBM method applies to a broad range of data distributions and can handle both sparse and sense data tensor. In specific applications, prior knowledge may suggest other constraints among parameters. For example, in the multi-layer network analysis, sometimes it may be reasonable to impose symmetry on the parameters along certain modes. In some other applications, non-negativity of parameter values may be enforced. We leave these directions for future study. 
+\vspace{-.05cm}
+We have developed a statistical setting for studying the tensor block model. Under the assumption that tensor entries are distributed with a block-specific mean, our estimator achieves a convergence rate $\tO( \sum_kd_k\log R_k)$ which is faster than previously possible. Our TBM method applies to a broad range of data distributions and can handle both sparse and sense data tensor. We demonstrate the benefit of sparse regularity in power of detection. In specific applications, prior knowledge may suggest other regularities for parameters. For example, in the multi-layer network analysis, sometimes it may be reasonable to impose symmetry on the parameters along certain modes. In some other applications, non-negativity of parameter values may be enforced. We leave these directions for future study. 
 
 
 \bibliographystyle{unsrt}

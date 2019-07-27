@@ -92,7 +92,7 @@
 \begin{appendices}
 \section{Proofs}
 \subsection{Stochastic tensor block model}
-The following proposition shows that Bernoulli distribution belongs to the sub-Gaussian family with a subgaussianity parameter $\sigma$ equal to $1/4$.
+The following property shows that Bernoulli distribution belongs to the sub-Gaussian family with a subgaussianity parameter $\sigma$ equal to $1/4$.
 \begin{property}
 Suppose $x \sim \text{Bernoulli}(p)$, then $x\sim \text{sub-Gaussian}({1\over 4})$.
 \end{property}
@@ -242,7 +242,7 @@ for all $\mj \in[d_2]\times \cdots \times [d_K]$. This contracts the definition 
 \end{proof}
 
 \subsection{Sparse estimator}
-\begin{prop}\label{prop:sparse}
+\begin{lemma}\label{prop:sparse}
 Consider the regularized least-square estimation,
 \begin{equation}\label{eq:opt}
 \hat \Theta^{\text{sparse}}=\argmin_{\Theta\in \tP}\left\{\FnormSize{}{\tY-\Theta}^2+\lambda \normSize{}{\tC}_\rho
@@ -257,7 +257,7 @@ where $\tC=\entry{c_{r_1,\ldots,r_K}}\in\mathbb{R}^{R_1\times \cdots\times R_K}$
 \end{cases}
 \end{equation}
 where $a_{+}=\max(a,0)$ and $\hat c^{\text{ols}}_{r_1,\ldots,r_K}$ denotes the ordinary least-square estimate as in Algorithm~\ref{alg:B}. 
-\end{prop}
+\end{lemma}
 
 \begin{proof}
 We formulate the estimation of $\tC$ as a regularized least-square regression. Note that $\Theta\in\tP$ implies that
@@ -378,7 +378,7 @@ The solution~\eqref{eq:lasso} can be simplified as
 	\begin{tabular}{c|c|c|c}
 		\hline
 		Dimensions &True clustering sizes&Noise&Estimated clustering sizes\\ 
-$(d_1,d_2,d_3)$&$(R_1,R_2,R_3)$&$(\sigma)$&$\hat \mR=(\hat R_1,\hat R_2,\hat R_3)$\\
+$(d_1,d_2,d_3)$&$(R_1,R_2,R_3)$&$(\sigma)$&$(\hat R_1,\hat R_2,\hat R_3)$\\
 		\hline
 		%$(50,60,80)$&$(3,4,5)$&4&$(,\ ,\ )\pm (0,\ 0,\ 0)$\\
 		%$(50,60,80)$&$(3,4,5)$&8&$(,\ ,\ )\pm (0,\ 0.02,\ 0.06)$ \\
@@ -406,14 +406,18 @@ $(d_1,d_2,d_3)$&$(R_1,R_2,R_3)$&$(\sigma)$&$\hat \mR=(\hat R_1,\hat R_2,\hat R_3
 \begin{table}[H]
 	\centering
 \resizebox{\columnwidth}{!}{
-	\begin{tabular}{c|c|c|c|c|}
-Tissues & Over-expressed genes  &Estimated mean&Under-expressed genes& Estimated mean \\
+	\begin{tabular}{c|c|c|c|c}
+Tissues & Over-expressed genes  &Block-means&Under-expressed genes&Block-means \\
 \hline
 Cluster 1&GFAP, MBP&10.88&GPR6 , DLX5 , DLX6 , NKX2-1&-8.40\\
+\hline
 Cluster 2 &GFAP, MBP&5.98 &CDH9, RXFP1, CRH, ARX, CARTPT, DLX1,FEZF2  &-9.49\\
-Cluster 3 &GFAP, MBP &8.34&AVPR1A, CCKAR, CHRNB4, CYP19A1, HOXA4 , LBX1, SLC6A3&-8.45\\
-Cluster 4& GFAP, MBP &8.83&AVPR1A, CCKAR, CHRNB4, CYP19A1, HOXA4 , LBX1, SLC6A3&-8.40 \\
-\vspace{.1cm}
+\hline
+\multirow{2}{*}{Cluster 3 }&\multirow{2}{*}{GFAP, MBP} &\multirow{2}{*}{8.34}&AVPR1A, CCKAR, CHRNB4, CYP19A1, HOXA4 , LBX1, SLC6A3&-8.45\\
+ &&& TBR1, SLC17A6, SLC30A3& -8.17\\
+ \hline
+\multirow{2}{*}{Cluster 4}&\multirow{2}{*}{ GFAP, MBP} &\multirow{2}{*}{8.83}&AVPR1A, CCKAR, CHRNB4, CYP19A1, HOXA4 , LBX1, SLC6A3&-8.40 \\
+ &&&DAO   EN2   EOMES& -6.57\\
 \end{tabular}
 }
 \caption{\small Top expression blocks from the multi-tissue gene expression analysis. The tissue clusters are described in Supplementary Section~\ref{sec:data}.}\label{tab:gene}
