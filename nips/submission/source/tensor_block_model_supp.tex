@@ -202,12 +202,12 @@ Based on the Lemma~\ref{lem:high},
 
 By union bound, we have, for any $t>0$,
 \begin{align}
-\mathbb{P}\left(\FnormSize{}{\hat \Theta-\trueT} > t\right)&\leq \mathbb{P}\left(\sup_{\mM, \mM'\in \tM}\sup_{\mC, \mC'\in \mathbb{R}^R} \left|\Big\langle {\Theta-\Theta'\over \FnormSize{}{\Theta-\Theta'}}, \ \tE\Big\rangle\right|>{t\over 2}\right)\\
-&\leq \sum_{\mM, \mM'\in \tM}\mathbb{P}\left(\sup_{\mC'\in \mathbb{R}^R}\sup_{\mC\in \mathbb{R}^R}\left|\Big\langle {\Theta-\Theta'\over \FnormSize{}{\Theta-\Theta'}},\ \tE\Big\rangle \right|\geq {t\over 2}\right)\\
+\mathbb{P}\left(\FnormSize{}{\hat \Theta-\trueT} > t\right)&\leq \mathbb{P}\left(\sup_{\mM, \mM'\in \tM}\sup_{\mC, \mC'\in \mathbb{R}^R} \left|\Big\langle {\Theta(\mM,\mC)-\Theta'(\mM',\mC')\over \FnormSize{}{\Theta(\mM,\mC)-\Theta'(\mM',\mC')}}, \ \tE\Big\rangle\right|>{t\over 2}\right)\\
+&\leq \sum_{\mM, \mM'\in \tM}\mathbb{P}\left(\sup_{\mC'\in \mathbb{R}^R}\sup_{\mC\in \mathbb{R}^R}\left|\Big\langle {\Theta(\mM,\cdot)-\Theta'(\mM',\cdot)\over \FnormSize{}{\Theta(\mM,\cdot)-\Theta'(\mM',\cdot)}},\ \tE\Big\rangle \right|\geq {t\over 2}\right)\\
 &\leq |\tM|^2C_1^R\exp\left(-{C_2 t^2\over 32\sigma^2}\right)\\
 &=\exp\left(2\sum_kd_k\log R_k+C_1\prod_k R_k-{C_2t^2\over 32\sigma^2}\right),
 \end{align}
-for two universal constants $C_1, C_2>0$. Here the third line follows from~\cite{rigollet2015high} (Theorem 1.19) and the last line uses the factor $|\tM|\leq \prod_k R_k^{d_k}$ and $R=\prod_k R_k$. Choosing $t=C\sigma\sqrt{\prod_k R_k+\sum_k d_k\log R_k}$ yields the desired bound. 
+for two universal constants $C_1, C_2>0$. Here the third line follows from~\cite{rigollet2015high} (Theorem 1.19) and the fact that $\Theta=\Theta(\mM,\cdot)$ lies in a linear space of dimension $R$. The last line uses $|\tM|\leq \prod_k R_k^{d_k}$ and $R=\prod_k R_k$. Choosing $t=C\sigma\sqrt{\prod_k R_k+\sum_k d_k\log R_k}$ yields the desired bound. 
 \end{proof}
 
 %\begin{lemma}  With very high probability
@@ -226,7 +226,7 @@ We provide the proof below for $k=1$; the proof for other modes is exactly the s
 \[
 \delta=\min_{i\in[r_1]}\min_{\mj,\mj'\in[r_2]\times \cdots [r_K]}|\trueC(i,\mj)-\trueC(i,\mj')|.
 \]
-Note that $\delta>0$ from the Assumption~\ref{ass:core}. Based on a modified proof of Theorem~\ref{thm:main}, we have
+Note that $\delta\gg d_2\ldots d_k$, so $ \to \infty$ from the Assumption. Based on a modified proof of Theorem~\ref{thm:main}, we have
 \begin{equation}\label{eq:zero}
 \mnormSize{}{\hat \Theta-\trueT}\to  0,\quad \text{as $d_{\min} \to \infty$},
 \end{equation}

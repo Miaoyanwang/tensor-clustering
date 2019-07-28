@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 JUL 2019 10:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  27 JUL 2019 17:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1045,7 +1045,7 @@ l.239 ...ta_{s,\mj}|+| \hat \Theta_{s,\mj}-\trueT_
                                                   {,s,\mj}|<\delta,
 ? 
 [3] [4]
-<figures/clustering_404040_sparse.pdf, id=120, 423.22585pt x 278.11717pt>
+<figures/clustering_404040_sparse.pdf, id=119, 423.22585pt x 278.11717pt>
 File: figures/clustering_404040_sparse.pdf Graphic file (type pdf)
 
 <use figures/clustering_404040_sparse.pdf>
@@ -1053,7 +1053,7 @@ Package pdftex.def Info: figures/clustering_404040_sparse.pdf used on input lin
 e 366.
 (pdftex.def)             Requested size: 151.04623pt x 99.25638pt.
 
-<figures/clustering_correct_sparse.pdf, id=121, 438.55766pt x 201.77438pt>
+<figures/clustering_correct_sparse.pdf, id=120, 438.55766pt x 201.77438pt>
 File: figures/clustering_correct_sparse.pdf Graphic file (type pdf)
 
 <use figures/clustering_correct_sparse.pdf>
@@ -1097,11 +1097,11 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 536.
  ) 
 Here is how much of TeX's memory you used:
- 12281 strings out of 493014
- 184638 string characters out of 6133351
+ 12284 strings out of 493014
+ 184662 string characters out of 6133351
  334187 words of memory out of 5000000
  15401 multiletter control sequences out of 15000+600000
- 48816 words of font info for 141 fonts, out of 8000000 for 9000
+ 48946 words of font info for 143 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  44i,18n,42p,767b,500s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{algorithm.1} has been referenced but does not exi
@@ -1142,10 +1142,10 @@ xmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb></usr/local/texlive/2016/texm
 f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fon
 ts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on tensor_block_model_supp.pdf (7 pages, 314923 bytes).
+Output written on tensor_block_model_supp.pdf (7 pages, 315280 bytes).
 PDF statistics:
- 379 PDF objects out of 1000 (max. 8388607)
- 300 compressed objects within 3 object streams
+ 378 PDF objects out of 1000 (max. 8388607)
+ 299 compressed objects within 3 object streams
  55 named destinations out of 1000 (max. 500000)
  26187 words of extra memory for PDF output out of 29859 (max. 10000000)
 
