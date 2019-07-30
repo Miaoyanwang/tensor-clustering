@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: tensor_block_model.aux
 The style file: unsrt.bst
 Database file #1: tensor_wang.bib
-You've used 25 entries,
+You've used 27 entries,
             1791 wiz_defined-function locations,
-            634 strings with 8649 characters,
-and the built_in function-call counts, 6724 in all, are:
-= -- 625
-> -- 285
-< -- 7
-+ -- 105
-- -- 80
-* -- 483
-:= -- 1029
-add.period$ -- 77
-call.type$ -- 25
-change.case$ -- 25
+            644 strings with 8979 characters,
+and the built_in function-call counts, 7379 in all, are:
+= -- 687
+> -- 310
+< -- 8
++ -- 114
+- -- 87
+* -- 528
+:= -- 1120
+add.period$ -- 83
+call.type$ -- 27
+change.case$ -- 27
 chr.to.int$ -- 0
-cite$ -- 25
-duplicate$ -- 290
-empty$ -- 637
-format.name$ -- 80
-if$ -- 1503
+cite$ -- 27
+duplicate$ -- 320
+empty$ -- 701
+format.name$ -- 87
+if$ -- 1655
 int.to.chr$ -- 0
-int.to.str$ -- 25
-missing$ -- 25
-newline$ -- 128
-num.names$ -- 25
-pop$ -- 59
+int.to.str$ -- 27
+missing$ -- 27
+newline$ -- 138
+num.names$ -- 27
+pop$ -- 66
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 154
+skip$ -- 174
 stack$ -- 0
-substring$ -- 565
-swap$ -- 85
-text.length$ -- 7
+substring$ -- 628
+swap$ -- 97
+text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 71
-width$ -- 27
-write$ -- 276
+while$ -- 78
+width$ -- 29
+write$ -- 298
