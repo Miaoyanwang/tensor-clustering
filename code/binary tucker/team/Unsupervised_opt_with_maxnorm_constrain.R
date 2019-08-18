@@ -282,19 +282,20 @@ update_binary_momentum = function(ts, core_shape, Nsim, alpha = 1e+1){
     coe = mod_re[[1]]
     G_new = as.tensor(array(data = coe,dim = core_shape))
     U_new = ttl(G_new,list(A,B,C),ms = c(1,2,3))
-      
-    if(max(U_new) <= alpha){G = G_new}
+    
+    if(max(U_new@data) <= alpha){G = G_new}
     else {
-      sign_g = G_new@data - G@data > 0 
-      b1 = min((alpha - G@data[sign_g])/(G_new@data[sign_g] - G@data[sign_g]))
-      b2 = min((-alpha - G@data[sign_g==FALSE])/(G_new@data[sign_g==FALSE] - G@data[sign_g==FALSE]))
+      sign_g = U_new@data - U@data > 0 
+      b1 = min((alpha - U@data[sign_g])/(U_new@data[sign_g] - U@data[sign_g]))
+      b2 = min((-alpha - U@data[sign_g==FALSE])/(U_new@data[sign_g==FALSE] - U@data[sign_g==FALSE]))
       
       t = min(c(b1,b2,1))
       G = (1-t)*G + t*G_new
     }  
     
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
-    lglk[4*n] = sum(log(inv.logit((2*ts-1)*U)))
+    
+    lglk[4*n] = sum(log(inv.logit((2*ts@data-1)*U@data)))
     
     print("G Done------------------")
     print(paste(n,"-th  iteration -----------------------------"))
