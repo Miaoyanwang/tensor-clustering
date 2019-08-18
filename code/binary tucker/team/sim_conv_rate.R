@@ -73,7 +73,7 @@ conv_rate = function(d, r){
     upp = update_binary_cons(ts,rep(r[i],3),100, lambda = 1, alpha = 10*max(U))
     U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
     
-    RMSE[i] = sqrt(sum((U_est - U)^2)/prod(whole_shape))
+    RMSE[i] = sqrt(sum((U_est - U)^2)/(d[i]^3))
     rate[i] = r[i]^2/d[i]^2
   }
   return(list(RMSE = RMSE, rate = rate))
