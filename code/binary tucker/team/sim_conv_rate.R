@@ -23,8 +23,12 @@ gene_data = function(whole_shape = c(20,20,20), core_shape = c(3,3,3)){
   #hist(inv.logit(U)); quantile(inv.logit(U),c(0,0.01,0.25,0.75,0.99,1))
   
   ### ts:binary tensor
-  ts = rbinom(d1*d2*d3,1,prob = as.vector( 1/(1 + exp(-U)) ) )
-  ts = as.tensor(array(ts,dim = c(d1,d2,d3)))@data
+  ts = list()
+  for (i in 1:5) {
+    binary = rbinom(d1*d2*d3,1,prob = as.vector( 1/(1 + exp(-U)) ) )
+    ts[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data
+  }
+  
   return(list(U = U,ts = ts))
 }
 
@@ -61,7 +65,8 @@ plot(as.vector(U),as.vector(U_est2));abline(0,1)
 plot(as.vector(inv.logit(U)),as.vector(inv.logit(U_est2)));abline(0,1)
 
 
-######------------------------------   convergence rate
+######------------------------------   convergence rate 
+## --------------------   using penalty
 ##-------  lambda = 1
 conv_rate = function(d, r){
   rate = rep(0,length(d))
@@ -70,10 +75,10 @@ conv_rate = function(d, r){
     data = gene_data(rep(d[i],3), rep(r[i],3))
     U = data$U
     ts = data$ts
-    upp = update_binary_cons(ts,rep(r[i],3),100, lambda = 1, alpha = 10*max(U))
+    upp = update_binary_cons(ts,rep(r[i],3), Nsim = 5, lambda = 1, alpha = 10*max(U))
     U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
     
-    RMSE[i] = sqrt(sum((U_est - U)^2)/(d[i]^3))
+    RMSE[i] = sqrt(sum((U_est - U)^2)/d[i]^3)
     rate[i] = r[i]^2/d[i]^2
   }
   return(list(RMSE = RMSE, rate = rate))
@@ -82,8 +87,42 @@ conv_rate = function(d, r){
 re3 = conv_rate(c(20,50,80),c(3,3,3))
 re5 = conv_rate(c(20,50,80),c(5,5,5))
 
+re3$RMSE*sqrt((20^3))/sqrt(c(20^3,50^3,80^3))
+re3$rate
+
+plot(re3$RMSE*sqrt((20^3))/sqrt(c(20^3,50^3,80^3)),
+re3$rate)
+
 re = data.frame(rate = 1:10, RMSE = rnorm(10))
 library(ggplot2)
 ggplot(re, aes(x = rate, y = RMSE)) + geom_line(color = 'navyblue') +
   geom_point(color = 'red', size = 4)
+
+
+## --------------------   using momentum method
+##-------
+conv_rate = function(d, r){
+  rate = rep(0,length(d))
+  RMSE = rep(0,length(d))
+  for (i in 1:length(d)) {
+    data = gene_data(rep(d[i],3), rep(r[i],3))
+    U = data$U
+    ts = data$ts
+    RMSEi = rep(0,5)
+    for(j in 1:5){
+      upp = update_binary_momentum(ts[[j]],rep(r[i],3),40, alpha = 10*max(U))
+      U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
+      RMSEi[j] = sqrt(sum((U_est - U)^2)/d[i]^3)
+    }
+    
+    RMSE[i] = mean(RMSEi)
+    rate[i] = r[i]^2/d[i]^2
+  }
+  return(list(RMSE = RMSE, rate = rate))
+}
+
+re3 = conv_rate(c(20,50,80),c(3,3,3))
+re5 = conv_rate(c(20,50,80),c(5,5,5))
+
+re3
 
