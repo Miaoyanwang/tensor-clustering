@@ -155,14 +155,21 @@ update_binary_cons = function(ts, core_shape, Nsim, lambda=1, alpha = 1e+1){
     
     C = t(re[[1]])
     lglk[4*n - 1] = re[[2]]
-    ## orthogonal C*
+    ## orthogonal C* and
+    #in case the entry of U is too large to initialize the optimization
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    
+    #scale down
+    if(max(U@data) >= alpha){
+      U = U*alpha/max(U@data)
+    }
+    
     tuk = tucker(U, ranks = core_shape)
     G = tuk$Z
     A = tuk$U[[1]]
     B = tuk$U[[2]]
     C = tuk$U[[3]]
-    print("C Done------------------")
+    print("C and contrain Done------------------")
     
     ##### update G
     M_long = matrix(0,nrow = d1*d2*d3, ncol = r1*r2*r3)
