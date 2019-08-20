@@ -305,8 +305,122 @@ update_binary_momentum = function(ts, core_shape, Nsim, alpha = 1e+1){
   return(list(A = A,B = B,C = C,G = G,lglk = lglk))
 }
 
+####  This is vanilla scale-down version
+###  if(max(U_est) >= alpha)     {U_est/max(U_est)*alpha}
 
-
+update_binary_vanilla = function(ts, core_shape, Nsim, alpha = 1e+1){
+  ## get initialization
+  ts1 = 10*(2*ts - 1)
+  ts1 = as.tensor(ts1)
+  ts = as.tensor(ts)
+  tckr = tucker(ts1, ranks = core_shape)
+  A = tckr$U[[1]] ; B = tckr$U[[2]] ; C = tckr$U[[3]]
+  G = tckr$Z
+  d1 = dim(ts)[1] ; d2 = dim(ts)[2] ; d3 = dim(ts)[3]
+  r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3] 
+  Y_1 = unfold(ts, row_idx = 1, col_idx = c(2,3))@data
+  Y_2 = unfold(ts, row_idx = 2, col_idx = c(1,3))@data
+  Y_3 = unfold(ts, row_idx = 3, col_idx = c(1,2))@data
+  
+  lglk = rep(0,4*Nsim)
+  for(n in 1:Nsim){
+    
+    ###### update A
+    G_BC = ttl(G, list(B,C), ms = c(2,3))
+    G_BC1 = unfold(G_BC, row_idx = 1, col_idx = c(2,3))@data
+    
+    re = glm_mat(t(Y_1),start = t(A),t(G_BC1))
+    
+    A = t(re[[1]])
+    lglk[4*n - 3] = re[[2]]
+    ## orthogonal A*
+    U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    tuk = tucker(U, ranks = core_shape)
+    G = tuk$Z
+    A = tuk$U[[1]]
+    B = tuk$U[[2]]
+    C = tuk$U[[3]]
+    print("A Done------------------")
+    
+    ##### update B
+    G_AC = ttl(G, list(A,C), ms = c(1,3))
+    G_AC2 = unfold(G_AC, row_idx = 2, col_idx = c(1,3))@data
+    
+    re = glm_mat(t(Y_2),start = t(B),t(G_AC2))
+    
+    B = t(re[[1]])
+    lglk[4*n - 2] = re[[2]]
+    ## orthogonal B*
+    U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    tuk = tucker(U, ranks = core_shape)
+    G = tuk$Z
+    A = tuk$U[[1]]
+    B = tuk$U[[2]]
+    C = tuk$U[[3]]
+    print("B Done------------------")
+    
+    ###### update C
+    G_AB = ttl(G, list(A,B), ms = c(1,2))
+    G_AB3 = unfold(G_AB, row_idx = 3, col_idx = c(1,2))@data
+    
+    re = glm_mat(t(Y_3),start = t(C),t(G_AB3))
+    
+    C = t(re[[1]])
+    lglk[4*n - 1] = re[[2]]
+    ## orthogonal C*
+    U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    tuk = tucker(U, ranks = core_shape)
+    G = tuk$Z
+    A = tuk$U[[1]]
+    B = tuk$U[[2]]
+    C = tuk$U[[3]]
+    print("C Done------------------")
+    
+    ##### update G
+    M_long = matrix(0,nrow = d1*d2*d3, ncol = r1*r2*r3)
+    m=1
+    for(k in 1:d3){
+      for(j in 1:d2){
+        for(i in 1:d1){
+          M_long[m,] = kronecker_list(list(C[k,],B[j,],A[i,]))
+          m = m + 1
+        }
+      }
+    }
+    
+    mod_re = glm_modify(as.vector(ts@data), M_long, as.vector(G@data))
+    coe = mod_re[[1]]
+    G_new = as.tensor(array(data = coe,dim = core_shape))
+    U_new = ttl(G_new,list(A,B,C),ms = c(1,2,3))
+    
+    if(max(U_new@data) <= alpha){
+      G = G_new
+      lglk[4*n] = mod_re[[2]]
+    }
+    else {
+      U = U_new/max(U_new@data)*alpha
+      tuk = tucker(U, ranks = core_shape)
+      G = tuk$Z
+      A = tuk$U[[1]]
+      B = tuk$U[[2]]
+      C = tuk$U[[3]]
+      
+      lglk[4*n] = sum(log(inv.logit((2*ts@data-1)*U@data)))
+      
+      print("Violate constrain ------------------")
+    }  
+    
+    #U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    
+    
+    
+    print("G Done------------------")
+    print(paste(n,"-th  iteration ---- when dimension is ",d1,"-- rank is ",r1," -----------------"))
+    if(lglk[4*n] - lglk[4*n-1] <= 0.00005) break
+    
+  }
+  return(list(A = A,B = B,C = C,G = G,lglk = lglk))
+}
 
 
 
