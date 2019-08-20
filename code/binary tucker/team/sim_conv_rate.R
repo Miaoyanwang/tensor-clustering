@@ -113,6 +113,7 @@ conv_rate = function(d, r){
       upp = update_binary_momentum(ts[[j]],rep(r[i],3),40, alpha = 10*max(U))
       U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
       RMSEi[j] = sqrt(sum((U_est - U)^2)/d[i]^3)
+      print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
     }
     
     RMSE[i] = mean(RMSEi)
