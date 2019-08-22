@@ -1,0 +1,353 @@
+---
+title: "Binary_decom"
+author: "ZY_XU"
+date: "March 17, 2019"
+output: html_document
+---
+## Part 1: require the library
+
+```{r}
+rm(list = ls())
+if(!require("R.matlab")){
+  install.packages("R.matlab")
+  stopifnot(require("R.matlab"))
+}
+if(!require("rTensor")){
+  install.packages("rTensor")
+  stopifnot(require("rTensor"))
+}
+if(!require("pracma")){
+  install.packages("pracma")
+  stopifnot(require("pracma"))
+}
+
+```
+
+## Part 2: matrix form GLM
+Consider 
+$$
+logit[E(Y))_{n*p}] = U_{n*p} = X_{n*R} \times \beta_{R*p}
+$$
+Where $U_{n*p} = (u_1,\ldots,u_p)$, $\beta_{R*p} = (\beta_1,\ldots, \beta_p)$
+
+We have:
+\begin{align*}
+\begin{array}{c}
+   u_1^{N*1} =  X^{n*R}\times \beta_1^{R*1} \\ 
+   u_2^{N*1} =  X^{n*R}\times \beta_2^{R*1} \\ 
+   \vdots\\
+   u_p^{N*1} =  X^{n*R}\times \beta_P^{R*1}\\ 
+\end{array}
+\end{align*}
+Then we implement GLM.
+
+```{r}
+glm_f = function(y,X)
+{
+  ml = glm(y ~ -1 + X, family = binomial(link = 'logit'),control = list(maxit = 50))
+  coe = ml$coefficients
+  lglk = logLik(ml)
+  return(list(coe,lglk))
+}
+
+#    form U = X*Beta
+glm_mat = function(Y,X){
+  beta_row = dim(X)[2]   ## R in note
+  p = dim(Y)[2]
+  la = sapply(as.data.frame(Y),glm_f,X)
+  re = t(matrix(unlist(la), nrow = p, byrow=T))
+  beta = re[1:beta_row,]
+  lglk = sum(re[beta_row + 1,])
+  return(list(beta,lglk))
+}
+
+```
+
+Then we test a little bit :
+```{r}
+X = matrix(rnorm(30,5,9),10,3)
+Y = matrix(rbinom(20,1,0.5),10,2)
+
+re = glm_mat(Y,X)
+re[[1]]    ### where return the Beta matrix
+re[[2]]    ### where return the sum of logLik
+
+ml = glm(Y[,1] ~ 0 + X, family = binomial(link = 'logit'))
+ml$coefficients
+logLik(ml)
+ml = glm(Y[,2] ~ 0 + X, family = binomial(link = 'logit'))
+ml$coefficients
+logLik(ml)
+```
+
+
+## Part 3: Updating
+### When updating A,B,C
+$$
+Y^{14*14*56} = G^{4*4*5} \times_1 A^{14*4}\times_2 B^{14*4} \times_3C^{56*5} = G_{AB}^{14*14*5} \times_3 C^{56*5} \\
+$$
+Update A,B,C through:
+$$
+Y_{(3)}^T =  G_{AB(3)}^T C^T
+$$
+Since for distinct modes in a series of multiplications, the order of the multiplication is irrelevant. Thus, A,B,C the same update way.
+
+### When updating G
+##### some calculation:
+Consider$$
+Y^{d_1*d_2*d_3} = G^{r_1*r_2*r_3} \times_1 A^{d_1*r_1}\times_2 B^{d_2*r_2} \times_3C^{d_3*r_3}
+$$
+We have:
+$$
+Y_{ijk} = \sum_{k'=1}^{r_3}\sum_{j'=1}^{r_2}\sum_{i'=1}^{r_1} G_{i'j'k'}A_{ii'}B_{jj'}C_{kk'}
+$$
+Let $$[M^{ijk}]_{i'j'k'} = A_{ii'}B_{jj'}C_{kk'}$$
+$i = 1,\ldots, d_1;j = 1,\ldots, d_2; k = 1,\ldots, d_3$ There are $d_1*d_2*d_3$ $M^{ijk}$ tensors totally.The dimension of $M^{ijk}$ is $r_1*r_2*r_3$.
+
+Then we have:
+$$
+Y_{ijk} = \sum_{k'=1}^{r_3}\sum_{j'=1}^{r_2}\sum_{i'=1}^{r_1} G_{i'j'k'}M^{ijk}_{i'j'k'}
+$$
+
+##### Vectorization:
+Then we define a vectorization of the tensor in this scenario:
+When we say vectorize a tensor G (3 dimension), we extract all its mode-3 fiber and then list it according first mode-2 then according to mode-1. In other words, when we count the vector elements, the element's third mode index change first, then second mode index, finally first mode index.
+
+Here is a small example for understanding:
+$$
+Vec(G^{2*2*2}) = 
+\left[\begin{array}{c}
+G_{111}\\
+G_{211}\\
+G_{121}\\
+G_{221}\\
+G_{112}\\
+G_{212}\\
+G_{122}\\
+G_{222}
+\end{array}\right]
+$$
+The reason why we define like this is this is how as.vector works.
+
+In python: Vec(G) = as.vector(G).
+
+Recalling  $$[M^{ijk}]_{i'j'k'} = A_{ii'}B_{jj'}C_{kk'}$$
+
+We have 
+\begin{align}
+Vec(M^{ijk}) = C_{k:} \otimes B_{j:} \otimes A_{i:}
+\end{align}
+
+
+Then we have:$$
+Y_{ijk} = \sum_{k'=1}^{r_3}\sum_{j'=1}^{r_2}\sum_{i'=1}^{r_1} G_{i'j'k'}M^{ijk}_{i'j'k'}\\
+=Vec(G)^TVec(M^{ijk}) = Vec(M^{ijk})^T_{1*r_1r_2r_3}Vec(G)_{r_1r_2r_3*1}
+$$
+
+First step:
+\begin{align*}
+Y_{:jk} =
+\left[\begin{array}{c}
+y_{1jk}\\
+y_{2jk}\\
+\vdots\\
+y_{d_1jk}\\
+\end{array}\right]_{d_1*1}  =
+\left[\begin{array}{c}
+ Vec(M^{1jk})^T\\
+ Vec(M^{2jk})^T\\
+\vdots\\
+ Vec(M^{d_1jk})^T\\
+\end{array}\right]_{d_1*r_1r_2r_3} \times
+Vec(G)_{r_1r_2r_3*1} = 
+ Vec(M_{d_1jk})\times Vec(G)
+\end{align*}
+
+Second step:
+\begin{align*}
+Y_{::k} =
+\left[\begin{array}{c}
+y_{:1k}\\
+y_{:2k}\\
+\vdots\\
+y_{:d_2k}\\
+\end{array}\right]_{d_1d_2*1}  =
+\left[\begin{array}{c}
+ Vec(M_{d_11k})\\
+ Vec(M_{d_12k})\\
+\vdots\\
+ Vec(M_{d_1d_2k})\\
+\end{array}\right]_{d_1d_2*r_1r_2r_3} \times
+Vec(G)_{r_1r_2r_3*1} = 
+ Vec(M_{d_1d_2k})\times Vec(G)
+\end{align*}
+
+Final step:
+\begin{align*}
+Y_{:::} =
+\left[\begin{array}{c}
+y_{::1}\\
+y_{::2}\\
+\vdots\\
+y_{::d_3}\\
+\end{array}\right]_{d_1d_2d_3*1}  =
+\left[\begin{array}{c}
+ Vec(M_{d_1d_21})\\
+ Vec(M_{d_1d_22})\\
+\vdots\\
+ Vec(M_{d_1d_2d_3})\\
+\end{array}\right]_{d_1d_2d_3*r_1r_2r_3} \times
+Vec(G)_{r_1r_2r_3*1} =
+M^{long}_{d_1d_2d_3*r_1r_2r_3} \times
+Vec(G)_{r_1r_2r_3*1}
+\end{align*}
+Where $Y_{:::}$ is the Vec(Y) vectorization of Y we defined brfore.
+
+Use code to realize it:
+```{r}
+update_binary = function(ts, core_shape, Nsim){
+  ## get initialization
+  ts1 = 10*(2*ts - 1)
+  ts1 = as.tensor(ts1)
+  ts = as.tensor(ts)
+  tckr = tucker(ts1, ranks = core_shape)
+  A = tckr$U[[1]] ; B = tckr$U[[2]] ; C = tckr$U[[3]]
+  G = tckr$Z
+  d1 = dim(ts)[1] ; d2 = dim(ts)[2] ; d3 = dim(ts)[3]
+  r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3] 
+  Y_1 = unfold(ts, row_idx = 1, col_idx = c(2,3))@data
+  Y_2 = unfold(ts, row_idx = 2, col_idx = c(1,3))@data
+  Y_3 = unfold(ts, row_idx = 3, col_idx = c(1,2))@data
+  
+  lglk = seq(1,4*Nsim)
+  for(n in 1:Nsim){
+  
+    ###### update A
+    G_BC = ttl(G, list(B,C), ms = c(2,3))
+    G_BC1 = unfold(G_BC, row_idx = 1, col_idx = c(2,3))@data
+    re = glm_mat(t(Y_1),t(G_BC1))
+    A = t(re[[1]])
+    lglk[4*n - 3] = re[[2]]
+    ## orthogonal A*
+    U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    tuk = tucker(U, ranks = core_shape)
+    G = tuk$Z
+    A = tuk$U[[1]]
+    B = tuk$U[[2]]
+    C = tuk$U[[3]]
+    
+    ##### update B
+    G_AC = ttl(G, list(A,C), ms = c(1,3))
+    G_AC2 = unfold(G_AC, row_idx = 2, col_idx = c(1,3))@data
+    re = glm_mat(t(Y_2),t(G_AC2))
+    B = t(re[[1]])
+    lglk[4*n - 2] = re[[2]]
+    ## orthogonal B*
+    U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    tuk = tucker(U, ranks = core_shape)
+    G = tuk$Z
+    A = tuk$U[[1]]
+    B = tuk$U[[2]]
+    C = tuk$U[[3]]
+    
+    ###### update C
+    G_AB = ttl(G, list(A,B), ms = c(1,2))
+    G_AB3 = unfold(G_AB, row_idx = 3, col_idx = c(1,2))@data
+    re = glm_mat(t(Y_3),t(G_AB3))
+    C = t(re[[1]])
+    lglk[4*n - 1] = re[[2]]
+    ## orthogonal C*
+    U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    tuk = tucker(U, ranks = core_shape)
+    G = tuk$Z
+    A = tuk$U[[1]]
+    B = tuk$U[[2]]
+    C = tuk$U[[3]]
+    
+    
+    M_long = matrix(0,nrow = d1*d2*d3, ncol = r1*r2*r3)
+    m=1
+    ## update G
+    for(k in 1:d3){
+      for(j in 1:d2){
+        for(i in 1:d1){
+          M_long[m,] = kronecker_list(list(C[k,],B[j,],A[i,]))
+          m = m + 1
+        }
+      }
+    }
+    ml = glm(as.vector(ts@data) ~ -1 + M_long, family = binomial(link = 'logit'),
+             control = list(maxit = 50),start = as.vector(G@data))
+    G = as.tensor(array(data = ml$coefficients,dim = core_shape))
+    lglk[4*n] = logLik(ml)
+    print(n)
+  }
+  return(list(A = A,B = B,C = C,G = G,lglk = lglk))
+}
+
+```
+
+## Part 3: Simulation
+Then we apply a simulation:
+Consider$$
+U^{20*30*40} = G^{3*4*5} \times_1 A^{20*3}\times_2 B^{30*4} \times_3C^{40*5}
+$$
+Where $G\sim N(0,1)$, A,B,C are columns orthogonal matrice.
+
+And $$
+Y \sim Binomial(U)
+$$
+
+Then I use Y to estimate U, through $\hat{G}, \hat{A},\hat{A},\hat{A}$. And also plot logLik though each update(4 logLik per iteration).
+
+```{r}
+set.seed(37)
+G = as.tensor(array(data = rnorm(60),dim = c(3,4,5)))
+A = randortho(20)[,1:3]
+B = randortho(30)[,1:4]
+C = randortho(40)[,1:5]
+G@modes
+
+U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
+
+Y = rbinom(20*30*40,1,prob = as.vector( 1/(1 + exp(-U)) ) )
+Y = as.tensor(array(Y,dim = c(20,30,40)))@data
+
+
+up = update_binary(Y,c(3,4,5),20)
+plot(up$lglk,type = 'b')
+```
+
+
+The $||\hat{U} - U||^2_F$ is:
+```{r}
+sum((ttl(up$G,list(up$A,up$B,up$C),ms = c(1,2,3))@data - U)^2)
+```
+
+## Part 3: Real data
+
+Then we apply our read data:
+```{r}
+data = readMat('dnations.mat')
+data = data$R
+data[is.na(data)] = 0
+data[1,1,]
+
+
+
+up = update_binary(data,c(4,4,5),5)
+plot(up$lglk,type = 'b')
+```
+
+
+The result is unreasonable, but it makes more sense if I set core_shape to be smaller, say (2,2,3).
+```{r}
+up = update_binary(data,c(2,2,3),5)
+plot(up$lglk,type = 'b')
+```
+
+
+
+
+
+
