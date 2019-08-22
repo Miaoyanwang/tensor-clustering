@@ -104,26 +104,34 @@
 \begin{document}
 \begin{center}
 {\bf \large Statistical analysis of low-rank binary tensor regression}\\
-Miaoyan Wang\quad 08/13/2019
+Miaoyan Wang, first draft on 08/13, updated on 08/21
 \end{center}
 
 \section{Preliminaries}
-\begin{defn}\label{eq:defn}
-Let $\mX_k\in\mathbb{R}^{p_k\times d_k}$ be a rank-$s_k$ matrix. The SVD of $\mX_k$ can be expressed as $\mX_k=\mP_k\Delta_k \mQ^T_k$, where $\mP_k\in\mathbb{R}^{p_k\times s_k}$ and $\mQ_k\in\mathbb{R}^{d_k\times s_k}$ consist of, respectively, the left and right singular vectors, and $\Delta_k\in\mathbb{R}^{s_k\times s_k}$ is the diagonal matrix consisting of non-zero singular values. We introduce the following short-hand notions:
+
+
+We use lower-case letters $(a, b, \ldots)$ for scalars and vectors, upper-case boldface letters $(\mA, \mB, \ldots)$ for matrices, and calligraphy letter $(\tA,\tB,\ldots)$ for tensors of order 3 or greater. Let $\tY \in \mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. We say that an event $A$ occurs ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of $d_{\min}=\min\{d_1, . . . , d_K\}$. We use $\mS^{d-1}=\{\mx\in\mathbb{R}^d: \norm{\mx}=1\}$ to denote the Euclidean sphere in dimension $d$.\\
+
+
+\begin{pro}\label{eq:defn}
+Let $\mX\in\mathbb{R}^{d\times p}$ be a full-rank matrix, where $\text{rank}(\mX)=p\leq d$. The SVD of $\mX$ can be expressed as $\mX=\mP\Delta\mQ^T$, where $\mP\in\mathbb{R}^{d\times p}$ and $\mQ\in\mathbb{R}^{p\times p}$ consist of, respectively, the left and right singular vectors, and $\Delta\in\mathbb{R}^{p\times p}$ is the diagonal matrix consisting of non-zero singular values. The following properties hold:
 \begin{enumerate}
-\item $(\mX_k\mX^T_k)^{1/2}=\mP_k\Delta_k\in\mathbb{R}^{p_k\times s_k}$,
-\item $(\mX_k\mX^T_k)^{-1/2}=\Delta^{-1}_k\mP^T_k\in\mathbb{R}^{s_k\times p_k}$.
+%\item $(\mX^T\mX)^{1/2}=\mQ\Delta\in\mathbb{R}^{p\times s}$,
+\item $(\mX^T\mX)^{-1/2}=\mQ\Delta^{-1}$.
+\item Let $\tilde \mX=\mX(\mX^T\mX)^{-1/2}$. Then $\tilde \mX=\mP$.
+%\item The transpose of $(\mX^T\mX)^{1/2}$ is the Moore-Penrose inverse of $(\mX^T\mX)^{-1/2}$. 
+%\item Let $\tilde \mX=\mX(\mX^T\mX)^{-1/2}$. Then $\tilde \mX=\mP$, so the matrix $\tilde \mX$  has orthogonal columns. 
+\item $\tilde \mX^T\mX=\Delta\mQ^T$.
 \end{enumerate}
+\end{pro}
 
-Note that $(\mX_k\mX^T_k)^{1/2}$ are  Moore-Penrose inverse of $(\mX_k\mX^T_k)^{-1/2}$ and $\left((\mX_k\mX^T_k)^{-1/2}\right)^T=\mP_k\Delta^{-1}_k\in\mathbb{R}^{p_k\times s_k}$.
-\end{defn}
 
-We use lower-case letters $(a, b, \ldots)$ for scalars and vectors, upper-case boldface letters $(\mA, \mB, \ldots)$ for matrices, and calligraphy letter $(\tA,\tB,\ldots)$ for tensors of order 3 or greater. Let $\tY \in \mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. We say that an event $A$ occurs ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of $d_{\min}=\min\{d_1, . . . , d_K\}$.
+
 
 
 
 \section{Results}
-Suppose we observe an order-$K$ binary tensor $\tY\in\{0,1\}^{d_1\times \cdots \times d_K}$, along with a set of covariate matrices $\mX_k\in\mathbb{R}^{p_k\times d_k}$ for $k=1,\ldots,K$. Consider a tensor regression model:
+Suppose we observe an order-$K$ binary tensor $\tY\in\{0,1\}^{d_1\times \cdots \times d_K}$, along with a set of covariate matrices $\mX_k\in\mathbb{R}^{d_k\times p_k}$ for $k=1,\ldots,K$. Consider a tensor regression model:
 \begin{equation}\label{eq:model}
 \text{logit}(\mathbb{E}(\tY))=\tB\times_1\mX_1\times_2\cdots\times_K \mX_K,
 \end{equation}
@@ -146,7 +154,7 @@ Model~\eqref{eq:model} incorporates the following examples as special cases:
 
 (3) {\bf Semi-supervised decomposition}. Suppose the covariate information is available only for a subset of modes. Without loss of generality, suppose the covariates $\mX_k\neq \mI$ are available in modes $1,\ldots,L$, where $L< K$. Then the model~\eqref{eq:model} reduces to a semi-supervised decomposition model:
 \[
-\text{logit}(\mathbb{E}(\tY))=\KeepStyleUnderBrace{\tB}_{\text{$\in\mathbb{R}^{{\color{red}p_1\times \cdots\times p_L}\times d_{L+1}\times \cdots \times  d_K}$}} \times_1 \KeepStyleUnderBrace{\mX_1}_{\text{$\in \mathbb{R}^{{\color{red}p_1}\times d_1}$}}\times_2\cdots\times_L\KeepStyleUnderBrace{\mX_L}_{\text{$\in \mathbb{R}^{{\color{red}p_L}\times d_L}$}}.
+\text{logit}(\mathbb{E}(\tY))=\KeepStyleUnderBrace{\tB}_{\text{$\in\mathbb{R}^{{\color{red}p_1\times \cdots\times p_L}\times d_{L+1}\times \cdots \times  d_K}$}} \times_1 \KeepStyleUnderBrace{\mX_1}_{\text{$\in \mathbb{R}^{d_1\times {\color{red}p_1}}$}}\times_2\cdots\times_L\KeepStyleUnderBrace{\mX_L}_{\text{$\in \mathbb{R}^{d_L \times {\color{red}p_L}}$}}.
 \] 
 \end{rmk}
 
@@ -163,17 +171,26 @@ holds for all tensors $\tB\in \tP(\mr,\alpha)$ in the parameter space.
 The RIP assumption requires the covariates at each of the modes are nearly orthonormal, at least when restricted to the desired parameter space. 
 \end{rmk}
 
+\begin{prop} [Random design] Suppose $\mX_k \in\mathbb{R}^{d_k\times p_k}$ consists of i.i.d.\ standard Gaussian entries for $k=1,\ldots,K$. Then with very high probability, $\mX_k$ satisfies the RIP condition with $\delta=2$.
+\end{prop}
+
 \begin{thm} [Main Results]
 \label{thm:main}
-Let $\hat \tB_{\text{MLE}}$ be the restricted maximum likelihood estimate of the model~\eqref{eq:model}; i.e.,
+Consider a tensor regression model~\eqref{eq:model} with $\tY\in\{0,1\}^{d_1\times \cdots\times d_K}$ the response and $\mX_k\in\mathbb{R}^{d_k\times p_k}$ the mode-$k$ covariates. 
+Let $\hat \tB_{\text{MLE}}$ be the restricted rank-$\mr$ maximum likelihood estimate of the coefficient tensor, where $\mr=(r_1,\ldots,r_K)'$,
 \[
-\hat \tB_{\text{MLE}}=\argmin_{\tB\in\tP(\mr,\alpha)} \text{Log-lik}\ (\tB; \tY, \{\mX_k\}),\quad \text{where}\ \{\mX_k\}\ \text{satisfy the RIP condition}.
+\hat \tB_{\text{MLE}}=\argmin_{\tB\colon \text{rank}(\tB)=\mr, \mnormSize{}{\tB}\leq \alpha}} \text{Log-lik}\ (\tB; \tY, \{\mX_k\}).
 \]
+Suppose the covariates $\mX_k$ are full rank and satisfy the RIP condition with RIP constant $\delta \in(0,1)$. 
 Then, with very high probability,
 \[
-\Fnorm{\hat \tB_{\text{MLE}}-\tB_{\text{true}}}\leq {C_\alpha\over d} \sqrt{ {(1+\delta_{2\mr,2\alpha})\over (1-\delta_{2\mr,2\alpha})^2}{\prod^K_{k=1} r_k\over r_{\max}} \sum^K_{k=1} p_k},
+\Fnorm{\hat \tB_{\text{MLE}}-\tB_{\text{true}}}\leq {C_\alpha\over \prod_k d_k} \sqrt{ {(1+\delta_{2\mr,2\alpha})\over (1-\delta_{2\mr,2\alpha})^2}{\prod^K_{k=1} r_k\over r_{\max}} \sum^K_{k=1} p_k},
 \]
-where $C_\alpha>0$ is a constant that does not depend on the dimension or rank. 
+where $C_\alpha>0$ is a constant independent of the tensor dimension or rank. 
+\end{thm}
+
+\begin{thm}[KL-Divergence and Hellinger Loss]
+See Zhuoyan's note ``Evidence theory on prediction error'' (08/09) and Jiaxin's note ``Boundaries for different prediction error metrics'' (08/09). 
 \end{thm}
 
 \section{Proofs}
@@ -197,16 +214,16 @@ where the last line uses the Lemma~\ref{lem}. Therefore,
 
 
 \begin{lem}\label{lemma:RIP}
-Suppose the matrices $\{\mX_k\}$ satisfy the RIP condition with constant $\delta_{\mr,\alpha}\in(0,1)$. Then the matrices $\{ \left(\mX_k\mX^T_k\right)^{1/2}\}$ also satisfy the RIP condition with the same RIP constant. 
+Suppose the matrices $\{\mX_k\}$ satisfy the RIP condition with constant $\delta_{\mr,\alpha}\in(0,1)$. Then the matrices $\{ \tilde \mX^T_k\mX_k \}$ also satisfy the RIP condition with the same RIP constant. 
 \end{lem}
 \begin{proof}
-Let $\mX_k=\mP_k\Delta_k \mQ^T_k$ be the SVD of $\mX_k$, and by definition~\ref{eq:defn}, $(\mX_k\mX^T_k)^{1/2}=\mP_k\Delta_k\in\mathbb{R}^{p_k\times s_k}$. Note that the F-norm is invariant under orthonormal transformation. Hence,
+Let $\mX_k=\mP_k\Delta_k \mQ^T_k$ be the SVD of $\mX_k$, and by Property~\ref{eq:defn}, $\tilde\mX^T_k\mX_k=\Delta_k\mQ^T\in\mathbb{R}^{p_k\times p_k}$. Note that the F-norm is invariant under orthonormal transformation. Hence,
 \begin{align}
 \FnormSize{}{\tB\times_1\mX_1\times_2\cdots\times_K\mX_K}&=\FnormSize{}{\tB\times_1(\mP_1\Delta_1\mQ^T_1)\times_2\cdots\times_K(\mP_K\Delta_K\mQ^T_K)}\\
-&=\FnormSize{}{\tB\times_1 (\mP_1\Delta_1)\times_2\cdots\times_K(\mP_K\Delta_K)}\\
-&=\FnormSize{}{\tB\times_1 (\mX_1\mX^T_1)^{1/2}\times_2\cdots\times_K (\mX_K\mX^T_K)^{1/2} }.
+&=\FnormSize{}{\tB\times_1 (\Delta_1\mQ^T)\times_2\cdots\times_K(\Delta_K\mQ^T)}\\
+&=\FnormSize{}{\tB\times_1 (\tilde \mX_1\mX^T_1)^{1/2}\times_2\cdots\times_K (\tilde \mX_K\mX_K)^{1/2} }.
 \end{align}
-The proof is complete by revoking the Assumption~\ref{ass:RIP}.
+The proof is complete by invoking the Assumption~\ref{ass:RIP}.
 \end{proof}
 
 \begin{lem}\label{lem}
@@ -216,19 +233,32 @@ Let $\tB\in\tP(\mr,\alpha)$ be a fixed tensor in the parameter space $\tP(\mr, \
 \]
 \end{lem}
 \begin{proof}
-By the definition of inner product, 
+Let $\tilde \mX_k=\mX_k(\mX_k^T\mX_k)^{-1/2}=\mP_k$, where $\mP_k$ consists of left singular vectors of $\mX$. By the definition of inner product, 
 \begin{align}
 &\langle \tS,\ \tB\times_1\mX_1\times_2\cdots\times_K\mX_K \rangle\\
-=& \Big\langle \KeepStyleUnderBrace{\tS\times_1\left[\mX_1^T\left((\mX_1\mX^T_1)^{-1/2}\right)^T\right]\times_2\cdots \times_K\left[\mX_K^T\left((\mX_K\mX^T_K)^{-1/2}\right)^T\right]}_{:=\tE\in\mathbb{R}^{p_1\times \cdots\times p_K}\text{ is a random tensor with i.i.d. bounded entries}} ,\ \tB\times_1\left[(\mX_1\mX^T_1)^{1/2}\right]\times_2\cdots\times_K \left[(\mX_K\mX^T_K)^{1/2}\right]\Big \rangle\\
-\leq & \snormSize{}{\tE} \times \nnorm{\tB \times_1\left[(\mX_1\mX^T_1)^{1/2}\right]\times_2\cdots\times_K \left[(\mX_K\mX^T_K)^{1/2}\right] } \\
-\leq &    \snormSize{}{\tE} \times \sqrt{\prod_k r_k \over r_{\max}}\times \Fnorm{\tB \times_1\left[(\mX_1\mX^T_1)^{1/2}\right]\times_2\cdots\times_K \left[(\mX_K\mX^T_K)^{1/2}\right] }\\
+=& \Big\langle \KeepStyleUnderBrace{\tS\times_1\tilde \mX^T_1\times_2\cdots \times_K\tilde \mX^T_K}_{:=\tE\in\mathbb{R}^{p_1\times \cdots\times p_K}\text{ is a sub-Gaussian(1) tensor by Lemma~\ref{lem:sub}}} ,\ \tB\times_1(\tilde \mX^T_1\mX_1)\times_2 \cdots \times_K (\tilde \mX^T_K\mX_K)\Big \rangle.\\
+\leq & \snormSize{}{\tE} \times \nnorm{\tB\times_1(\tilde \mX^T_1\mX_1)\times_2 \cdots \times_K (\tilde \mX^T_K\mX_K) } \\
+\leq &    \snormSize{}{\tE} \times \sqrt{\prod_k r_k \over r_{\max}}\times \Fnorm{\tB \times_1 (\tilde \mX^T_1\mX_1)\times_2 \cdots \times_K (\tilde \mX^T_K\mX_K)   }\\
 \leq & \sqrt{\prod_k r_k \over r_{\max}}\times  \snormSize{}{\tE}\times \sqrt{1+\delta_{\mr,\alpha}} \FnormSize{}{\tB},
 \end{align}
-where the last line comes from the RIP condition of $\{(\mX_k\mX_k)^{1/2}\}$ by Lemma~\ref{lemma:RIP}. Combining with the fact that $\snormSize{}{\tE}\asymp \tO( \sqrt{\sum_k p_k})$ (c.f. Theorem 1 in Tommioka and Suzuki, 2014], we have 
+where the last line comes from the RIP condition of $\{\tilde \mX^T_k\mX_k\}$ by Lemma~\ref{lemma:RIP}. Combining with the fact that $\snormSize{}{\tE}\asymp \tO( \sqrt{\sum_k p_k})$(c.f. Theorem 1 in Tommioka and Suzuki, 2014], we have 
 \[
 \langle \tS,\ \tB\times_1\mX_1\times_2\cdots\times_K\mX_K \rangle\leq \FnormSize{}{\tB}\times \sqrt{(1+\delta_{\mr,\alpha}){\prod_k r_k \over r_{\max}}\sum_k p_k}.
 \] 
 \end{proof}
 
+\begin{lem} \label{lem:sub}
+Let $\tS$ be an sG$(\sigma)$ tensor of dimension $(d_1,\ldots,d_K)$ and $\tilde \mX_k\in\mathbb{R}^{d_k\times p_k}$ be column-wise orthogonal matrices. Then $\tE=\tS \times_1 \tilde \mX^T_1\times_2\cdots\times_K \tilde \mX^T_K$ is an sG$(\sigma)$ tensor of dimension $(p_1,\ldots,p_K)$.
+\end{lem}
+
+\begin{proof} (Extended from Zhuoyan's note version 4.0)
+To show $\tE$ is an sG tensor, it suffices to show that the $\tE(\bmu_1, \bmu_2, \cdots, \bmu_K)\stackrel{\text{def}}{=}\langle\tE, \bmu_1\otimes \cdots\otimes \bmu_K \rangle$ is a sub-Gaussian random variable with parameter $\sigma$, where $\bmu_k\in\mS^{p_k-1}$ for all $k=1,\ldots,K$.
+
+Note that, 
+\[
+\tE(\bmu_1,\ \cdots,\ \bmu_K )=\tS(\tilde \mX_1\bmu_1,\ \ldots \tilde \mX_K\bmu_K).
+\]
+Because $\tilde \mX_k\in\mathbb{R}^{d\times p}$ are column-wise orthogonal matrices, so $\vnormSize{}{\tilde \mX_k\bmu_k}=\vnormSize{}{\bmu_k}=1$. By definition of sub-Gaussian tensor, $\tS(\tilde \mX_1\bmu_1,\ \ldots \tilde \mX_K\bmu_K)$ is a sub-Gaussian random variable with parameter $\sigma$, so is the $\tE(\bmu_1,\ldots,\bmu_K)$. 
+\end{proof}
 
 \end{document}
