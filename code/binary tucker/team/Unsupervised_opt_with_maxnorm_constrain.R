@@ -155,8 +155,15 @@ update_binary_cons = function(ts, core_shape, Nsim, lambda=1, alpha = 1e+1){
     
     C = t(re[[1]])
     lglk[4*n - 1] = re[[2]]
-    ## orthogonal C*
+    
+    ## orthogonal C*  and scale down (if needed)
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    if(max(U@data) <= alpha){U = U}
+    else {
+      U = U/max(U@data)*alpha
+      print("Violate constrain ------------------")
+    }
+    
     tuk = tucker(U, ranks = core_shape)
     G = tuk$Z
     A = tuk$U[[1]]
@@ -175,6 +182,7 @@ update_binary_cons = function(ts, core_shape, Nsim, lambda=1, alpha = 1e+1){
         }
       }
     }
+    
     
     
     
