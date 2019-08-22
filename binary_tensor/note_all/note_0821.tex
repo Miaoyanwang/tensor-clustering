@@ -105,24 +105,24 @@
 \begin{center}
 {\bf \large Paper Sketch for AISTATS\\
 Tentative title: ``Binary tensor regression with multi-mode features''}\\
-first draft on 08/13, updated on 08/21
+first draft on 08/13, updated on 08/22
 \end{center}
 
 \section{Preliminaries}
 
 
-We use lower-case letters $(a, b, \ldots)$ for scalars and vectors, upper-case boldface letters $(\mA, \mB, \ldots)$ for matrices, and calligraphy letter $(\tA,\tB,\ldots)$ for tensors of order 3 or greater. Let $\tY \in \mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. We say that an event $A$ occurs ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of $d_{\min}=\min\{d_1, . . . , d_K\}$. We use $\mS^{d-1}=\{\mx\in\mathbb{R}^d: \norm{\mx}=1\}$ to denote the Euclidean sphere in dimension $d$.\\
+We use lower-case letters $(a, b, \ldots)$ for scalars and vectors, upper-case boldface letters $(\mA, \mB, \ldots)$ for matrices, and calligraphy letter $(\tA,\tB,\ldots)$ for tensors of order 3 or greater. Let $\tY \in \mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. We say that an event $A$ occurs ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of $d_{\min}=\min\{d_1, . . . , d_K\}$. We use $\mS^{d-1}=\{\mx\in\mathbb{R}^d: \norm{\mx}=1\}$ to denote the Euclidean unit sphere in dimension $d$.\\
 
 
 \begin{pro}\label{eq:defn}
 Let $\mX\in\mathbb{R}^{d\times p}$ be a full-rank matrix, where $\text{rank}(\mX)=p\leq d$. The SVD of $\mX$ can be expressed as $\mX=\mP\Delta\mQ^T$, where $\mP\in\mathbb{R}^{d\times p}$ and $\mQ\in\mathbb{R}^{p\times p}$ consist of, respectively, the left and right singular vectors, and $\Delta\in\mathbb{R}^{p\times p}$ is the diagonal matrix consisting of non-zero singular values. The following properties hold:
 \begin{enumerate}
 %\item $(\mX^T\mX)^{1/2}=\mQ\Delta\in\mathbb{R}^{p\times s}$,
-\item $(\mX^T\mX)^{-1/2}=\mQ\Delta^{-1}$.
-\item Let $\tilde \mX=\mX(\mX^T\mX)^{-1/2}$. Then $\tilde \mX=\mP$.
+\item $(\mX^T\mX)^{-1/2}=\mQ\Delta^{-1}\mQ^T$.
+\item Let $\tilde \mX=\mX(\mX^T\mX)^{-1/2}$. Then $\tilde \mX=\mP\mQ^{T}$.
 %\item The transpose of $(\mX^T\mX)^{1/2}$ is the Moore-Penrose inverse of $(\mX^T\mX)^{-1/2}$. 
 %\item Let $\tilde \mX=\mX(\mX^T\mX)^{-1/2}$. Then $\tilde \mX=\mP$, so the matrix $\tilde \mX$  has orthogonal columns. 
-\item $\tilde \mX^T\mX=\Delta\mQ^T$.
+\item $\tilde \mX^T\mX=\mQ\Delta\mQ^T$.
 \end{enumerate}
 \end{pro}
 
@@ -169,33 +169,28 @@ d(1-\delta_{\mr,\alpha})\Fnorm{\tB}^2\leq \Fnorm{\tB \times_1\mX_1\times_2\cdots
 holds for all tensors $\tB\in \tP(\mr,\alpha)$ in the parameter space. 
 \end{ass}
 \begin{rmk}
-The RIP assumption requires the covariates at each of the modes are nearly orthonormal, at least when restricted to the desired parameter space. The RIP condition is a relatively mild assumption on the covariates. In particular, it incorporates the fixed design and Gaussian random design as special cases. 
-\end{rmk}
+The RIP assumption requires the covariates at each of the modes are nearly orthonormal when restricted to the desired parameter space. The RIP condition is a relatively mild assumption on the covariates. In particular, both fixed design and Gaussian random design satisfy the RIP condition. \end{rmk}
 
-\begin{exmp} [Gaussian Random design] Suppose $\mX_k \in\mathbb{R}^{d_k\times p_k}$ are random matrix with i.i.d.\ standard Gaussian entries, where ${p_k\over d_k}=\lambda_k\in(0,1)$ for all $k=1,\ldots,K$. Then, with very high probability, $\{\mX_k\}$ satisfy the RIP condition. In particular, the RIP constant can be chosen as
+\begin{exmp} [Gaussian Random design] Suppose $\mX_k \in\mathbb{R}^{d_k\times p_k}$ are random design matrices with i.i.d.\ standard Gaussian entries, where ${p_k\over d_k}=\lambda_k\in(0,1)$ for all $k=1,\ldots,K$. Then, with very high probability, $\{\mX_k\}$ satisfy the RIP condition. In particular, the RIP constant can be chosen as
 \[
-\delta_{\mr,\alpha}=\max\left\{ -1+\prod_k (1+\lambda_k),\ 1-\prod_k (1-\lambda_k)\right\} \in (0,1)}.
+\delta_{\mr,\alpha}=\max\left\{ -1+\prod_k \sqrt{1+\lambda_k},\ 1-\prod_k \sqrt{1-\lambda_k}\right\} \in (0,1)}.
 \]
 \end{exmp}
 
-\begin{exmp}[Fixed design] Suppose $\mX_k \in\mathbb{R}^{d_k\times p_k}$ are deterministic matrices whose singular values satisfy
-\[
-{ \sigma_{\max}(\mX_k)\over \sigma_{\min}(\mX_k)} \in[1,2),\quad \text{for all }k=1,\ldots,K.
-\]
-Then, $\{\mX_k\}$ (upon proper rescaling) satisfy the RIP condition.
+\begin{exmp}[Fixed design] Suppose $\mX_k \in\mathbb{R}^{d_k\times p_k}$ are deterministic design matrices with full rank. Then, $\{\mX_k\}$ (upon proper rescaling) satisfy the RIP condition.
 \end{exmp}
 
 \begin{thm} [Main Results]
 \label{thm:main}
 Consider a tensor regression model~\eqref{eq:model} with $\tY\in\{0,1\}^{d_1\times \cdots\times d_K}$ the response and $\mX_k\in\mathbb{R}^{d_k\times p_k}$ the mode-$k$ covariates. 
-Let $\hat \tB_{\text{MLE}}$ be the restricted rank-$\mr$ maximum likelihood estimate of the coefficient tensor, where $\mr=(r_1,\ldots,r_K)'$,
+Let $\hat \tB_{\text{MLE}}$ be the restricted rank-$\mr$ maximum likelihood estimate of the coefficient tensor, where $\mr=(r_1,\ldots,r_K)$,
 \[
 \hat \tB_{\text{MLE}}=\argmin_{\tB\colon \text{rank}(\tB)=\mr, \mnormSize{}{\tB}\leq \alpha}} \text{Log-lik}\ (\tB; \tY, \{\mX_k\}).
 \]
 Suppose the covariates $\mX_k$ are full rank and satisfy the RIP condition with RIP constant $\delta \in(0,1)$. 
 Then, with very high probability,
 \[
-\Fnorm{\hat \tB_{\text{MLE}}-\tB_{\text{true}}}\leq {C_\alpha\over \prod_k d_k} \sqrt{ {(1+\delta_{2\mr,2\alpha})\over (1-\delta_{2\mr,2\alpha})^2}{\prod^K_{k=1} r_k\over r_{\max}} \sum^K_{k=1} p_k},
+\Fnorm{\hat \tB_{\text{MLE}}-\tB_{\text{true}}}\leq {C_\alpha\over \sqrt{\prod_k d_k}} \sqrt{ {(1+\delta_{2\mr,2\alpha})\over (1-\delta_{2\mr,2\alpha})^2}{\prod^K_{k=1} r_k\over r_{\max}} \sum^K_{k=1} p_k},
 \]
 where $C_\alpha>0$ is a constant independent of the tensor dimension or rank. 
 \end{thm}
@@ -208,7 +203,7 @@ See Zhuoyan's note ``Evidence theory on prediction error'' (08/09) and Jiaxin's 
 {\bf Algorithm sketch}. Please refer to earlier notes for algorithm. \\
 {\bf Rank selection}: We propose to use Bayesian information criterion (BIC) and choose the rank that minimizes BIC; i.e.
 \[
-\hat \mr=\argmin_{\mr=(r_1,\ldots,r_K)'} BIC(\mr)=\argmin_{\mr=(r_1,\ldots,r_K)'}\left[-2\text{Log-lik}(\hat \Theta)+p_e(r_1,\ldots,r_K)\log \left(\prod_k d_k\right) \right],
+\hat \mr=\argmin_{\mr=(r_1,\ldots,r_K)} BIC(\mr)=\argmin_{\mr=(r_1,\ldots,r_K)}\left[-2\text{Log-lik}(\hat \Theta)+p_e(r_1,\ldots,r_K)\log \left(\prod_k d_k\right) \right],
 \]
 where $p_e(r_1,\ldots,r_K)\stackrel{\text{def}}{=}\sum_k (d_k-1)r_k+\prod_k r_k$ is the effective number of parameters in the model. 
 
@@ -217,7 +212,7 @@ and\_summer\_plan.pdf''. The main issues are
 \begin{itemize}
 \item The choice of distribution to generate the core tensor. Bad estimation when the core is generated i.i.d.\ $N(0,1)$, $N(10,1)$, $\text{Unif}[0,1]$ or $\text{Unif}[0,10]$.
 \item When to stop? ``It is reported that when we run more iterations, the result sometime seems not better or even worse.''
-\item Unbounded estimation. ``Sometimes, when we check the real scale of U?, there may some entries with extremely large values''.
+\item Unbounded estimation. ``Sometimes, when we check the real scale of $U$, there may some entries with extremely large values''.
 \end{itemize}
 We have proposed to impose an infinity-norm constraint to the optimization. Which of the following leads to the best result?
 \begin{enumerate}
@@ -245,13 +240,13 @@ Following the similar argument as in [Wang and Li, 2019], we have $\text{Log-lik
 \end{equation}
 where $\tS\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is a random tensor consisting of i.i.d. bounded random entries. Applying the RIP condition to $(\hat \tB_{\text{MLE}}-\tB_{\text{true}})\in\tP(2\mr,2\alpha)$ in the inequality~\eqref{eq:taylor} yields
 \begin{align}
-&(1-\delta_{2\mr,2\alpha})\FnormSize{}{(\hat \tB_{\text{MLE}}-\tB_{\text{true}})}^2\\
+&d (1-\delta_{2\mr,2\alpha})\FnormSize{}{(\hat \tB_{\text{MLE}}-\tB_{\text{true}})}^2\\
 \leq &\FnormSize{}{(\hat \tB_{\text{MLE}}-\tB_{\text{true}})\times_1 \mX_1\times_2 \cdots\times_K \mX_K}^2\\
-\leq & C_\alpha\times \FnormSize{}{\hat \tB_{\text{MLE}}-\tB_{\text{true}}}\times \sqrt{ (1+\delta_{2\mr,2\alpha}) {\prod_k r_k\over r_{\max}}\sum_k p_k},
+\leq & C_\alpha\times \FnormSize{}{\hat \tB_{\text{MLE}}-\tB_{\text{true}}}\times \sqrt{ d(1+\delta_{2\mr,2\alpha}) {\prod_k r_k\over r_{\max}}\sum_k p_k},
 \end{align}
-where the last line uses the Lemma~\ref{lem}. Therefore,
+where $d=\prod_k d_k$ and the last line uses the Lemma~\ref{lem}. Therefore,
 \[
-\FnormSize{}{\hat \tB_{\text{MLE}}-\tB_{\text{true}}}\leq C_\alpha \sqrt{ {(1+\delta_{2\mr,2\alpha})\over(1-\delta_{2\mr,2\alpha})^2}  {\prod_k r_k \over r_{\max}} \sum_k p_k}.
+\FnormSize{}{\hat \tB_{\text{MLE}}-\tB_{\text{true}}}\leq {C_\alpha \over \sqrt{\prod_k d_k} } \sqrt{ {(1+\delta_{2\mr,2\alpha})\over (1-\delta_{2\mr,2\alpha})^2}  {\prod_k r_k \over r_{\max}} \sum_k p_k}.
 \]
 \end{proof}
 
@@ -260,19 +255,19 @@ where the last line uses the Lemma~\ref{lem}. Therefore,
 Suppose the matrices $\{\mX_k\}$ satisfy the RIP condition with constant $\delta_{\mr,\alpha}\in(0,1)$. Then the matrices $\{ \tilde \mX^T_k\mX_k \}$ also satisfy the RIP condition with the same RIP constant. 
 \end{lem}
 \begin{proof}
-Let $\mX_k=\mP_k\Delta_k \mQ^T_k$ be the SVD of $\mX_k$, and by Property~\ref{eq:defn}, $\tilde\mX^T_k\mX_k=\Delta_k\mQ^T\in\mathbb{R}^{p_k\times p_k}$. Note that the F-norm is invariant under orthonormal transformation. Hence,
+Let $\mX_k=\mP_k\Delta_k \mQ^T_k$ be the SVD of $\mX_k$, and by Property~\ref{eq:defn}, $\tilde\mX^T_k\mX_k=\mQ\Delta_k\mQ^T\in\mathbb{R}^{p_k\times p_k}$. Note that the F-norm is invariant under orthonormal transformation. Hence,
 \begin{align}
 \FnormSize{}{\tB\times_1\mX_1\times_2\cdots\times_K\mX_K}&=\FnormSize{}{\tB\times_1(\mP_1\Delta_1\mQ^T_1)\times_2\cdots\times_K(\mP_K\Delta_K\mQ^T_K)}\\
-&=\FnormSize{}{\tB\times_1 (\Delta_1\mQ^T)\times_2\cdots\times_K(\Delta_K\mQ^T)}\\
+&=\FnormSize{}{\tB\times_1 (\mQ\Delta_1\mQ^T)\times_2\cdots\times_K(\mQ\Delta_K\mQ^T)}\\
 &=\FnormSize{}{\tB\times_1 (\tilde \mX_1\mX^T_1)^{1/2}\times_2\cdots\times_K (\tilde \mX_K\mX_K)^{1/2} }.
 \end{align}
 The proof is complete by invoking the Assumption~\ref{ass:RIP}.
 \end{proof}
 
 \begin{lem}\label{lem}
-Let $\tB\in\tP(\mr,\alpha)$ be a fixed tensor in the parameter space $\tP(\mr, \alpha)$ and $\tS\in\mathbb{R}^{d_1\times \cdots \times d_K}$ be a random tensor with i.i.d.\ bounded random entries. Suppose $\{\mX_k\}$ satisfy the RIP condition with RIP constant $\delta_{\mr, \alpha}$. Then, with very high probability,
+Let $\tB\in\tP(\mr,\alpha)$ be a fixed tensor in the parameter space $\tP(\mr, \alpha)$ and $\tS\in\mathbb{R}^{d_1\times \cdots \times d_K}$ be a random tensor with i.i.d.\ bounded random entries. Denote $d=\prod_k d_k$. Suppose $\{\mX_k\}$ satisfy the RIP condition with RIP constant $\delta_{\mr, \alpha}$. Then, with very high probability,
 \[
-\langle \tS,\ \tB\times_1\mX_1\times_2\cdots\times_K\mX_K \rangle \leq \FnormSize{}{\tB} \times\sqrt{ (1+\delta_{\mr,\alpha}) {\prod_{k=1}^Kr_k \over r_{\max}}\sum_{k=1}^K p_k}.
+\langle \tS,\ \tB\times_1\mX_1\times_2\cdots\times_K\mX_K \rangle \leq \FnormSize{}{\tB} \times\sqrt{ d(1+\delta_{\mr,\alpha}) {\prod_{k=1}^Kr_k \over r_{\max}}\sum_{k=1}^K p_k}.
 \]
 \end{lem}
 \begin{proof}
@@ -282,11 +277,14 @@ Let $\tilde \mX_k=\mX_k(\mX_k^T\mX_k)^{-1/2}=\mP_k$, where $\mP_k$ consists of l
 =& \Big\langle \KeepStyleUnderBrace{\tS\times_1\tilde \mX^T_1\times_2\cdots \times_K\tilde \mX^T_K}_{:=\tE\in\mathbb{R}^{p_1\times \cdots\times p_K}\text{ is a sub-Gaussian(1) tensor by Lemma~\ref{lem:sub}}} ,\ \tB\times_1(\tilde \mX^T_1\mX_1)\times_2 \cdots \times_K (\tilde \mX^T_K\mX_K)\Big \rangle.\\
 \leq & \snormSize{}{\tE} \times \nnorm{\tB\times_1(\tilde \mX^T_1\mX_1)\times_2 \cdots \times_K (\tilde \mX^T_K\mX_K) } \\
 \leq &    \snormSize{}{\tE} \times \sqrt{\prod_k r_k \over r_{\max}}\times \Fnorm{\tB \times_1 (\tilde \mX^T_1\mX_1)\times_2 \cdots \times_K (\tilde \mX^T_K\mX_K)   }\\
-\leq & \sqrt{\prod_k r_k \over r_{\max}}\times  \snormSize{}{\tE}\times \sqrt{1+\delta_{\mr,\alpha}} \FnormSize{}{\tB},
+\leq & \sqrt{\prod_k r_k \over r_{\max}}\times  \snormSize{}{\tE}\times \sqrt{d(1+\delta_{\mr,\alpha})} \FnormSize{}{\tB},
+%\leq & \sqrt{\prod_k r_k \over r_{\max}}\times  \snormSize{}{\tE}\times  \FnormSize{}{\tB} \times \prod_k \snormSize{}{\tilde \mX^T_k\mX_k}\\
+%&\leq \sqrt{\prod_k r_k \over r_{\max}}\times  \snormSize{}{\tE}\times  \FnormSize{}{\tB} \times \prod_k \snormSize{}{\mX_k}\\
+%&\leq \sqrt{\prod_k r_k \over r_{\max}}\times  \snormSize{}{\tE}\times  \FnormSize{}{\tB} \times \prod_k \snormSize{}{\mX_k}\\
 \end{align}
 where the last line comes from the RIP condition of $\{\tilde \mX^T_k\mX_k\}$ by Lemma~\ref{lemma:RIP}. Combining with the fact that $\snormSize{}{\tE}\asymp \tO( \sqrt{\sum_k p_k})$(c.f. Theorem 1 in Tommioka and Suzuki, 2014], we have 
 \[
-\langle \tS,\ \tB\times_1\mX_1\times_2\cdots\times_K\mX_K \rangle\leq \FnormSize{}{\tB}\times \sqrt{(1+\delta_{\mr,\alpha}){\prod_k r_k \over r_{\max}}\sum_k p_k}.
+\langle \tS,\ \tB\times_1\mX_1\times_2\cdots\times_K\mX_K \rangle\leq \FnormSize{}{\tB}\times \sqrt{d(1+\delta_{\mr,\alpha}){\prod_k r_k \over r_{\max}}\sum_k p_k}.
 \] 
 \end{proof}
 

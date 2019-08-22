@@ -75,15 +75,13 @@ conv_rate = function(d, r){
     data = gene_data(rep(d[i],3), rep(r[i],3))
     U = data$U
     ts = data$ts
-    
     RMSEi = rep(0,5)
-    for(j in 1:5){
-      upp = update_binary_cons(ts[[j]],rep(r[i],3),40,lambda = 1, alpha = 10*max(U))
+    for (j in 1:5) {
+      upp = update_binary_cons(ts[[j]],rep(r[i],3),50, lambda = 1, alpha = 10*max(U))
       U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
-      RMSEi[j] = sqrt(sum((U_est - U)^2)/d[i]^3)
+      RMSEi[j] = sqrt(sum((U_est - U)^2)/(d[i]^3))
       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
     }
-    
     RMSE[i] = mean(RMSEi)
     rate[i] = r[i]^2/d[i]^2
   }

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 AUG 2019 22:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  22 AUG 2019 12:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -915,20 +915,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 114--115
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 175.
+(amsmath)                 on input line 174.
 
-./note_0821.tex:177: Extra }, or forgotten $.
-l.177 ...-\prod_k (1-\lambda_k)\right\} \in (0,1)}
+./note_0821.tex:176: Extra }, or forgotten $.
+l.176 ...d_k \sqrt{1-\lambda_k}\right\} \in (0,1)}
                                                   .
 ? 
-[2]
-./note_0821.tex:193: Extra }, or forgotten $.
-l.193 ...(\tB)=\mr, \mnormSize{}{\tB}\leq \alpha}}
+./note_0821.tex:188: Extra }, or forgotten $.
+l.188 ...(\tB)=\mr, \mnormSize{}{\tB}\leq \alpha}}
                                                    \text{Log-lik}\ (\tB; \tY...
 
 ? 
-
-Overfull \hbox (7.0265pt too wide) in paragraph at lines 212--214
+[2]
+Overfull \hbox (7.0265pt too wide) in paragraph at lines 207--209
 \OT1/cmr/m/n/10.95 where $\OML/cmm/m/it/10.95 p[]\OT1/cmr/m/n/10.95 (\OML/cmm/m
 /it/10.95 r[]; [] ; r[]\OT1/cmr/m/n/10.95 ) [] [][](\OML/cmm/m/it/10.95 d[] \OM
 S/cmsy/m/n/10.95 ^^@ \OT1/cmr/m/n/10.95 1)\OML/cmm/m/it/10.95 r[] \OT1/cmr/m/n/
@@ -936,39 +935,39 @@ S/cmsy/m/n/10.95 ^^@ \OT1/cmr/m/n/10.95 1)\OML/cmm/m/it/10.95 r[] \OT1/cmr/m/n/
 -ber of pa-ram-e-ters in the model. 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 218.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 213.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 218.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 213.
  [3]
-Overfull \hbox (18.61244pt too wide) in paragraph at lines 242--243
+Overfull \hbox (18.61244pt too wide) in paragraph at lines 237--238
 []\OT1/cmr/m/n/10.95 Following the sim-i-lar ar-gu-ment as in [Wang and Li, 201
 9], we have $[](\OMS/cmsy/m/n/10.95 B[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95
  ^^T
  []
 
 [4] [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 307.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 305.
  [6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 307.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 305.
  (./note_0821.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 307.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 307.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 305.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 305.
 Package rerunfilecheck Info: File `note_0821.out' has not changed.
 (rerunfilecheck)             Checksum: 21D1769ECA37E2F53AE3D35589F6F621;177.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 307.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 305.
  ) 
 Here is how much of TeX's memory you used:
  19018 strings out of 493014
  356630 string characters out of 6133351
- 418891 words of memory out of 5000000
+ 419891 words of memory out of 5000000
  22298 multiletter control sequences out of 15000+600000
  17271 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,18n,42p,10381b,826s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,18n,42p,10381b,824s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -988,7 +987,7 @@ e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
 2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
 016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/201
 6/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on note_0821.pdf (6 pages, 228126 bytes).
+Output written on note_0821.pdf (6 pages, 228442 bytes).
 PDF statistics:
  171 PDF objects out of 1000 (max. 8388607)
  135 compressed objects within 2 object streams
