@@ -115,7 +115,7 @@ We use lower-case letters $(a, b, \ldots)$ for scalars and vectors, upper-case b
 
 
 \begin{pro}\label{eq:defn}
-Let $\mX\in\mathbb{R}^{d\times p}$ be a full-rank matrix, where $\text{rank}(\mX)=p\leq d$. The SVD of $\mX$ can be expressed as $\mX=\mP\Delta\mQ^T$, where $\mP\in\mathbb{R}^{d\times p}$ and $\mQ\in\mathbb{R}^{p\times p}$ consist of, respectively, the left and right singular vectors, and $\Delta\in\mathbb{R}^{p\times p}$ is the diagonal matrix consisting of non-zero singular values. The following properties hold:
+Let $\mX\in\mathbb{R}^{d\times p}$ be a rank-$r$ matrix with $p\leq d$. The SVD of $\mX$ can be expressed as $\mX=\mP\Delta\mQ^T$, where $\mP\in\mathbb{R}^{d\times r}$ and $\mQ\in\mathbb{R}^{p\times r}$ consist of, respectively, the left and right singular vectors, and $\Delta\in\mathbb{R}^{s\times r}$ is the diagonal matrix consisting of non-zero singular values. The following properties hold:
 \begin{enumerate}
 %\item $(\mX^T\mX)^{1/2}=\mQ\Delta\in\mathbb{R}^{p\times s}$,
 \item $(\mX^T\mX)^{-1/2}=\mQ\Delta^{-1}\mQ^T$.
@@ -187,7 +187,7 @@ Let $\hat \tB_{\text{MLE}}$ be the restricted rank-$\mr$ maximum likelihood esti
 \[
 \hat \tB_{\text{MLE}}=\argmin_{\tB\colon \text{rank}(\tB)=\mr, \mnormSize{}{\tB}\leq \alpha}} \text{Log-lik}\ (\tB; \tY, \{\mX_k\}).
 \]
-Suppose the covariates $\mX_k$ are full rank and satisfy the RIP condition with RIP constant $\delta \in(0,1)$. 
+Suppose the covariates $\mX_k$ satisfy the RIP condition with RIP constant $\delta \in(0,1)$. 
 Then, with very high probability,
 \[
 \Fnorm{\hat \tB_{\text{MLE}}-\tB_{\text{true}}}\leq {C_\alpha\over \sqrt{\prod_k d_k}} \sqrt{ {(1+\delta_{2\mr,2\alpha})\over (1-\delta_{2\mr,2\alpha})^2}{\prod^K_{k=1} r_k\over r_{\max}} \sum^K_{k=1} p_k},
