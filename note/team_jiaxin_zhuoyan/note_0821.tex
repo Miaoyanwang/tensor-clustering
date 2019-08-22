@@ -103,8 +103,9 @@
 
 \begin{document}
 \begin{center}
-{\bf \large Statistical analysis of low-rank binary tensor regression}\\
-Miaoyan Wang, first draft on 08/13, updated on 08/21
+{\bf \large Paper Sketch for AISTATS\\
+Tentative title: ``Binary tensor regression with multi-mode features''}\\
+first draft on 08/13, updated on 08/21
 \end{center}
 
 \section{Preliminaries}
@@ -168,11 +169,21 @@ d(1-\delta_{\mr,\alpha})\Fnorm{\tB}^2\leq \Fnorm{\tB \times_1\mX_1\times_2\cdots
 holds for all tensors $\tB\in \tP(\mr,\alpha)$ in the parameter space. 
 \end{ass}
 \begin{rmk}
-The RIP assumption requires the covariates at each of the modes are nearly orthonormal, at least when restricted to the desired parameter space. 
+The RIP assumption requires the covariates at each of the modes are nearly orthonormal, at least when restricted to the desired parameter space. The RIP condition is a relatively mild assumption on the covariates. In particular, it incorporates the fixed design and Gaussian random design as special cases. 
 \end{rmk}
 
-\begin{prop} [Random design] Suppose $\mX_k \in\mathbb{R}^{d_k\times p_k}$ consists of i.i.d.\ standard Gaussian entries for $k=1,\ldots,K$. Then with very high probability, $\mX_k$ satisfies the RIP condition with $\delta=2$.
-\end{prop}
+\begin{exmp} [Gaussian Random design] Suppose $\mX_k \in\mathbb{R}^{d_k\times p_k}$ are random matrix with i.i.d.\ standard Gaussian entries, where ${p_k\over d_k}=\lambda_k\in(0,1)$ for all $k=1,\ldots,K$. Then, with very high probability, $\{\mX_k\}$ satisfy the RIP condition. In particular, the RIP constant can be chosen as
+\[
+\delta_{\mr,\alpha}=\max\left\{ -1+\prod_k (1+\lambda_k),\ 1-\prod_k (1-\lambda_k)\right\} \in (0,1)}.
+\]
+\end{exmp}
+
+\begin{exmp}[Fixed design] Suppose $\mX_k \in\mathbb{R}^{d_k\times p_k}$ are deterministic matrices whose singular values satisfy
+\[
+{ \sigma_{\max}(\mX_k)\over \sigma_{\min}(\mX_k)} \in[1,2),\quad \text{for all }k=1,\ldots,K.
+\]
+Then, $\{\mX_k\}$ (upon proper rescaling) satisfy the RIP condition.
+\end{exmp}
 
 \begin{thm} [Main Results]
 \label{thm:main}
@@ -193,6 +204,38 @@ where $C_\alpha>0$ is a constant independent of the tensor dimension or rank.
 See Zhuoyan's note ``Evidence theory on prediction error'' (08/09) and Jiaxin's note ``Boundaries for different prediction error metrics'' (08/09). 
 \end{thm}
 
+\section{Experiments}
+{\bf Algorithm sketch}. Please refer to earlier notes for algorithm. \\
+{\bf Rank selection}: We propose to use Bayesian information criterion (BIC) and choose the rank that minimizes BIC; i.e.
+\[
+\hat \mr=\argmin_{\mr=(r_1,\ldots,r_K)'} BIC(\mr)=\argmin_{\mr=(r_1,\ldots,r_K)'}\left[-2\text{Log-lik}(\hat \Theta)+p_e(r_1,\ldots,r_K)\log \left(\prod_k d_k\right) \right],
+\]
+where $p_e(r_1,\ldots,r_K)\stackrel{\text{def}}{=}\sum_k (d_k-1)r_k+\prod_k r_k$ is the effective number of parameters in the model. 
+
+{\bf Performance.} There are several issues summarized in the note ``Summary\_of\_last\_semester\_
+and\_summer\_plan.pdf''. The main issues are
+\begin{itemize}
+\item The choice of distribution to generate the core tensor. Bad estimation when the core is generated i.i.d.\ $N(0,1)$, $N(10,1)$, $\text{Unif}[0,1]$ or $\text{Unif}[0,10]$.
+\item When to stop? ``It is reported that when we run more iterations, the result sometime seems not better or even worse.''
+\item Unbounded estimation. ``Sometimes, when we check the real scale of U?, there may some entries with extremely large values''.
+\end{itemize}
+We have proposed to impose an infinity-norm constraint to the optimization. Which of the following leads to the best result?
+\begin{enumerate}
+\item Update the core tensor to the feasible region via conjugate gradient solver. (good MSE, but haven not checked its performance on ``bad'' distributions. )
+\item Update the core by global downscaling.
+\item Update the factor matrixes by backward linear search (computationally slow).
+\end{enumerate}
+
+
+MSE exhibits good agreement between simulation and theory. More figures to come.\\
+To-do list:
+\begin{itemize}
+\item Assess the sensitivity of algorithm on the ``distribution'' on core tensor. 
+\item Understand the bad convergence that arises in simulations.  
+\item Evaluate the BIC rank selection accuracy via simulation.
+\item Evaluate the MSE for supervised regression.
+\item Apply the method to a real dataset. Possible dataset: multi-relational social networks with user attributes; air-flight connection map with flight attributes; or nation data with multilayer political networks (already tried; see earlier note). 
+\end{itemize}
 \section{Proofs}
 
 \begin{proof}[Proof of Theorem~\ref{thm:main}]
