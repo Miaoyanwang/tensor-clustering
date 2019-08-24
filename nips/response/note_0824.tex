@@ -1,0 +1,137 @@
+\documentclass[11pt]{article}
+\usepackage{lscape}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{bm}
+\usepackage{gensymb}
+\allowdisplaybreaks[4]
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{setspace}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{dsfont}
+
+\usepackage{graphics}
+\usepackage[noend]{algorithmic}
+\usepackage[utf8x]{inputenc}
+\usepackage{bm}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor = blue,
+    linkcolor=blue,
+    filecolor=magenta,           
+    urlcolor=cyan,
+}
+
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{pro}{Property}
+\newtheorem{cor}{Corollary}
+\newtheorem{ass}{Assumption}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{exmp}{Example}
+\newtheorem{rmk}{Remark}
+
+
+
+\usepackage[labelfont=bf]{caption}
+
+\setcounter{table}{1}
+ % \usepackage[labelformat=empty]{ caption}
+\usepackage{multirow}
+\usepackage{tabularx}
+
+\def\fixme#1#2{\textbf{[FIXME (#1): #2]}}
+
+ 
+
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+  \mathop{%
+    \mathchoice
+    {\underbrace{\displaystyle#1}}%
+    {\underbrace{\textstyle#1}}%
+    {\underbrace{\scriptstyle#1}}%
+    {\underbrace{\scriptscriptstyle#1}}%
+  }\limits
+}
+% \usepackage[initials]{amsrefs}
+%\usepackage{amsaddr}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+\usepackage[parfill]{parskip}
+\usepackage{bm}
+\onehalfspacing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%             Math Symbols
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%               Bold Math
+\input macros.tex
+\def\refer#1{\emph{\color{blue}#1}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{15}\selectfont}
+
+\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
+
+
+%\author{%
+%Yuchen Zeng \\
+%University of Wisconsin -- Madison\\
+ %\texttt{yzeng58@wisc.edu} \\
+%\And
+%Miaoyan Wang \\
+%University of Wisconsin -- Madison\\
+%\texttt{miaoyan.wang@wisc.edu} \\
+%}
+
+\begin{document}
+\begin{center}
+{\bf \large Proof sketch}
+\end{center}
+
+Without loss of generality, assume $\mP_k=\mI_k$ for all $k=1,\ldots,K$. 
+ 
+First show that: Suppose $\text{MCR}(\mM_k,\ \hat \mM_k)\geq \varepsilon$, then there exists $r_k\neq r'_k\in [R_k]$ such that $\min\{ D_{r_kr_k},D_{r_kr'_k}\} \geq {\varepsilon \over R_k^2}$.
+
+Then show that: Suppose $\text{MCR}(\mM_1,\ \hat \mM_1)\geq \varepsilon$. Then there exists $r_1\in [R_k]$, such that for any $(r_2,\ldots,r_K)\in[d_2]\times \cdots \times [d_K]$ and any $(a_2,\ldots,a_K)\in[d_2]\times \cdots \times [d_K]$, the following inequality holds:
+\begin{align}\label{eq:3}
+&{ \tN (\mD^{(1)}, \ldots, \mD^{(K)})_{r_1 r_2\ldots r_K}\over w_{r_1r_2\ldots r_K}} -f (z_{r_1r_2 \ldots r_K})\nonumber \\
+\geq & {1\over 2w_{r_1r_2\ldots r_K}} \left( \mD^{(1)}_{r_1r_1}\mD^{(2)}_{a_2r_2}\cdots  \mD^{(K)}_{a_Kr_K}(c_{r_1a_2\ldots a_K} -z_{r_1r_2\ldots r_K})^2+  \mD^{(1)}_{r'_1r_1}\mD^{(2)}_{a_2r_2}\cdots \mD^{(K)}_{a_Kr_K}(c_{r'_1a_2\ldots a_k} -z_{r_1r_2\ldots r_K})^2\right) \nonumber\\
+\geq &{1\over 2w_{r_1r_2\ldots r_K}} \min\left\{\mD^{(1)}_{r_1r_1}, \mD^{(1)}_{r'_1r_1}\right\}   \left ( (c_{r_1a_2\ldots a_k} -z_{r_1r_2\ldots r_K})^2+(c_{r'_1a_2\ldots a_K} -z_{r_1r_2\ldots r_K})^2  \right)\mD^{(2)}_{a_2r_2}\cdots \mD^{(K)}_{a_Kr_K} \nonumber\\
+%\geq &{1\over 4W}{\varepsilon\over R^2} \mD_{a_2r_2}\ldots \mD_{a_Kr_K} \left(c_{r_1a_2\ldots a_K}-c_{r'_1a_2\ldots,a_K}\right)^2\\
+\geq & {1\over 4w_{r_1r_2\ldots r_K}}{\delta_{\min}\varepsilon \over R_1^2} \mD^{(2)}_{a_2r_2}\cdots \mD^{(K)}_{a_Kr_K}.
+\end{align}
+Here $\tN=\entry{f(c_{r_1 \ldots r_K})}\in\mathbb{R}^{R_1\times \cdots R_K}$ is the loss function evaluated at each block, $\tN (\mD^{(1)}, \ldots, \mD^{(K)})=\tN\times_1 {\mD^{(1)}}^T\times_2\cdots\times_K {\mD^{(K)}}^T$ is the weighted value of the loss function, $z_{r_1\ldots,r_K}={1\over w_{r_1\ldots r_K}}\tC(\mD^{(1)},\ldots,\mD^{(K)})_{r_1\ldots r_K}$ is the $(r_1\ldots r_k)$-th weighted entry of the block means.
+
+Third: Taking sum of~\eqref{eq:3} over $(r_2,\ldots,r_K)$ gives
+\begin{align}\label{eq:1}
+\sum_{r_2,\ldots,r_K}\left( w_{r_1 r_2 \ldots r_K}f(z_{r_1r_2\ldots r_K})-\tN(\mD^{(1)},\ldots,\mD^{(K)})_{r_1 r_2\ldots r_K} \right)& \leq - {1\over 4} {\delta_{\min}\varepsilon \over R^2_1} \sum_{r_2,\ldots,r_K}\mD^{(2)}_{a_2r_2}\cdots\mD^{(K)}_{a_Kr_K}\nonumber\\
+&\leq -{\delta_{\min} \tau^{K-1}\varepsilon\over 4 R^2_1}.
+\end{align}
+
+Note that the inequality~\eqref{eq:1} holds for a certain $r_1\in[R_1]$. For any other $a_1=\{1,\ldots, R_1\}/\{r_1\}$, by Jensen's inequality we have
+\begin{equation}\label{eq:2}
+\sum_{a_2,\ldots,a_K}\left(w_{a_1a_2 \ldots a_K}f(z_{a_1a_2\ldots a_K})-\tN(\mD^{(1)},\ldots,\mD^{(K)})_{a_1a_2\ldots a_K}\right)\leq 0,\quad \text{for all }a_1\in [d_1]/\{r_1\}.
+\end{equation}
+Combining~\eqref{eq:1} and~\eqref{eq:2} yields
+\[
+\sum_{a_1,\ldots,a_K}...&=\sum_{a_1=r_1, (a_2,\ldots,a_K)\in[d_2]\times \cdots \times [d_K]}...+\sum_{a_1\in[R_1]/\{r_1\}, (a_2,\ldots,a_K)\in[d_2]\times \cdots \times [d_K]} ...\leq-{\delta_{\min}\tau^{K-1}\varepsilon\over 4R^2_1}.
+\]
+\end{document}
