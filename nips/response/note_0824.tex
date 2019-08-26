@@ -108,9 +108,12 @@
 
 Without loss of generality, assume $\mP_k=\mI_k$ for all $k=1,\ldots,K$. 
  
-First show that: Suppose $\text{MCR}(\mM_k,\ \hat \mM_k)\geq \varepsilon$, then there exists $r_k\neq r'_k\in [R_k]$ such that $\min\{ D_{r_kr_k},D_{r_kr'_k}\} \geq {\varepsilon \over R_k^2}$.
 
-Then show that: Suppose $\text{MCR}(\mM_1,\ \hat \mM_1)\geq \varepsilon$. Then there exists $r_1\in [R_k]$, such that for any $(r_2,\ldots,r_K)\in[d_2]\times \cdots \times [d_K]$ and any $(a_2,\ldots,a_K)\in[d_2]\times \cdots \times [d_K]$, the following inequality holds:
+First show that: Suppose $\text{MCR}(\mM_k,\ \hat \mM_k)\geq \varepsilon$, then there exist $r_k\neq r'_k\in [R_k]$ such that at least one of the following two events holds: (1) $\mD_{r_kr_k} \geq \mD_{r_kr'_k} \geq {\varepsilon \over R_k^2}$, or (2) $\mD_{r_kr_k} \geq \mD_{r'_kr_k} \geq {\varepsilon \over R_k^2}$. We provide the proof when the case (2) holds. The proof under case (1) can be obtained similarly. 
+
+Suppose (2) does not hold. Then for any $r_k\in[K]$, $\mD_{r_kr_k}$
+
+Second show that: Suppose $\mD_{r_1r_1} \geq \mD_{r'_1r_1} \geq {\varepsilon \over R_1^2}$ holds from some $r_1,  r'_1\in[R_1]$, where $r_1\neq r'_1$. Then, for any $(r_2,\ldots,r_K)\in[d_2]\times \cdots \times [d_K]$ and any $(a_2,\ldots,a_K)\in[d_2]\times \cdots \times [d_K]$, the following inequality holds:
 \begin{align}\label{eq:3}
 &{ \tN (\mD^{(1)}, \ldots, \mD^{(K)})_{r_1 r_2\ldots r_K}\over w_{r_1r_2\ldots r_K}} -f (z_{r_1r_2 \ldots r_K})\nonumber \\
 \geq & {1\over 2w_{r_1r_2\ldots r_K}} \left( \mD^{(1)}_{r_1r_1}\mD^{(2)}_{a_2r_2}\cdots  \mD^{(K)}_{a_Kr_K}(c_{r_1a_2\ldots a_K} -z_{r_1r_2\ldots r_K})^2+  \mD^{(1)}_{r'_1r_1}\mD^{(2)}_{a_2r_2}\cdots \mD^{(K)}_{a_Kr_K}(c_{r'_1a_2\ldots a_k} -z_{r_1r_2\ldots r_K})^2\right) \nonumber\\
