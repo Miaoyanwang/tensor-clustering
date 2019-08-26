@@ -47,8 +47,9 @@ glm_mat = function(Y,start,X){
 
 ###########---------  GLM on two modes
 ##---  This section follows 1.3 of [Algorithm: Semi-Supervised Binary Tensor Factorization]
+## add the linear model option for initilization
 ##---  function version
-glm_two = function(Y, X1, X2, ini = FALSE, start){ ## Y_size = m * n
+glm_two = function(Y, X1, X2, ini = FALSE, start, linear=FALSE){ ## Y_size = m * n
   #X2 = t(X2)
   # logit(E(Y)) = X1 %*% coe %*% X2
   m = dim(Y)[1] ; n = dim(Y)[2]
@@ -64,9 +65,17 @@ glm_two = function(Y, X1, X2, ini = FALSE, start){ ## Y_size = m * n
   }
   
   if(ini == TRUE){
-    coe_start = rnorm(q1*q2)
-  }
+      coe_start = rnorm(q1*q2)
+    }
   else {coe_start = as.vector(start)}
+  
+  if(linear==TRUE){
+     mod_re = lm(10*(2*as.vector(Y)-1)~-1+N_long)
+     coe = matrix(mod_re[[1]], nrow = q1, ncol = q2)
+     lglk= logLik(mod_re)
+     return(list(coe = coe, lglk = lglk))
+        
+  }
   
   mod_re = glm_modify(as.vector(Y), N_long, coe_start)
   coe = mod_re[[1]]
@@ -76,9 +85,10 @@ glm_two = function(Y, X1, X2, ini = FALSE, start){ ## Y_size = m * n
 }
 
 #####---- This function is a parallel version of GLM on two modes, used for initialization
-glm_two_mat = function(Y, X1, X2, ini = TRUE, start = NULL){
+## add the linear model option for initilization
+glm_two_mat = function(Y, X1, X2, ini = TRUE, start = NULL,linear){
   Yl = lapply(seq(dim(Y)[3]), function(x) Y[ , , x])
-  re = lapply(Yl, glm_two, X1, X2, ini = ini)
+  re = lapply(Yl, glm_two, X1, X2, ini = ini,linear=linear)
   
   coe = lapply(seq(length(re)), function(x) re[[x]]$coe) ## extract coe
   coe = array(unlist(coe), dim = c(dim(X1)[2],dim(X2)[1],dim(Y)[3]))  ## form coe
@@ -101,15 +111,15 @@ update_binary = function(tsr, X_covar1, X_covar2, core_shape, Nsim){
   
   
   ## get initialization
-  C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE)
-  
+  C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=TRUE) ## add the linear model option for initilization
+
 
   # C_ts_1 = glm_mat(Y_1,start = matrix(0,p,d2*d3),X_covar)[[1]]
   # C_ts = fold(C_ts_1, row_idx = 1, col_idx = c(2,3),modes = c(p,d2,d3))@data
   
   C_ts = as.tensor(C_ts)
   tckr = tucker(C_ts, ranks = core_shape)
-  W1 = tckr$U[[1]] ; w2 = tckr$U[[2]] ; C = tckr$U[[3]]
+  W1 = tckr$U[[1]] ; W2 = tckr$U[[2]] ; C = tckr$U[[3]]
   G = tckr$Z
   A = X_covar1%*%W1
   B = X_covar2%*%W2
@@ -183,7 +193,7 @@ update_binary = function(tsr, X_covar1, X_covar2, core_shape, Nsim){
     # B = t(re[[1]])
     # lglk[4*n - 2] = re[[2]]
     
-    ## orthogonal W1*
+    ## orthogonal W2*
     C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))
     tuk = tucker(C_ts, ranks = core_shape)
     G = tuk$Z
@@ -224,6 +234,13 @@ update_binary = function(tsr, X_covar1, X_covar2, core_shape, Nsim){
     C = tuk$U[[3]]
     print("C Done------------------")
     
+    ###### added by miaoyan ######
+    ##### calculate A
+    A = X_covar1%*%W1
+    
+    ##### calculate B
+    B = X_covar2%*%W2
+    ############################
     
     ##### update G
     M_long = matrix(0,nrow = d1*d2*d3, ncol = r1*r2*r3)

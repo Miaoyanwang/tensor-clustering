@@ -52,7 +52,7 @@ glm_mat = function(Y,start,X){
 #################  update
 # This part follows Sec 1.3 to update core tensor and factor matrix
 
-update_binary = function(ts, core_shape, Nsim){
+update_binary_raw = function(ts, core_shape, Nsim){
   ## get initialization
   ts1 = 10*(2*ts - 1)
   ts1 = as.tensor(ts1)
@@ -183,7 +183,7 @@ ts = as.tensor(array(ts,dim = c(d1,d2,d3)))@data
 
 
 
-upp = update_binary(ts,c(r1,r2,r3),100)
+upp = update_binary_raw(ts,c(r1,r2,r3),100)
 
 U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
 ### U_est: estimated ground truth
