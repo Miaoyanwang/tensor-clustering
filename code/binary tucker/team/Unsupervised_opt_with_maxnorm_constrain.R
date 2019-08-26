@@ -158,9 +158,16 @@ update_binary_cons = function(ts, core_shape, Nsim, lambda=1, alpha = 1e+1){
     
     ## orthogonal C*  and scale down (if needed)
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
-    if(max(U@data) <= alpha){U = U}
-    else {
-      U = U/max(U@data)*alpha
+    
+    #if(max(U@data) <= alpha){U = U}
+    #else {
+    #  U = U/max(U@data)*alpha
+    #  print("Violate constrain ------------------")
+    #}
+    
+    if(max((U@data)) >= alpha){
+      U = U/max((U@data))*(alpha-0.01) #minus 0.01 to prevent the largest element achieve \alpha
+      #if the largest element is \alpha, the penalty function still can't work
       print("Violate constrain ------------------")
     }
     
@@ -182,9 +189,6 @@ update_binary_cons = function(ts, core_shape, Nsim, lambda=1, alpha = 1e+1){
         }
       }
     }
-    
-    
-    
     
     mod_re = optim(par = as.vector(G@data),loss,loss_gr,y = as.vector(ts@data),
                X = M_long, lambda = lambda, alpha = alpha, method="CG")
