@@ -169,8 +169,11 @@ update_binary_cons = function(ts, core_shape, Nsim, lambda=1, alpha = 1e+1){
     #  print("Violate constrain ------------------")
     #}
     
-    if(max((U@data)) >= alpha){
-      U = U/max((U@data))*(alpha-0.01) #minus 0.01 to prevent the largest element achieve \alpha
+    if(max(abs((U@data))) >= alpha){
+      #U = U/max((U@data))*(alpha-0.01) 
+      U = as.tensor(sign(U@data)*abs(U@data))/max(abs((U@data)))*(alpha-0.01)
+      # to constrain the absolute value otherwise the penalty can't be initialized
+      #minus 0.01 to prevent the largest element achieve \alpha
       #if the largest element is \alpha, the penalty function still can't work
       print("Violate constrain ------------------")
     }
