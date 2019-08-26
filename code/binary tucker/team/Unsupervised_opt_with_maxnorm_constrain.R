@@ -62,10 +62,10 @@ glm_modify=function(y,x,start){
   ini_loglik=sum(log(inv.logit((2*y-1)*(x%*%start))))
   
   ## Option 1: glm fittig with default initilization
-  fit1 = glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F))
+  fit1 = suppressWarnings(glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F)))
   
   ## Option 2: glm with user specified initilization
-  fit2= glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F),start=start)
+  fit2= suppressWarnings(glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F),start=start))
   
   ## report the result whichever gives the highest likelihood
   if(max(logLik(fit1),logLik(fit2))<ini_loglik) return (list(start, ini_loglik))
