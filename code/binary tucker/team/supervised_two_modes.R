@@ -52,17 +52,22 @@ glm_mat = function(Y,start,X){
 glm_two = function(Y, X1, X2, ini = FALSE, start, linear=FALSE){ ## Y_size = m * n
   #X2 = t(X2)
   # logit(E(Y)) = X1 %*% coe %*% X2
-  m = dim(Y)[1] ; n = dim(Y)[2]
+  # m = dim(Y)[1] ; n = dim(Y)[2]
   q1 = dim(X1)[2] ; q2 = dim(X2)[1]
   
-  N_long = matrix(0,nrow = m*n, ncol = q1*q2)
-  k=1
-  for(j in 1:n){
-    for(i in 1:m){
-      N_long[k,] =  kronecker_list(list(X2[,j],X1[i,]))
-      k = k + 1
-    }
-  }
+   ######### deleted by Miaoyan
+  #N_long = matrix(0,nrow = m*n, ncol = q1*q2)
+  #k=1
+  #for(j in 1:n){
+  #  for(i in 1:m){
+  #    N_long[k,] =  kronecker_list(list(X2[,j],X1[i,]))
+  #    k = k + 1
+  #  }
+  # }
+   ######## added by Miaoyan. The following  command is faster than the loop
+N_long=rTensor::unfold(as.tensor(t(X2)%o%X1),row_idx=c(3,1),col_idx=c(4,2)) 
+  N_long=N_long@data
+    ######## 
   
   if(ini == TRUE){
       coe_start = rnorm(q1*q2)
