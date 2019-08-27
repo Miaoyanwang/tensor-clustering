@@ -412,12 +412,12 @@ update_binary_vanilla = function(ts, core_shape, Nsim, alpha = 1e+1){
     G_new = as.tensor(array(data = coe,dim = core_shape))
     U_new = ttl(G_new,list(A,B,C),ms = c(1,2,3))
     
-    if(max(U_new@data) <= alpha){
+    if(max(abs(U_new@data)) < alpha){
       G = G_new
       lglk[4*n] = mod_re[[2]]
     }
     else {
-      U = U_new/max(U_new@data)*alpha
+      U = U_new/max(abs(U_new@data))*(alpha-0.01)
       tuk = tucker(U, ranks = core_shape)
       G = tuk$Z
       A = tuk$U[[1]]
