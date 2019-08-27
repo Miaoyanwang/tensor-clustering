@@ -304,6 +304,29 @@ sele_rank = function(ts, X_covar1, X_covar2, rank, linear){
   return(rank(which(BIC = min(BIC))))
 }
 
+#### This function is to select the lambda in the CG constrain version
+select_lambda = function(ts,trueU,lambda){
+  #tsr is an array
+  #trueU is an array
+  #have selected the rank
+  
+  d1 = dim(ts)[1]; d2 = dim(ts)[2]; d3 = dim(ts)[3]
+  r1 = dim(trueU)[1] ; r2 = dim(trueU)[2] ; r3 = dim(trueU)[3]
+  
+  len = length(lambda)
+  rmse = c()
+  
+  for (i in 1:len) {
+    upp2 = update_binary_cons(ts,c(r1,r2,r3),Nsim = 50, lambda = lambda[i], alpha = 10* max(abs(trueU)))
+    U_est2 = ttl(upp2$G,list(upp2$A,upp2$B,upp2$C),ms = c(1,2,3))@data
+    
+    rmse[i] =  sum((U_est2 - trueU)^2)/(d1*d2*d3)
+  }
+  
+  best_lambda = lambda[order(rmse)[1]]
+  return(best_lambda)
+}
+
 
 
 
