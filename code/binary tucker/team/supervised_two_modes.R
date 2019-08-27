@@ -65,6 +65,7 @@ glm_two = function(Y, X1, X2, ini = FALSE, start, linear=FALSE){ ## Y_size = m *
   #  }
   # }
    ######## added by Miaoyan. The following  command is faster than the loop
+   ######## added by Miaoyan. The following  command is faster than the above loop
 N_long=rTensor::unfold(as.tensor(t(X2)%o%X1),row_idx=c(3,1),col_idx=c(4,2)) 
   N_long=N_long@data
     ######## 
