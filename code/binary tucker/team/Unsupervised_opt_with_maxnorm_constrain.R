@@ -417,7 +417,7 @@ update_binary_vanilla = function(ts, core_shape, Nsim, alpha = 1e+1){
       lglk[4*n] = mod_re[[2]]
     }
     else {
-      U = U_new/max(abs(U_new@data))*(alpha-0.01)
+      U = U_new/max(abs(U_new@data))*(alpha)
       tuk = tucker(U, ranks = core_shape)
       G = tuk$Z
       A = tuk$U[[1]]
