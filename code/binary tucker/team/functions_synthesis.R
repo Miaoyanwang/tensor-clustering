@@ -123,7 +123,7 @@ glm_two_mat = function(Y, X1, X2, ini = TRUE, start = NULL,linear){
 # recommend the method require gradient(since it has higher convergence rate)
 
 update_binary = function(tsr, X_covar1, X_covar2, core_shape, Nsim, linear = TRUE, 
-                         cons, lambda = 1, alpha = 1, solver = NULL){
+                         cons, lambda = 1, alpha = 1, solver = "CG"){
   
   tsr = as.tensor(tsr)
   Y_1 = unfold(tsr, row_idx = 1, col_idx = c(2,3))@data
@@ -135,7 +135,8 @@ update_binary = function(tsr, X_covar1, X_covar2, core_shape, Nsim, linear = TRU
   
   
   ## get initialization
-  C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear) ## add the linear model option for initilization
+  C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear)
+  ## add the linear model option for initilization
   
   C_ts = as.tensor(C_ts)
   tckr = tucker(C_ts, ranks = core_shape)
@@ -208,18 +209,20 @@ update_binary = function(tsr, X_covar1, X_covar2, core_shape, Nsim, linear = TRU
     U = ttl(G,list(X_covar1%*%W1,X_covar2%*%W2,C),ms = c(1,2,3))@data
     
     if(cons == 'non'){C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))}
-    else if(max(abs(U)) <= alpha){C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))}
+    else if(max(abs(U)) < alpha){C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))}
     else if(cons == 'vanilla'){
       U = U/max(abs(U@data))*alpha
-      C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear) ## add the linear model option for initilization
+      C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear) 
+      ## add the linear model option for initilization
       C_ts = as.tensor(C_ts)
-      print("Violate constrain ------------------")
+      print("Violate vanilla constrain ------------------")
     }
     else{
       U = U/max(abs(U@data))*(alpha-0.01) 
-      C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear) ## add the linear model option for initilization
+      C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear)
+      ## add the linear model option for initilization
       C_ts = as.tensor(C_ts)
-      print("Violate constrain ------------------")
+      print("Violate conjugate constrain ------------------")
     }
     
     ## orthogonal C*
@@ -288,6 +291,29 @@ sele_rank = function(ts, X_covar1, X_covar2, rank, Nsim, linear, cons = 'penalty
   return(rank(which(BIC = min(BIC))))
 }
 
+#### This function is to select the lambda in the CG constrain version
+select_lambda = function(ts,trueU,lambda){
+  #tsr is an array
+  #trueU is an array
+  #have selected the rank
+  
+  d1 = dim(ts)[1]; d2 = dim(ts)[2]; d3 = dim(ts)[3]
+  r1 = dim(trueU)[1] ; r2 = dim(trueU)[2] ; r3 = dim(trueU)[3]
+  
+  len = length(lambda)
+  rmse = c()
+  
+  for (i in 1:len) {
+    upp2 = update_binary_cons(ts,c(r1,r2,r3),Nsim = 50, lambda = lambda[i], alpha = 10* max(abs(trueU)))
+    U_est2 = ttl(upp2$G,list(upp2$A,upp2$B,upp2$C),ms = c(1,2,3))@data
+    
+    rmse[i] =  sum((U_est2 - trueU)^2)/(d1*d2*d3)
+  }
+  
+  best_lambda = lambda[order(rmse)[1]]
+  return(best_lambda)
+}
+
 
 
 
@@ -331,8 +357,9 @@ gene_data = function(whole_shape = c(20,20,20), core_shape = c(3,3,3),dis,
 
 
 
-conv_rate = function(d,r,Nsim = 50,cons,lambda = 1){
-  #cons can be "non","CG","vanilla"
+conv_rate = function(d,r,Nsim = 50,cons,lambda = 1,X_covar1, X_covar2,linear = TRUE,solver = "CG",
+                     dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1){
+  #cons can be "non","vanilla","penalty"
   rate = rep(0,length(d))
   RMSE = rep(0,length(d))
   for (i in 1:length(d)) {
@@ -341,17 +368,21 @@ conv_rate = function(d,r,Nsim = 50,cons,lambda = 1){
     ts = data$ts
     RMSEi = rep(0,5)
     for (j in 1:5) {
-      if(cons == "non"){
-        upp = update_binary_non(ts[[j]],rep(r[i],3),Nsim)
-      }
-      else if(cons == "CG"){
-        alpha = 10*max(abs(U))
-        upp = update_binary_cons(ts[[j]],rep(r[i],3),Nsim, lambda = lambda, alpha = alpha)
-      }
-      else if(cons == "vanilla"){
-        alpha = 10*max(abs(U))
-        upp = update_binary_vanilla(ts[[j]],rep(r[i],3),Nsim, alpha = alpha)
-      }
+      # if(cons == "non"){
+      #   upp = update_binary_non(ts[[j]],rep(r[i],3),Nsim)
+      # }
+      # else if(cons == "CG"){
+      #   #alpha = 10*max(abs(U))
+      #   upp = update_binary_cons(ts[[j]],rep(r[i],3),Nsim, lambda = lambda, alpha = 10*max(abs(U)))
+      # }
+      # else if(cons == "vanilla"){
+      #   #alpha = 10*max(abs(U))
+      #   upp = update_binary_vanilla(ts[[j]],rep(r[i],3),Nsim, alpha = 10*max(abs(U)))
+      # }
+      
+      upp = update_binary(ts[[j]], X_covar1, X_covar2, rep(r[i],3), Nsim, linear = linear, 
+                          cons, lambda = lambda, alpha = 10*max(abs(U)), solver = solver)
+      
       U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
       RMSEi[j] = sqrt(sum((U_est - U)^2)/(d[i]^3))
       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
