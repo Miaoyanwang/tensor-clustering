@@ -210,13 +210,13 @@ update_binary = function(tsr, X_covar1, X_covar2, core_shape, Nsim, linear = TRU
     if(cons == 'non'){C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))}
     else if(max(abs(U)) <= alpha){C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))}
     else if(cons == 'vanilla'){
-      U = U/max(abs(U_new@data))*alpha
+      U = U/max(abs(U@data))*alpha
       C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear) ## add the linear model option for initilization
       C_ts = as.tensor(C_ts)
       print("Violate constrain ------------------")
     }
     else{
-      U = U/max((U@data))*(alpha-0.01) 
+      U = U/max(abs(U@data))*(alpha-0.01) 
       C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear) ## add the linear model option for initilization
       C_ts = as.tensor(C_ts)
       print("Violate constrain ------------------")
