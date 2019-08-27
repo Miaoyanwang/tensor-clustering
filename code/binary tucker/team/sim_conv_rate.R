@@ -1,8 +1,10 @@
 
 ### simulation
 ### This script set simulation and using constrained simulation
-
-gene_data = function(whole_shape = c(20,20,20), core_shape = c(3,3,3)){
+gene_data = function(whole_shape = c(20,20,20), core_shape = c(3,3,3),dis,
+                     gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1){ 
+  #dis can be "gaussian" and "uniform"
+  
   d1 = whole_shape[1] ; d2 = whole_shape[2] ; d3 = whole_shape[3]
   r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3]
   ####-------- generate data
@@ -11,8 +13,13 @@ gene_data = function(whole_shape = c(20,20,20), core_shape = c(3,3,3)){
   B = randortho(d2)[,1:r2]     ## factor matrix
   C = randortho(d3)[,1:r3]     ## factor matrix
   
-  ### G: core tensor
-  G = as.tensor(array(data = rnorm(r1*r2*r3,mean = 0,sd = 10),dim = core_shape))
+   ### G: core tensor
+  if(dis == "gaussian"){
+    G = as.tensor(array(data = rnorm(r1*r2*r3,mean = gs_mean,sd = gs_sd),dim = core_shape))
+  }
+  else if(dis == "uniform"){
+    G = as.tensor(array(data = runif(r1*r2*r3,min = unf_a,max = unf_b),dim = core_shape))
+  }
   ###
   #G = as.tensor(array(data = runif(r1*r2*r3,0,1),dim = core_shape))
   
