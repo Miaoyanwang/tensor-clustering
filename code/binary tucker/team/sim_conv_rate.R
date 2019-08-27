@@ -68,22 +68,52 @@ plot(as.vector(inv.logit(U)),as.vector(inv.logit(U_est2)));abline(0,1)
 ######------------------------------   convergence rate 
 ## --------------------   using penalty
 ##-------  lambda = 1
-conv_rate = function(d, r){
+# 
+# conv_rate = function(d, r){
+#   rate = rep(0,length(d))
+#   RMSE = rep(0,length(d))
+#   for (i in 1:length(d)) {
+#     data = gene_data(rep(d[i],3), rep(r[i],3))
+#     U = data$U
+#     ts = data$ts
+#     
+#     RMSEi = rep(0,5)
+#     for(j in 1:5){
+#       upp = update_binary_cons(ts[[j]],rep(r[i],3),40,lambda = 1, alpha = 10*max(U))
+#       U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
+#       RMSEi[j] = sqrt(sum((U_est - U)^2)/d[i]^3)
+#       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
+#     }
+#     
+#     RMSE[i] = mean(RMSEi)
+#     rate[i] = r[i]^2/d[i]^2
+#   }
+#   return(list(RMSE = RMSE, rate = rate))
+# }
+
+conv_rate = function(d,r,Nsim = 50,cons,lambda = 1,alpha = NULL){
+  #cons can be "non","CG","vanilla"
   rate = rep(0,length(d))
   RMSE = rep(0,length(d))
   for (i in 1:length(d)) {
     data = gene_data(rep(d[i],3), rep(r[i],3))
     U = data$U
     ts = data$ts
-    
     RMSEi = rep(0,5)
-    for(j in 1:5){
-      upp = update_binary_cons(ts[[j]],rep(r[i],3),40,lambda = 1, alpha = 10*max(U))
+    for (j in 1:5) {
+      if(cons == "non"){
+        upp = update_binary_non(ts[[j]],rep(r[i],3),Nsim)
+      }
+      else if(cons == "CG"){
+        upp = update_binary_cons(ts[[j]],rep(r[i],3),Nsim, lambda = lambda, alpha = alpha)
+      }
+      else if(cons == "vanilla"){
+        upp = update_binary_vanilla(ts[[j]],rep(r[i],3),Nsim, alpha = alpha)
+      }
       U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
-      RMSEi[j] = sqrt(sum((U_est - U)^2)/d[i]^3)
+      RMSEi[j] = sqrt(sum((U_est - U)^2)/(d[i]^3))
       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
     }
-    
     RMSE[i] = mean(RMSEi)
     rate[i] = r[i]^2/d[i]^2
   }
