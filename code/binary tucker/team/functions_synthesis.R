@@ -291,20 +291,22 @@ sele_rank = function(ts, X_covar1, X_covar2, rank, Nsim, linear, cons = 'penalty
   return(rank(which(BIC = min(BIC))))
 }
 
-#### This function is to select the lambda in the CG constrain version
-select_lambda = function(ts,trueU,lambda){
+#### This function is to select the lambda in the penalty constrain version
+select_lambda = function(tsr,trueU,lambda, X_covar1, X_covar2, Nsim, linear = TRUE){
+  #lambda is a sequence of lambda options 
   #tsr is an array
   #trueU is an array
   #have selected the rank
   
-  d1 = dim(ts)[1]; d2 = dim(ts)[2]; d3 = dim(ts)[3]
+  d1 = dim(tsr)[1]; d2 = dim(tsr)[2]; d3 = dim(tsr)[3]
   r1 = dim(trueU)[1] ; r2 = dim(trueU)[2] ; r3 = dim(trueU)[3]
   
   len = length(lambda)
   rmse = c()
   
   for (i in 1:len) {
-    upp2 = update_binary_cons(ts,c(r1,r2,r3),Nsim = 50, lambda = lambda[i], alpha = 10* max(abs(trueU)))
+    upp2 = update_binary(tsr, X_covar1, X_covar2, core_shape = c(r1,r2,r3), Nsim, linear = linear,
+                         cons = "penalty", lambda = lambda[i], alpha = 10*max(abs(trueU)), solver = "CG")
     U_est2 = ttl(upp2$G,list(upp2$A,upp2$B,upp2$C),ms = c(1,2,3))@data
     
     rmse[i] =  sum((U_est2 - trueU)^2)/(d1*d2*d3)
@@ -313,8 +315,6 @@ select_lambda = function(ts,trueU,lambda){
   best_lambda = lambda[order(rmse)[1]]
   return(best_lambda)
 }
-
-
 
 
 
