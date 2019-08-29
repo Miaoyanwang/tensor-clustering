@@ -444,6 +444,26 @@ conv_rate = function(d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1
 }
 
 
+#######---------  codes for visualization
+re_non = read.csv('Unsupervised_result/seed24_non_constrain_rank_35678.csv',header = TRUE)
+
+re_va = read.csv('Unsupervised_result/seed24_va_rank_35678.csv',header = TRUE)
+
+re_mom = read.csv('Unsupervised_result/seed24_momentum.csv',header = T)
+
+library(ggplot2)
+
+ggplot(re_non, aes(x = d, y = RMSE)) + geom_line(aes(color = as.factor(rank)),size = 1.5)  +
+  geom_point(aes(shape =  as.factor(rank)), size = 3) +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))
+
+
+ggplot(re_non, aes(x = rate, y = RMSE)) + geom_line(aes(color = as.factor(rank)),size = 2)  +
+  geom_point(aes(shape =  as.factor(rank)), size = 3)  + 
+  geom_smooth(method = 'lm',formula = y~x) + 
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))
 
 
 
