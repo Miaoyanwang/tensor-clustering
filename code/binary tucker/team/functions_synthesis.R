@@ -414,6 +414,7 @@ gene_data = function(whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p2,dis,
 
 
 
+
 conv_rate = function(d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, 
                      dup, Nsim, linear = TRUE, cons = 'vanilla' ,lambda = 1,
                      alpha = 1, solver = NULL){
