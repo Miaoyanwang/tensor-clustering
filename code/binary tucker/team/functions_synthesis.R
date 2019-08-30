@@ -232,7 +232,15 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     print("G Done------------------")
     
     print(paste(n,"-th  iteration ---- when dimension is ",d1,"-- rank is ",r1," -----------------"))
-    if(abs(lglk[4*n-1] - lglk[4*n-2]) <= 0.0005) break
+    #if(abs(lglk[4*n-1] - lglk[4*n-2]) <= 0.0005) break
+    #if use vanilla constrain, it may happen than on the first iteration, the likelihood would drop.
+    if(cons == "vanilla") {
+      if(lglk[4*n] - lglk[4*n-1] <= 0.00005 & n >= 20) break
+      
+    }
+    else{
+      if(lglk[4*n] - lglk[4*n-1] <= 0.00005) break
+    }
     
   }
   return(list(A = A,B = B,C = C,G = G,lglk = lglk))
