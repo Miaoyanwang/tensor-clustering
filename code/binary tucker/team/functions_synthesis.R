@@ -140,6 +140,8 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
   Y_2 = unfold(tsr, row_idx = 2, col_idx = c(1,3))@data
   Y_3 = unfold(tsr, row_idx = 3, col_idx = c(1,2))@data
   
+  violate = c() ## which iteration violate constrain
+  
   lglk = rep(0,4*Nsim)
   for(n in 1:Nsim){
     
@@ -196,10 +198,12 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     else if(cons == 'vanilla'){
       U = U/max(abs(U))*alpha
       print("Violate constrain ------------------")
+      violate = c(violate,n)
     }
     else{
       U = U/max(abs(U))*(alpha-0.01)
       print("Violate constrain ------------------")
+      violate = c(violate,n)
     }
     
     ## orthogonal C*
@@ -235,7 +239,7 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     if(abs(lglk[4*n-1] - lglk[4*n-2]) <= 0.0005) break
     
   }
-  return(list(A = A,B = B,C = C,G = G,lglk = lglk))
+  return(list(A = A,B = B,C = C,G = G,lglk = lglk, violate = violate))
 }
 
 ###-----   supervised
@@ -337,13 +341,13 @@ update_binary = function(tsr, X_covar1 = NULL, X_covar2 = NULL, core_shape, Nsim
     else if(max(abs(U)) <= alpha){C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))}
     else if(cons == 'vanilla'){
       U = U/max(abs(U))*alpha
-      C_ts = glm_two_mat(U, X_covar1, t(X_covar2), ini = TRUE,linear=linear, lm = TRUE) ## add the linear model option for initilization
+      C_ts = glm_two_mat(U, X_covar1, t(X_covar2), ini = TRUE,linear=FALSE, lm = TRUE) ## add the linear model option for initilization
       C_ts = as.tensor(C_ts)
       print("Violate constrain ------------------")
     }
     else{
       U = U/max(abs(U))*(alpha-0.01)
-      C_ts = glm_two_mat(U, X_covar1, t(X_covar2), ini = TRUE,linear=linear, lm = TRUE) ## add the linear model option for initilization
+      C_ts = glm_two_mat(U, X_covar1, t(X_covar2), ini = TRUE,linear=FALSE, lm = TRUE) ## add the linear model option for initilization
       C_ts = as.tensor(C_ts)
       print("Violate constrain ------------------")
     }
@@ -365,6 +369,9 @@ update_binary = function(tsr, X_covar1 = NULL, X_covar2 = NULL, core_shape, Nsim
     ##### calculate B
     B = X_covar2%*%W2
     ############################
+    
+    #U = ttl(G,list(X_covar1%*%W1,X_covar2%*%W2,C),ms = c(1,2,3))@data
+    #print(max(abs(U))/alpha)
     
     ##### update G
     M_long = kronecker_list(list(C,B,A)) ## form M_long
@@ -489,14 +496,14 @@ gene_data_un = function(whole_shape = c(20,20,20), core_shape = c(3,3,3),dis,
 #####---- This is the function used for generating data through different distribution
 #         of core tensor in supervised setting
 #         dup: number of dupplicate generated from one ground truth
-gene_data = function(whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p2,dis,
+gene_data = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p2,dis,
                      gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, dup){
   #dis can be "gaussian" and "uniform"
   
   d1 = whole_shape[1] ; d2 = whole_shape[2] ; d3 = whole_shape[3]
   r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3]
   ####-------- generate data
-  set.seed(24)  # 24 # 37  #  347
+  set.seed(seed)  # 24 # 37  #  347
   
   X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 10),d1,p1)
   X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd = 10),d2,p2)
@@ -529,14 +536,14 @@ gene_data = function(whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p2,dis,
 
 
 
-conv_rate = function(d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, 
+conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, 
                      dup, Nsim, linear = TRUE, cons = 'vanilla' ,lambda = 1,
-                     alpha = 1, solver = NULL){
+                      solver = NULL){
   #cons can be "non","vanilla","penalty"
   rate = rep(0,length(d))
   RMSE = rep(0,length(d))
   for (i in 1:length(d)) {
-    data = gene_data(rep(d[i],3), rep(r[i],3), p1[i], p2[i], dis, gs_mean, gs_sd, unf_a, unf_b, dup)
+    data = gene_data(seed,rep(d[i],3), rep(r[i],3), p1[i], p2[i], dis, gs_mean, gs_sd, unf_a, unf_b, dup)
     X_covar1 = data$X_covar1
     X_covar2 = data$X_covar2
     U = data$U
