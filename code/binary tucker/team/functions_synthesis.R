@@ -528,6 +528,8 @@ gene_data = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p
     G = as.tensor(array(data = runif(r1*r2*r3,min = unf_a,max = unf_b),dim = core_shape))
   }
   
+  ### true coefficient
+  C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))@data
   ### U: ground truth
   U = ttl(G,list(X_covar1%*%W1,X_covar2%*%W2,C),ms = c(1,2,3))@data
   
@@ -538,7 +540,7 @@ gene_data = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p
     tsr[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data
   }
   
-  return(list(X_covar1 = X_covar1, X_covar2 = X_covar2, U = U,tsr = tsr))
+  return(list(X_covar1 = X_covar1, X_covar2 = X_covar2,C_ts = C_ts, U = U,tsr = tsr))
 }
 
 
@@ -554,6 +556,7 @@ conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_
     data = gene_data(seed,rep(d[i],3), rep(r[i],3), p1[i], p2[i], dis, gs_mean, gs_sd, unf_a, unf_b, dup)
     X_covar1 = data$X_covar1
     X_covar2 = data$X_covar2
+    C_ts = C_ts
     U = data$U
     tsr = data$tsr
     RMSEi = rep(0,dup)
@@ -562,12 +565,13 @@ conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_
                           core_shape =  rep(r[i],3), Nsim, linear, cons, lambda = 1, 
                           alpha = 10*max(abs(U)), solver = NULL)
       
-      U_est = ttl(upp$G,list(X_covar1%*%upp$W1,X_covar2%*%upp$W2,upp$C),ms = c(1,2,3))@data
-      RMSEi[j] = sqrt(sum((U_est - U)^2)/(d[i]^3))
+      C_ts_est = ttl(upp$G,list(upp$W1,upp$W2,upp$C),ms = c(1,2,3))@data
+      #U_est = ttl(upp$G,list(X_covar1%*%upp$W1,X_covar2%*%upp$W2,upp$C),ms = c(1,2,3))@data
+      RMSEi[j] = sqrt(sum((C_ts_est - C_ts)^2)/(d[i]^3))
       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
     }
     RMSE[i] = mean(RMSEi)
-    rate[i] = r[i]^2/d[i]^2
+    rate[i] = r[i]^2*(d[i] + p1[i] + p2[i])/d[i]^3
   }
   return(list(RMSE = RMSE, rate = rate))
 }
