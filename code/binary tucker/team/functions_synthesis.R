@@ -243,7 +243,7 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
       
     }
     else{
-      if(lglk[4*n] - lglk[4*n-1] <= 0.00005) break
+      if(lglk[4*n-1] - lglk[4*n-2] <= 0.00005) break
     }
     
   }
@@ -571,19 +571,6 @@ conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_
   }
   return(list(RMSE = RMSE, rate = rate))
 }
-
-###-----   select lambda in supervised version
-
-sele_lambda = function(seed, lambda, ...){
-  #lambda = as.list(lambda)
-  re = lapply(lambda, FUN = conv_rate, seed = seed, ...)
-  re = lapply(seq(length(re)), function(x) re[[x]]$RMSE)
-  return(re)
-}
-
-# re = sele_lambda(seed = 24, lambda = c(2,3),  d = 20,r = 3, p1 = 5, p2 = 5, dis = 'gaussian',gs_mean = 0,gs_sd = 1,unf_a = 0,unf_b = 1, 
-#                  dup = 1, Nsim = 1, linear = TRUE, cons = 'penalty' ,
-#                  solver = 'CG')
 
 
 #######---------  codes for visualization
