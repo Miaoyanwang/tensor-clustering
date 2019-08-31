@@ -562,7 +562,7 @@ conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_
     RMSEi = rep(0,dup)
     for (j in 1:dup) {
       upp = update_binary(tsr = tsr[[j]], X_covar1 = X_covar1, X_covar2 = X_covar2, 
-                          core_shape =  rep(r[i],3), Nsim, linear, cons, lambda = 1, 
+                          core_shape =  rep(r[i],3), Nsim, linear, cons, lambda = lambda, 
                           alpha = 10*max(abs(U)), solver = NULL)
       
       C_ts_est = ttl(upp$G,list(upp$W1,upp$W2,upp$C),ms = c(1,2,3))@data
