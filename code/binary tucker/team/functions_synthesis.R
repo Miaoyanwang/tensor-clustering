@@ -556,7 +556,7 @@ conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_
     data = gene_data(seed,rep(d[i],3), rep(r[i],3), p1[i], p2[i], dis, gs_mean, gs_sd, unf_a, unf_b, dup)
     X_covar1 = data$X_covar1
     X_covar2 = data$X_covar2
-    C_ts = C_ts
+    C_ts = data$C_ts
     U = data$U
     tsr = data$tsr
     RMSEi = rep(0,dup)
