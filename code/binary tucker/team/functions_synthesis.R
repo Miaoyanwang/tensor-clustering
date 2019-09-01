@@ -424,14 +424,13 @@ sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, rank = c(3,5,6,8), N
   for(i in 1:length(rank)){
     if((is.null(X_covar1)) & (is.null(X_covar2)) | (all.equal(X_covar1,diag(dim(tsr)[1])) & all.equal(X_covar2,diag(dim(tsr)[2])))){
       upp = update_binary_un(tsr, rep(rank[i],3), Nsim, cons = cons)
-      log_Lik = max(upp$lglk)
       BIC[i] = -2*log_Lik + (rank[i]^3 + sum((whole_shape-1)*rank[i]))*log(prod(whole_shape))
     }
     else {
       upp = update_binary(tsr, X_covar1, X_covar2, rep(rank[i],3), Nsim, linear, cons = cons)
-      log_Lik = max(upp$lglk)
       BIC[i] = -2*log_Lik + (rank[i]^3 + sum((c(dim(X_covar1)[2],dim(X_covar2)[2],whole_shape[3])-1)*rank[i]))*log(prod(whole_shape))
     }
+    log_Lik = max(upp$lglk)
     
     
   }
@@ -468,14 +467,14 @@ select_lambda = function(tsr,trueU,lambda, X_covar1, X_covar2, Nsim, linear = TR
 ###----  functions for simulation
 #####---- This is the function used for generating data through different distribution
 #         of core tensor in unsupervised setting
-gene_data_un = function(whole_shape = c(20,20,20), core_shape = c(3,3,3),dis,
-                     gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1){ 
+gene_data_un = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),dis,
+                     gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, dup){ 
   #dis can be "gaussian" and "uniform"
   
   d1 = whole_shape[1] ; d2 = whole_shape[2] ; d3 = whole_shape[3]
   r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3]
   ####-------- generate data
-  set.seed(24)  # 24 # 37  #  347
+  set.seed(seed)  # 24 # 37  #  347
   A = randortho(d1)[,1:r1]     ## factor matrix
   B = randortho(d2)[,1:r2]     ## factor matrix
   C = randortho(d3)[,1:r3]     ## factor matrix
@@ -493,7 +492,7 @@ gene_data_un = function(whole_shape = c(20,20,20), core_shape = c(3,3,3),dis,
   
   ### ts:binary tensor
   ts = list()
-  for (i in 1:5) {
+  for (i in 1:dup) {
     binary = rbinom(d1*d2*d3,1,prob = as.vector( 1/(1 + exp(-U)) ) )
     ts[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data
   }
@@ -599,6 +598,37 @@ ggplot(re_non, aes(x = rate, y = RMSE)) + geom_line(aes(color = as.factor(rank))
         axis.title=element_text(size=14,face="bold"))
 
 
+####----  reproduce figure 2 and 6 result
+##--============ figure 2
+data = gene_data_un(37, whole_shape = c(20,20,20), core_shape = c(3,3,3),dis = 'gaussian',
+                        gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, 1)
+U = data$U
+tsr = data$ts[[1]]
+upp = update_binary_un(tsr, core_shape = c(3,3,3), Nsim = 20, cons = 'non', lambda = 1, alpha = 1, solver = NULL)
+  
+### U_est: estimated ground truth
+U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
+
+
+plot(as.vector(U),as.vector(U_est));abline(0,1)   ## plot U vs U_est
+plot(as.vector(inv.logit(U)),as.vector(inv.logit(U_est)));abline(0,1)  ## plot U vs U_est in logical scale
+
+##--============ figure 6
+
+data = gene_data_un(37, whole_shape = c(20,20,20), core_shape = c(3,3,3),dis = 'uniform',
+                    gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 100, 1)
+U = data$U
+tsr = data$ts[[1]]
+upp = update_binary_un(tsr, core_shape = c(3,3,3), Nsim = 20, cons = 'non', lambda = 1, alpha = 1, solver = NULL)
+
+### U_est: estimated ground truth
+U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
+
+
+plot(as.vector(U),as.vector(U_est));abline(0,1)   ## plot U vs U_est
+plot(as.vector(inv.logit(U)),as.vector(inv.logit(U_est)));abline(0,1)  ## plot U vs U_est in logical scale
 
 
 
+                            
+                            
