@@ -576,12 +576,14 @@ gene_data = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p
   U = ttl(G,list(X_covar1%*%W1,X_covar2%*%W2,C),ms = c(1,2,3))@data
   
   ### tsr:binary tensor
-  tsr = list()
-  for (i in 1:dup) {
-    binary = rbinom(d1*d2*d3,1,prob = as.vector( 1/(1 + exp(-U)) ) )
-    tsr[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data
-  }
+  tsr = lapply(seq(dup), function(x) array(rbinom(d1*d2*d3,1,
+                                                  prob = as.vector( 1/(1 + exp(-U)))) , dim = c(d1,d2,d3)))
   
+  # tsr = list()
+  # for (i in 1:dup) {
+  #   binary = rbinom(d1*d2*d3,1,prob = as.vector( 1/(1 + exp(-U)) ) )
+  #   tsr[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data}
+  # 
   return(list(X_covar1 = X_covar1, X_covar2 = X_covar2,C_ts = C_ts, U = U,tsr = tsr))
 }
 
