@@ -581,8 +581,8 @@ gene_data = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p
   
   # tsr = list()
   # for (i in 1:dup) {
-  #   binary = rbinom(d1*d2*d3,1,prob = as.vector( 1/(1 + exp(-U)) ) )
-  #   tsr[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data}
+  #  binary = rbinom(d1*d2*d3,1,prob = as.vector( 1/(1 + exp(-U)) ) )
+  #  tsr[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data}
   # 
   return(list(X_covar1 = X_covar1, X_covar2 = X_covar2,C_ts = C_ts, U = U,tsr = tsr))
 }
@@ -615,7 +615,7 @@ conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_
       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
     }
     RMSE[i] = mean(RMSEi)
-    rate[i] = r[i]^2*(d[i] + p1[i] + p2[i])/d[i]^3
+    rate[i] = r[i]^2*(d[i] + p1[i] + p2[i])/d[i]^2
   }
   return(list(RMSE = RMSE, rate = rate))
 }
