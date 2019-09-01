@@ -451,8 +451,8 @@ sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, rank = c(3,5), Nsim,
   }
   else {
     upp = lapply(rank, FUN= update_binary,tsr = tsr,X_covar1 = X_covar1, 
-                 X_covar2 = X_covar2, Nsim = Nsim, linear = linear, cons = 'penalty', lambda = 1,
-                 alpha = 10*max(abs(U)), solver = 'CG')
+                 X_covar2 = X_covar2, Nsim = Nsim, linear = linear, cons = cons,
+                 alpha = 10*max(abs(U)))
   }
   log_lik = unlist(lapply(seq(length(upp)), function(x) max(upp[[x]]$lglk)))
   if(is.null(X_covar1)) X_covar1 = diag(d1)
