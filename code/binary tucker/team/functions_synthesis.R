@@ -417,25 +417,61 @@ update_binary = function(tsr, X_covar1 = NULL, X_covar2 = NULL, core_shape, Nsim
 ###----  This function shows how we select rank 
 ##   recommend to use non-constrain verison to select rank
 
-sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, rank = c(3,5,6,8), Nsim,
+# sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, rank = c(3,5,6,8), Nsim,
+#                      linear = FALSE, cons = 'non'){
+#   BIC = rep(0,length(rank))
+#   whole_shape = dim(tsr)
+#   for(i in 1:length(rank)){
+#     if((is.null(X_covar1)) & (is.null(X_covar2)) | (all.equal(X_covar1,diag(dim(tsr)[1])) & all.equal(X_covar2,diag(dim(tsr)[2])))){
+#       upp = update_binary_un(tsr, rep(rank[i],3), Nsim, cons = cons)
+#       BIC[i] = -2*log_Lik + (rank[i]^3 + sum((whole_shape-1)*rank[i]))*log(prod(whole_shape))
+#     }
+#     else {
+#       upp = update_binary(tsr, X_covar1, X_covar2, rep(rank[i],3), Nsim, linear, cons = cons)
+#       BIC[i] = -2*log_Lik + (rank[i]^3 + sum((c(dim(X_covar1)[2],dim(X_covar2)[2],whole_shape[3])-1)*rank[i]))*log(prod(whole_shape))
+#     }
+#     log_Lik = max(upp$lglk)
+#     
+#     
+#   }
+#   return(rank = which(BIC == min(BIC)))
+# }
+
+
+sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, rank = c(3,5), Nsim,
                      linear = FALSE, cons = 'non'){
-  BIC = rep(0,length(rank))
+  rank = expand.grid(rank,rank,rank)
+  colnames(rank) = NULL
+  rank = as.matrix(rank)
   whole_shape = dim(tsr)
-  for(i in 1:length(rank)){
-    if((is.null(X_covar1)) & (is.null(X_covar2)) | (all.equal(X_covar1,diag(dim(tsr)[1])) & all.equal(X_covar2,diag(dim(tsr)[2])))){
-      upp = update_binary_un(tsr, rep(rank[i],3), Nsim, cons = cons)
-      BIC[i] = -2*log_Lik + (rank[i]^3 + sum((whole_shape-1)*rank[i]))*log(prod(whole_shape))
-    }
-    else {
-      upp = update_binary(tsr, X_covar1, X_covar2, rep(rank[i],3), Nsim, linear, cons = cons)
-      BIC[i] = -2*log_Lik + (rank[i]^3 + sum((c(dim(X_covar1)[2],dim(X_covar2)[2],whole_shape[3])-1)*rank[i]))*log(prod(whole_shape))
-    }
-    log_Lik = max(upp$lglk)
-    
+  rank = lapply(1:dim(rank)[1], function(x) rank[x,]) ## turn rank to a list
+  if((is.null(X_covar1)) & (is.null(X_covar2)) | (all.equal(X_covar1,diag(dim(tsr)[1])) & all.equal(X_covar2,diag(dim(tsr)[2])))){
+    upp = lapply(rank, FUN= update_binary_un,tsr = tsr, Nsim = Nsim, cons = cons)
     
   }
-  return(rank = which(BIC == min(BIC)))
+  else {
+    upp = lapply(rank, FUN= update_binary,tsr = tsr,X_covar1 = X_covar1, 
+                 X_covar2 = X_covar2, Nsim = Nsim, linear = linear, cons = 'penalty', lambda = 1,
+                 alpha = 10*max(abs(U)), solver = 'CG')
+  }
+  log_lik = unlist(lapply(seq(length(upp)), function(x) max(upp[[x]]$lglk)))
+  if(is.null(X_covar1)) X_covar1 = diag(d1)
+  if(is.null(X_covar2)) X_covar2 = diag(d2)
+  
+  BIC = unlist(lapply(seq(length(rank)), 
+                      function(x) (prod(rank[[x]]) + sum((c(dim(X_covar1)[2],dim(X_covar2)[2],
+                                                            whole_shape[3])-1)*
+                                                           rank[[x]])) * log(prod(whole_shape))))
+  BIC = -2*log_lik + BIC
+  # BIC = rep(0,length(rank))
+  # for(i in 1:length(rank)){
+  #     BIC[i] =  (prod(rank[[i]]) + sum((c(dim(X_covar1)[2],dim(X_covar2)[2],whole_shape[3])-1)*
+  #                                  rank[[i]]))*log(prod(whole_shape))
+  #   }
+  return(rank = rank[[which(BIC == min(BIC))]])
 }
+
+
 
 #### This function is to select the lambda in the penalty constrain version
 sele_lambda = function(seed, lambda, ...){
