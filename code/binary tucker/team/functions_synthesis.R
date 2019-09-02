@@ -554,8 +554,8 @@ gene_data = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p
   ####-------- generate data
   set.seed(seed)  # 24 # 37  #  347
   
-  X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 10),d1,p1)
-  X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd = 10),d2,p2)
+  X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 1),d1,p1)
+  X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd = 1),d2,p2)
   W1 = randortho(p1,type = c("orthonormal"))[,1:r1]
   W2 = randortho(p2,type = c("orthonormal"))[,1:r2]
   
