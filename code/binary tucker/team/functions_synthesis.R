@@ -151,7 +151,9 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     
     re = glm_mat(t(Y_1),start = t(A),t(G_BC1))
     
-    A = t(re[[1]])
+    if(dim(A)[2]==1) A=as.matrix(re[[1]])
+    else A = t(re[[1]])
+    
     lglk[4*n - 3] = re[[2]]
     ## orthogonal A*
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
@@ -168,7 +170,10 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     
     re = glm_mat(t(Y_2),start = t(B),t(G_AC2))
     
-    B = t(re[[1]])
+    
+    if(dim(B)[2]==1) B=as.matrix(re[[1]])
+    else B = t(re[[1]])
+    
     lglk[4*n - 2] = re[[2]]
     ## orthogonal B*
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
@@ -185,7 +190,9 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     
     re = glm_mat(t(Y_3),start = t(C),t(G_AB3))
     
-    C = t(re[[1]])
+    if(dim(C)[2]==1) C=as.matrix(re[[1]])
+    else C = t(re[[1]])
+    
     lglk[4*n - 1] = re[[2]]
     
     #########-----------------------------------------------
@@ -438,8 +445,7 @@ update_binary = function(tsr, X_covar1 = NULL, X_covar2 = NULL, core_shape, Nsim
 # }
 
 
-sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, rank = c(3,5), Nsim,
-                     linear = FALSE, cons = 'non'){
+sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, rank = c(3,5), Nsim,linear = FALSE, cons = 'non'){
   rank = expand.grid(rank,rank,rank)
   colnames(rank) = NULL
   rank = as.matrix(rank)
@@ -467,7 +473,8 @@ sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, rank = c(3,5), Nsim,
   #     BIC[i] =  (prod(rank[[i]]) + sum((c(dim(X_covar1)[2],dim(X_covar2)[2],whole_shape[3])-1)*
   #                                  rank[[i]]))*log(prod(whole_shape))
   #   }
-  return(rank = rank[[which(BIC == min(BIC))]])
+  res=cbind(data.frame(t(sapply(rank,c))),BIC)
+  return(list(rank = rank[[which(BIC == min(BIC))]],res=res))
 }
 
 
@@ -517,9 +524,10 @@ gene_data_un = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),d
   r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3]
   ####-------- generate data
   set.seed(seed)  # 24 # 37  #  347
-  A = randortho(d1)[,1:r1]     ## factor matrix
-  B = randortho(d2)[,1:r2]     ## factor matrix
-  C = randortho(d3)[,1:r3]     ## factor matrix
+  A = as.matrix(randortho(d1)[,1:r1])    ## factor matrix
+  B = as.matrix(randortho(d2)[,1:r2])     ## factor matrix
+  C = as.matrix(randortho(d3)[,1:r3])     ## factor matrix
+  
   
   ### G: core tensor
   if(dis == "gaussian"){
@@ -539,7 +547,7 @@ gene_data_un = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),d
     ts[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data
   }
   
-  return(list(U = U,ts = ts))
+  return(list(U = U,ts = ts,A=A,B=B,C=C,G=G))
 }
 
 #####---- This is the function used for generating data through different distribution
@@ -644,11 +652,10 @@ ggplot(re_non, aes(x = rate, y = RMSE)) + geom_line(aes(color = as.factor(rank))
 
 ####----  reproduce figure 2 and 6 result
 ##--============ figure 2
-data = gene_data_un(37, whole_shape = c(20,20,20), core_shape = c(3,3,3),dis = 'gaussian',
-                        gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, 1)
+data = gene_data_un(37, whole_shape = c(20,20,20), core_shape = c(1,1,1),dis = 'gaussian', gs_mean = 10,gs_sd = 1,unf_a = 0,unf_b = 1, 1)
 U = data$U
 tsr = data$ts[[1]]
-upp = update_binary_un(tsr, core_shape = c(3,3,3), Nsim = 20, cons = 'non', lambda = 1, alpha = 1, solver = NULL)
+upp = update_binary_un(tsr, core_shape = c(1,1,1), Nsim = 20, cons = 'non', lambda = 1, alpha = 1, solver = NULL)
   
 ### U_est: estimated ground truth
 U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
