@@ -280,9 +280,10 @@ update_binary = function(tsr, X_covar1 = NULL, X_covar2 = NULL, core_shape, Nsim
   Y_3 = unfold(tsr, row_idx = 3, col_idx = c(1,2))@data
   d1 = dim(tsr)[1] ; d2 = dim(tsr)[2] ; d3 = dim(tsr)[3]
   r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3]
-  p_1 = dim(X_covar1)[2] ; p_2 = dim(X_covar2)[2]
   if(is.null(X_covar1)) X_covar1 = diag(d1)
   if(is.null(X_covar2)) X_covar2 = diag(d2)
+  p_1 = dim(X_covar1)[2] ; p_2 = dim(X_covar2)[2]
+  
   
   ## get initialization
   C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear) ## add the linear model option for initilization
@@ -631,6 +632,7 @@ conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_
       #U_est = ttl(upp$G,list(X_covar1%*%upp$W1,X_covar2%*%upp$W2,upp$C),ms = c(1,2,3))@data
       RMSEi[j] = sqrt(sum((C_ts_est - C_ts)^2)/(d[i]^3))
       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
+      print(paste("p1 is ",p1[i],"---------  p2 is ",p2[i],"--------------------"))
     }
     RMSE[i] = mean(RMSEi)
     rate[i] = r[i]^2*(d[i] + p1[i] + p2[i])/d[i]^2
