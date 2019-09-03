@@ -196,32 +196,14 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     lglk[4*n - 1] = re[[2]]
     
     ## orthogonal C*
-    U = ttl(G,list(A,B,C),ms = c(1,2,3))
+    
+    U = as.tensor(U)
     tuk = tucker(U, ranks = core_shape)
     G = tuk$Z
     A = tuk$U[[1]]
     B = tuk$U[[2]]
     C = tuk$U[[3]]
     print("C Done------------------")
-    
-    ##### update G
-    M_long = kronecker_list(list(C,B,A)) ## form M_long
-    
-    if(cons == 'penalty'){
-        mod_re = optim(par = as.vector(G@data),loss,loss_gr,y = as.vector(tsr@data),
-        X = M_long, lambda = lambda, alpha = alpha, method = solver)
-        coe = mod_re$par
-        G = as.tensor(array(data = coe,dim = core_shape))
-        lglk[4*n] = -mod_re$value
-    }
-    else {
-        mod_re = glm_modify(as.vector(tsr@data), M_long, as.vector(G@data))
-        coe = mod_re[[1]]
-        G = as.tensor(array(data = coe,dim = core_shape))
-        lglk[4*n] = mod_re[[2]]
-    }
-    
-    print("G Done------------------")
     
     #########-----------------------------------------------
     ###  then we apply out constrain
@@ -241,15 +223,26 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
       violate = c(violate,n)
     }
     
-    ## scaled down U. 
-    U = ttl(G,list(A,B,C),ms = c(1,2,3))
-    tuk = tucker(U, ranks = core_shape)
-    G = tuk$Z
-    A = tuk$U[[1]]
-    B = tuk$U[[2]]
-    C = tuk$U[[3]]
     
     
+    ##### update G
+    M_long = kronecker_list(list(C,B,A)) ## form M_long
+    
+    if(cons == 'penalty'){
+      mod_re = optim(par = as.vector(G@data),loss,loss_gr,y = as.vector(tsr@data),
+                     X = M_long, lambda = lambda, alpha = alpha, method = solver)
+      coe = mod_re$par
+      G = as.tensor(array(data = coe,dim = core_shape))
+      lglk[4*n] = -mod_re$value
+    }
+    else {
+      mod_re = glm_modify(as.vector(tsr@data), M_long, as.vector(G@data))
+      coe = mod_re[[1]]
+      G = as.tensor(array(data = coe,dim = core_shape))
+      lglk[4*n] = mod_re[[2]]
+    }
+    
+    print("G Done------------------")
     
     print(paste(n,"-th  iteration ---- when dimension is ",d1,"-- rank is ",r1," -----------------"))
     #if(abs(lglk[4*n-1] - lglk[4*n-2]) <= 0.0005) break
