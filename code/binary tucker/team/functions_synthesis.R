@@ -286,9 +286,10 @@ update_binary = function(tsr, X_covar1 = NULL, X_covar2 = NULL, core_shape, Nsim
   Y_3 = unfold(tsr, row_idx = 3, col_idx = c(1,2))@data
   d1 = dim(tsr)[1] ; d2 = dim(tsr)[2] ; d3 = dim(tsr)[3]
   r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3]
-  p_1 = dim(X_covar1)[2] ; p_2 = dim(X_covar2)[2]
   if(is.null(X_covar1)) X_covar1 = diag(d1)
   if(is.null(X_covar2)) X_covar2 = diag(d2)
+  p_1 = dim(X_covar1)[2] ; p_2 = dim(X_covar2)[2]
+  
   
   ## get initialization
   C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2), ini = TRUE,linear=linear) ## add the linear model option for initilization
