@@ -25,8 +25,8 @@ loglike=function(data,linearpre){
     p=plogis(linearpre)
     p[p==1] = p[p==1] - 0.0001
     p[p==0] = p[p==0] + 0.0001
-    L=-data*log(p)-(1-data)*log(1-p)
-    return(sum(L))
+    L=data*log(p)+(1-data)*log(1-p)## log-likelihood
+    return(sum(L)) 
 }
 
 ## This part follows Sec 2.1.2 to compute Gradient of object function
@@ -208,18 +208,17 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     ######---- differnent version of contrains
     U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
     
-    if(cons == 'non'){U = U}
-    else if(max(abs(U)) <= alpha){U = U}
-    else if(cons == 'vanilla'){
+    if((cons == 'vanilla')&(max(abs(U))>=alpha)){
       U = U/max(abs(U))*alpha
       print("Violate constrain ------------------")
       violate = c(violate,n)
     }
-    else{
+    else if ((cons == 'penalty')&(max(abs(U))>=alpha)){
       U = U/max(abs(U))*(alpha-0.01)
       print("Violate constrain ------------------")
       violate = c(violate,n)
     }
+    else {U=U}
     
     ## orthogonal C*
     
@@ -247,7 +246,7 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
       G = as.tensor(array(data = coe,dim = core_shape))
       U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
       
-      if (cons== 'vanila'){
+      if ((cons== 'vanila')&(max(abs(U))>=alpha)){
       G=G/max(abs(U))*alpha
       U=U/max(abs(U))*alpha
       }
@@ -666,10 +665,10 @@ ggplot(re_non, aes(x = rate, y = RMSE)) + geom_line(aes(color = as.factor(rank))
 
 ####----  reproduce figure 2 and 6 result
 ##--============ figure 2
-data = gene_data_un(37, whole_shape = c(20,20,20), core_shape = c(1,1,1),dis = 'gaussian', gs_mean = 10,gs_sd = 1,unf_a = 0,unf_b = 1, 1)
+data = gene_data_un(37, whole_shape = c(10,10,10), core_shape = c(1,1,1),dis = 'gaussian', gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, 1)
 U = data$U
 tsr = data$ts[[1]]
-upp = update_binary_un(tsr, core_shape = c(1,1,1), Nsim = 30, cons = 'vanila', lambda = 1, alpha = max(abs(U)), solver = NULL)
+upp = update_binary_un(tsr, core_shape = c(1,1,1), Nsim = 30, cons = 'penalty', lambda = 1, alpha = 10*max(abs(U)), solver = "CG")
   
 ### U_est: estimated ground truth
 U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
