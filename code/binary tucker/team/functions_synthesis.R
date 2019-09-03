@@ -134,7 +134,7 @@ glm_two_mat = function(Y, X1, X2, ini = TRUE, start = NULL,linear, lm = FALSE){
 
 #################  update
 ###--------   unsupervised
-update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, solver = NULL){
+update_binary_un = function(tsr, core_shape, Nsim=20, cons, lambda = 0.1, alpha = 1, solver = NULL){
   ## get initialization
   tsr1 = 10*(2*tsr - 1)
   tsr1 = as.tensor(tsr1)
@@ -149,11 +149,15 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
   Y_3 = unfold(tsr, row_idx = 3, col_idx = c(1,2))@data
   
   violate = c() ## which iteration violate constrain
+  lglk0 = -Inf
+  lglk = c()
   
-  lglk = rep(0,4*Nsim)
   for(n in 1:Nsim){
-    
+      ## parameter from previous step
     ###### update A
+    A0=A;B0=B;C0=C;G0=G
+    if(n>=2) lglk0=tail(lglk, n=1)
+    
     G_BC = ttl(G, list(B,C), ms = c(2,3))
     G_BC1 = unfold(G_BC, row_idx = 1, col_idx = c(2,3))@data
     
@@ -162,7 +166,7 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     if(dim(A)[2]==1) A=as.matrix(re[[1]])
     else A = t(re[[1]])
     
-    lglk[4*n - 3] = re[[2]]
+    lglk = c(lglk,re[[2]])
     ## orthogonal A*
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
     tuk = tucker(U, ranks = core_shape)
@@ -182,7 +186,7 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     if(dim(B)[2]==1) B=as.matrix(re[[1]])
     else B = t(re[[1]])
     
-    lglk[4*n - 2] = re[[2]]
+    lglk = c(lglk,re[[2]])
     ## orthogonal B*
     U = ttl(G,list(A,B,C),ms = c(1,2,3))
     tuk = tucker(U, ranks = core_shape)
@@ -201,34 +205,29 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     if(dim(C)[2]==1) C=as.matrix(re[[1]])
     else C = t(re[[1]])
     
-    lglk[4*n - 1] = re[[2]]
-    
-    #########-----------------------------------------------
-    ###  then we apply out constrain
-    ######---- differnent version of contrains
-    U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
-    
-    if((cons == 'vanilla')&(max(abs(U))>=alpha)){
-      U = U/max(abs(U))*alpha
-      print("Violate constrain ------------------")
-      violate = c(violate,n)
-    }
-    else if ((cons == 'penalty')&(max(abs(U))>=alpha)){
-      U = U/max(abs(U))*(alpha-0.01)
-      print("Violate constrain ------------------")
-      violate = c(violate,n)
-    }
-    else {U=U}
+    lglk = c(lglk,re[[2]])
     
     ## orthogonal C*
-    
-    U = as.tensor(U)
-    tuk = tucker(U, ranks = core_shape)
+    U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
+    tuk = tucker(as.tensor(U), ranks = core_shape)
     G = tuk$Z
     A = tuk$U[[1]]
     B = tuk$U[[2]]
     C = tuk$U[[3]]
     print("C Done------------------")
+    
+    #########-----------------------------------------------
+    ###  then we apply constrain
+    ######---- differnent version of contrains
+    
+    ## scale down the core tensor. 
+    if(cons == 'non' | max(abs(U))<= alpha | cons == 'vanilla') {U=U}
+    else if (cons == 'penalty'){
+      G=G/max(abs(U))*(alpha-0.01)
+      U = U/max(abs(U))*(alpha-0.01)
+      print("Violate constrain ------------------")
+      violate = c(violate,n)
+    }
     
     ##### update G
     M_long = kronecker_list(list(C,B,A)) ## form M_long
@@ -238,7 +237,7 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
                      X = M_long, lambda = lambda, alpha = alpha, method = solver)
       coe = mod_re$par
       G = as.tensor(array(data = coe,dim = core_shape))
-      lglk[4*n] = -mod_re$value
+      lglk = c(lglk,-mod_re$value) 
     }
     else {
       mod_re = glm_modify(as.vector(tsr@data), M_long, as.vector(G@data))
@@ -246,27 +245,22 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
       G = as.tensor(array(data = coe,dim = core_shape))
       U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
       
-      if ((cons== 'vanila')&(max(abs(U))>=alpha)){
+      if ((cons== 'vanilla')&(max(abs(U))>=alpha)){
       G=G/max(abs(U))*alpha
       U=U/max(abs(U))*alpha
+      print("Violate constrain ------------------")
+      violate = c(violate,n)
       }
-      lglk[4*n] = loglike(tsr@data,U)
+      lglk = c(lglk,loglike(tsr@data,U))
     }
     
     print("G Done------------------")
     
     print(paste(n,"-th  iteration ---- when dimension is ",d1,"-- rank is ",r1," -----------------"))
-    #if(abs(lglk[4*n-1] - lglk[4*n-2]) <= 0.0005) break
-    #if use vanilla constrain, it may happen than on the first iteration, the likelihood would drop.
-    if(cons == "vanilla") {
-      if(lglk[4*n] - lglk[4*n-1] <= 0.00005 & n >= 20) break
-      
-    }
-    else{
-      if(lglk[4*n-1] - lglk[4*n-2] <= 0.00005) break
-    }
     
-  }
+    if (tail(lglk,1)-lglk0 <= 0.0005 ) break
+    
+ }
   return(list(A = A,B = B,C = C,G = G,lglk = lglk, violate = violate))
 }
 
@@ -530,7 +524,7 @@ sele_lambda = function(seed, lambda, ...){
 #####---- This is the function used for generating data through different distribution
 #         of core tensor in unsupervised setting
 gene_data_un = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),dis,
-                     gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, dup){ 
+                     gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, dup, signal){ 
   #dis can be "gaussian" and "uniform"
   
   d1 = whole_shape[1] ; d2 = whole_shape[2] ; d3 = whole_shape[3]
@@ -552,6 +546,9 @@ gene_data_un = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),d
   
   ### U: ground truth
   U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
+  G=G/max(abs(U))*signal
+  U=U/max(abs(U))*signal
+  
   
   ### ts:binary tensor
   ts = list()
@@ -560,6 +557,7 @@ gene_data_un = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),d
     ts[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data
   }
   
+
   return(list(U = U,ts = ts,A=A,B=B,C=C,G=G))
 }
 
@@ -665,16 +663,17 @@ ggplot(re_non, aes(x = rate, y = RMSE)) + geom_line(aes(color = as.factor(rank))
 
 ####----  reproduce figure 2 and 6 result
 ##--============ figure 2
-data = gene_data_un(37, whole_shape = c(10,10,10), core_shape = c(1,1,1),dis = 'gaussian', gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, 1)
+data = gene_data_un(37, whole_shape = c(10,10,10), core_shape = c(2,2,2),dis = 'gaussian', gs_mean = 0,gs_sd = 1,unf_a = 0,unf_b = 1, 1,signal=20)
 U = data$U
 tsr = data$ts[[1]]
-upp = update_binary_un(tsr, core_shape = c(1,1,1), Nsim = 30, cons = 'penalty', lambda = 1, alpha = 10*max(abs(U)), solver = "CG")
+upp = update_binary_un(tsr, core_shape = c(2,2,2), Nsim = 5, cons = 'non', lambda = 0.1, alpha = max(abs(U)), solver = "CG")
   
 ### U_est: estimated ground truth
 U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
 
-
 plot(as.vector(U),as.vector(U_est));abline(0,1)   ## plot U vs U_est
+
+
 plot(as.vector(inv.logit(U)),as.vector(inv.logit(U_est)));abline(0,1)  ## plot U vs U_est in logical scale
 
 ##--============ figure 6
