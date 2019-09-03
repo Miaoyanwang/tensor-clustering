@@ -1,0 +1,19 @@
+Package: binarg
+Title: What the Package Does (One Line, Title Case)
+Version: 1.0
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+Imports: rTensor, pracma, gtools, rgl, RColorBrewer
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+NeedsCompilation: no
+Packaged: 2019-09-01 05:48:20 UTC; Oliver
+Author: First Last [aut, cre] (<https://orcid.org/YOUR-ORCID-ID>)
+Maintainer: First Last <first.last@example.com>

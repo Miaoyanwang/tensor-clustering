@@ -21,14 +21,6 @@ loss = function(beta,y,X,lambda,alpha){
   return(c(L2))
 }
 
-loglike=function(data,linearpre){
-    p=plogis(linearpre)
-    p[p==1] = p[p==1] - 0.0001
-    p[p==0] = p[p==0] + 0.0001
-    L=data*log(p)+(1-data)*log(1-p)## log-likelihood
-    return(sum(L)) 
-}
-
 ## This part follows Sec 2.1.2 to compute Gradient of object function
 loss_gr <- function(beta,y,X,lambda,alpha){
   U = X %*% beta
@@ -203,23 +195,6 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     
     lglk[4*n - 1] = re[[2]]
     
-    #########-----------------------------------------------
-    ###  then we apply out constrain
-    ######---- differnent version of contrains
-    U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
-    
-    if((cons == 'vanilla')&(max(abs(U))>=alpha)){
-      U = U/max(abs(U))*alpha
-      print("Violate constrain ------------------")
-      violate = c(violate,n)
-    }
-    else if ((cons == 'penalty')&(max(abs(U))>=alpha)){
-      U = U/max(abs(U))*(alpha-0.01)
-      print("Violate constrain ------------------")
-      violate = c(violate,n)
-    }
-    else {U=U}
-    
     ## orthogonal C*
     
     U = as.tensor(U)
@@ -229,6 +204,26 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
     B = tuk$U[[2]]
     C = tuk$U[[3]]
     print("C Done------------------")
+    
+    #########-----------------------------------------------
+    ###  then we apply out constrain
+    ######---- differnent version of contrains
+    U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
+    
+    if(cons == 'non'){U = U}
+    else if(max(abs(U)) <= alpha){U = U}
+    else if(cons == 'vanilla'){
+      U = U/max(abs(U))*alpha
+      print("Violate constrain ------------------")
+      violate = c(violate,n)
+    }
+    else{
+      U = U/max(abs(U))*(alpha-0.01)
+      print("Violate constrain ------------------")
+      violate = c(violate,n)
+    }
+    
+    
     
     ##### update G
     M_long = kronecker_list(list(C,B,A)) ## form M_long
@@ -244,13 +239,7 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
       mod_re = glm_modify(as.vector(tsr@data), M_long, as.vector(G@data))
       coe = mod_re[[1]]
       G = as.tensor(array(data = coe,dim = core_shape))
-      U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
-      
-      if ((cons== 'vanila')&(max(abs(U))>=alpha)){
-      G=G/max(abs(U))*alpha
-      U=U/max(abs(U))*alpha
-      }
-      lglk[4*n] = loglike(tsr@data,U)
+      lglk[4*n] = mod_re[[2]]
     }
     
     print("G Done------------------")
@@ -633,7 +622,6 @@ conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_
       #U_est = ttl(upp$G,list(X_covar1%*%upp$W1,X_covar2%*%upp$W2,upp$C),ms = c(1,2,3))@data
       RMSEi[j] = sqrt(sum((C_ts_est - C_ts)^2)/(d[i]^3))
       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
-      print(paste("p1 is ",p1[i],"---------  p2 is ",p2[i],"--------------------"))
     }
     RMSE[i] = mean(RMSEi)
     rate[i] = r[i]^2*(d[i] + p1[i] + p2[i])/d[i]^2
@@ -666,10 +654,10 @@ ggplot(re_non, aes(x = rate, y = RMSE)) + geom_line(aes(color = as.factor(rank))
 
 ####----  reproduce figure 2 and 6 result
 ##--============ figure 2
-data = gene_data_un(37, whole_shape = c(10,10,10), core_shape = c(1,1,1),dis = 'gaussian', gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, 1)
+data = gene_data_un(37, whole_shape = c(20,20,20), core_shape = c(1,1,1),dis = 'gaussian', gs_mean = 10,gs_sd = 1,unf_a = 0,unf_b = 1, 1)
 U = data$U
 tsr = data$ts[[1]]
-upp = update_binary_un(tsr, core_shape = c(1,1,1), Nsim = 30, cons = 'penalty', lambda = 1, alpha = 10*max(abs(U)), solver = "CG")
+upp = update_binary_un(tsr, core_shape = c(1,1,1), Nsim = 30, cons = 'vanilla', lambda = 1, alpha = max(abs(U)), solver = NULL)
   
 ### U_est: estimated ground truth
 U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
