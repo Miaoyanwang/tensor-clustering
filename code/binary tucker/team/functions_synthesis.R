@@ -245,12 +245,13 @@ update_binary_un = function(tsr, core_shape, Nsim, cons, lambda = 1, alpha = 1, 
       mod_re = glm_modify(as.vector(tsr@data), M_long, as.vector(G@data))
       coe = mod_re[[1]]
       G = as.tensor(array(data = coe,dim = core_shape))
-      
-      if(cons== 'vanilla')
       U = ttl(G,list(A,B,C),ms = c(1,2,3))@data
+      
+      if (cons== 'vanila'){
       G=G/max(abs(U))*alpha
       U=U/max(abs(U))*alpha
-      lglk[4*n] = loglike(tsr@data,U@data)
+      }
+      lglk[4*n] = loglike(tsr@data,U)
     }
     
     print("G Done------------------")
