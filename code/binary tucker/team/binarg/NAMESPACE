@@ -1,0 +1,18 @@
+
+
+export(update_binary)
+export(update_binary_un)
+export(sele_rank)
+export(conv_rate)
+export(sele_lambda)
+
+importFrom("stats", "binomial", "coef", "glm", "lm", "logLik", "optim",
+               "plogis", "rnorm")
+
+importFrom("stats", "rbinom", "runif")
+
+import(rTensor)
+import(gtools)
+import(rgl)
+import(RColorBrewer)
+import(pracma)
