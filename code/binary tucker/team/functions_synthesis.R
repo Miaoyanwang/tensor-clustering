@@ -93,8 +93,7 @@ glm_two = function(Y, X1, X2, ini = FALSE, start, linear=FALSE, lm = FALSE # use
   N_long = kronecker_list(list(t(X2),X1))
   
   if(ini == TRUE){
-      #coe_start = rnorm(q1*q2)
-      coe_start = NULL
+      coe_start = rnorm(q1*q2)
   }
   else {coe_start = as.vector(start)}
   
