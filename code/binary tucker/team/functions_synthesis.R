@@ -153,7 +153,7 @@ update_binary_un = function(tsr, core_shape, Nsim=20, cons, lambda = 0.1, alpha 
   lglk = c()
   
   for(n in 1:Nsim){
-      ## parameter from previous step
+    ## parameter from previous step
     ###### update A
     A0=A;B0=B;C0=C;G0=G
     if(n>=2) lglk0=tail(lglk, n=1)
@@ -163,8 +163,7 @@ update_binary_un = function(tsr, core_shape, Nsim=20, cons, lambda = 0.1, alpha 
     
     re = glm_mat(t(Y_1),start = t(A),t(G_BC1))
     
-    if(dim(A)[2]==1) A=as.matrix(re[[1]])
-    else A = t(re[[1]])
+    if(dim(A)[2]==1) A=as.matrix(re[[1]]) else A = t(re[[1]])
     
     lglk = c(lglk,re[[2]])
     ## orthogonal A*
@@ -183,8 +182,7 @@ update_binary_un = function(tsr, core_shape, Nsim=20, cons, lambda = 0.1, alpha 
     re = glm_mat(t(Y_2),start = t(B),t(G_AC2))
     
     
-    if(dim(B)[2]==1) B=as.matrix(re[[1]])
-    else B = t(re[[1]])
+    if(dim(B)[2]==1) B=as.matrix(re[[1]]) else B = t(re[[1]])
     
     lglk = c(lglk,re[[2]])
     ## orthogonal B*
@@ -202,8 +200,7 @@ update_binary_un = function(tsr, core_shape, Nsim=20, cons, lambda = 0.1, alpha 
     
     re = glm_mat(t(Y_3),start = t(C),t(G_AB3))
     
-    if(dim(C)[2]==1) C=as.matrix(re[[1]])
-    else C = t(re[[1]])
+    if(dim(C)[2]==1) C=as.matrix(re[[1]]) else C = t(re[[1]])
     
     lglk = c(lglk,re[[2]])
     
@@ -258,7 +255,10 @@ update_binary_un = function(tsr, core_shape, Nsim=20, cons, lambda = 0.1, alpha 
     
     print(paste(n,"-th  iteration ---- when dimension is ",d1,"-- rank is ",r1," -----------------"))
     
-    if (tail(lglk,1)-lglk0 <= 0.0005 ) break
+    if (tail(lglk,1)-lglk0 <= 0.0005 & tail(lglk,1)>= lglk0 ) break
+    else if (tail(lglk,1)-lglk0 < 0) {
+        A=A0; B=B0; C=C0; G=G0; lglk=lglk; break
+    } 
     
  }
   return(list(A = A,B = B,C = C,G = G,lglk = lglk, violate = violate))
@@ -665,10 +665,10 @@ ggplot(re_non, aes(x = rate, y = RMSE)) + geom_line(aes(color = as.factor(rank))
 
 ####----  reproduce figure 2 and 6 result
 ##--============ figure 2
-data = gene_data_un(37, whole_shape = c(10,10,10), core_shape = c(2,2,2),dis = 'gaussian', gs_mean = 0,gs_sd = 1,unf_a = 0,unf_b = 1, 1,signal=20)
+data = gene_data_un(37, whole_shape = c(10,10,10), core_shape = c(1,1,1),dis = 'gaussian', gs_mean = 0,gs_sd = 1,unf_a = 0,unf_b = 1, 1,signal=10)
 U = data$U
 tsr = data$ts[[1]]
-upp = update_binary_un(tsr, core_shape = c(2,2,2), Nsim = 5, cons = 'non', lambda = 0.1, alpha = max(abs(U)), solver = "CG")
+upp = update_binary_un(tsr, core_shape = c(1,1,1), Nsim = 5, cons = 'vanilla', lambda = 0.1, alpha = max(abs(U)), solver = "CG")
   
 ### U_est: estimated ground truth
 U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
