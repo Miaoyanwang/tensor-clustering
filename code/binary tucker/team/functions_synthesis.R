@@ -42,12 +42,13 @@ loss_gr <- function(beta,y,X,lambda,alpha){
 # author: prof. Wang
 glm_modify=function(y,x,start){
   
-  ## initial coefficent
-  ini_loglik=sum(log(inv.logit((2*y-1)*(x%*%start))))
-  
   ## Option 1: glm fittig with default initilization
   fit1 = suppressWarnings(glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F)))
-  
+   
+  if(is.null(start)) return(list(coef(fit1), logLik(fit1)))
+    
+  ## initial coefficent
+  ini_loglik=sum(log(inv.logit((2*y-1)*(x%*%start))))
   ## Option 2: glm with user specified initilization
   fit2= suppressWarnings(glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F),start=start))
   
@@ -92,7 +93,8 @@ glm_two = function(Y, X1, X2, ini = FALSE, start, linear=FALSE, lm = FALSE # use
   N_long = kronecker_list(list(t(X2),X1))
   
   if(ini == TRUE){
-    coe_start = rnorm(q1*q2)
+      #coe_start = rnorm(q1*q2)
+      coe_start = NULL
   }
   else {coe_start = as.vector(start)}
   
@@ -122,10 +124,12 @@ glm_two = function(Y, X1, X2, ini = FALSE, start, linear=FALSE, lm = FALSE # use
 #####---- This function is a parallel version of GLM on two modes, used for initialization
 ## add the linear model option for initilization
 glm_two_mat = function(Y, X1, X2, ini = TRUE, start = NULL,linear, lm = FALSE){
-  Yl = lapply(seq(dim(Y)[3]), function(x) Y[ , , x])
-  re = lapply(Yl, glm_two, X1, X2, ini = ini,linear=linear, lm = lm)
+    
+   
+    Yl = lapply(seq(dim(Y)[3]), function(x) Y[ , , x])
+    re = lapply(Yl, glm_two, X1, X2, ini = ini,linear=linear, lm = lm)
+    coe = lapply(seq(length(re)), function(x) re[[x]]$coe) ## extract coe
   
-  coe = lapply(seq(length(re)), function(x) re[[x]]$coe) ## extract coe
   coe = array(unlist(coe), dim = c(dim(X1)[2],dim(X2)[1],dim(Y)[3]))  ## form coe
   return(coe)
 }
