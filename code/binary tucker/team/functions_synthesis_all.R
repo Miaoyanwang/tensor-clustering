@@ -124,6 +124,32 @@ glm_two_mat = function(Y, X1, X2, start = NULL,linear, lm = FALSE){
  return(coe)
 }
 
+glm_two_ini = function(Y, X1, X2, X3, start = NULL,linear, lm = FALSE, un_mode = 3){
+  if(un_mode == 1){
+    Yl = lapply(seq(dim(Y)[1]), function(x) Y[ x, , ])
+    re = lapply(Yl, glm_two, X2, t(X3),linear=linear, lm = lm)
+    coe = lapply(seq(length(re)), function(x) re[[x]]$coe) ## extract coe
+    coe = aperm(array(unlist(Yl),dim = c(dim(X2)[2],dim(X3)[2],dim(Y)[1])), perm = c(3,1,2) )
+    
+  } else if(un_mode == 2) {
+    Yl = lapply(seq(dim(Y)[2]), function(x) Y[ , x, ])
+    re = lapply(Yl, glm_two, X1, t(X3),linear=linear, lm = lm)
+    coe = lapply(seq(length(re)), function(x) re[[x]]$coe) ## extract coe
+    coe = aperm(array(unlist(Yl),dim = c(dim(X1)[2],dim(X3)[2],dim(Y)[2])), perm = c(1,3,2) )
+    
+  } else if(un_mode == 3) {
+    Yl = lapply(seq(dim(Y)[3]), function(x) Y[ , , x])
+    re = lapply(Yl, glm_two, X1, t(X2),linear=linear, lm = lm)
+    coe = lapply(seq(length(re)), function(x) re[[x]]$coe) ## extract coe
+    coe = array(unlist(coe), dim = c(dim(X1)[2],dim(X2)[2],dim(Y)[3]))  ## form coe
+    
+  }
+  
+  # re = lapply(Yl, glm_two, X1, X2,linear=linear, lm = lm)
+  # coe = lapply(seq(length(re)), function(x) re[[x]]$coe) ## extract coe
+  # coe = array(unlist(coe), dim = c(dim(X1)[2],dim(X2)[1],dim(Y)[3]))  ## form coe
+  return(coe)
+}
 
 
 #################  update
@@ -148,11 +174,17 @@ update_binary_all = function(tsr,X_covar1 = NULL, X_covar2 = NULL,X_covar3 = NUL
   
   ## get initialization
   if(un_m1 & un_m2 & un_m3){
-    tsr1 = 10*(2*tsr - 1)
-    tckr = tucker(tsr1, ranks = core_shape)
-    W1 = A = tckr$U[[1]] ; W2 = B = tckr$U[[2]] ; W3 = C = tckr$U[[3]]
-    G = tckr$Z
-  }  else {
+    C_ts = 10*(2*tsr - 1)
+  }  else if(un_m1) {
+    C_ts = glm_two_ini(tsr@data,X1 = NULL,X2 = X_covar2,X3 = X_covar3, un_mode = 1,linear=linear) ## add the linear model option for initilization
+    C_ts = as.tensor(C_ts)
+  } else if(un_m2) {
+    C_ts = glm_two_ini(tsr@data,X1 = X_covar1,X2 = NULL,X3 = X_covar3, un_mode = 2,linear=linear) ## add the linear model option for initilization
+    C_ts = as.tensor(C_ts)
+  } else if(un_m3) {
+    C_ts = glm_two_ini(tsr@data,X1 = X_covar1,X2 = X_covar2, X3 = NULL, un_mode = 3,linear=linear) ## add the linear model option for initilization
+    C_ts = as.tensor(C_ts)
+  } else {
     M_long = kronecker_list(list(X_covar3,X_covar2,X_covar1)) ## form M_long
     
     if(linear==TRUE){
@@ -161,15 +193,14 @@ update_binary_all = function(tsr,X_covar1 = NULL, X_covar2 = NULL,X_covar3 = NUL
       mod_re = glm_modify(as.vector(tsr@data), M_long)
     }
     C_ts = as.tensor(array(data = mod_re[[1]],dim = c(p1,p2,p3)))
-    
-    tckr = tucker(C_ts, ranks = core_shape)
-    W1 = tckr$U[[1]] ; W2 = tckr$U[[2]] ; W3 = tckr$U[[3]]
-    G = tckr$Z
-    A = X_covar1%*%W1
-    B = X_covar2%*%W2
-    C = X_covar3%*%W3
   }
   
+  tckr = tucker(C_ts, ranks = core_shape)
+  W1 = tckr$U[[1]] ; W2 = tckr$U[[2]] ; W3 = tckr$U[[3]]
+  G = tckr$Z
+  A = X_covar1%*%W1
+  B = X_covar2%*%W2
+  C = X_covar3%*%W3
   
   violate = c() ## which iteration violate constrain
   lglk0 = -Inf
