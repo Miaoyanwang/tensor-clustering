@@ -89,7 +89,6 @@ glm_two = function(Y, X1, X2, start = NULL, linear=FALSE, lm = FALSE # used for 
   
   N_long = kronecker_list(list(t(X2),X1))
   
-  
   if(linear==TRUE){
     mod_re = lm(10*(2*as.vector(Y)-1)~-1+N_long)
     coe = matrix(mod_re[[1]], nrow = q1, ncol = q2)
@@ -144,16 +143,12 @@ glm_two_ini = function(Y, X1, X2, X3, start = NULL,linear, lm = FALSE, un_mode =
     coe = array(unlist(coe), dim = c(dim(X1)[2],dim(X2)[2],dim(Y)[3]))  ## form coe
     
   }
-  
-  # re = lapply(Yl, glm_two, X1, X2,linear=linear, lm = lm)
-  # coe = lapply(seq(length(re)), function(x) re[[x]]$coe) ## extract coe
-  # coe = array(unlist(coe), dim = c(dim(X1)[2],dim(X2)[1],dim(Y)[3]))  ## form coe
   return(coe)
 }
 
 
-#################  update
-###--------   unsupervised
+#################  main update function
+###--------   
 update_binary_all = function(tsr,X_covar1 = NULL, X_covar2 = NULL,X_covar3 = NULL, 
                              core_shape, Nsim=20, linear = TRUE, cons, lambda = 0.1,
                              alpha = 1, solver = NULL){
@@ -324,198 +319,22 @@ update_binary_all = function(tsr,X_covar1 = NULL, X_covar2 = NULL,X_covar3 = NUL
     
     print("G Done------------------")
     
-    print(paste(n,"-th  iteration ---- when dimension is ",d1,"-- rank is ",r1," -----------------"))
+    print(paste(n,"-th  iteration -- when dimension is",d1,d2,d3,"- rank is ",r1,r2,r3," -----------------"))
     
     if (tail(lglk,1)-lglk0 <= 0.0005 & tail(lglk,1)>= lglk0 ) break
-    else if (tail(lglk,1)-lglk0 < 0) {
-      W1 = W10 ; W2 = W20 ; W3 = W30; G=G0; lglk=lglk; break
-    } 
+    # else if (tail(lglk,1)-lglk0 < 0) {
+    #   W1 = W10 ; W2 = W20 ; W3 = W30; G=G0; lglk=lglk; break
+    # } 
     
   }
   return(list(W1 = W1,W2 = W2,W3 = W3,G = G,lglk = lglk, violate = violate))
 }
 
 
-update_binary = function(tsr, X_covar1 = NULL, X_covar2 = NULL, core_shape, Nsim, linear = TRUE,
-                         cons = 'vanilla', lambda = 1, alpha = 1, solver = NULL){
-  
-  tsr = as.tensor(tsr)
-  Y_1 = unfold(tsr, row_idx = 1, col_idx = c(2,3))@data
-  Y_2 = unfold(tsr, row_idx = 2, col_idx = c(1,3))@data
-  Y_3 = unfold(tsr, row_idx = 3, col_idx = c(1,2))@data
-  d1 = dim(tsr)[1] ; d2 = dim(tsr)[2] ; d3 = dim(tsr)[3]
-  r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3]
-  if(is.null(X_covar1)) X_covar1 = diag(d1)
-  if(is.null(X_covar2)) X_covar2 = diag(d2)
-  p_1 = dim(X_covar1)[2] ; p_2 = dim(X_covar2)[2]
-  
-  
-  ## get initialization
-  C_ts = glm_two_mat(tsr@data, X_covar1, t(X_covar2),linear=linear) ## add the linear model option for initilization
-  
-  C_ts = as.tensor(C_ts)
-  tckr = tucker(C_ts, ranks = core_shape)
-  W1 = tckr$U[[1]] ; W2 = tckr$U[[2]] ; C = tckr$U[[3]]
-  G = tckr$Z
-  A = X_covar1%*%W1
-  B = X_covar2%*%W2
-  
-  lglk = rep(0,4*Nsim)
-  
-  for(n in 1:Nsim){
-    
-    ###### update W1
-    G_BC = ttl(G, list(B,C), ms = c(2,3))
-    G_BC1 = unfold(G_BC, row_idx = 1, col_idx = c(2,3))@data
-    
-    mod_re = glm_two(Y = Y_1, X1 = X_covar1, X2 = G_BC1, start = W1)
-    W1 = mod_re[[1]]
-    lglk[4*n-3] = mod_re[[2]]
-    
-    ## orthogonal W1*
-    C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))
-    tuk = tucker(C_ts, ranks = core_shape)
-    G = tuk$Z
-    W1 = tuk$U[[1]]
-    W2 = tuk$U[[2]]
-    C = tuk$U[[3]]
-    print("W1 Done------------------")
-    
-    ##### calculate A
-    A = X_covar1%*%W1
-    
-    ##### calculate B
-    B = X_covar2%*%W2
-    
-    ##### update W2
-    G_AC = ttl(G, list(A,C), ms = c(1,3))
-    G_AC2 = unfold(G_AC, row_idx = 2, col_idx = c(1,3))@data
-    
-    mod_re = glm_two(Y_2, X_covar2, G_AC2, start = W2)
-    W2 = mod_re[[1]]
-    lglk[4*n-2] = mod_re[[2]]
-    
-    ## orthogonal W2*
-    C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))
-    tuk = tucker(C_ts, ranks = core_shape)
-    G = tuk$Z
-    W1 = tuk$U[[1]]
-    W2 = tuk$U[[2]]
-    C = tuk$U[[3]]
-    print("W2 Done------------------")
-    
-    ##### calculate A
-    A = X_covar1%*%W1
-    
-    ##### calculate B
-    B = X_covar2%*%W2
-    
-    ###### update C
-    G_AB = ttl(G, list(A,B), ms = c(1,2))
-    G_AB3 = unfold(G_AB, row_idx = 3, col_idx = c(1,2))@data
-    
-    re = glm_mat(t(Y_3),start = t(C),t(G_AB3))
-    
-    C = re[[1]]
-    lglk[4*n - 1] = re[[2]]
-    
-    
-    
-    ###  then we apply out constrain
-    ######---- differnent version of contrains
-    U = ttl(G,list(X_covar1%*%W1,X_covar2%*%W2,C),ms = c(1,2,3))@data
-    
-    if(cons == 'non'){C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))}
-    else if(max(abs(U)) <= alpha){C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))}
-    else if(cons == 'vanilla'){
-      U = U/max(abs(U))*alpha
-      C_ts = glm_two_mat(U, X_covar1, t(X_covar2),linear=FALSE, lm = TRUE) ## add the linear model option for initilization
-      C_ts = as.tensor(C_ts)
-      print("Violate constrain ------------------")
-    }
-    else{
-      U = U/max(abs(U))*(alpha-0.01)
-      C_ts = glm_two_mat(U, X_covar1, t(X_covar2),linear=FALSE, lm = TRUE) ## add the linear model option for initilization
-      C_ts = as.tensor(C_ts)
-      print("Violate constrain ------------------")
-    }
-    
-    
-    ## orthogonal C*
-    
-    tuk = tucker(C_ts, ranks = core_shape)
-    G = tuk$Z
-    W1 = tuk$U[[1]]
-    W2 = tuk$U[[2]]
-    C = tuk$U[[3]]
-    print("C Done------------------")
-    
-    ###### added by miaoyan ######
-    ##### calculate A
-    A = X_covar1%*%W1
-    
-    ##### calculate B
-    B = X_covar2%*%W2
-    ############################
-    
-    #U = ttl(G,list(X_covar1%*%W1,X_covar2%*%W2,C),ms = c(1,2,3))@data
-    #print(max(abs(U))/alpha)
-    
-    ##### update G
-    M_long = kronecker_list(list(C,B,A)) ## form M_long
-    
-    if(cons == 'penalty'){
-      mod_re = optim(par = as.vector(G@data),loss,loss_gr,y = as.vector(tsr@data),
-                     X = M_long, lambda = lambda, alpha = alpha, method = solver)
-      coe = mod_re$par
-      G = as.tensor(array(data = coe,dim = core_shape))
-      lglk[4*n] = -mod_re$value
-    }
-    else {
-      mod_re = glm_modify(as.vector(tsr@data), M_long, as.vector(G@data))
-      coe = mod_re[[1]]
-      G = as.tensor(array(data = coe,dim = core_shape))
-      lglk[4*n] = mod_re[[2]]
-    }
-    
-    
-    print("G Done------------------")
-    print(n)
-    
-    print(paste(n,"-th  iteration ---- when dimension is ",d1,"-- rank is ",r1," -----------------"))
-    #if(lglk[4*n] - lglk[4*n-1] <= 0.00005) break
-    if(abs(lglk[4*n-1] - lglk[4*n-2]) <= 0.0005) break
-    
-    
-    
-  }
-  return(list(W1 = W1,W2 = W2,C = C,G = G,lglk = lglk))
-}
-
 
 ###
 ###----  This function shows how we select rank 
 ##   recommend to use non-constrain verison to select rank
-
-# sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, rank = c(3,5,6,8), Nsim,
-#                      linear = FALSE, cons = 'non'){
-#   BIC = rep(0,length(rank))
-#   whole_shape = dim(tsr)
-#   for(i in 1:length(rank)){
-#     if((is.null(X_covar1)) & (is.null(X_covar2)) | (all.equal(X_covar1,diag(dim(tsr)[1])) & all.equal(X_covar2,diag(dim(tsr)[2])))){
-#       upp = update_binary_un(tsr, rep(rank[i],3), Nsim, cons = cons)
-#       BIC[i] = -2*log_Lik + (rank[i]^3 + sum((whole_shape-1)*rank[i]))*log(prod(whole_shape))
-#     }
-#     else {
-#       upp = update_binary(tsr, X_covar1, X_covar2, rep(rank[i],3), Nsim, linear, cons = cons)
-#       BIC[i] = -2*log_Lik + (rank[i]^3 + sum((c(dim(X_covar1)[2],dim(X_covar2)[2],whole_shape[3])-1)*rank[i]))*log(prod(whole_shape))
-#     }
-#     log_Lik = max(upp$lglk)
-#     
-#     
-#   }
-#   return(rank = which(BIC == min(BIC)))
-# }
 
 
 sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, X_covar3 = NULL,
@@ -536,7 +355,7 @@ sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, X_covar3 = NULL,
   
   BIC = unlist(lapply(seq(length(rank)), 
                       function(x) (prod(rank[[x]]) + sum((c(dim(X_covar1)[2],dim(X_covar2)[2],
-                                                            dim(X_covar3[2]))-1)*
+                                                            dim(X_covar3)[2])-1)*
                                                            rank[[x]])) * log(prod(whole_shape))))
   BIC = -2*log_lik + BIC
   # BIC = rep(0,length(rank))
@@ -556,30 +375,10 @@ sele_lambda = function(seed, lambda, ...){
   re = lapply(seq(length(re)), function(x) re[[x]]$RMSE)
   return(re)
 }
-# select_lambda = function(tsr,trueU,lambda, X_covar1, X_covar2, Nsim, linear = TRUE){
-#   #lambda is a sequence of lambda options 
-#   #tsr is an array
-#   #trueU is an array
-#   #have selected the rank
-#   
-#   d1 = dim(tsr)[1]; d2 = dim(tsr)[2]; d3 = dim(tsr)[3]
-#   r1 = dim(trueU)[1] ; r2 = dim(trueU)[2] ; r3 = dim(trueU)[3]
-#   
-#   len = length(lambda)
-#   rmse = c()
-#   
-#   for (i in 1:len) {
-#     upp2 = update_binary(tsr, X_covar1, X_covar2, core_shape = c(r1,r2,r3), Nsim, linear = linear,
-#                          cons = "penalty", lambda = lambda[i], alpha = 10*max(abs(trueU)), solver = "CG")
-#     U_est2 = ttl(upp2$G,list(upp2$A,upp2$B,upp2$C),ms = c(1,2,3))@data
-#     
-#     rmse[i] =  sum((U_est2 - trueU)^2)/(d1*d2*d3)
-#   }
-#   
-#   best_lambda = lambda[order(rmse)[1]]
-#   return(best_lambda)
-# }
 
+# re = sele_lambda(seed = 24, lambda = c(0.1,1,10,100,1000),  d = 20,r = 3, p1 = 5, p2 = 5, p3 = 5, dis = 'gaussian',gs_mean = 0,gs_sd = 1,unf_a = 0,unf_b = 1, 
+#                  dup = 1, signal = 10, Nsim = 50, linear = TRUE, cons = 'penalty' ,
+#                  solver = 'CG')
 
 
 
@@ -598,7 +397,7 @@ gene_data_all = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),
 
   if(is.null(p1)) {
     A = as.matrix(randortho(d1)[,1:r1])     ## factor matrix
-    X_covar1 = NULL ; W1 = NULL
+    X_covar1 = NULL ; W1 = A
   } else {
     X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 1),d1,p1)
     W1 = randortho(p1,type = c("orthonormal"))[,1:r1]
@@ -606,7 +405,7 @@ gene_data_all = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),
   }
   if(is.null(p2)) {
     B = as.matrix(randortho(d2)[,1:r2])     ## factor matrix
-    X_covar2 = NULL ; W2 = NULL
+    X_covar2 = NULL ; W2 = B
   } else {
     X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd = 1),d2,p2)
     W2 = randortho(p2,type = c("orthonormal"))[,1:r2]
@@ -614,7 +413,7 @@ gene_data_all = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),
   }
   if(is.null(p3)) {
     C = as.matrix(randortho(d3)[,1:r3])     ## factor matrix
-    X_covar3 = NULL ; W3 = NULL
+    X_covar3 = NULL ; W3 = C
   } else {
     X_covar3 = matrix(rnorm(d3*p3,mean = 0, sd = 1),d3,p3)
     W3 = randortho(p3,type = c("orthonormal"))[,1:r3]
@@ -649,17 +448,6 @@ gene_data_all = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),
               W1 = W1,W2 = W2,W3 = W3, A=A,B=B,C=C,G=G))
 }
 
-
-# data = gene_data_all(seed = 24,whole_shape = rep(20,3),core_shape =  rep(3,3), p1 = 5,p2 =5 ,
-#                      'gaussian', gs_mean = 0, gs_sd = 10, dup = 2,signal = 10)
-# 
-# data = gene_data_all(seed = 24,whole_shape = rep(20,3),core_shape =  rep(3,3), p1 = 5,p2 =5 ,
-#                      dis = 'gaussian', gs_mean = 0, gs_sd = 10, dup = 2,signal = 10)
-# 
-# data = gene_data_all(seed = 24,whole_shape = rep(20,3),core_shape =  rep(3,3), p1 = 5,p2 =5 ,
-#                      p3 = NULL,
-#                      'gaussian', gs_mean = 0, gs_sd = 10, dup = 2,signal = 10)
-# 
 
 
 #####---- This is the function used for generating data through different distribution
@@ -716,27 +504,45 @@ conv_rate = function(seed,d,r, p1 = NULL, p2 = NULL,p3 = NULL , dis,gs_mean = 0,
   rate = rep(0,length(d))
   RMSE = rep(0,length(d))
   for (i in 1:length(d)) {
-    data = gene_data_all(seed,rep(d[i],3), rep(r[i],3), p1[i], p2[i],p3 = p3, dis, gs_mean, gs_sd,
+    if(is.null(p1)) p_1 = p1 else p_1 = p1[i]
+    if(is.null(p2)) p_2 = p2 else p_2 = p2[i]
+    if(is.null(p3)) p_3 = p3 else p_3 = p3[i]
+    
+    data = gene_data_all(seed,rep(d[i],3), rep(r[i],3), p1 = p_1,  p2 = p_2,
+                         p3 = p_3, dis, gs_mean, gs_sd,
                          unf_a, unf_b, dup,signal)
     X_covar1 = data$X_covar1
     X_covar2 = data$X_covar2
-    C_ts = ttl(data$G,list(data$W1,data$W2,data$C),ms = c(1,2,3))@data
+    X_covar3 = data$X_covar3
+    
+    un_m1 = un_m2 = un_m3 = FALSE
+    if(is.null(p1)) {p_1 = d[i];un_m1 = TRUE} else p_1 = p1[i]
+    if(is.null(p2)) {p_2 = d[i];un_m2 = TRUE} else p_2 = p2[i]
+    if(is.null(p3)) {p_3 = d[i];un_m3 = TRUE} else p_3 = p3[i]
+    if(all(un_m1,un_m2,un_m3)){
+      ratei = sqrt(r[i]^2*(p_1 + p_2 + p_3)/d[i]^3)
+    } else {
+      ratei = sqrt(r[i]^2*(p_1 + p_2 + p_3)/d[i]^(3-sum(c(un_m1,un_m2,un_m3))))
+    }
+    ratei = sqrt(r[i]^2*(p_1 + p_2 + p_3)/d[i]^(3-sum(c(un_m1,un_m2,un_m3))))
+    
+    C_ts = ttl(data$G,list(data$W1,data$W2,data$W3),ms = c(1,2,3))@data
     U = data$U
     tsr = data$tsr
     RMSEi = rep(0,dup)
     for (j in 1:dup) {
-      upp = update_binary(tsr = tsr[[j]], X_covar1 = X_covar1, X_covar2 = X_covar2, 
+      upp = update_binary_all(tsr = tsr[[j]], X_covar1 = X_covar1, X_covar2 = X_covar2, X_covar3 = X_covar3, 
                           core_shape =  rep(r[i],3), Nsim, linear, cons, lambda = lambda, 
                           alpha = 10*max(abs(U)), solver = NULL)
       
-      C_ts_est = ttl(upp$G,list(upp$W1,upp$W2,upp$C),ms = c(1,2,3))@data
+      C_ts_est = ttl(upp$G,list(upp$W1,upp$W2,upp$W3),ms = c(1,2,3))@data
       #U_est = ttl(upp$G,list(X_covar1%*%upp$W1,X_covar2%*%upp$W2,upp$C),ms = c(1,2,3))@data
       RMSEi[j] = sqrt(sum((C_ts_est - C_ts)^2))
       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
-      print(paste("p1 is ",p1[i],"---------  p2 is ",p2[i],"--------------------"))
+      # print(paste("p1 is ",p1[i],"---  p2 is ",p2[i],"--------------------"))
     }
     RMSE[i] = mean(RMSEi)
-    rate[i] = sqrt(r[i]^2*(d[i] + p1[i] + p2[i])/d[i]^2)
+    rate[i] = ratei
   }
   return(list(RMSE = RMSE, rate = rate))
 }
