@@ -633,12 +633,12 @@ conv_rate = function(seed,d,r, p1, p2, dis,gs_mean = 0,gs_sd = 10,unf_a = 0,unf_
       
       C_ts_est = ttl(upp$G,list(upp$W1,upp$W2,upp$C),ms = c(1,2,3))@data
       #U_est = ttl(upp$G,list(X_covar1%*%upp$W1,X_covar2%*%upp$W2,upp$C),ms = c(1,2,3))@data
-      RMSEi[j] = sqrt(sum((C_ts_est - C_ts)^2)/(d[i]^3))
+      RMSEi[j] = sqrt(sum((C_ts_est - C_ts)^2))
       print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
       print(paste("p1 is ",p1[i],"---------  p2 is ",p2[i],"--------------------"))
     }
     RMSE[i] = mean(RMSEi)
-    rate[i] = r[i]^2*(d[i] + p1[i] + p2[i])/d[i]^2
+    rate[i] = sqrt(r[i]^2*(d[i] + p1[i] + p2[i])/d[i]^2)
   }
   return(list(RMSE = RMSE, rate = rate))
 }
