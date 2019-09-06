@@ -76,7 +76,7 @@ glm_mat = function(Y,start,X){
   re = t(matrix(unlist(ma), nrow = p, byrow=T))
   beta = re[1:R,]
   lglk = sum(re[R + 1,])
-  return(list(beta,lglk))
+  return(list(t(beta),lglk))
 }
 
 ###########---------  GLM on two modes
@@ -166,7 +166,7 @@ update_binary_un = function(tsr, core_shape, Nsim=20, cons, lambda = 0.1, alpha 
     
     re = glm_mat(t(Y_1),start = t(A),t(G_BC1))
     
-    if(dim(A)[2]==1) A=as.matrix(re[[1]]) else A = t(re[[1]])
+    if(dim(A)[2]==1) A=as.matrix(re[[1]]) else A = re[[1]]
     
     lglk = c(lglk,re[[2]])
     ## orthogonal A*
@@ -185,7 +185,7 @@ update_binary_un = function(tsr, core_shape, Nsim=20, cons, lambda = 0.1, alpha 
     re = glm_mat(t(Y_2),start = t(B),t(G_AC2))
     
     
-    if(dim(B)[2]==1) B=as.matrix(re[[1]]) else B = t(re[[1]])
+    if(dim(B)[2]==1) B=as.matrix(re[[1]]) else B = re[[1]]
     
     lglk = c(lglk,re[[2]])
     ## orthogonal B*
@@ -203,7 +203,7 @@ update_binary_un = function(tsr, core_shape, Nsim=20, cons, lambda = 0.1, alpha 
     
     re = glm_mat(t(Y_3),start = t(C),t(G_AB3))
     
-    if(dim(C)[2]==1) C=as.matrix(re[[1]]) else C = t(re[[1]])
+    if(dim(C)[2]==1) C=as.matrix(re[[1]]) else C = re[[1]]
     
     lglk = c(lglk,re[[2]])
     
@@ -354,7 +354,7 @@ update_binary = function(tsr, X_covar1 = NULL, X_covar2 = NULL, core_shape, Nsim
     
     re = glm_mat(t(Y_3),start = t(C),t(G_AB3))
     
-    C = t(re[[1]])
+    C = re[[1]]
     lglk[4*n - 1] = re[[2]]
     
     
