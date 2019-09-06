@@ -50,11 +50,33 @@ U_est = ttl(upp$G,list(upp$A,upp$B,upp$C),ms = c(1,2,3))@data
 plot(as.vector(U),as.vector(U_est));abline(0,1)   ## plot U vs U_est
 plot(as.vector(inv.logit(U)),as.vector(inv.logit(U_est)));abline(0,1)  ## plot U vs U_est in logical scale
 
+########################--------------------------------------------------------------------
+####################################################################################
+
+###---  newest simulation code, still waiting for result
+rm(list = ls())
+source('functions_synthesis_all.r')
+
+####-------------------------------  convergence rate
+p = seq(5,19,2)
+re = c()
+
+for(i in seq(length(p))){
+  con = conv_rate(seed = 24,d = seq(20,70,10),r = rep(3,7), p1 = rep(p[i],7), p2 = rep(p[i],7), p3 = NULL,
+                  dis = 'gaussian',gs_mean = 0,gs_sd = 10, 
+                  dup=2, signal = 10,Nsim =50, linear = FALSE, cons = 'penalty' ,lambda = 1,
+                  solver = 'CG')
+  
+  con = as.data.frame(con)
+  con$d = seq(20,70,10); con$rank = rep(3,7); con$p1 = rep(p[i],7); con$p2 = rep(p[i],7)
+  re = rbind(re,con)
+}
 
 
-####  saupervised simulation result for most recent note
+
+
+####  supervised simulation result for most recent note
 ###---  "GitHub\tensor-clustering\note\zhuoyan\supervised_sim2"
-
 
 
 source('functions_synthesis.r')
@@ -119,6 +141,7 @@ ggplot(re[re$d != 20 ,], aes(x = rate, y = RMSE)) + geom_line(aes(color = as.fac
   geom_smooth(method = 'loess',formula = y~x) + 
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"))
+
 
 
 
