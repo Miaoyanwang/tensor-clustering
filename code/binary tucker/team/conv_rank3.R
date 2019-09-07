@@ -102,8 +102,8 @@ write.csv(re,"rank3.csv",row.names = FALSE)
 ## visual
 re = read.csv('rank3.csv',header = TRUE)
 
-re$RMSE = re$RMSE*sqrt(re$d^3)
-re$rate = sqrt(re$rate)
+# re$RMSE = re$RMSE*sqrt(re$d^3)
+# re$rate = sqrt(re$rate)
 
 library(ggplot2)
 
