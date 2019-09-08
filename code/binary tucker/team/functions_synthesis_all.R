@@ -524,8 +524,7 @@ conv_rate = function(seed,d,r, p1 = NULL, p2 = NULL,p3 = NULL , dis,gs_mean = 0,
     } else {
       ratei = sqrt(r[i]^2*(p_1 + p_2 + p_3)/d[i]^(3-sum(c(un_m1,un_m2,un_m3))))
     }
-    ratei = sqrt(r[i]^2*(p_1 + p_2 + p_3)/d[i]^(3-sum(c(un_m1,un_m2,un_m3))))
-    
+
     C_ts = ttl(data$G,list(data$W1,data$W2,data$W3),ms = c(1,2,3))@data
     U = data$U
     tsr = data$tsr
