@@ -1,0 +1,20 @@
+\begin{thebibliography}{1}
+
+\bibitem{rigollet2015high}
+Phillippe Rigollet and Jan-Christian H{\"u}tter.
+\newblock High dimensional statistics.
+\newblock {\em Lecture notes for course 18S997}, 2015.
+
+\bibitem{wang2017three}
+Miaoyan Wang, Jonathan Fischer, and Yun~S Song.
+\newblock Three-way clustering of multi-tissue multi-individual gene expression
+  data using constrained tensor decomposition.
+\newblock {\em Annals of Applied Statistics, in press}, 2019.
+
+\bibitem{nickel2011three}
+Maximilian Nickel, Volker Tresp, and Hans-Peter Kriegel.
+\newblock A three-way model for collective learning on multi-relational data.
+\newblock In {\em International Conference on Machine Learning}, volume~11,
+  pages 809--816, 2011.
+
+\end{thebibliography}
