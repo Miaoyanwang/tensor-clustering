@@ -7,7 +7,7 @@ data = gene_data_all(24, whole_shape = c(20,20,20), core_shape = c(4,4,5),
 # data$tsr[[1]] - data$tsr[[2]]
 # data$U
 re = lapply(X = data$tsr, FUN = sele_rank, X_covar1 = NULL, X_covar2 = NULL, X_covar3 = NULL,
-         rank = c(4,6), Nsim = 30,linear = FALSE, cons = 'non')
+         rank = seq(4,6), Nsim = 30,linear = FALSE, cons = 'non')
 
 
 -----   lapply(re,toString)
@@ -32,7 +32,7 @@ data2 = gene_data_all(24, whole_shape = c(20,20,20), core_shape = c(5,5,8),
 
 
 re2 = lapply(X = data2$tsr, FUN = sele_rank, X_covar1 = NULL, X_covar2 = NULL, X_covar3 = NULL,
-            rank = c(4,9), Nsim = 30,linear = FALSE, cons = 'non')
+            rank = seq(4,9), Nsim = 30,linear = FALSE, cons = 'non')
 
 
 re2 = unlist(lapply(re2,toString))
@@ -53,7 +53,7 @@ data3 = gene_data_all(24, whole_shape = c(30,30,30), core_shape = c(8,8,10),
 
 
 re3 = lapply(X = data3$tsr, FUN = sele_rank, X_covar1 = NULL, X_covar2 = NULL, X_covar3 = NULL,
-             rank = c(7,11), Nsim = 25,linear = FALSE, cons = 'non')
+             rank = seq(7,11), Nsim = 25,linear = FALSE, cons = 'non')
 
 
 re3 = unlist(lapply(re3,toString))
