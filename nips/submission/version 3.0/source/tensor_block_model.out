@@ -1,0 +1,13 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Preliminaries}{}% 2
+\BOOKMARK [1][-]{section.3}{Tensor\040block\040model}{}% 3
+\BOOKMARK [1][-]{section.4}{Statistical\040convergence}{}% 4
+\BOOKMARK [1][-]{section.5}{Numerical\040implementation}{}% 5
+\BOOKMARK [2][-]{subsection.5.1}{Alternating\040optimization}{section.5}% 6
+\BOOKMARK [2][-]{subsection.5.2}{Tuning\040parameter\040selection}{section.5}% 7
+\BOOKMARK [1][-]{section.6}{Extension\040to\040sparse\040estimation}{}% 8
+\BOOKMARK [1][-]{section.7}{Experiments}{}% 9
+\BOOKMARK [2][-]{subsection.7.1}{Finite-sample\040performance}{section.7}% 10
+\BOOKMARK [2][-]{subsection.7.2}{Comparison\040with\040alternative\040methods}{section.7}% 11
+\BOOKMARK [2][-]{subsection.7.3}{Real\040data\040analysis}{section.7}% 12
+\BOOKMARK [1][-]{section.8}{Conclusion}{}% 13
