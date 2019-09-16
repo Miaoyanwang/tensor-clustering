@@ -348,9 +348,9 @@ sele_rank = function(tsr, X_covar1 = NULL, X_covar2 = NULL, X_covar3 = NULL,
                X_covar3 = X_covar3, Nsim = Nsim, linear = linear, cons = cons)
   
   log_lik = unlist(lapply(seq(length(upp)), function(x) tail(upp[[x]]$lglk,1)))
-  if(is.null(X_covar1)) X_covar1 = whole_shape[1]
-  if(is.null(X_covar2)) X_covar2 = whole_shape[2]
-  if(is.null(X_covar3)) X_covar3 = whole_shape[3]
+  if(is.null(X_covar1)) X_covar1 = diag(whole_shape[1])
+  if(is.null(X_covar2)) X_covar2 = diag(whole_shape[2])
+  if(is.null(X_covar3)) X_covar3 = diag(whole_shape[3])
   
   
   BIC = unlist(lapply(seq(length(rank)), 
