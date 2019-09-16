@@ -2,7 +2,7 @@
 
 I have pre-selected ~10 covariates for each nation. These covariates describe a few important country attributes, e.g. whether a nation is actively involved in medicine NGO, law NGO, or belongs to a catholic nation, etc. 
 
-2. HCP (Wang et al., 2017a, Count_VSPLOT.mat): This is a 68 × 68 × 136 binary tensor consisting of structural connectivity patterns among 68 brain regions for 136 individuals from Human Connectome Project (HCP). All the individual images were preprocessed following a standard pipeline (Zhang et al., 2018), and the brain was parcellated to 68 regions-of- interest following the Desikan atlas (Desikan et al., 2006). The tensor entries encode the presence or absence of fiber connections between those 68 brain regions for each of the 136 individuals.
+2. HCP (Wang et al., 2017a, Count_VSPLOT.mat): This is a 68 × 68 × 136 binary tensor consisting of structural connectivity patterns among 68 brain regions for 136 individuals from Human Connectome Project (HCP). All the individual images were preprocessed following a standard pipeline (Zhang et al., 2018), and the brain was parcellated to 68 regions-of-interest following the Desikan atlas (Desikan et al., 2006). The tensor entries encode the presence or absence of fiber connections between those 68 brain regions for each of the 136 individuals.
 
 There are 573 covariates available for each individual. I have pre-selected ~20 important covariates. Please see the listed below. You may start with them first and then add a few new covariates of your interest. 
 The full list of covariates can be found at:
