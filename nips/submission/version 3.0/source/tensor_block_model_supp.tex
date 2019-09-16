@@ -256,30 +256,31 @@ for two universal constants $C_1, C_2>0$. Here the third line follows from~\cite
 
 
 \subsection{Proof of Theorem~\ref{thm:mcr}}
-To prove Theorem~\ref{thm:mcr}, first we introduce some notations.
+First we introduce some notations.
 \subsubsection{Notations}
-$\mc^{(k)}\in \mathbb{R}^{d_k}$: unknown mode-k cluster membership vector with element $c^{(k)}_{i_k}$ refers to the true label of $i_k$th fiber in mode k, $\forall k\in[K],~i_k\in[d_k]$;
+$\mM_{k,true}= \entry{m_{i_k,r_k,true}^{(k)}} \in \{0,1\}^{d_k\times R_k}$: true mode-$k$ cluster membership matrix. The element $m_{i_k,r_k,true}^{(k)}=1$ indicates $i_k$th fiber in mode $k$ belongs to the $r_k$th cluster, for all $k\in[K],~i_k\in[d_k]$;
 
-$\hmc^{(k)}\in \mathbb{R}^{d_k}$: mode-k cluster assignment vector with element $\hc^{(k)}_{i_k}$ refers to the assigned label of $i_k$th fiber in mode k, $\forall k\in[K],~i_k\in[d_k]$;
+$\mM_k= \entry{m_{i_k,r_k}^{(k)}}  \in \{0,1\}^{d_k\times R_k}$: estimated mode-$k$ cluster cluster membership matrix. The element $m_{i_k,r_k}^{(k)}=1$ indicates $i_k$th fiber in mode $k$ is assigned to the $r_k$th cluster, for all $k\in[K],~i_k\in[d_k]$;
 
-$\mp^{(k)}\in \mathbb{R}^{R_k}$: mode-k cluster proportion vector with element $p_{r_k}^{(k)}=\frac{\sum_{i_k=1}^{d_k}\mathbb{I}\{c_{i_k}^{(k)}=r_k\}}{d_k}$, $\forall k\in[K],~r_k\in[R_k]$;
+$\mp^{(k)}_{true} \in \mathcal{S}^{R_k-1}\cap(0,1)^{R_K}$: mode-$k$ true cluster proportion vector with element $p_{r_k,true}^{(k)}=\frac{1}{d_k}\sum_{i=1}^{d_k}\mathbb{I}\{m_{i,r_k,true}^{(k)}=1\}$. It can be seen as a function of $\mM_{k,true}$, for all $k\in[K],~r_k\in[R_k]$;
 
-$\hmp^{(k)}\in \mathbb{R}^{R_k}$: mode-k label proportion vector with element $\hp_{r_k}^{(k)}=\frac{\sum_{i_k=1}^{d_k}\mathbb{I}\{\hc_{i_k}^{(k)}=r_k\}}{d_k}$,  can be seen as a function of $\hmc^{(k)}$,  $\forall k\in[K],~r_k\in[R_k]$;
+$\mp^{(k)} \in \mathcal{S}^{R_k-1}\cap(0,1)^{R_K}$: mode-$k$ estimated cluster proportion vector with element $p_{r_k}^{(k)}=\frac{1}{d_k}\sum_{i=1}^{d_k}\mathbb{I}\{m_{i,r_k}^{(k)}=1\}$. It can be seen as a function of $\mM_k$,  for all $k\in[K],~r_k\in[R_k]$;
 
-$\mD^{(k)} = [D^{(k)}_{a_kr_k}]\in\mathbb{R}^{R_k\times R_k}$: mode-k confusion matrix with element $D_{r_k,r_k'}^{(k)}=\frac{1}{d_k}\sum_{i_k=1}^{d_k}\mathbb{I}\{c_{i_k}^{(k)}=r_k,\hc_{i_k}^{(k)}=r_k'\}$, can be seen as a function of $(\hmc^{(1)},...,\hmc^{(K)})$, $\forall k\in[K],~r_k\in[R_k]$;
+$\mD^{(k)} = \entry{D^{(k)}_{rr'}}\in [0,1]^{R_k\times R_k}$: mode-$k$ confusion matrix with element $D_{rr'}^{(k)}=\frac{1}{d_k}\sum_{i=1}^{d_k}\mathbb{I}\{m_{i,r,true}^{(k)}=1,m_{i,r'}^{(k)}=1\}$. It can be seen as a function of $(\mM_1,...,\mM_K)$, for all $k\in[K],~r,r'\in[R_k]$;
 
-$\mathcal{J}_{\tau}=\{(\hmc^{(1)},...,\hmc^{(K)}): \hp^{(1)}_{r_1}(\hmc^{(1)})>\tau,...,\hp^{(K)}_{r_K}(\hmc^{(K)})>\tau, r_k\in[R_k], k\in[K]\}$;
+$\mathcal{J}_{\tau}=\{(\mM_1,...,\mM_K): p^{(1)}_{r_1}(\mM_1)>\tau,...,p^{(K)}_{r_K}(\mM_K)>\tau, r_k\in[R_k], k\in[K]\}$: the set of all possible clustering results satisfying the marginal assumption;
 
-$\mathcal{I}_d\subset 2^{[d_1]}\times \cdot\cdot\cdot \times 2^{[d_K]}$: is the set of all the blocks that satisfy that $p^{(k)}_{i_k}>\tau,~\forall i_k\in[d_k],~\forall k\in[K]$;
+$\mathcal{I}_{\md} \subset 2^{[d_1]}\times \cdot\cdot\cdot \times 2^{[d_K]}$: the set of all the blocks that satisfy that $p^{(k)}_{i}>\tau,$ for all $i\in[d_k]$, for all $k\in[K]$;
 
-$L_d=\inf\{|I|:I\in\mathcal{I}_d\}$;
+$L_{\md}=\inf\{|I|:I\in\mathcal{I}_{\md}\}$: the minimum block size as $\md = (d_1,...,d_K)$ ;
 
 
 $||\boldsymbol{A}||_\infty=\max_{r_1,...,r_K}|\boldsymbol{A}_{r_1,...,r_K}|$ for any tensor $\boldsymbol{A}\in\mathbb{R}^{R_1\times\cdot\cdot\cdot\times R_K}$.
 
 \begin{remark}
-1. $\mD^{(k)}\boldsymbol{1}=\mp^{(k)}$, $\mD^{(k)^T}\boldsymbol{1}=\hmp^{(k)}$. If $\mD^{(k)}$ is diagonal, then the assigned labels match the true cluster in mode $k$, $\forall k\in[K]$. \\
-2. Because our model satisfies the irreducible core assumption, there is always exists a $\tau$ such that our estimator $(\hmc^{(1)},...,\hmc^{(K)})\in \mathcal{J}_\tau$. We denote it as marginal assumption in this proof.
+$\mD^{(k)}\boldsymbol{1}=\mp^{(k)}_{true}$, $\mD^{(k)^T}\boldsymbol{1}=\mp^{(k)}$. If $\mD^{(k)}$ is diagonal, then the assigned labels match the true labels in mode $k$, for all $k\in[K]$. 
+%\\
+%2. We restrict ourself to only non-degenerating clusters; that is each row sum and column sum of $\mD^{(k)}$ are lowered bounded by $\tau>0$, for all $k\in [K]$. 
 \end{remark}
 
 
@@ -294,61 +295,66 @@ $||\boldsymbol{A}||_\infty=\max_{r_1,...,r_K}|\boldsymbol{A}_{r_1,...,r_K}|$ for
 %\end{equation*}
 %
 %\begin{remark}
-%By the definition of $\mcr$ and the marginal assumption, obviously, when $\mcr(\hat{\mM}_k, \mP_k\mM_{k,true})$ is small enough, the $\cer(\hat{\mM}_k, \mP_k\mM_{k,true})$ would be very small, too. 
+%By the definition of $\mcr$ and the marginal assumption, obviously, when $\mcr(\widehat{\mM_k}, \mP_k\mM_{k,true})$ is small enough, the $\cer(\widehat{\mM_k}, \mP_k\mM_{k,true})$ would be very small, too. 
 %\end{remark}
 
 \subsubsection{Introduction}
-To prove the theorem, considering our least-square estimator 
-\begin{eqnarray*}
-\hat{\Theta} &=& \displaystyle\argmin_{\Theta\in\mathcal{P}}\{-2<\mathcal{Y},\Theta>+||\Theta||_F^2\}\\
-&=&\displaystyle\argmax_{\Theta\in\mathcal{P}}\{<\mathcal{Y},\Theta>-\frac{||\Theta||_F^2}{2}\}
-\end{eqnarray*}
-the $<\mathcal{Y},\Theta>-\frac{||\Theta||_F^2}{2}$ is the log-likelihood of the data tensor when our model is a Gaussian tensor block model.
 
-Then the profile log-likelihood $F(\hmc^{(1)},...,\hmc^{(K)})$ satisfies
+%To prove the theorem, considering our least-square estimator 
+%\begin{eqnarray*}
+%\hat{\Theta} &=& \displaystyle\argmin_{\Theta\in\mathcal{P}}\{-2\langle \mathcal{Y},\Theta\rangle +||\Theta||_F^2\}\\
+%&=&\displaystyle\argmax_{\Theta\in\mathcal{P}}\{\langle\mathcal{Y},\Theta\rangle-\frac{||\Theta||_F^2}{2}\}
+%\end{eqnarray*}
+%the $\langle \mathcal{Y},\Theta \rangle -\frac{||\Theta||_F^2}{2}$ is the log-likelihood of the data tensor when our model is a Gaussian tensor block model.
+
+When labels are assigned, the profile log-likelihood $F(\mM_1,...,\mM_K)$ satisfies
+
 \begin{eqnarray*}
-F(\hmc^{(1)},...,\hmc^{(K)}) &=& \displaystyle\sup_{\Theta\in\mathcal{P}}\{<\mathcal{Y},\Theta>-\frac{||\Theta||_F^2}{2}\}\\
-&=& \displaystyle\sup_{\Theta\in\mathcal{P}}\{\displaystyle\sum_{i_1,...,i_K}y_{i_1,...,i_K}c_{r_1(i_1),...,r_K(i_K)}-\frac{1}{2}\sum_{i_1,...,i_K}c_{r_1(i_1),...,r_K(i_K)}^2\}\\
-%&=& \displaystyle\sup_{\Theta\in\mathcal{P}}\{\sum_{i_1,...,i_K}\overline{y_{r_1(i_1),...,r_K(i_K)}}c_{r_1(i_1),...,r_K(i_K)}-\frac{1}{2}\sum_{i_1,...,i_K}c_{r_1(i_1),...,r_K(i_K)}^2\}\\
-%&=&\sum_{i_1,...,i_K}\overline{y_{r_1(i_1),...,r_K(i_K)}}^2-\frac{1}{2}\sum_{i_1,...,i_K}\overline{y_{r_1(i_1),...,r_K(i_K)}}^2\\
-&=&\frac{1}{2}\sum_{i_1,...,i_K}\overline{y_{r_1(i_1),...,r_K(i_K)}}^2\\
-%&=&\frac{1}{2}\sum_{r_1,...,r_K}\prod_{k=1}^{K}\hat{p}^{(k)}_{r_k}\overline{y_{r_1(i_1),...,r_K(i_K)}}^2\\
-&=&\sum_{r_1,...,r_K}\prod_{k=1}^{K}\hat{p}^{(k)}_{r_k}f(\overline{y_{r_1(i_1),...,r_K(i_K)}})
+F(\mM_1,...,\mM_K) &=& \displaystyle\sup_{\mathcal{C}\in \mathbb{R}^{R_1\times\cdots\times R_K}}\{\langle \mathcal{Y},\Theta\rangle -\frac{||\Theta||_F^2}{2}\}\\
+&=& \displaystyle\sup_{\mathcal{C}\in\mathbb{R}^{d_1\times\cdots\times d_K}}\{\displaystyle\sum_{i_1,...,i_K}y_{i_1,...,i_K}c_{r_1(i_1),...,r_K(i_K)}-\frac{1}{2}\sum_{i_1,...,i_K}c_{r_1(i_1),...,r_K(i_K)}^2\}\\
 \end{eqnarray*}
-where $f(x)=\frac{x^2}{2}$. 
-Thus our clustering estimator can be represented as 
+Letting  $\mu_{i_1,...,i_K}=\displaystyle \frac{1}{| ( r_1(i_1),...,r_K(i_K))\}|} \sum_{j_1\in r_1(i_1)}\cdots \sum_{j_K\in r_K(i_K)}y_{j_1,...,j_K}$,
+\begin{equation*}
+F(\mM_1,...,\mM_K)  = \frac{1}{2} \sum_{i_1,...,i_K}\mu_{i_1,...,i_K}^2 \\
+= \sum_{r_1,...,r_K}\prod_{k=1}^{K}p^{(k)}_{r_k}f(\mu_{i_1,...,i_K})
+\end{equation*}
+where $f(x)=\frac{x^2}{2}$ is the loss function, . 
+Thus the least-square estimator can be represented as 
 \begin{equation}
-    (\widehat{\hmc^{(1)}},...,\widehat{\hmc^{(K)}}) = \displaystyle\argmax_{(\hmc^{(1)},...,\hmc^{(K)})\in \mathcal{J}_\tau}F(\hmc^{(1)},...,\hmc^{(K)})
+    (\widehat{\mM_1},...,\widehat{\mM_K}) = \displaystyle\argmax_{(\mM_1,...,\mM_K)\in \mathcal{J}_\tau}F(\mM_1,...,\mM_K)
 \end{equation}
-The error $||\hat{\Theta}-\Theta||^2_F$ comes from two aspects: noise and clustering. To measure the error which is from noise, we define a new function $G(\hmc^{(1)},...,\hmc^{(K)})$:
+The loss $||\hat{\Theta}-\Theta||^2_F$ comes from two parts: the label assignment and the estimation of the core tensor. To divide it into two parts, we define a new function $G(\mM_1,...,\mM_K)$:
 \begin{equation*}
-G(\hmc^{(1)},...,\hmc^{(K)}) = \displaystyle\sum_{r_1,...,r_K}[\mD^{(1)^T}\boldsymbol{1}]_{r_1}\cdot\cdot\cdot[\mD^{(K)^T}\boldsymbol{1}]_{r_K}f(E_{r_1,...,r_K})
+G(\mM_1,...,\mM_K) = \displaystyle\sum_{r_1,...,r_K}[\mD^{(1)^T}\boldsymbol{1}]_{r_1}\cdot\cdot\cdot[\mD^{(K)^T}\boldsymbol{1}]_{r_K}f(U_{r_1,...,r_K})
 \end{equation*}
 
-where $\mE(\hmc^{(1)},...,\hmc^{(K)}) = [E(\hmc^{(1)},...,\hmc^{(K)})_{r_1,...,r_K}]\in \mathbb{R}^{R_1\times R_2\times\cdot\cdot\cdot R_K}$ ,
+where $\tU (\mM_1,...,\mM_K) = \entry{U(\mM_1,...,\mM_K)_{r_1,...,r_K}}\in \mathbb{R}^{R_1\times R_2\times\cdot\cdot\cdot R_K}$.
 
 \begin{equation*}
-    E(\hmc^{(1)},...,\hmc^{(K)})_{r_1,...,r_K} = \frac{\displaystyle\sum_{i_1,...,i_K}\sum_{j_1,...,j_K}c_{j_1,...,j_K}\mathbb{I}\{c_{i_1}^{(1)}=j_1,\hc_{i_1}^{(1)}=r_1\}\cdot\cdot\cdot\mathbb{I}\{c_{i_K}^{(K)}=j_K,\hc_{i_K}^{(K)}=r_K\}}{\sum_{i_1,...,i_K}\mathbb{I}\{\hc_{i_1}^{(1)}=r_1,...,\hc_{i_K}^{(K)}=r_K\}}
-\end{equation*}
-is the average value of $Ey_{i_1,...,i_K}$ over the block defined by labels $r_1,...,r_K$.
-Additionally, we define normalized residual matrix $\boldsymbol{R}(\hmc^{(1)},...,\hmc^{(K)}) = [R(\hmc^{(1)},...,\hmc^{(K)})_{r_1,...,r_K}] \in \mathbb{R}^{R_1\times\cdots\times R_K}$:
-\begin{equation*}
-    R(\hmc^{(1)},...,\hmc^{(K)})_{r_1,...,r_K}=\overline{Y_{r_1,...,r_K}}-E(\hmc^{(1)},...,\hmc^{(K)})_{r_1,...,r_K}
+    U(\mM_1,...,\mM_K)_{r_1,...,r_K} = \frac{\displaystyle\sum_{i_1,...,i_K}\sum_{j_1,...,j_K}c_{j_1,...,j_K}\prod_{k=1}^K m_{i_k,j_k,true}m_{i_k,j_k}}{\sum_{i_1,...,i_K}\prod_{k=1}^K m_{i_k,r_k}}
 \end{equation*}
 
-We use $ G(\mD^{(1)},...,\mD^{(K)})-\displaystyle\sum_{r_1,...,r_K}p_{r_1}^{(1)}\cdot\cdot\cdot p_{r_K}^{(K)}f(c_{r_1,...,r_K})$ to measure the loss. 
- Under the condition of $\mcr(\hat{\mM}_k, \mP_k\mM_{k,true})\geq \varepsilon~for~all~k\in[K]$, we can turn our goal into find the upper bound for the total loss. The following lemma gives the rigorous proof.
+is the expectation of the average of $y_{i_1,...,i_K}$ over the tensor block $(r_1(i_1),...,r_K(i_K))$.
+Define normalized residual tensor $\tR(\mM_1,...,\mM_K) = \entry{ R(\mM_1,...,\mM_K)_{r_1,...,r_K} } \in \mathbb{R}^{R_1\times\cdots\times R_K}$:
+\begin{equation*}
+    R(\mM_1,...,\mM_K)_{r_1,...,r_K}=\mu_{i_1,...,i_K}-U(\mM_1,...,\mM_K)_{r_1,...,r_K}
+\end{equation*}
+
+With a little abuse of notation, sometimes we denote $G(\mM_1,...,\mM_K)$ as $G(\mD^{(1)},...,\mD^{(K)}) = G(\mD^{(1)}(\mM_1),...,\mD^{(K)}(\mM_K))$. We use $ G(\mD^{(1)},...,\mD^{(K)})-\displaystyle\sum_{r_1,...,r_K}p_{r_1,true}^{(1)} \cdots p_{r_K,true}^{(K)}f(c_{r_1,...,r_K})$ to measure loss caused by the estimation of core tensor; and use $F(\mM_1,...,\mM_K)-G(\mD^{(1)},...,\mD^{(K)})$ to measure the loss caused by the label assignment. 
+ Under the condition of $\mcr(\widehat{\mM_k}, \mP_k\mM_{k,true})\geq \varepsilon,~k\in[K]$, we
+  turn our goal into finding the upper bound for the total loss. The following lemma gives the rigorous proof.
  \begin{lemma}
 \label{1}
-For all $\tau>0$, for $(\hmc^{(1)},...,\hmc^{(K)})\in \mathcal{J}_\tau$ and $\mcr(\hat{\mM}_k, \mP_k\mM_{k,true})\geq \varepsilon,~\exists k\in[K]$,
+Suppose $k\in[K]$, for all $\tau>0$, for $(\mM_1,...,\mM_K)\in \mathcal{J}_\tau$ and $\mcr(\mM_k, \mP_k\mM_{k,true})\geq \varepsilon$,
 \begin{equation*}
-    G(\mD^{(1)},...,\mD^{(K)})-\displaystyle\sum_{r_1,...,r_K}p_{r_1}^{(1)}\cdot\cdot\cdot p_{r_K}^{(K)}f(c_{r_1,...,r_K})\leq -\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}
+    G(\mD^{(1)},...,\mD^{(K)})-\displaystyle\sum_{r_1,...,r_K}p_{r_1,true}^{(1)}\cdot\cdot\cdot p_{r_k,true}^{(k)}f(c_{r_1,...,r_K})\leq -\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}
 \end{equation*}
+where the $\delta_{min}=\min\{\displaystyle\min_{r_1\neq r_1'}\max_{r_2,...,r_K}(c_{r_1,...,r_K}-c_{r_1',...,r_K})^2,...,\displaystyle\min_{r_K\neq r_K'}\max_{r_1,...,r_{K-1}}(c_{r_1,...,r_K}-c_{r_1,...,r_K'})^2\}>0$ is the minimal gap between the block means. % and $\tJ_\tau$ is the set of all possible clustering results that satisfy the marginal assumption.
 \end{lemma}
 
-\begin{proof}[Proof of Lemma\ref{1}]
-If $\mcr(\hat{\mM}_1, \mP_1\mM_{1,true})\geq \varepsilon$, then for some $r_1$ and some $a_1\neq a_1'$, $\min\{D_{a_1r_1}^{(1)}, D_{a_1'r_1}^{(1)}\}\geq \varepsilon$. Since the core tensor is irreducible according to our basic assumption in paper, there exist $a_2,...,a_K$ such that $c_{a_1,...,a_K}\neq c_{a_1',...,a_K}$. Select the $a_2,...,a_K$ such that $(c_{a_1,...,a_K}-c_{a_1',...,a_K})^2 = \displaystyle\min_{a_1\neq a_1'}\max_{a_2,...,a_K}(c_{a_1,...,a_K}-c_{a_1',...,a_K})^2)$. 
-Let $W = [\mD^{(1)^T}\boldsymbol{1}]_{r_1}\cdot\cdot\cdot [\mD^{(K)^T}\boldsymbol{1}]_{r_K}$, this is nonzero according to the selection of $r_1,...,r_K$. Now, there exists $c_*\in\mathbb{R}$ such that
+\begin{proof}[Proof of Lemma \ref{1}]
+If $\mcr(\mM_1, \mP_1\mM_{1,true})\geq \varepsilon$, then for some $r_1$ and some $a_1\neq a_1'$, $\min\{D_{a_1r_1}^{(1)}, D_{a_1'r_1}^{(1)}\}\geq \varepsilon$. Since the core tensor is irreducible according to our basic assumption in paper, there exist $a_2,...,a_K$ such that $c_{a_1,...,a_K}\neq c_{a_1',...,a_K}$. Select the $a_2,...,a_K$ such that $(c_{a_1,...,a_K}-c_{a_1',...,a_K})^2 = \displaystyle\min_{a_1\neq a_1'}\max_{a_2,...,a_K}(c_{a_1,...,a_K}-c_{a_1',...,a_K})^2)$. 
+Let $W = [\mD^{(1)^T}\boldsymbol{1}]_{r_1}\cdot\cdot\cdot [\mD^{(K)^T}\boldsymbol{1}]_{r_K}>0$. Since $f$ is a continuous function, there exists $c_*\in\mathbb{R}$ such that
 
 \begin{equation}
 \begin{split}
@@ -360,27 +366,36 @@ Let $W = [\mD^{(1)^T}\boldsymbol{1}]_{r_1}\cdot\cdot\cdot [\mD^{(K)^T}\boldsymbo
 \end{equation}
 
 Here $\mN=[f(c_{a_1,...,a_K})]\in \mathbb{R}^{R_1\times\cdots\times R_K}$ is the loss function evaluated at each block where $[\mN\times_1\mD^{(1)^T}\times_2\cdots \times_K\mD^{(K)^T}]_{r_1,...,r_K}$ is the weighted value of the loss function.
-Let $z = \frac{[\mathcal{C}\times_1\mD^{(1)^T}\times_2\cdots\times_K \mD^{(K)^T}]_{r_1,...,r_K}}{W}$ where $z_{r_1,...,r_K}$ is the $(r_1,...,r_k)$-th weighted entry of the block means. By Taylor expansion and basic inequality $\frac{a+b}{2}\leq \sqrt{\frac{a^2+b^2}{2}}$,
+Let $z_{r_1,...,r_K} = \frac{[\mathcal{C}\times_1\mD^{(1)^T}\times_2\cdots\times_K \mD^{(K)^T}]_{r_1,...,r_K}}{W}$ where $z_{r_1,...,r_K}$ is the $(r_1,...,r_k)$-th weighted entry of the block means. By calculating the Taylor series of $f(c_{a_1,...,a_K})$, $f(c_{a'_1,...,a_K})$ and $f(c^*)$ at $z_{r_1,...,r_K}$, we have
+\begin{equation}
+	\begin{split}\label{inq:taylor}
+	 &\frac{[\mN\times_1\mD^{(1)^T}\times_2\cdots \times_K\mD^{(K)^T}]_{r_1,...,r_K}}{W}-f(z_{r_1,...,r_K})\\
+	 =&\frac{1}{2} \frac{D_{a_1r_1}^{(1)}\cdots D_{a_Kr_K}^{(K)}}{W}(c_{a_1,...,a_K}-z_{r_1,...,r_K})^2+\frac{1}{2} \frac{D_{a'_1,r_1}^{(1)}\cdots D_{a_Kr_K}^{(K)}}{W}(c_{a'_1,...,a_K}-z_{r_1,...,r_K})^2 \\
+	 +&\frac{1}{2}  \frac{W-D_{a_1r_1}^{(1)}\cdots D_{a_Kr_K}^{(K)}-D_{a'_1,r_1}^{(1)}\cdots D_{a_Kr_K}^{(K)}}{W}(c_*-z_{r_1,...,r_K})^2 
+	\end{split}
+\end{equation}
+
+Combining \eqref{inq:taylor} and  basic inequality $\frac{a+b}{2}\leq \sqrt{\frac{a^2+b^2}{2}}$,
 \begin{equation}
 \begin{split}
    &\frac{[\mN\times_1\mD^{(1)^T}\times_2\cdots \times_K\mD^{(K)^T}]_{r_1,...,r_K}}{W}-f(z)\\
-   &\geq \frac{\min\{D_{a_1r_1}^{(1)},D_{a_1'r_1}^{(1)}\}D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}}{4W}(c_{a_1,...,a_K}-c_{a_1',...,a_K})^2\\
-   &\geq  \frac{\varepsilon D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}}{4W}(c_{a_1,...,a_K}-c_{a_1',...,a_K})^2\\
+   \geq &\frac{\min\{D_{a_1r_1}^{(1)},D_{a_1'r_1}^{(1)}\}D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}}{4W}(c_{a_1,...,a_K}-c_{a_1',...,a_K})^2\\
+   \geq & \frac{\varepsilon D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}}{4W}(c_{a_1,...,a_K}-c_{a_1',...,a_K})^2\\
 \end{split}\label{inq:6}
 \end{equation}
-
-Note the inequality (\eqref{inq:6}) only holds for a certain $r_1\in[R_1]$, for any other $r'_1\in[R_1]\in [R_1]/{r_1}$, by Jensen's inequality we have
+Recall that $W = [\mD^{(1)^T}\boldsymbol{1}]_{r_1}\cdot\cdot\cdot [\mD^{(K)^T}\boldsymbol{1}]_{r_K}>0$.
+Note the inequality \eqref{inq:6} only holds for a certain $r_1\in[R_1]$. For any other $r'_1\in [R_1]/\{r_1\}$, by Jensen's inequality we have
 
 \begin{equation} 
-    \frac{[\mN\times_1\mD^{(1)^T}\times_2\cdots \times_K\mD^{(K)^T}]_{r_1,...,r_K}}{W}-f(z) \geq 0
+    \frac{[\mN\times_1\mD^{(1)^T}\times_2\cdots \times_K\mD^{(K)^T}]_{r_1,...,r_K}}{W}-f(z_{r_1,...,r_K}) \geq 0
     \label{inq:7}
 \end{equation}
 
 
-With $\displaystyle\sum_{r_k=1}^{R_k}D_{a_kr_k}^{(k)}=\hat{p}_{a_k}^{(k)}\geq \tau$, combining the sum of (\eqref{inq:6}) over $(r_2,...,r_K)$ and (\eqref{inq:7}) gives
+Since $\displaystyle\sum_{r_k=1}^{R_k}D_{a_kr_k}^{(k)}=p_{a_k}^{(k)}\geq \tau$, combining the sum of \eqref{inq:6} over $(r_2,...,r_K)$ and \eqref{inq:7} gives
 
 \begin{eqnarray*}
-&&G(\mD^{(1)}(\hmc^{(1)}),...,\mD^{(K)}(\hmc^{(K)}))-\displaystyle\sum_{r_1,...,r_K}\prod_{k=1}^Kp_{r_k}^{(k)}f(c_{r_1,...,r_K})\\
+&&G(\mD^{(1)}(\mD^{(1)}(\mM_1),...,\mD^{(K)}(\mM_K))-\displaystyle\sum_{r_1,...,r_K}\prod_{k=1}^Kp_{r_k,true}^{(k)}f(c_{r_1,...,r_K})\\
 &=&\displaystyle\sum_{r_1,...,r_K}[\mD^{(1)^T}\boldsymbol{1}]_{r_1}\cdots [\mD^{(K)^T}\boldsymbol{1}]_{r_K}f(\frac{[\mathcal{C}\times_1 \mD^{(1)^T}\times_2\cdots \times_K \mD^{(K)^T}]_{r_1,...,r_K}}{[\mD^{(1)^T}\boldsymbol{1}]_{r_1}\cdot\cdot\cdot [\mD^{(K)^T}\boldsymbol{1}]_{r_K}})\\
 %&&-\sum_{r_1,...,r_K}[\mN\times_1\mD^{(1)^T}\times_2\cdots \times_K\mD^{(K)^T}]_{r_1,...,r_K}\\
 &\leq& -\varepsilon\displaystyle\sum_{r_2,...,r_K}\frac{D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}}{4}(c_{a_1,...,a_K}-c_{a_1',...,a_K})^2\\
@@ -388,7 +403,7 @@ With $\displaystyle\sum_{r_k=1}^{R_k}D_{a_kr_k}^{(k)}=\hat{p}_{a_k}^{(k)}\geq \t
 %&\leq& -\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}~\left(because~\displaystyle\sum_{r_k=1}^{R_k}D_{a_kr_k}^{(k)}=\hat{p}_{a_k}^{(k)}\geq \tau\right)
 \end{eqnarray*}
 
-Similarly, the proof also goes through if $\mcr(\hat{\mM}_k, \mP_k\mM_{k,true})\geq \varepsilon,~k\in[K]$.
+Similarly, the proof also goes through if $\mcr(\mM_k, \mP_k\mM_{k,true})\geq \varepsilon,~k\in[K]$.
 \end{proof}
 
 \subsubsection{Proof}
@@ -397,42 +412,48 @@ By lemma \ref{1}, we obtained
 
 \begin{equation}\label{inq:1}
 \begin{split}
-    &\mathbb{P}\left(\mcr(\hat{\mM}_k, \mP_k\mM_{k,true})\geq \varepsilon\right)\\
-    &\leq\mathbb{P}\left( G(\mD^{(1)},...,\mD^{(K)})-\displaystyle\sum_{r_1,...,r_K}p_{r_1}^{(1)}\cdot\cdot\cdot p_{r_K}^{(K)}f(c_{r_1,...,r_K})\leq -\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}\right)\\
-    &=\mathbb{P}\left(G(\mD^{(1)}(\widehat{\hmc^{(1)}}),...,\mD^{(K)}(\widehat{\hmc^{(K)}}))-F(\mc^{(1)},...,\mc^{(K)})\leq -\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}\right)
+    &\mathbb{P}\left(\mcr(\widehat{\mM_k}, \mP_k\mM_{k,true})\geq \varepsilon\right)\\
+    \leq& \mathbb{P}\left( G(\mD^{(1)}(\widehat{\mM_1}),...,\mD^{(K)}(\widehat{\mM_K}))-\displaystyle\sum_{r_1,...,r_K}p_{r_1,true}^{(1)}\cdot\cdot\cdot p_{r_K,true}^{(K)}f(c_{r_1,...,r_K})\leq -\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}\right)\\
+    =& \mathbb{P}\left(G(\mD^{(1)}(\widehat{\mM_1}),...,\mD^{(K)}(\widehat{\mM_K}))-F(\mM_{1,true},...,\mM_{K,true})\leq -\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}\right)
 \end{split}
 \end{equation}
 
 
-Additionally, letting $r_d=\displaystyle\sup_{\mathcal{J}_\tau} |F(\hmc^{(1)},...,\hmc^{(K)})-G(\mD^{(1)}(\hmc^{(1)}),...,\mD^{(K)}(\hmc^{(K)}))|$ which refers to the loss caused only by noise, when $G(\mD^{(1)}(\widehat{\hmc^{(1)}}),...,\mD^{(K)}(\widehat{\hmc^{(K)}}))-F(\mc^{(1)},...,\mc^{(K)})\leq -\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}$, we have
+Define $r_{\md}=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,...,\mM_K)-G(\mD^{(1)}(\mD^{(1)}(\mM_1),...,\mD^{(K)}(\mM_K))|$ as the stochastic deviation of profile likelihood to its expection. When $G(\mD^{(1)}(\widehat{\mM_1}),...,\mD^{(K)}(\widehat{\mM_k}))-F(\mM_{1,true},...,\mM_{K,true})\leq -\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}$, by triangle inequality, we have
 
 \begin{equation} \label{inq:2}
-    F(\hmc^{(1)},...,\hmc^{(K)})-F(\mc^{(1)},...,\mc^{(K)})\leq2r_d-\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}
+    F(\widehat{\mM_1},...,\widehat{\mM_K})-F(\mM_{1,true},...,\mM_{K,true})\leq2r_{\md}-\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}
 \end{equation}
 
-Plug the inequality (\eqref{inq:2}) back into inequality (\eqref{inq:1}), we obtain
+Plugging the inequality \eqref{inq:2} back into inequality \eqref{inq:1}, we obtain
 \begin{equation}\label{inq:3}
 \begin{split}
-    &\mathbb{P}\left(\mcr(\hat{\mM}_k, \mP_k\mM_{k,true})\geq \varepsilon\right)\\
-    &\leq \mathbb{P}\left(F(\widehat{\hmc^{(1)}},...,\widehat{\hmc^{(K)}})-F(\mc^{(1)},...,\mc^{(K)})\leq 2r_d-\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}\right)\\
-    &\leq\mathbb{P}\left(r_d\geq\frac{\varepsilon\tau^{K-1}\delta_{min}}{8}\right)
+    &\mathbb{P}\left(\mcr(\widehat{\mM_k}, \mP_k\mM_{k,true})\geq \varepsilon\right)\\
+    \leq & \mathbb{P}\left(F(\widehat{\mM_1},...,\widehat{\mM_K})-F(\mM_{1,true},...,\mM_{K,true})\leq 2r_{\md}-\frac{\varepsilon\tau^{K-1}\delta_{min}}{4}\right)\\
+    \leq& \mathbb{P}\left(r_{\md}\geq\frac{\varepsilon\tau^{K-1}\delta_{min}}{8}\right)
 \end{split}
 \end{equation}
 
-Now we convert our problem into find the upper bound of $\mathbb{P}\left(r_d\geq \frac{\varepsilon\tau^{K-1}\delta_{min}}{8}\right)$.
-Consider $\mathbb{P}\left(r_d\leq t \right)$, because f is locally lipschitz continuous with lipschitz constant $c = \sup|f'(\mu)|$ for $\mu$ in a neighborhood of the convex hull of the entries of $\mathcal{C}$, 
+%Now we convert our problem into finding the upper bound of $\mathbb{P}\left(r_{\md}\geq \frac{\varepsilon\tau^{K-1}\delta_{min}}{8}\right)$.
+Since $f$ is locally lipschitz continuous with lipschitz constant $b = \sup|f'(\mu)|$, where $\mu$ is in the closure of the convex hull of the entries of $\mathcal{C}$, 
 
 \begin{equation}\label{inq:4}
 \begin{split}
-&|F(\hmc^{(1)},...,\hmc^{(K)})-G(\mD^{(1)}(\hmc^{(1)}),...,\mD^{(K)}(\hmc^{(K)}))|\\
+&\left|F(\widehat{\mM_1},...,\widehat{\mM_K})-G(\mD^{(1)}(\widehat{\mM_1}),...,\mD^{(K)}(\widehat{\mM_K}))\right|\\
 %&=|\displaystyle\sum_{r_1,...,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}[f(\overline{Y_{r_1,...,r_K}})-f(E_{r_1,...,r_K})]|\\
-&\leq\sum_{r_1,...,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}|f(\overline{Y_{r_1,...,r_K}})-f(E_{r_1,...,r_K})|\\
-%&\leq& c\sum_{r_1,...,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}|R(\hmc^{(1)},...,\hmc^{(K)})_{r_1,...,r_K}|\\
-&\leq c||\boldsymbol{R}(\hmc^{(1)},...,\hmc^{(K)})||_\infty
+\leq&\sum_{r_1,...,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}\left|f(\overline{Y_{r_1,...,r_K}})-f(U_{r_1,...,r_K})\right|\\
+%&\leq& c\sum_{r_1,...,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}|R(\mM_1,...,\mM_K)_{r_1,...,r_K}|\\
+\leq& b\left\|\tR(\widehat{\mM_1},...,\widehat{\mM_K})\right\|_\infty
 \end{split}
 \end{equation}
 
-Combining (\eqref{inq:3}), (\eqref{inq:4}), Hoeffding's inequality, $L_d\geq \tau^K\prod_{k=1}^Kd_k$ and $C_2=\frac{\tau^{3K-2}}{128c^2}$ yields the desired conclusion.
+Combining \eqref{inq:3}, \eqref{inq:4} and  Hoeffding's inequality, we have
+\begin{equation}\label{inq:last}
+\mathbb{P}\left(\mcr(\widehat{\mM_k}, \mP_k\mM_{k,true})\geq \varepsilon\right)
+\leq 2 \text{exp}\left( -\frac{\varepsilon^2\tau^{2(K-1)}\delta_{min}^2L_{\md}}{128\sigma^2b^2} \right)
+\end{equation}
+
+Combining \eqref{inq:last}, $L_{\md}\geq \tau^K\prod_{k=1}^Kd_k$ and $C_2=\frac{\tau^{3K-2}}{128b^2}$ yields the desired conclusion.
 
 
 \end{proof}
