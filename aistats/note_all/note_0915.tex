@@ -1,0 +1,150 @@
+\documentclass[11pt]{article}
+\usepackage{lscape}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{bm}
+\usepackage{gensymb}
+\allowdisplaybreaks[4]
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{setspace}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{dsfont}
+
+\usepackage{graphics}
+\usepackage[noend]{algorithmic}
+\usepackage[utf8x]{inputenc}
+\usepackage{bm}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor = blue,
+    linkcolor=blue,
+    filecolor=magenta,           
+    urlcolor=cyan,
+}
+
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{pro}{Property}
+\newtheorem{cor}{Corollary}
+\newtheorem{ass}{Assumption}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{exmp}{Example}
+\newtheorem{rmk}{Remark}
+
+
+
+\usepackage[labelfont=bf]{caption}
+
+\setcounter{table}{1}
+ % \usepackage[labelformat=empty]{ caption}
+\usepackage{multirow}
+\usepackage{tabularx}
+
+\def\fixme#1#2{\textbf{[FIXME (#1): #2]}}
+
+ 
+
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+  \mathop{%
+    \mathchoice
+    {\underbrace{\displaystyle#1}}%
+    {\underbrace{\textstyle#1}}%
+    {\underbrace{\scriptstyle#1}}%
+    {\underbrace{\scriptscriptstyle#1}}%
+  }\limits
+}
+% \usepackage[initials]{amsrefs}
+%\usepackage{amsaddr}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+\usepackage[parfill]{parskip}
+\usepackage{bm}
+\onehalfspacing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%             Math Symbols
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%               Bold Math
+\input macros.tex
+\def\refer#1{\emph{\color{blue}#1}}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{15}\selectfont}
+
+\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
+
+
+%\author{%
+%Yuchen Zeng \\
+%University of Wisconsin -- Madison\\
+ %\texttt{yzeng58@wisc.edu} \\
+%\And
+%Miaoyan Wang \\
+%University of Wisconsin -- Madison\\
+%\texttt{miaoyan.wang@wisc.edu} \\
+%}
+
+\begin{document}
+\begin{center}
+{\bf \large Generalized tensor response regression with multilinear features
+\end{center}
+
+\section{Preliminaries}
+Let $\tY=\entry{y_{i_1,\ldots,i_K}}\in \mathbb{R}^{d_1\times \cdots \times d_K}$ be an order-$K$ tensor, and $\mX_k \in \mathbb{R}^{d_k\times p_k}$ be the features along the $k$-th mode.  
+\begin{align}
+f(\mathbb{E}(\tY|\mX_1,\ldots,\mX_K))=\tB\times_1\mX_1\times_2\cdots \times_K \mX_K
+\end{align}
+where $f(\cdot)$ is the inverse link function which is assumed to be applied to tensors in an entry-wise manner. Here $\tB\in\mathbb{R}^{p_1\times \cdots p_K}$ is the unknown parameter tensor of interest. 
+
+\begin{align}
+\tY |\mX_1,\ldots,\mX_K \stackrel{\text{in D.}}{\sim}& \exp\left(\langle \tY, \tU \rangle - \sum_{i_1,\ldots,i_K}b(u_{i_1,\ldots,i_K})\right)  \prod_{i_1,\ldots,i_K}h(y_{i_1,\ldots,i_K})\\
+\text{where } \tU=\tB\times_1\mX_1\times_2\cdots\times_K \mX_K
+\end{align}
+where $b'(\cdot)$ is a link function and $\tU=\entry{u_{i_1,\ldots,i_K}}$ is the canonical parameter 
+\[
+\mathbb{E}(y_{i_1,\ldots,i_K}|\mX_1,\ldots,\mX_K)=b'(u_{i_1,\ldots,i_K})=\tB\times_1\mX_1\times_2 \cdots \times_K \mX_K
+\]
+
+Suppose that the response tensor $\tY=\entry{Y_{i_1,\ldots,i_K}}$ follows an exponential family distribution:
+\[
+f(\tY|\tX, \Theta)=\prod_{i_1,\ldots,i_K} f(y_{i_1,\ldots,i_K}|\tX,\Theta)=\prod_{i_1,\ldots,i_K} c(y_{i_1,\ldots,i_K}) \exp\left( y_{i_1,\ldots,i_K} \theta_{i_1,\ldots,i_K} - b(\theta_{i_1,\ldots,i_K}) \over \phi \right).
+\]
+Here $\phi$ is a constant, $c(\cdot)$ and $b(\cdot)$ are known functions, and $\Theta=\entry{\theta_{i_1,\dots,i_K}}$ collects the linear predictors and is modeled as
+\[
+\Theta=\tB\times_1\mX_1\times_2\cdots\times_K\mX_K,\quad\text{rank}(\Theta)\leq (r_1,\ldots,r_K),
+\]
+where $\tB\in\mathbb{R}^{p_1\times \cdots \times p_K}$ is the unknown coefficient tensor of interest. 
+\begin{table}[H]
+\centering
+\begin{tabular}{cccc}
+&$b(\theta)$&$b'(\theta)$&$c(\theta)&\phi\\
+\hline
+Normal & ${1\over 2}\theta^2$&$\theta$ & ...& $\sigma^2$\\
+Bernoulli &$$ &${1\over 1+e^{-\theta}}$ & ...& 1\\
+Poisson & $e^(\theta)$&$e^{\theta}$ & ...& 1\\
+\end{tabular}
+\end{table}
+
+The negative log-likelihood for the coefficient tensor $\tB$ is
+\[
+\tL_\tY(\tB)=-\langle \tY, \Theta \rangle + \sum_{i_1,\ldots,i_K}b(\theta_{i_1,\ldots,i_K}),\quad \text{where}\quad \Theta=\Theta(\tB)=\tB\times_1\mX_1\times_2\cdots\times_K \mX_K.
+\]
+
+\end{document}
