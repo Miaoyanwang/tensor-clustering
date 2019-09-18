@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  16 SEP 2019 14:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  18 SEP 2019 13:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -922,12 +922,6 @@ Package amsmath Warning: Foreign command \over;
 l.137 &$b(\theta)$&$b'(\theta)$&$c(\theta)&
                                            \phi\\
 ? 
-./note_0915.tex:137: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.137 &$b(\theta)$&$b'(\theta)$&$c(\theta)&
-                                           \phi\\
-? 
 ./note_0915.tex:137: Missing $ inserted.
 <inserted text> 
                 $
@@ -940,38 +934,99 @@ l.137 &$b(\theta)$&$b'(\theta)$&$c(\theta)&\phi
 l.138 \hline
             
 ? 
-./note_0915.tex:139: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.139 ...al & ${1\over 2}\theta^2$&$\theta$ & ...&
-                                                   $\sigma^2$\\
-? 
-./note_0915.tex:140: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.140 ...ulli &$$ &${1\over 1+e^{-\theta}}$ & ...&
-                                                   1\\
-? 
-./note_0915.tex:141: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.141 Poisson & $e^(\theta)$&$e^{\theta}$ & ...&
-                                                 1\\
-? 
-./note_0915.tex:141: Emergency stop.
-<recently read> \endtemplate 
-                             
-l.141 Poisson & $e^(\theta)$&$e^{\theta}$ & ...&
-                                                 1\\
-End of file on the terminal!
+[1
 
- 
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+./note_0915.tex:156: Missing $ inserted.
+<inserted text> 
+                $
+l.156 \FnormSize{}{\hat \tB-\tB}
+                                ^2\leq w
+? 
+
+./note_0915.tex:157: LaTeX Error: Command \end{thm} invalid in math mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.157 \end{thm}
+               
+? 
+
+./note_0915.tex:157: LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.157 \end{thm}
+               
+? 
+
+./note_0915.tex:157: LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.157 \end{thm}
+               
+? 
+./note_0915.tex:157: Missing $ inserted.
+<inserted text> 
+                $
+l.157 \end{thm}
+               
+? 
+[2]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 202.
+
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 202.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 205.
+ [3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 205.
+
+(./note_0915.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 205.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 205.
+Package rerunfilecheck Info: File `note_0915.out' has not changed.
+(rerunfilecheck)             Checksum: D346B330A8ABBE361CC1A745FCBB6F34;88.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 205.
+ ) 
 Here is how much of TeX's memory you used:
- 18929 strings out of 493014
- 355653 string characters out of 6133351
- 413668 words of memory out of 5000000
- 22253 multiletter control sequences out of 15000+600000
- 13991 words of font info for 53 fonts, out of 8000000 for 9000
+ 18967 strings out of 493014
+ 356169 string characters out of 6133351
+ 415684 words of memory out of 5000000
+ 22276 multiletter control sequences out of 15000+600000
+ 14337 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,12n,42p,10381b,674s stack positions out of 5000i,500n,10000p,200000b,80000s
-./note_0915.tex:141:  ==> Fatal error occurred, no output PDF file produced!
+ 36i,12n,42p,10381b,776s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
+local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/
+local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/l
+ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loca
+l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texl
+ive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/
+texlive/2016/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
+Output written on note_0915.pdf (3 pages, 165867 bytes).
+PDF statistics:
+ 103 PDF objects out of 1000 (max. 8388607)
+ 80 compressed objects within 1 object stream
+ 9 named destinations out of 1000 (max. 500000)
+ 17 words of extra memory for PDF output out of 10000 (max. 10000000)
+

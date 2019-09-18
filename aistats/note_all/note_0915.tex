@@ -121,19 +121,19 @@ where $b'(\cdot)$ is a link function and $\tU=\entry{u_{i_1,\ldots,i_K}}$ is the
 \[
 \mathbb{E}(y_{i_1,\ldots,i_K}|\mX_1,\ldots,\mX_K)=b'(u_{i_1,\ldots,i_K})=\tB\times_1\mX_1\times_2 \cdots \times_K \mX_K
 \]
-
+\section{Model}
 Suppose that the response tensor $\tY=\entry{Y_{i_1,\ldots,i_K}}$ follows an exponential family distribution:
 \[
-f(\tY|\tX, \Theta)=\prod_{i_1,\ldots,i_K} f(y_{i_1,\ldots,i_K}|\tX,\Theta)=\prod_{i_1,\ldots,i_K} c(y_{i_1,\ldots,i_K}) \exp\left( y_{i_1,\ldots,i_K} \theta_{i_1,\ldots,i_K} - b(\theta_{i_1,\ldots,i_K}) \over \phi \right).
+f(\tY|\Theta)=\prod_{i_1,\ldots,i_K} f(y_{i_1,\ldots,i_K}|\Theta)=\prod_{i_1,\ldots,i_K} c(y_{i_1,\ldots,i_K}) \exp\left( y_{i_1,\ldots,i_K} \theta_{i_1,\ldots,i_K} - b(\theta_{i_1,\ldots,i_K}) \over \phi \right).
 \]
-Here $\phi$ is a constant, $c(\cdot)$ and $b(\cdot)$ are known functions, and $\Theta=\entry{\theta_{i_1,\dots,i_K}}$ collects the linear predictors and is modeled as
+Here $\phi$ is a constant, $c(\cdot)$ and $b(\cdot)$ are known functions, and $\Theta=\entry{\theta_{i_1,\dots,i_K}}$ collects the linear predictors 
 \[
-\Theta=\tB\times_1\mX_1\times_2\cdots\times_K\mX_K,\quad\text{rank}(\Theta)\leq (r_1,\ldots,r_K),
+\Theta=\Theta(\tB,\tX)=\tB\times_1\mX_1\times_2\cdots\times_K\mX_K,\quad\text{rank}(\tB)\leq (r_1,\ldots,r_K),
 \]
 where $\tB\in\mathbb{R}^{p_1\times \cdots \times p_K}$ is the unknown coefficient tensor of interest. 
 \begin{table}[H]
 \centering
-\begin{tabular}{cccc}
+\begin{tabular}{cccc|c}
 &$b(\theta)$&$b'(\theta)$&$c(\theta)&\phi\\
 \hline
 Normal & ${1\over 2}\theta^2$&$\theta$ & ...& $\sigma^2$\\
@@ -142,9 +142,64 @@ Poisson & $e^(\theta)$&$e^{\theta}$ & ...& 1\\
 \end{tabular}
 \end{table}
 
-The negative log-likelihood for the coefficient tensor $\tB$ is
+The log-likelihood for the coefficient tensor $\tB$ is given, up to an affine transformation, by
 \[
-\tL_\tY(\tB)=-\langle \tY, \Theta \rangle + \sum_{i_1,\ldots,i_K}b(\theta_{i_1,\ldots,i_K}),\quad \text{where}\quad \Theta=\Theta(\tB)=\tB\times_1\mX_1\times_2\cdots\times_K \mX_K.
+\tL_{\tY}(\tB)=\langle \tY, \Theta \rangle - \sum_{i_1,\ldots,i_K}b(\theta_{i_1,\ldots,i_K}),\quad \text{where}\quad \Theta=\tB\times_1\mX_1\times_2\cdots\times_K \mX_K.
 \]
 
+We propose the constrained MLE:
+\[
+\hat \tB=\argmax_{\text{rank}(\tB)\leq \mr} \tL_{\tY}(\tB)
+\]
+
+\begin{thm}
+\FnormSize{}{\hat \tB-\tB}^2\leq w
+\end{thm}
+
+\begin{proof}
+Let $\ell(\tB)=\mathbb{E}_{\tY\sim \trueB}(\tL_{\tY}(\tB))$. We first show that (1) the stochastic deviation $\tL_{\tY}(\tB)-\ell(\tB)$ is uniformly small for all $\tB$ and (2) $\ell(\hat \tB) - \ell(\trueB) \approx C\FnormSize{}{\hat \tB-\trueB}^2$.
+
+
+Note that 
+\begin{align}
+\tL_{\tY}(\tB)-\ell(\tB)&=\langle \tY-\mathbb{E}(\tY|\tX),\ \Theta(\tB)\rangle\\
+&= \langle \tY- b'(\trueT),\ \Theta\rangle \\
+&= \langle \tE\times_1\mX^T_1\times_2\cdots\times_K\mX^T_K, \tB\rangle,
+\end{align}
+where $\tE=\entry{\varepsilon_{i_1,\ldots,i_K}}\stackrel{\text{def}}{=}\tY-b'(\trueT)$. Based on assumption 1, $\tE$ is sub-Gaussian with parameter bounded by $\phi M$. Therefore $\tE\times_1\mX^T_1\times_2\cdots\times_K\mX^T_K$ is a sub-Gaussian with parameter bounded by $\phi M \prod_k \sigma_k(\mX_k)$.
+
+Second, 
+\[
+\ell(\tB)=\ell(\trueB)-{1\over 2}(\tB-\trueB)^T\mathbb{E}(\tH_{\tY}(\check \tB))(\tB-\trueB)
+\]
+Note that (non-random) Hession matrix is .... So
+\[
+\ell(\tB)-\ell(\trueB)=-{1\over 2}\sum_{i_1,\ldots,i_K}b''(\check \theta_{i_1,\ldots,i_K}) (\theta_{i_1,\ldots,i_K}-\theta_{\text{true},i_1,\ldots,i_K})^2 \leq -{L \over 2}\FnormSize{}{\Theta-\trueT}^2,
+\]
+holds for all $\tB$, provided that $b''(\theta)\geq L>0$.
+
+Now consider $\hat \tB$. Because $\tL_{\tY}(\hat \tB)- \tL_{\tY}(\trueB)\geq 0$, 
+\begin{align}
+0&\leq \tL_{\tY}(\hat \tB)- \tL_{\tY}(\trueB) \\
+&\leq \left(\tL_{\tY}(\hat \tB)-\ell(\hat \tB)\right)-\left( \tL_{\tY}(\trueB)-\ell(\trueB)\right)+\left(\ell(\hat \tB)-\ell(\trueB)\right)\\
+&\leq \langle \tE, \hat \Theta-\trueT \rangle -{L\over 2}\FnormSize{}{\hat \Theta-\trueT}^2
+%&\leq 2\sup_{\tB}|\tL_{\tY}(\tB)-\ell(\tB)|-{L\over 2}\FnormSize{}{\hat \Theta-\trueT}^2
+\end{align}
+
+\[
+\FnormSize{}{\hat \Theta-\trueT}\leq {2\over L}\big\langle \tE, {\hat \Theta -\trueT \over \FnormSize{}{\hat \Theta-\trueT}} \big\rangle\leq {2\over L}\sup_{\Theta: \FnormSize{}{\Theta}=1, \Theta=\tB\times_1\mX_1\times_2\cdots\times_K \mX_K}\langle \tE, \Theta \rangle
+\]
+Therefore, 
+\[
+\FnormSize{}{\hat \Theta-\trueT}^2\leq {2\over L}\sup_{\tB}|\tL_{\tY}(\tB)-\ell(\tB)|
+\]
+\end{proof}
+
+
+\begin{ass}
+Consider the following conditions
+\begin{itemize}
+\item $0<L\leq b''(\theta) \leq M\leq \infty$ for any $\theta \in \mathbb{R}$
+\end{itemize}
+\end{ass}
 \end{document}
