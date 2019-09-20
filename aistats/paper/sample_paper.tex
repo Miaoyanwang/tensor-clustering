@@ -1,10 +1,11 @@
 \documentclass[twoside]{article}
 
-%\usepackage{aistats2019}
+\usepackage{aistats2020}
+\input macros.tex
 % If your paper is accepted, change the options for the package
-% aistats2019 as follows:
+% aistats2020 as follows:
 %
-\usepackage[accepted]{aistats2019}
+% \usepackage[accepted]{aistats2020}
 %
 % This option will print headings for the title of your paper and
 % headings for the authors names, plus a copyright note at the end of
@@ -41,7 +42,7 @@
 
 \twocolumn[
 
-\aistatstitle{Instructions for paper submissions to AISTATS 2019}
+\aistatstitle{Generalized tensor response regression with multilinear covariates}
 
 \aistatsauthor{ Author 1 \And Author 2 \And  Author 3 }
 
@@ -55,35 +56,17 @@
   Abstract. The Abstract must be limited to one paragraph.
 \end{abstract}
 
-\section{GENERAL FORMATTING INSTRUCTIONS}
+\section{Introduction}
 
-The camera-ready versions of the accepted papers are 8 pages,
-plus any additional pages needed for references.
+Many contemporary scientific and engineering studies collect multi-way array data, a.k.a.\ tensor, accompanied by additional covariates. For example, in neuro-imaging analysis, researchers measure brain connections from a sample of individuals with the goal to identifying the brain edges affected by individual covariates. In social network analysis, explain the connection (comminitity) by attributable of both nodes. ... 
+(add two pictures; one for estimating network population; another for estimating link prediction)
+In this article, we provide a general treatment to these seemingly different problems.
 
-Papers are in 2 columns with the overall line width of 6.75~inches (41~picas).
-Each column is 3.25~inches wide (19.5~picas).  The space
-between the columns is .25~inches wide (1.5~picas).  The left margin is 1~inch (6~picas).
-Use 10~point type with a vertical spacing of
-11~points. Please use US Letter size paper instead of A4.
+\section{Model}
+Let $\tY=\entry{y_{i_1,\ldots,i_K}}\in\mathbb{R}^{d_1\times \cdots\times d_K}$ denote an order-$K$ data tensor of interest. Each mode of the tensor corresponds a certain feature,  
 
-Paper title is 16~point, caps/lc, bold, centered between 2~horizontal rules.
-Top rule is 4~points thick and bottom rule is 1~point thick.
-Allow 1/4~inch space above and below title to rules.
+In addition, suppose we observe covariate $\mX_k=\entry{x_{pi}}\in\mathbb{R}^{p_k\times d_k}$ on the mode-$k$, where $x_{pi}$ i
 
-Author descriptions are center-justified, initial caps.  The lead
-author is to be listed first (left-most), and the Co-authors are set
-to follow.  If up to three authors, use a single row of author
-descriptions, each one center-justified, and all set side by side;
-with more authors or unusually long names or institutions, use more
-rows.
-
-Use one-half line space between paragraphs, with no indent.
-
-\section{FIRST LEVEL HEADINGS}
-
-First level headings are all caps, flush left, bold, and in point size
-12. Use one line space before the first level heading and one-half line space
-after the first level heading.
 
 \subsection{Second Level Heading}
 
@@ -187,16 +170,16 @@ typesetting package.)
 
 \begin{enumerate}
     \item Download \texttt{fancyhdr.sty} -- the
-    \texttt{aistats2019.sty} file will make use of it.
+    \texttt{aistats2020.sty} file will make use of it.
     \item Begin your document with
     \begin{flushleft}
     \texttt{\textbackslash documentclass[twoside]\{article\}}\\
-    \texttt{\textbackslash usepackage[accepted]\{aistats2019\}}
+    \texttt{\textbackslash usepackage[accepted]\{aistats2020\}}
     \end{flushleft}
     The \texttt{twoside} option for the class article allows the
     package \texttt{fancyhdr.sty} to include headings for even and odd
     numbered pages. The option \texttt{accepted} for the package
-    \texttt{aistats2019.sty} will write a copyright notice at the end of
+    \texttt{aistats2020.sty} will write a copyright notice at the end of
     the first column of the first page. This option will also print
     headings for the paper.  For the \emph{even} pages, the title of
     the paper will be used as heading and for \emph{odd} pages the

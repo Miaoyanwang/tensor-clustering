@@ -1,5 +1,9 @@
-% File:  aistats2019.sty
+% File:  aistats2020.sty
 
+% Modified by Roberto Calandra, 2019: introduced parametric structure to 
+% change venue, year, and volume number. This will make life easier 
+% for future organizers :)
+%
 % Modified Atsushi Miyauchi, Mirai Tanaka and Akiko Takeda, 2018: changed venue,
 % year, volume number, and heading for the references, and removed tiny bugs.
 % 
@@ -29,19 +33,30 @@
 
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesPackage{aistats2019}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content to be changed from year to year
+
+\ProvidesPackage{aistats2020}[2019/08/29 AISTATS2020 submission/camera-ready style file]  
+
+\newcommand{\@conferenceordinal}{23\textsuperscript{rd}}
+\newcommand{\@conferenceyear}{2020}
+\newcommand{\@conferencelocation}{Palermo, Italy}
+\newcommand{\@conferencevolume}{108}  % To be assigned by JMLR
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage{amsmath}
 
 \DeclareOption{accepted}{\renewcommand{\statePaper}{\acceptedPaper}%
                          \renewcommand{\Notice@String}{\AISTATS@appearing}}
 
+                         
 \newcommand{\statePaper}{0}
 \newcommand{\acceptedPaper}{1}
-\newcommand{\Notice@String}{Preliminary work.  Under review by AISTATS 2019.  Do not distribute.}
-\newcommand{\AISTATS@appearing}{Proceedings of the 22\textsuperscript{nd} International Conference on Artificial
-  Intelligence and Statistics (AISTATS) 2019, Naha, Okinawa, Japan\@. PMLR: Volume 89. Copyright
-  2019 by the author(s).}
+\newcommand{\Notice@String}{Preliminary work. Under review by AISTATS \@conferenceyear. Do not distribute.}
+\newcommand{\AISTATS@appearing}{Proceedings of the \@conferenceordinal International Conference on Artificial
+  Intelligence and Statistics (AISTATS) \@conferenceyear,  \@conferencelocation\@. PMLR: Volume  \@conferencevolume. Copyright
+  \@conferenceyear\/ by the author(s).}
 
 \ProcessOptions\relax
 
@@ -121,7 +136,7 @@
 
    \ifnum\statePaper=0
     {
-     \gdef\@runningtitle{Manuscript under review by AISTATS 2019}
+     \gdef\@runningtitle{Manuscript under review by AISTATS \@conferenceyear}
     }
    \fi
 
@@ -188,7 +203,7 @@
 
    \ifnum\statePaper=0
     {
-     \gdef\@runningauthor{Manuscript under review by AISTATS 2019}
+     \gdef\@runningauthor{Manuscript under review by AISTATS \@conferenceyear}
     }
    \fi
 
