@@ -1,11 +1,9 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{General Model}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Second Level Heading}{section.2}% 3
-\BOOKMARK [3][-]{subsubsection.2.1.1}{Third Level Heading}{subsection.2.1}% 4
-\BOOKMARK [2][-]{subsection.2.2}{CITATIONS, FIGURES, REFERENCES}{section.2}% 5
-\BOOKMARK [3][-]{subsubsection.2.2.1}{Citations in Text}{subsection.2.2}% 6
-\BOOKMARK [3][-]{subsubsection.2.2.2}{Footnotes}{subsection.2.2}% 7
-\BOOKMARK [3][-]{subsubsection.2.2.3}{Figures}{subsection.2.2}% 8
-\BOOKMARK [3][-]{subsubsection.2.2.4}{Tables}{subsection.2.2}% 9
-\BOOKMARK [1][-]{section.3}{SUPPLEMENTARY MATERIAL}{}% 10
-\BOOKMARK [1][-]{section.4}{INSTRUCTIONS FOR CAMERA-READY PAPERS}{}% 11
+\BOOKMARK [1][-]{section.2}{General model}{}% 2
+\BOOKMARK [1][-]{section.3}{Rank-constrained likelihood-based estimation}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Statistical properties}{section.3}% 4
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Phase transition for logistic model}{subsection.3.1}% 5
+\BOOKMARK [1][-]{section.4}{Numerical implementation}{}% 6
+\BOOKMARK [2][-]{subsection.4.1}{Alternating optimization}{section.4}% 7
+\BOOKMARK [1][-]{section.5}{SUPPLEMENTARY MATERIAL}{}% 8
+\BOOKMARK [1][-]{section.6}{INSTRUCTIONS FOR CAMERA-READY PAPERS}{}% 9

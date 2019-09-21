@@ -26,7 +26,7 @@
 \newtheorem{prop}{Proposition}
 \newtheorem{pro}{Property}
 \newtheorem{cor}{Corollary}
-\newtheorem{ass}{Assumption}
+\newtheorem{assumption}{Assumption}
 
 \theoremstyle{definition}
 \newtheorem{defn}{Definition}
@@ -101,7 +101,7 @@
 
 \twocolumn[
 
-\aistatstitle{Generalized tensor response regression with multilinear covariates}
+\aistatstitle{Generalized tensor response regression with multi-sided covariates}
 
 \aistatsauthor{ Anonymous Author 1 \And Anonymous Author 2 \And Anonymous Author 3}
 
@@ -117,35 +117,43 @@ Many contemporary scientific and engineering studies collect multi-way array dat
 (add two pictures; one for estimating network population; another for estimating link prediction)
 In this article, we provide a general treatment to these seemingly different problems.
 
-\section{General Model}
+{\bf Comparison with other models}\\
+Our model is related to, but fundamentally different from, several lines of existing work.\\
+{\bf Unsupervised tensor}. supervised learning. \\
+{\bf Tensor-predictor regression} multilinear in coefficients. \\
+{\bf Tensor-response regression} multilinear in coefficient vs. multilinear in covariates. \\
+{\bf Generalized linear model}. In the high-dimensions both $p$ and $n$ increase while $p \leq d$. This is the particular case. Classical GLM fix $p$. Compared to Gaussian model, the log-likelihood is not strictly convex in the linear predictor. We allow various types of dependent variable. 
+
+
+\section{General model}
 Let $\tY=\entry{y_{i_1,\ldots,i_K}}\in\mathbb{R}^{d_1\times \cdots\times d_K}$ denote an order-$K$ data tensor of interest. In addition, suppose we observe covariate $\mX_k=\entry{x^{(k)}_{pi}}\in\mathbb{R}^{p_k\times d_k}$ on the mode-$k$, where $x^{(k)}_{pi}$ is the $p$-th covariate of entry $i$ along the mode $k$. We propose the following multilinear structure in the mean of the tensor. Specifically, 
-\begin{align}
+\begin{align}\label{eq:tensormodel}
 &\mathbb{E}(\tY|\mX_1,\ldots,\mX_K)=f(\Theta),\ \text{where}\\
 &\Theta =\tB\times\{\mX_1,\ldots,\mX_K\} ,
 \end{align}
-where $f(\cdot)$ is a known link function, $\Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}$ is the linear predictor, $\tB\in\mathbb{R}^{p_1\times \cdots p_K}$ is the parameter tensor of interest, and $\mX_k\in\mathbb{R}^{d_k\times p_k}$ are known covariate matrices, and $\times$ denotes the tensor Tucker product. We give three examples of multi-covariates tensor regression model arises in literature. 
+where $f(\cdot)$ is a known link function, $\Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}$ is called the linear predictor tensor, $\tB\in\mathbb{R}^{p_1\times \cdots p_K}$ is the parameter tensor of interest, and $\mX_k\in\mathbb{R}^{d_k\times p_k}$ are known covariate matrices, and $\times$ denotes the tensor Tucker product. The link function depends on the distribution family of the response (to be specified). Identity link for Gaussian tensor, logistic link for binary tensor, and log link for Poisson tensor. We give three examples of multi-covariates tensor regression model arises in literature. 
 
 \begin{example}[Spatio-temporal growth model]
-Let $\tY=\entry{y_{ijk}}\in\mathbb{R}^{d \times m\times n}$ denote the pH measurements of $d$ lakes at $m$ levels of depth and for $n$ time points. Suppose the sampled lakes belong to $q$ types, with $p$ lakes in each type. Let $\{\ell_j\}_{j\in[m]}$ denote the depth levels and $\{t_k\}_{k\in[n]}$ the time points. Assume the expected pH trend in depth is a polynomial of order $r-1$ and that the expected trend in time is a polynomial of order $s-1$. Then, a classical spatio-temporal growth model can be represented as
+Let $\tY=\entry{y_{ijk}}\in\mathbb{R}^{d \times m\times n}$ denote the pH measurements of $d$ lakes at $m$ levels of depth and for $n$ time points. Suppose the sampled lakes belong to $q$ types, with $p$ lakes in each type. Let $\{\ell_j\}_{j\in[m]}$ denote the depth levels and $\{t_k\}_{k\in[n]}$ the time points. Assume the expected pH trend in depth is a polynomial of order $r$ and that the expected trend in time is a polynomial of order $s$. Then, a classical spatio-temporal growth model can be represented as
 \[
 \mathbb{E}(\tY|\mX_1,\mX_2,\mX_3)=\tB\times\{\mX_1,\mX_2,\mX_3\},
 \]
-where $\tB\in\mathbb{R}^{p\times r\times s}$ is the coefficient tensor of interest, $\mX_1\in \{0,1\}^{d\times p}$ is the design matrix for lake types, 
+where $\tB\in\mathbb{R}^{p\times (r+1)\times (s+1)}$ is the coefficient tensor of interest, $\mX_1=\text{blockdiag}\{\mathbf{1}_p,\ldots,\mathbf{1}_p\}\in \{0,1\}^{d\times p}$ is the design matrix for lake types, 
 \[
 \mX_2=
-\begin{psmallmatrix}
-1 & \ell_1&\cdots &\ell^{r-1}_1\\
-1 & \ell_2&\cdots &\ell^{r-1}_2\\
+\begin{pmatrix}
+1 & \ell_1&\cdots &\ell^{r}_1\\
+1 & \ell_2&\cdots &\ell^{r}_2\\
 \vdots &\vdots&\ddots&\vdots\\
-1&\ell_{m}&\cdots&\ell^{r-1}_{m}
-\end{psmallmatrix},\quad
+1&\ell_{m}&\cdots&\ell^{r}_{m}
+\end{pmatrix},\
 \mX_3=
-\begin{psmallmatrix}
-1 & t_1&\cdots &t^{s-1}_1\\
-1 & t_2&\cdots &t^{s-1}_2\\
+\begin{pmatrix}
+1 & t_1&\cdots &t^{s}_1\\
+1 & t_2&\cdots &t^{s}_2\\
 \vdots &\vdots&\ddots&\vdots\\
-1&t_{n}&\cdots&t^{s-1}_{n}
-\end{psmallmatrix}
+1&t_{n}&\cdots&t^{s}_{n}
+\end{pmatrix}
 \]
 are the design matrices for spatial and temporal effects, respectively. 
 \end{example}
@@ -165,97 +173,94 @@ where $\mI_d$ denotes the identity matrix of dimension $d$.
  \[
  \text{logit}(\mathbb{P}((i,j)\in E)=\mx^T_i\mB\mx_j=\langle \mB, \mx^T_i\mx_j\rangle.
  \]
- Let $\tY=\entry{y_{ij}}, wehre y_{ij}=\mathds{1}_{(i,j)\in E}$. Define $\mX=[\mx_1,\ldots,\mx_n]\in\mathbb{R}^{p\times n}$. Then the above model can be expressed as
+ Let $\tY=\entry{y_{ij}}$ where $y_{ij}=\mathds{1}_{(i,j)\in E}$. Define $\mX=[\mx_1,\ldots,\mx_n]\in\mathbb{R}^{p\times n}$. Then the above model can be expressed as
  \[
  \text{logit}(\mathbb{E}(\mY))=\mB\times_1\mX\times_2\mX
  \]
 \end{example}
-In the above three example and many other studies, researchers are interested in identifying the regions of tensor that are associated to the covariates.
-\subsection{Second Level Heading}
+In the above three example and many other studies, researchers are interested in uncovering the variation in the data tensor that are explained by the covariates. 
 
-Second level headings are initial caps, flush left, bold, and in point
-size 10. Use one line space before the second level heading and one-half line
-space after the second level heading.
+Without any structure on the coefficient tensor $\tB$: \emph{A naive approach is to regress the tensor entry, one at a time, on the covariates, and this model is repeatedly fitted for each tensor element.} Though this approach is scalable, it suffers from two drawbacks: (1) ignore the multilinear structure in the tensor (?) and (2) suffers from the multiplicity issue. To allow the structure among ..we further impose a multilinear low-rank structure on the coefficient tensor $\tB$
+\[
+\tP=\{\tB\in\mathbb{R}^{p_1\times \cdots \times p_K}: r_k(\tB)\leq r_k \text{ for } k\in[K]\},
+\]
+where $r_k(\tB)$ is the Tucker rank of the tensor at mode $k$. We assume that $r_k$ is known and $r_k\leq p_k$. Other low-rankness such as CP rank can also applied. We choose the Tucker decomposition due to the following observation. 
 
-\subsubsection{Third Level Heading}
+Our model can be viewed as a $\tB=\tC\times_1\mM_1\times \cdots\mM_K$, then the reduced-rank model is equivalent to
+\[
+f(\mathbb{E}(\tY|\mX_1,\ldots,\mX_K))=\tC\times\{\mX_1\mM_1,\ldots,\mX_k\mM_k\}.
+\]
+The goal is to find a joint dimension reduction of $\tY$ and $\mX_K$ such that the unexplained variation in the mean tensor. The factorization is restricted to the space spanned by $\mX_k$. Here $\mX_1\mM_1$ can be interpreted as the latent covariates that explains the variation in the response tensor. Here the core tensor $\tC$ collects the interaction effect of latent covariates across the $K$ modes.  
+
+(Question: the columns of $\mX$ should be normalized??)
+
+Question: any connection to tensor completion?? If $\mX_K$ is a random design matrix? 
+
+\section{Rank-constrained likelihood-based estimation}
+We will use a likelihoods estimation based on exponential family. The exponential family is a flexible framework for different data types. In a classical glm with a scalar response $y$ and covariate $\mx$, the density is 
+\[
+p(y|\mx, \boldsymbol{\beta})=c(y)\exp\left({y\theta- b(\theta) \over \phi}\right)\ \text{with}\ \theta=\boldsymbol{\beta}^T\mx,
+\]
+where $c(\cdot)$ and $b(\cdot)$ are known functions and $\theta$ is the linear predictor. Note that the canonical link function $f$ is chosen to be $f(\cdot)=b'(\cdot)$. Table~1 summarize the canonical link function for common distributions. 
+
+In our context, the log-likelihood of~\eqref{eq:tensormodel} is the (?) divergence between the conditional distribution of $\tY|\Theta$ and the exponential family
+\begin{align}
+\tL_{\tY}(\tB)&=\langle \tY, \Theta \rangle - \sum_{i_1,\ldots,i_K} b(\theta_{i_1,\ldots,i_K}),\\
+\text{where}\ \Theta&=\tB\times\{\mX_1,\ldots,\mX_K\}
+\end{align}
+We assume that we have an additional information on an upper bound $a>0$ such that $\mnormSize{}{\Theta}\leq \alpha$. This ensures the existance of 
+We propose the following constrained maximum likelihood estimation for the tensor coefficient
+\[
+\hat \tB=\argmax_{\text{rank}(\tB)\leq \mr, \mnormSize{}{\Theta(\tB)}\leq \alpha} \tL_{\tY}(\tB).
+\]
+\subsection{Statistical properties}
+We assess the estimation accuracy using the deviation in the Frobenius norm. For the true coefficient tensor $\trueB$ and its estimator $\hat \tB$, define
+\[
+\text{Loss}(\trueB, \hat \tB)={\FnormSize{}{\trueB- \hat \tB} \over \prod_k d_k}
+\]
+We focus on the high-dimensional region in which both $d_k\to \infty$ and $p_k\to\infty$ while ${p_k\over d_k} \to \gamma_k \in[0,1]$. 
+\begin{assumption}\label{ass}We make the following assumptions:
+\begin{enumerate}
+\item There exists two positive constants $c_1,c_2>0$ such that $c_1\leq \sigma_{\min}(\mX_k)\leq  \sigma_{\max}(\mX_k)<c_2$ for all $k\in[K]$.
+\item There exist two positive constants $L, M$ such that $L\leq \text{Var}(\tY|\tX)\leq M$ uniformly over the parameter space $\tP$. 
+\end{enumerate}
+\end{assumption}
+
+\begin{thm}[Convergence rate] Consider a generalized tensor regression model with multi-sided covariates. Suppose the Assumption~\label{eq:ass} holds. Then there exist two constants $C_1, C_2>0$ such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
+\[
+\text{Loss}(\hat \tB, \trueB) \leq  {C_2\sum_k p_k \over \prod_k d_k},
+\]
+where $C_2=C_2(\alpha, K, r_1,\ldots,r_K)>0$ is a constant that does not depend on dimension $\{d_k\}$ and $\{p_k\}$. 
+\end{thm}
+
+To gain further insight on the bound 
+1. binary case; 2. large dimension region. $\tO\left({p \over d^k}\right)\leq \tO(d^{-(k-1)})$.
+
+\begin{cor}[Spatio-temporal growth model] the convergence rate is $\tO\left({p+r+s\over dmn}\right)$. Note that $p\leq d$, $r\leq m$ and $s\leq m$, so consistent estimator. 
+\end{cor}
+
+\begin{cor} [Network population model] the convergence rate is $\tO\left({2d+p\over d^2n}\right)$. Note that $p\leq m$, so again a consistent estimator. In contrast, a naive repeated glm will give $\tO({p\over n})$ 
+\end{cor}
+
+\begin{cor} [Link model with node attributes] the convergence rate is $\tO\left({p\over d^2}\right)$. Note that $p\leq m$, so again a consistent estimator. In contrast, a naive repeated glm will give $\tO({p\over n})$.
+\end{cor}
+
+We provide the prediction error (for bernoulli only?)
+\begin{thm} 
+\end{thm}
+
+\subsubsection{Phase transition for logistic model}
 
 Third level headings are flush left, initial caps, bold, and in point
 size 10. Use one line space before the third level heading and one-half line
 space after the third level heading.
 
-\paragraph{Fourth Level Heading}
+\section{Numerical implementation}
+\subsection{Alternating optimization}
 
-Fourth level headings must be flush left, initial caps, bold, and
-Roman type.  Use one line space before the fourth level heading, and
-place the section text immediately after the heading with no line
-break, but an 11 point horizontal space.
-
-\subsection{CITATIONS, FIGURES, REFERENCES}
+\end{Tuning parameter selection}
 
 
-\subsubsection{Citations in Text}
-
-Citations within the text should include the author's last name and
-year, e.g., (Cheesman, 1985). References should follow any style that
-you are used to using, as long as their style is consistent throughout
-the paper.  Be sure that the sentence reads correctly if the citation
-is deleted: e.g., instead of ``As described by (Cheesman, 1985), we
-first frobulate the widgets,'' write ``As described by Cheesman
-(1985), we first frobulate the widgets.''  %Be sure to avoid
-%accidentally disclosing author identities through citations.
-
-\subsubsection{Footnotes}
-
-Indicate footnotes with a number\footnote{Sample of the first
-  footnote.} in the text. Use 8 point type for footnotes. Place the
-footnotes at the bottom of the column in which their markers appear,
-continuing to the next column if required. Precede the footnote
-section of a column with a 0.5 point horizontal rule 1~inch (6~picas)
-long.\footnote{Sample of the second footnote.}
-
-\subsubsection{Figures}
-
-All artwork must be centered, neat, clean, and legible.  All lines
-should be very dark for purposes of reproduction, and art work should
-not be hand-drawn.  Figures may appear at the top of a column, at the
-top of a page spanning multiple columns, inline within a column, or
-with text wrapped around them, but the figure number and caption
-always appear immediately below the figure.  Leave 2 line spaces
-between the figure and the caption. The figure caption is initial caps
-and each figure should be numbered consecutively.
-
-Make sure that the figure caption does not get separated from the
-figure. Leave extra white space at the bottom of the page rather than
-splitting the figure and figure caption.
-\begin{figure}[h]
-\vspace{.3in}
-\centerline{\fbox{This figure intentionally left non-blank}}
-\vspace{.3in}
-\caption{Sample Figure Caption}
-\end{figure}
-
-\subsubsection{Tables}
-
-All tables must be centered, neat, clean, and legible. Do not use hand-drawn tables.
-Table number and title always appear above the table.
-See Table~\ref{sample-table}.
-
-Use one line space before the table title, one line space after the table title,
-and one line space after the table. The table title must be
-initial caps and each table numbered consecutively.
-
-\begin{table}[h]
-\caption{Sample Table Title} \label{sample-table}
-\begin{center}
-\begin{tabular}{ll}
-\textbf{PART}  &\textbf{DESCRIPTION} \\
-\hline \\
-Dendrite         &Input terminal \\
-Axon             &Output terminal \\
-Soma             &Cell body (contains cell nucleus) \\
-\end{tabular}
-\end{center}
-\end{table}
 
 \section{SUPPLEMENTARY MATERIAL}
 
