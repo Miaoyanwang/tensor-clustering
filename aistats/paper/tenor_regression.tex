@@ -108,7 +108,7 @@
 \aistatsaddress{ Unknown Institution 1 \And  Unknown Institution 2 \And Unknown Institution 3 } ]
 
 \begin{abstract}
-We consider the problem of learning higher-order tensor with side information on a set of modes. Such data problems arise frequently arise in applications such as neuroimaging, network analysis, and ... We propose a new family of tensor response regression models that incorporate covariate information. 
+We consider the problem of learning higher-order tensor with side information on a set of modes. Such data problems arise frequently arise in applications such as neuroimaging, network analysis, and ... We propose a new family of tensor response regression models that incorporate covariate information...
 \end{abstract}
 
 \section{Introduction}
@@ -218,6 +218,13 @@ We assess the estimation accuracy using the deviation in the Frobenius norm. For
 \[
 \text{Loss}(\trueB, \hat \tB)={\FnormSize{}{\trueB- \hat \tB} \over \prod_k d_k}
 \]
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=17.5cm]{unsupervised.png}
+  \end{center}
+  \end{figure*}
+  
 We focus on the high-dimensional region in which both $d_k\to \infty$ and $p_k\to\infty$ while ${p_k\over d_k} \to \gamma_k \in[0,1]$. 
 \begin{assumption}\label{ass}We make the following assumptions:
 \begin{enumerate}
@@ -226,6 +233,7 @@ We focus on the high-dimensional region in which both $d_k\to \infty$ and $p_k\t
 \end{enumerate}
 \end{assumption}
 
+  
 \begin{thm}[Convergence rate]\label{thm:main}
 Consider a generalized tensor regression model with multi-sided covariates. Let $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ be the tensor response and $\mX_k\in\mathbb{R}^{p_k\times d_k}$ the covariates on mode-$k$. Suppose $\tY|\{\mX_1,\ldots,\mX_K\}$ follows exponential family distribution generated from the low-rank tensor regression model~\eqref{eq:tensormodel}. Furthermore, the Assumption~\eqref{ass} holds. Then there exist two constants $C_1, C_2>0$ such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
 \[
@@ -258,6 +266,9 @@ space after the third level heading.
 \section{Numerical implementation}
 \subsection{Alternating optimization}
 
+
+
+  
 \end{Tuning parameter selection}
 
 

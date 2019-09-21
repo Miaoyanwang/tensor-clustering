@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 SEP 2019 17:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 SEP 2019 17:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -943,30 +943,41 @@ Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
 (amsmath)                 on input line 202.
 
-[2]
-Underfull \hbox (badness 1845) in paragraph at lines 242--243
+[2] <unsupervised.png, id=82, 763.85374pt x 408.52625pt>
+File: unsupervised.png Graphic file (type png)
+
+<use unsupervised.png>
+Package pdftex.def Info: unsupervised.png used on input line 224.
+(pdftex.def)             Requested size: 497.92322pt x 266.29941pt.
+
+Overfull \hbox (10.10072pt too wide) in paragraph at lines 224--225
+ [] 
+ []
+
+
+Underfull \hbox (badness 1845) in paragraph at lines 250--251
 \T1/cmr/bx/n/10 Corollary 2 \T1/cmr/m/n/10 (+20) (Net-work pop-u-la-tion model)
 \T1/cmr/bx/n/10 . \T1/cmr/m/n/10 (+20) Our
  []
 
 
-./tenor_regression.tex:261: LaTeX Error: \begin{document} ended by \end{Tuning 
+./tenor_regression.tex:272: LaTeX Error: \begin{document} ended by \end{Tuning 
 parameter selection}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.261 \end{Tuning parameter selection}
+l.272 \end{Tuning parameter selection}
                                       
 ? 
-./tenor_regression.tex:261: Extra \endgroup.
+./tenor_regression.tex:272: Extra \endgroup.
 <recently read> \endgroup 
                           
-l.261 \end{Tuning parameter selection}
+l.272 \end{Tuning parameter selection}
                                       
 ? 
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 280.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 291.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
@@ -976,39 +987,37 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 359.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 370.
  [4pdfTeX warning (ext4): destination with the same identifier (name{cite.}) ha
 s been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.359 \end{document}
+l.370 \end{document}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.359 \end{document}
-                    
-
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 359.
+l.370 \end{document}
+                     <./unsupervised.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 370.
  (./tenor_regression.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 359.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 359.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 370.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 370.
 Package rerunfilecheck Info: File `tenor_regression.out' has not changed.
 (rerunfilecheck)             Checksum: 2C1DBF7A05612D9D36D809F327EB3EC5;599.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 359.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 370.
  ) 
 Here is how much of TeX's memory you used:
- 11748 strings out of 493014
- 174828 string characters out of 6133351
+ 11756 strings out of 493014
+ 174965 string characters out of 6133351
  315290 words of memory out of 5000000
- 14944 multiletter control sequences out of 15000+600000
+ 14949 multiletter control sequences out of 15000+600000
  22747 words of font info for 98 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  44i,11n,45p,645b,447s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1039,10 +1048,10 @@ texmf-dist/fonts/type1/public/cm-super/sfti0700.pfb></usr/local/texlive/2016/te
 xmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2016/texm
 f-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texmf-
 dist/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on tenor_regression.pdf (4 pages, 342888 bytes).
+Output written on tenor_regression.pdf (4 pages, 543826 bytes).
 PDF statistics:
- 207 PDF objects out of 1000 (max. 8388607)
- 173 compressed objects within 2 object streams
- 39 named destinations out of 1000 (max. 500000)
- 19017 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 211 PDF objects out of 1000 (max. 8388607)
+ 175 compressed objects within 2 object streams
+ 40 named destinations out of 1000 (max. 500000)
+ 19022 words of extra memory for PDF output out of 20736 (max. 10000000)
 
