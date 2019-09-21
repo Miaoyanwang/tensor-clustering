@@ -103,9 +103,9 @@
 
 \aistatstitle{Generalized tensor response regression with multilinear covariates}
 
-\aistatsauthor{ Author 1 \And Author 2 \And  Author 3 }
+\aistatsauthor{ Anonymous Author 1 \And Anonymous Author 2 \And Anonymous Author 3}
 
-\aistatsaddress{ Institution 1 \And  Institution 2 \And Institution 3 } ]
+\aistatsaddress{ Unknown Institution 1 \And  Unknown Institution 2 \And Unknown Institution 3 } ]
 
 \begin{abstract}
 We consider the problem of learning higher-order tensor with side information on a set of modes. Such data problems arise frequently arise in applications such as neuroimaging, network analysis, and ... We propose a new family of tensor response regression models that incorporate covariate information. 
@@ -126,39 +126,51 @@ Let $\tY=\entry{y_{i_1,\ldots,i_K}}\in\mathbb{R}^{d_1\times \cdots\times d_K}$ d
 where $f(\cdot)$ is a known link function, $\Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}$ is the linear predictor, $\tB\in\mathbb{R}^{p_1\times \cdots p_K}$ is the parameter tensor of interest, and $\mX_k\in\mathbb{R}^{d_k\times p_k}$ are known covariate matrices, and $\times$ denotes the tensor Tucker product. We give three examples of multi-covariates tensor regression model arises in literature. 
 
 \begin{example}[Spatio-temporal growth model]
-Let $\tY=\entry{y_{ijk}}\in\mathbb{R}^{d_1\times d_2\times d_3}$ denote the pH measurements of $d_1$ lakes at $d_2$ levels of depth and for $d_3$ time points. Suppose the $d_1$ lakes belong to $p$ types, with $n$ lakes in each type. Let $\{\ell_j\}_{j\in[d_2]}$ denote the depth levels and $\{t_k\}_{k\in[d_3]}$ the time points. Assume the expected pH trend in depth is a polynomial of order $r-1$ and that the expected trend in time is a polynomial of order $s-1$. Then, a classical spatio-temporal growth model can be represented as
+Let $\tY=\entry{y_{ijk}}\in\mathbb{R}^{d \times m\times n}$ denote the pH measurements of $d$ lakes at $m$ levels of depth and for $n$ time points. Suppose the sampled lakes belong to $q$ types, with $p$ lakes in each type. Let $\{\ell_j\}_{j\in[m]}$ denote the depth levels and $\{t_k\}_{k\in[n]}$ the time points. Assume the expected pH trend in depth is a polynomial of order $r-1$ and that the expected trend in time is a polynomial of order $s-1$. Then, a classical spatio-temporal growth model can be represented as
 \[
 \mathbb{E}(\tY|\mX_1,\mX_2,\mX_3)=\tB\times\{\mX_1,\mX_2,\mX_3\},
 \]
-where $\mX_1=\text{blockdiag}(\mathbf{1}'_n,\ldots,\mathbf{1}'_n)\in\mathbb{R}^{d_1\times p}$ is the design matrix for lake types, 
-$\mX_2=
+where $\tB\in\mathbb{R}^{p\times r\times s}$ is the coefficient tensor of interest, $\mX_1\in \{0,1\}^{d\times p}$ is the design matrix for lake types, 
+\[
+\mX_2=
 \begin{psmallmatrix}
 1 & \ell_1&\cdots &\ell^{r-1}_1\\
 1 & \ell_2&\cdots &\ell^{r-1}_2\\
 \vdots &\vdots&\ddots&\vdots\\
-1&\ell_{d_2}&\cdots&\ell^{r-1}_{d_2}
-\end{psmallmatrix}$ 
-is the design matrix for depth effects, and $ 
+1&\ell_{m}&\cdots&\ell^{r-1}_{m}
+\end{psmallmatrix},\quad
 \mX_3=
 \begin{psmallmatrix}
 1 & t_1&\cdots &t^{s-1}_1\\
 1 & t_2&\cdots &t^{s-1}_2\\
 \vdots &\vdots&\ddots&\vdots\\
-1&t_{d_3}&\cdots&t^{s-1}_{d_3}
+1&t_{n}&\cdots&t^{s-1}_{n}
 \end{psmallmatrix}
-$ is the design matrix for time effects.
+\]
+are the design matrices for spatial and temporal effects, respectively. 
 \end{example}
 \begin{example}[Network population model] 
-Network response model is a recent neruimaging. The model study the relationship between the network-valued response with the individual covariates. Suppose a set of $(\mx_i, \mY_i)$ are observed for $n$ individuals, where $\mx_i\in\mathbb{R}^p$ is the subject covariate such as age, gender and $\mY_i\in\{0,1\}^{d\times n}$ is the brain connectivity network on $i$-th individual. 
+Network response model is a very recent model in neuroimanig. The model studies the relationship between the network-valued response with the individual covariates. Suppose we observe $n$ i.i.d.\ observation $\{(\mY_i, \mx_i): i=1,\ldots,n\}$, where $\mY_i\in\{0,1\}^{d\times n}$ is the brain connectivity network on the $i$-th individual and $\mx_i\in\mathbb{R}^p$ is the subject covariate such as age, gender. The network-response model is of the form
 \begin{equation}\label{eq:network}
 \text{logit}(\mathbb{E}(\mY_i|\mx_i))=\tB\times_3\mx_i, \quad \text{for }i=1,\ldots,n
 \end{equation}
-where $\tB\in \mathbb{R}^{d\times d\times p}$ is the covariate tensor. The model~\eqref{eq:network} is equivalent to
+where $\tB\in \mathbb{R}^{d\times d\times p}$ is the coefficient tensor of interest. In fact, the model~\eqref{eq:network} is a special case of our multilinear tensor-response model. To see this, let $\tY\in\{0,1\}^{d\times d\times n}$ denote the response tensor by stacking $\{\mY_i\}$ together along the 3$^\text{rd}$ mode and $\mX=[\mx_1,\ldots,\mx_n]\in\mathbb{R}^{p\times n}$, then model~\eqref{eq:network} can be expressed as 
 \[
-\mathbb{E}(\tY|\mX)=\tB\times_3 \mX
+\text{logit}(\mathbb{E}(\tY|\mX))=\tB\times_3 \mX=\tB\times\{\mI_d, \mI_d, \mX\},
 \]
-where $\tY$ is a $d$-by-$d$-by-$n$ tensor by stacking $\{\mY_i\}$ together, $\mX=[\mx_1,\ldots,\mx_n]\in\mathbb{R}^{p\times n}$
+where $\mI_d$ denotes the identity matrix of dimension $d$. 
  \end{example}
+ 
+ \begin{example}[Link model with node attributes] Let $V=[n]$ be a set of vertices and explanatory variable $x_i\in\mathbb{R}^p$ associated to each $i\in V$. The network $G=(V,E)$ is described by the following matrix model. The edge connects the two vertices $i$ and $j$ independently of the others is modeled as
+ \[
+ \text{logit}(\mathbb{P}((i,j)\in E)=\mx^T_i\mB\mx_j=\langle \mB, \mx^T_i\mx_j\rangle.
+ \]
+ Let $\tY=\entry{y_{ij}}, wehre y_{ij}=\mathds{1}_{(i,j)\in E}$. Define $\mX=[\mx_1,\ldots,\mx_n]\in\mathbb{R}^{p\times n}$. Then the above model can be expressed as
+ \[
+ \text{logit}(\mathbb{E}(\mY))=\mB\times_1\mX\times_2\mX
+ \]
+\end{example}
+In the above three example and many other studies, researchers are interested in identifying the regions of tensor that are associated to the covariates.
 \subsection{Second Level Heading}
 
 Second level headings are initial caps, flush left, bold, and in point
