@@ -1,0 +1,261 @@
+% this style was created by Philippe Dreuw and Thomas Deselaers
+% and modified by Matthias Steinrücken
+\ProvidesPackage{beamerthemeCustom} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\RequirePackage{tangocolors}
+\selectcolormodel{cmyk}
+\mode<presentation>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%farbversuche
+% %sieht sehr gut aus aber erstmal nicht
+% \definecolor{grey}{RGB}{0,0,0}
+% %aber wir machen erstmal was anderes
+% \definecolor{darkgreen}{RGB}{90,160,70}
+% \definecolor{darkred}{RGB}{160,70,70}
+% \definecolor{brickred}{RGB}{220,55,75}
+% \definecolor{yellow}{RGB}{255,255,0}
+\definecolor{turquoise}{RGB}{0,255,255}
+
+%farbe als structure setzen
+% \setbeamercolor{structure}{fg=turquoise!40!black}
+
+% theme
+% \usetheme{Singapore}
+% \useinnertheme{rounded}
+% \usecolortheme{rose}
+
+
+
+% % custom colors
+% \definecolor{i6blue}{cmyk}{1,0.305,0,0.06}
+% \definecolor{i6bluedark}{rgb}{0.0156,0.2578,0.5625} 
+% % http://www.colorsontheweb.com/colorwizard.asp#wizard, used start set: #0066cc
+% \definecolor{i6colorscheme1}{HTML}{FF6518}  % e.g. for block title
+% \definecolor{i6colorblockbg}{HTML}{0033cc}
+% \definecolor{i6colorblockfg}{HTML}{FCE94F}
+% \definecolor{i6colorscheme2}{HTML}{000000}  % e.g. title in headline
+% \definecolor{i6colorscheme3}{HTML}{C3DFFF}  % e.g. for poster background
+% \definecolor{i6colorscheme4}{HTML}{000000} 
+% \definecolor{i6colorschemeHeadline}{HTML}{0033cc}  % for headline bg
+% %\definecolor{i6colorschemeFootline}{HTML}{000000}  % for footline bg
+% \definecolor{i6colorschemeFootline}{HTML}{100D09}  % for footline bg
+
+% overall structure
+\setbeamercolor{tmp}{bg=turquoise!40!black}
+\setbeamercolor{structure}{use=tmp,fg=tmp.bg!15!white,bg=tmp.bg}
+% \setbeamercolor{structure}{use=tmp,fg=white,bg=tmp.bg}
+
+% headline colors and fonts
+\setbeamercolor{headline}{use=structure,fg=structure.fg,bg=structure.bg}
+\setbeamercolor{title in headline}{use=structure,fg=structure.bg!50!black}
+\setbeamercolor{author in headline}{fg=darkgray}
+\setbeamercolor{institute in headline}{fg=darkgray}
+\setbeamercolor{logo in headline}{fg=black,bg=lightgray}
+\setbeamercolor{separation line}{bg=structure.bg!50!black}
+
+% footline colors and fonts
+\setbeamercolor{footline}{fg=structure.bg!50!black,bg=structure.bg!13!white}
+\setbeamerfont{footline}{size=\normalsize}
+
+% body colors and fonts
+\setbeamercolor*{normal text}{use=structure,fg=black,bg=turquoise!10!white!95!black}
+% \setbeamercolor{background canvas}{bg=black}
+\setbeamercolor{enumerate item}{use=structure,fg=structure.bg!50!black}
+\setbeamercolor{itemize item}{use=structure,fg=structure.bg!50!black}
+
+
+% block environment
+\setbeamercolor*{block body}{bg=white,fg=black}
+\setbeamercolor*{block title}{fg=structure.bg!50!black,bg=structure.bg!50!white}
+% \setbeamerfont{block title}{family=\rm}
+\setbeamerfont{block title}{size=\large,series=\bf}
+
+% example environment
+% \setbeamercolor*{example title}{fg=white,bg=i6colorscheme1}
+% \setbeamerfont{example title}{size=\large,series=\bf,bg=i6colorscheme1,fg=white}
+
+%\setbeamercolor*{example body}{fg=white,bg=i6colorscheme4}
+%\setbeamercolor*{example title}{fg=white,bg=i6colorscheme1}
+
+
+%  \setbeamercolor{framesubtitle}{fg=ta3orange, bg=ta2gray}
+%  \setbeamercolor{author in head/foot}{fg=tabutter, bg=black}
+%  \setbeamercolor{title in head/foot}{bg=tabutter, fg=black}
+
+
+% \setbeamercolor{alerted text}{fg=i6colorscheme1}
+% \setbeamercolor{structure}{fg=i6blue}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\setbeamercolor{headline}{fg=tabutter,bg=black}
+%\setbeamercolor{footline}{fg=tabutter, bg=ta3gray}
+%\setbeamerfont{footline}{size=\large,series=\tt}
+%\setbeamercolor{separation line}{bg=ta2orange}
+%\setbeamercolor{title in headline}{fg=tabutter}
+%\setbeamercolor{author in headline}{fg=ta2orange}
+%\setbeamercolor{institute in headline}{fg=ta3orange}
+
+%\setbeamercolor{framesubtitle}{fg=ta3orange, bg=ta2gray}
+%\setbeamercolor{author in head/foot}{fg=ta2orange, bg=black}
+%\setbeamercolor{title in head/foot}{fg=ta2orange, bg=black}
+
+%\setbeamercolor*{normal text}{fg=tachameleon, bg=ta3gray}
+%\setbeamercolor*{block body}{bg=ta3aluminium,fg=black}
+%\setbeamercolor*{block title}{fg=taorange,bg=ta2gray}
+%\setbeamerfont{block title}{size=\large,series=\bf}
+%\setbeamercolor{upper separation line head}{fg=ta2orange}
+
+%\setbeamercolor*{example body}{fg=ta3aluminium,bg=black}
+%\setbeamercolor*{example text}{fg=ta3aluminium,bg=black}
+%\setbeamercolor*{example title}{bg=taorange,fg=ta2gray}
+
+%\setbeamercolor{alerted text}{fg=ta3gray}
+
+%%\setbeamercolor{example text}{fg=taorange}
+%\setbeamercolor{structure}{fg=ta3skyblue}
+
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{navigation symbols}{}  % no navigation on a poster
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setbeamertemplate{block begin}{
+  \vskip.75ex
+%	\begin{beamercolorbox}[center,leftskip=1cm,colsep*=.75ex]{block title}%
+%	    \usebeamerfont*{block title}%
+%	    {\rule[-0.4ex]{0mm}{2ex}\insertblocktitle}%
+%	  \end{beamercolorbox}%
+	\vspace{-0.3ex}
+  \begin{beamercolorbox}[rounded=true,shadow=true,leftskip=1cm,colsep*=.75ex]{block title}%
+	\vspace{-0.3ex}
+    \usebeamerfont*{block title}%
+	{\rule[-0.4ex]{0mm}{2ex}\insertblocktitle}%
+  \end{beamercolorbox}%
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[rounded=true,shadow=true,colsep*=.75ex,sep=.25ex,vmode]{block body}%
+    \ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+  }
+  \setbeamertemplate{block end}{
+  \end{beamercolorbox}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% {
+% 	\usebeamercolor{structure}
+% 
+% 	\pgfdeclareverticalshading{beamer@headfade}{\paperwidth}
+% 	{%
+% 	  color(0cm)=(fg);
+% 	  color(1.25cm)=(bg)%
+% 	}
+% }
+
+\setbeamertemplate{headline}{
+
+	
+	% try to define shading
+	{
+		\usebeamercolor{structure}
+
+		\pgfdeclareverticalshading{beamer@headfade}{\paperwidth}
+		{%
+		 % color(0cm)=(fuckYou);
+		  color(0cm)=(structure.fg);
+		 color(10cm)=(structure.bg!50!white)%
+		}
+	}
+	% and use it
+	\pgfuseshading{beamer@headfade}\vskip-10cm
+	
+  \leavevmode
+
+  % \begin{beamercolorbox}[wd=\paperwidth]{headline}
+    \begin{columns}[T]
+      \begin{column}{.01\paperwidth}
+      \end{column}
+      \begin{column}{.08\paperwidth}
+        \begin{center}
+          \includegraphics[width=1.1\linewidth]{graphics/uc_seal}
+        \end{center}
+        \vskip1ex
+      \end{column}
+      \begin{column}{.875\paperwidth}
+        \vskip4ex
+        \raggedleft
+        \usebeamercolor{title in headline}{\color{fg}\textbf{\LARGE{\inserttitle}}\\[1ex]}
+        \usebeamercolor{author in headline}{\color{fg}\large{\insertauthor}\\[1ex]}
+        \usebeamercolor{institute in headline}{\color{fg}\large{\insertinstitute}\\[1ex]}     
+      \end{column}
+      %\begin{column}{.25\paperwidth}
+      %  \vskip1cm
+      %  \begin{center}
+      %    \includegraphics[width=.7\linewidth]{rwthaachenuniversity-whitegray}
+      %  \end{center}
+      %  \vskip1.5cm
+      %\end{column}
+      \begin{column}{.03\paperwidth}
+      \end{column}
+    \end{columns}
+  % \end{beamercolorbox}
+
+  % \begin{beamercolorbox}[wd=\paperwidth]{lower separation line head}
+  %   \rule{0pt}{2pt}
+  % \end{beamercolorbox}
+}
+
+%  \setbeamertemplate{headline}{  
+%    \leavevmode
+%    \begin{beamercolorbox}[sep=0.5cm,wd=.8\paperwidth]{headline}
+%      \usebeamercolor{title in headline}{\raggedleft\color{fg}\textbf{\LARGE{\inserttitle}}\\[1ex]}
+%      \usebeamercolor{author in headline}{\raggedleft\color{fg}\large{\insertauthor}\\[1ex]}
+%      \usebeamercolor{institute in headline}{\raggedleft\color{fg}\large{\insertinstitute}\\[1ex]}     
+%    \end{beamercolorbox}%
+%    \begin{beamercolorbox}[wd=.2\paperwidth]{logo in headline}
+%      \centering
+%      \LARGE{LOGO}
+%    \end{beamercolorbox}  
+
+
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setbeamertemplate{footline}{
+  % \begin{beamercolorbox}[wd=\paperwidth]{upper separation line foot}
+  %   \rule{0pt}{2pt}
+  % \end{beamercolorbox}
+  
+  \leavevmode%
+  % \begin{beamercolorbox}[ht=4ex,leftskip=1cm,rightskip=1cm]{footine}%
+  	% \begin{minipage}[b]{.5\linewidth}\scriptsize{This research is supported by NIH grants R00-GM080099 and R01-GM094402 to Y.S.S. and DFG fellowship STE 2011/1-1 to M.S.}\end{minipage}
+  	% \begin{minipage}[b]{.52\linewidth}\footnotesize{Supported by NIH grants R00-GM080099 and R01-GM094402 to Y.S.S. and DFG fellowship STE 2011/1-1 to M.S.}\end{minipage}
+  	\begin{minipage}[b]{\linewidth}
+    % \quad This research is supported by the NIH
+    \quad This research is supported in part by an NIH grant R01-GM094402, and a Packard Fellowship for Science and Engineering
+    \hfill
+    \texttt{\{bhaskar,yss\}@eecs.berkeley.edu}\end{minipage}
+    \vskip0.6ex
+  % \end{beamercolorbox}
+  % \vskip0pt%
+  % \begin{beamercolorbox}[wd=\paperwidth]{lower separation line foot}
+  %   \rule{0pt}{2pt}
+  % \end{beamercolorbox}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Display a grid to help align images ... and it looks nice with this color scheme
+%\beamertemplategridbackground[1cm]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mode<all>
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-PDF-mode: t
+%%% TeX-master: "poster"
+%%% End: 

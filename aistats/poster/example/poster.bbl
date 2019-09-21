@@ -1,0 +1,53 @@
+\begin{thebibliography}{6}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Coventry et~al.(2010)Coventry, Bull-Otterson, Liu,
+  et~al.]{coventry:2010}
+Coventry, A., Bull-Otterson, L.~M., Liu, X., et~al.
+\newblock 2010.
+\newblock Deep resequencing reveals excess rare recent variants consistent with
+  explosive population growth.
+\newblock \emph{Nature Communications}, 1 131.
+
+\bibitem[Li and Durbin(2011)]{li:2011}
+Li, H. and Durbin, R.
+\newblock 2011.
+\newblock Inference of human population history from individual whole-genome
+  sequences.
+\newblock \emph{Nature}, 475\penalty0 (7357) 493--496.
+
+\bibitem[Nelson et~al.(2012)Nelson, Wegmann, Ehm, et~al.]{nelson:2012}
+Nelson, M.~R., Wegmann, D., Ehm, M.~G., et~al.
+\newblock 2012.
+\newblock An abundance of rare functional variants in 202 drug target genes
+  sequenced in 14,002 people.
+\newblock \emph{Science}, 337\penalty0 (6090) 100--104.
+
+\bibitem[Polanski and Kimmel(2003)]{polanski:2003-1}
+Polanski, A. and Kimmel, M.
+\newblock September 2003.
+\newblock New explicit expressions for relative frequencies of
+  {Single-Nucleotide} polymorphisms with application to statistical inference
+  on population growth.
+\newblock \emph{Genetics}, 165\penalty0 (1) 427--436.
+
+\bibitem[Sheehan et~al.(2013)Sheehan, Harris, and Song]{sheehan:2013}
+Sheehan, S., Harris, K., and Song, Y.~S.
+\newblock 2013.
+\newblock Estimating variable effective population sizes from multiple genomes:
+  A sequentially markov conditional sampling distribution approach.
+\newblock \emph{Genetics}, Accepted pending minor revision.
+
+\bibitem[Tennessen et~al.(2012)Tennessen, Bigham, O’Connor,
+  et~al.]{tennessen:2012}
+Tennessen, J.~A., Bigham, A.~W., O’Connor, T.~D., et~al.
+\newblock 2012.
+\newblock Evolution and functional impact of rare coding variation from deep
+  sequencing of human exomes.
+\newblock \emph{Science}, 337\penalty0 (6090) 64--69.
+
+\end{thebibliography}
