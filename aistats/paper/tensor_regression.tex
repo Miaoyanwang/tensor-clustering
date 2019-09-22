@@ -189,16 +189,16 @@ Again, we show that this model is a special case of our tensor regression model.
 In the above three example and many other studies, researchers are interested in uncovering the variation in the data tensor that are explained by the covariates. 
 
 Without any structure on the coefficient tensor $\tB$: \emph{A naive approach is to regress the tensor entry, one at a time, on the covariates, and this model is repeatedly fitted for each tensor element.} Though this approach is scalable, it suffers from two drawbacks: (1) ignore the multilinear structure in the tensor (?) and (2) suffers from the multiplicity issue. To allow the structure among ..we further impose a multilinear low-rank structure on the coefficient tensor $\tB$
-\[
+\begin{equation}\label{eq:rank}
 \tP=\{\tB\in\mathbb{R}^{p_1\times \cdots \times p_K}: r_k(\tB)\leq r_k \text{ for } k\in[K]\},
-\]
-where $r_k(\tB)$ is the Tucker rank of the tensor at mode $k$. We assume that $r_k$ is known and $r_k\leq p_k$. Other low-rankness such as CP rank can also applied. We choose the Tucker decomposition due to the following observation. 
+\end{equation}
+where $r_k(\tB)$ is the Tucker rank of the tensor at mode $k$. We assume that $r_k$ is known and $r_k\leq p_k$. Other low-rankness such as CP rank is also possible. We choose the Tucker decomposition due to the following observation. 
 
-Our model can be viewed as a $\tB=\tC\times_1\mM_1\times \cdots\mM_K$, then the reduced-rank model is equivalent to
+The low-rank structure in~\eqref{eq:rank} implies that the coefficient tensor can be expressed as $\tB=\tC\times_1\mM_1\times \cdots\mM_K$. Then, our tensor regression model~\eqref{eq:tensormodel} is equivalent to
 \[
 f(\mathbb{E}(\tY|\mX_1,\ldots,\mX_K))=\tC\times\{\mX_1\mM_1,\ldots,\mX_k\mM_k\}.
 \]
-The goal is to find a joint dimension reduction of $\tY$ and $\mX_K$ such that the unexplained variation in the mean tensor. The factorization is restricted to the space spanned by $\mX_k$. Here $\mX_1\mM_1$ can be interpreted as the latent covariates that explains the variation in the response tensor. Here the core tensor $\tC$ collects the interaction effect of latent covariates across the $K$ modes.  
+The goal is to find a joint dimension reduction of $\tY$ and $\mX_K$ such that the unexplained variation in the mean tensor. The factorization is restricted to the space spanned by $\mX_k$. Here $\mX_1\mM_1$ can be interpreted as the latent covariates that explains the variation in the response tensor. The core tensor $\tC$ collects the interaction effects of latent covariates across the $K$ modes.  
 
 (Question: the columns of $\mX$ should be normalized??)
 
