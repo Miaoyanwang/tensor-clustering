@@ -108,7 +108,7 @@
 \aistatsaddress{ Unknown Institution 1 \And  Unknown Institution 2 \And Unknown Institution 3 } ]
 
 \begin{abstract}
-We consider the problem of learning higher-order tensor with side information on a set of modes. Such data problems arise frequently arise in applications such as neuroimaging, network analysis, and ... We propose a new family of tensor response regression models that incorporate covariate information...
+We consider the problem of learning higher-order tensors with side information on a set of modes. Such data problems arise frequently arise in applications such as neuroimaging, network analysis, and ... We propose a new family of tensor response regression models that incorporate covariate information, and obtain the theoretical accuracy guarantees. An efficient alternating updating algorithm is further developed. Our proposal handles a broad range of applications, including modeling brain connection in populations, link prediction in networks, and spatial-temporal growth model. The efficacy of our method is demonstrated through both simulations and analyses of two real-word datasets. 
 \end{abstract}
 
 \section{Introduction}
@@ -209,12 +209,12 @@ We develop a likelihood-based estimation procedure. The exponential family is a 
 \[
 p(y|\mx, \boldsymbol{\beta})=c(y)\exp\left({y\theta- b(\theta) \over \phi}\right)\ \text{with}\ \theta=\boldsymbol{\beta}^T\mx,
 \]
-where $c(\cdot)$ and $b(\cdot)$ are known functions and $\theta$ is the linear predictor. Note that the canonical link function $f$ is chosen to be $f(\cdot)=b'(\cdot)$. Table~1 summarize the canonical link function for common distributions. 
+where $c(\cdot)$ and $b(\cdot)$ are known functions and $\theta$ is the linear predictor. Note that the canonical link function $f$ is chosen to be $f(\cdot)=b'(\cdot)$. Table~1 summarizes the canonical link function for common distributions. 
 
 In our context, the log-likelihood of~\eqref{eq:tensormodel} is the (?) divergence between the conditional distribution of $\tY|\Theta$ and the exponential family
 \begin{align}
 \tL_{\tY}(\tB)&=\langle \tY, \Theta \rangle - \sum_{i_1,\ldots,i_K} b(\theta_{i_1,\ldots,i_K}),\\
-\text{where}\ \Theta&=\tB\times\{\mX_1,\ldots,\mX_K\}
+\text{where}\ \Theta&=\tB\times\{\mX_1,\ldots,\mX_K\}.
 \end{align}
 Assume that we have an additional information on an upper bound $a>0$ such that $\mnormSize{}{\Theta}\leq \alpha$. (more comments? ill-condition in the bernoulli model?)
 We propose the following constrained maximum likelihood estimation for the tensor coefficient

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 SEP 2019 22:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 SEP 2019 22:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -939,7 +939,10 @@ n/10 (+20) ten-sor $\OT1/cmr/m/n/10 (+20) (\OML/cmm/m/it/10 s[]; [] ; s[]\OT1/c
 mr/m/n/10 (+20) )$\T1/cmr/m/n/10 (+20) -
  []
 
-[1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+Underfull \vbox (badness 1147) has occurred while \output is active []
+
+ [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
@@ -953,16 +956,15 @@ LaTeX Font Info:    Try loading font information for U+dsrom on input line 184.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
-)
+) [2]
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
 (amsmath)                 on input line 210.
 
-[2] <unsupervised.png, id=91, 763.85374pt x 408.52625pt>
+<unsupervised.png, id=91, 763.85374pt x 408.52625pt>
 File: unsupervised.png Graphic file (type png)
-
-<use unsupervised.png>
+ <use unsupervised.png>
 Package pdftex.def Info: unsupervised.png used on input line 232.
 (pdftex.def)             Requested size: 497.92322pt x 266.29941pt.
 
@@ -976,16 +978,17 @@ Underfull \hbox (badness 1845) in paragraph at lines 260--261
 \T1/cmr/bx/n/10 . \T1/cmr/m/n/10 (+20) Our
  []
 
+[3]
 LaTeX Font Info:    Try loading font information for T1+cmtt on input line 297.
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 Package microtype Info: Loading generic settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [3] [4 <./unsupervised.png>]
+ [4 <./unsupervised.png>]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 376.
  [5pdfTeX warning (ext4): destination with the same identifier (name{cite.}) ha
 s been already used, duplicate ignored
@@ -1018,13 +1021,13 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 376.
  ) 
 Here is how much of TeX's memory you used:
- 11770 strings out of 493014
- 175111 string characters out of 6133351
- 317348 words of memory out of 5000000
+ 11774 strings out of 493014
+ 175149 string characters out of 6133351
+ 319348 words of memory out of 5000000
  14953 multiletter control sequences out of 15000+600000
- 22904 words of font info for 102 fonts, out of 8000000 for 9000
+ 23020 words of font info for 104 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,11n,45p,855b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,11n,45p,855b,362s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
@@ -1052,7 +1055,7 @@ texmf-dist/fonts/type1/public/cm-super/sfti0700.pfb></usr/local/texlive/2016/te
 xmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2016/texm
 f-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texmf-
 dist/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_regression.pdf (5 pages, 548702 bytes).
+Output written on tensor_regression.pdf (5 pages, 549031 bytes).
 PDF statistics:
  224 PDF objects out of 1000 (max. 8388607)
  187 compressed objects within 2 object streams
