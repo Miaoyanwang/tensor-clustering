@@ -205,7 +205,14 @@ The goal is to find a joint dimension reduction of $\tY$ and $\mX_K$ such that t
 Question: any connection to tensor completion?? If $\mX_K$ is a random design matrix? 
 
 \section{Rank-constrained likelihood-based estimation}
-We develop a likelihood-based estimation procedure. The exponential family is a flexible framework for different data types. In a classical glm with a scalar response $y$ and covariate $\mx$, the density is 
+Note that our tensor regression model is able to incorporate covariates on some or all modes, whenever available. Without loss of generality, we denote by $\tX=\{\mX_1,\ldots,\mX_K\}$ the covariates in all modes and treat $\mX_k=\mI_{d_k}$ when the mode-$k$ has no (informative) covariate. Our genral tensor regression model can be written as
+\begin{align}\label{eq:tensormodel}
+&\mathbb{E}(\tY|\tX)=f(\Theta),\quad \Theta =\tB\times\{\mX_1,\ldots,\mX_K\},\notag\\
+&\text{where}\ \text{rank}(\tB)=(r_1,\ldots,r_K),
+\end{align}
+where $\tB\in\mathbb{R}^{p_1\times \cdots\times p_K}$ is a low-rank coefficient tensor of interest. In the following theoretical analysis, we assume the Tucker rank $\mr=(r_1,\ldots,r_K)$ is known. The adaptation of unknown $\mr$ will be addressed in Section~\ref{sec:tuning}. 
+
+We develop a likelihood-based procedure to estimate $\tB$. The exponential family is a flexible framework for different data types. In a classical glm with a scalar response $y$ and covariate $\mx$, the density is 
 \[
 p(y|\mx, \boldsymbol{\beta})=c(y)\exp\left({y\theta- b(\theta) \over \phi}\right)\ \text{with}\ \theta=\boldsymbol{\beta}^T\mx,
 \]
@@ -219,7 +226,7 @@ In our context, the log-likelihood of~\eqref{eq:tensormodel} is the (?) divergen
 Assume that we have an additional information on an upper bound $a>0$ such that $\mnormSize{}{\Theta}\leq \alpha$. (more comments? ill-condition in the bernoulli model?)
 We propose the following constrained maximum likelihood estimation for the tensor coefficient
 \[
-\hat \tB=\argmax_{\text{rank}(\tB)\leq \mr, \mnormSize{}{\Theta(\tB)}\leq \alpha} \tL_{\tY}(\tB).
+\hat \tB=\argmax_{\text{rank}(\tB)= \mr, \mnormSize{}{\Theta(\tB)}\leq \alpha} \tL_{\tY}(\tB).
 \]
 \subsection{Statistical properties}
 We assess the estimation accuracy using the deviation in the Frobenius norm. For the true coefficient tensor $\trueB$ and its estimator $\hat \tB$, define
@@ -237,17 +244,17 @@ We focus on the high-dimensional region in which both $d_k\to \infty$ and $p_k\t
 \begin{assumption}\label{ass}We make the following assumptions:
 \vspace{-.5cm}
 \begin{enumerate}
-\item [1.] There exists two positive constants $c_1,c_2>0$ such that $c_1\leq \sigma_{\min}(\mX_k)\leq  \sigma_{\max}(\mX_k)<c_2$ for all $k\in[K]$.
-\item [2.] There exist two positive constants $L, M$ such that $L\leq \text{Var}(y_{i_1,\ldots,i_K}|\mX_1,\ldots,\mX_K)\leq M$ uniformly over the parameter space $\tP$. 
-\item [2'.] Equivalently, $L\leq b''(x) \leq M$ for all $x\leq \alpha$, where $b(\cdot)$ is the known function in the exponential family distribution and $\alpha$ is the upper bound of the linear predictor. 
+\item [1.] There exists two positive constants $c_1,\ c_2>0$ such that $c_1\leq \sigma_{\min}(\mX_k)\leq  \sigma_{\max}(\mX_k)\leq c_2$ for all $k\in[K]$.
+\item [2.] There exist two positive constants $L,\ U>0$ such that $L\leq \text{Var}(y_{i_1,\ldots,i_K}|\tX)\leq U$ uniformly over the parameter space $\tP$. 
+\item [2'.] Equivalently, $L\leq b''(x) \leq U$ for all $x\leq \alpha$, where $b(\cdot)$ is the known function in the exponential family distribution and $\alpha$ is the upper bound of the linear predictor. 
 \end{enumerate}
 \end{assumption}
 
   
 \begin{thm}[Convergence]\label{thm:main}
-Consider a generalized tensor regression model with multi-sided covariates. Let $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ be the tensor response and $\mX_k\in\mathbb{R}^{p_k\times d_k}$ the covariates on mode-$k$. Suppose $\tY|\{\mX_1,\ldots,\mX_K\}$ follows exponential family distribution generated from the low-rank tensor regression model~\eqref{eq:tensormodel}. Furthermore, the Assumption~\eqref{ass} holds. Then there exist two constants $C_1, C_2>0$ such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
+Consider a generalized tensor regression model with multi-sided covariates. Let $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ be the tensor response and $\tX=\{\mX_1,\ldots,\mX_K\}$ the covariates, where $\mX_k\in\mathbb{R}^{p_k\times d_k}$ is the covariate matrix on mode-$k$. Suppose the entries in $\tY$ are independent realizations of an exponential family distribution, and $\mathbb{E}(\tY|\tX)$ follows the low-rank tensor regression model~\eqref{eq:tensormodel}. Under Assumption~\ref{ass}, there exist two constants $C_1, C_2>0$ such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
 \[
-\text{Loss}(\hat \tB, \trueB) \leq  {C_2\sum_k p_k \over \prod_k d_k},
+\text{Loss}(\trueB, \hat \tB) \leq  {C_2\sum_k p_k \over \prod_k d_k},
 \]
 where $C_2=C_2(\alpha, K, r_1,\ldots,r_K)>0$ is a constant that does not depend on dimension $\{d_k\}$ and $\{p_k\}$. 
 \end{thm}
@@ -263,22 +270,29 @@ To gain further insight on the bound~\label{thm:main} we consider the special ca
 \begin{cor} [Link model with node attributes] Our method yields the convergence rate is $\tO\left({p\over d^2}\right)$. Note that $p\leq m$, so again a consistent estimator. In contrast, a naive repeated glm will give $\tO({p\over n})$.
 \end{cor}
 
-We provide the prediction error for $\mathbb{E}(\tY)$ (for Bernoulli model only?)
-\begin{thm} 
+We provide the prediction accuracy for the response tensor.  
+\begin{thm} [Prediction error]
+Assume the same set-up as in Theorem~\eqref{thm:main}. Let $\mathbb{P}_{\tY_{\text{true}}}$ the distribution of $\tY$ given the true $\trueB$ and $\mathbb{E}(\tY|\tX)$ the true mean. Let $\mathbb{P}_{\hat \tY}$ denote the distribution given the estimated $\hat \tB$ and $\widehat{\mathbb{E}(\tY|\tX)}$ the predicted mean. We have, with probability at least $1-\exp(C_1\sum_k d_k)$,
+\begin{align}
+&\text{KL}(\mathbb{P}_{\tY_{\text{true}}},\ \mathbb{P}_{\hat \tY})\leq  C(...) {\sum_k p_k\over \prod_k d_k},\\
+&\text{Loss}\left(\mathbb{E}(\tY|\tX),\ \widehat{\mathbb{E}(\tY|\tX)}\right)\leq b''(\alpha)C(...) {\sum_k p_k\over \prod_k d_k}.
+\end{aligh}
 \end{thm}
 
-\subsubsection{Phase transition for logistic model}
-
-Third level headings are flush left, initial caps, bold, and in point
-size 10. Use one line space before the third level heading and one-half line
-space after the third level heading.
+\subsubsection{Comparison between Gaussian and non-Gaussian models}
 
 \section{Numerical implementation}
 \subsection{Alternating optimization}
-\subsection{Tuning parameter selection}
+\subsection{Tuning parameter selection}\label{sec:tuning}
+We propose to use Bayesian information criterion (BIC) and choose the rank that minimizes BIC; i.e.
+\begin{align}
+\hat \mr&=\argmin_{\mr=(r_1,\ldots,r_K)} \text{BIC}(\mr)\\
+&=\argmin_{\mr=(r_1,\ldots,r_K)}\left[-2\tL_{\tY}(\hat \tB)+p_e(\mr)\log \left(\prod_k d_k\right) \right],
+\end{align}
+where $p_e(\mr)\stackrel{\text{def}}{=}\sum_k (d_k-1)r_k+\prod_k r_k$ is the effective number of parameters in the model. We choose $\hat \mr$ that minimizes $\text{BIC}(\mr)$ via grid search. Our choice of BIC aims to balance between the goodness-of-fit for the data and the degree of freedom in the population model. We test its empirical performance in Section~\ref{sec:simulation}.  
 
-
-
+\section{Simulation}\label{sec:simulation}
+\section{Data analysis}
 \section{SUPPLEMENTARY MATERIAL}
 
 If you need to include additional appendices during submission, you
