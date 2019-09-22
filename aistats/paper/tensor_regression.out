@@ -1,0 +1,11 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Preliminaries}{}% 2
+\BOOKMARK [1][-]{section.3}{Motivation and model}{}% 3
+\BOOKMARK [1][-]{section.4}{Rank-constrained likelihood-based estimation}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Statistical properties}{section.4}% 5
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Phase transition for logistic model}{subsection.4.1}% 6
+\BOOKMARK [1][-]{section.5}{Numerical implementation}{}% 7
+\BOOKMARK [2][-]{subsection.5.1}{Alternating optimization}{section.5}% 8
+\BOOKMARK [2][-]{subsection.5.2}{Tuning parameter selection}{section.5}% 9
+\BOOKMARK [1][-]{section.6}{SUPPLEMENTARY MATERIAL}{}% 10
+\BOOKMARK [1][-]{section.7}{INSTRUCTIONS FOR CAMERA-READY PAPERS}{}% 11
