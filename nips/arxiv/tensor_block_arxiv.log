@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  17 JUN 2019 23:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 SEP 2019 14:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -519,165 +519,186 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Font Info:    Try loading font information for U+stmry on input line 63.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
-Underfull \hbox (badness 10000) in paragraph at lines 72--73
+Underfull \hbox (badness 10000) in paragraph at lines 70--71
 
  []
 
-<demo.pdf, id=67, 1112.39565pt x 239.40057pt>
-File: demo.pdf Graphic file (type pdf)
- <use demo.pdf>
-Package pdftex.def Info: demo.pdf used on input line 90.
-(pdftex.def)             Requested size: 469.75502pt x 101.09549pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+<figures/demo.pdf, id=67, 1112.39565pt x 239.40057pt>
+File: figures/demo.pdf Graphic file (type pdf)
+ <use figures/demo.pdf>
+Package pdftex.def Info: figures/demo.pdf used on input line 83.
+(pdftex.def)             Requested size: 375.80544pt x 80.87639pt.
 
 [1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
-has been already used, duplicate ignored
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}pdfTeX wa
+rning (ext4): destination with the same identifier (name{figure.1}) has been al
+ready used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.109 A
-        clustering of $d$ objects is a partition of the index set $[d]:=\{1,...
- <./demo.pdf>] [3]
+l.90 
+      <./figures/demo.pdf>] [2]
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 137.
+(amsmath)                 on input line 138.
 
-[4]
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 195.
+[3] [4]
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 203.
 
  (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 )
+Overfull \hbox (76.67874pt too wide) in paragraph at lines 216--217
+\OT1/cmr/m/it/10.95 ram-e-ter $\OML/cmm/m/it/10.95 ^^[[]$\OT1/cmr/m/it/10.95 . 
+De-fine the min-i-mal gap be-tween the blocks $\OML/cmm/m/it/10.95 ^^N[] \OT1/c
+mr/m/n/10.95 = [][] \OML/cmm/m/it/10.95 ^^N[]$\OT1/cmr/m/it/10.95 , where $\OML
+/cmm/m/it/10.95 ^^N[] \OT1/cmr/m/n/10.95 = [][] [][]$
+ []
+
 [5]
+Overfull \hbox (32.97472pt too wide) in paragraph at lines 226--234
+[][]
+ []
+
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 217.
- [6] [7] <decay.pdf, id=267, 802.35287pt x 223.22852pt>
-File: decay.pdf Graphic file (type pdf)
- <use decay.pdf>
-Package pdftex.def Info: decay.pdf used on input line 281.
-(pdftex.def)             Requested size: 469.75502pt x 130.69203pt.
+put line 261.
+[6pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
+as been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.290 \begin{equation}
+                      \label{eq:BIC}] [7]
+
+LaTeX Warning: Reference `prop:sparse' on page 8 undefined on input line 312.
+
+<figures/figure.pdf, id=278, 344.48149pt x 227.94687pt>
+File: figures/figure.pdf Graphic file (type pdf)
+
+<use figures/figure.pdf>
+Package pdftex.def Info: figures/figure.pdf used on input line 342.
+(pdftex.def)             Requested size: 187.89914pt x 124.33813pt.
+
+<figures/rescale_order4.pdf, id=279, 350.54361pt x 225.4742pt>
+File: figures/rescale_order4.pdf Graphic file (type pdf)
+
+<use figures/rescale_order4.pdf>
+Package pdftex.def Info: figures/rescale_order4.pdf used on input line 343.
+(pdftex.def)             Requested size: 187.89914pt x 120.85973pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[8] <compare.pdf, id=282, 1108.54288pt x 279.93098pt>
-File: compare.pdf Graphic file (type pdf)
- <use compare.pdf>
-Package pdftex.def Info: compare.pdf used on input line 327.
-(pdftex.def)             Requested size: 469.75502pt x 118.62096pt.
+
+LaTeX Warning: Reference `tab:rank' on page 8 undefined on input line 349.
+
+[8] <figures/compare.pdf, id=292, 1108.54288pt x 279.93098pt>
+File: figures/compare.pdf Graphic file (type pdf)
+
+<use figures/compare.pdf>
+Package pdftex.def Info: figures/compare.pdf used on input line 365.
+(pdftex.def)             Requested size: 375.80544pt x 94.89763pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Reference `fig:sparse' on page 9 undefined on input line 374.
 
 [9pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.333 
-      pdfTeX warning (ext4): destination with the same identifier (name{table.1
-}) has been already used, duplicate ignored
+l.375 
+       <./figures/figure.pdf> <./figures/rescale_order4.pdf
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.333 
-       <./decay.pdf>]
-<clustering_404040_sparse.pdf, id=420, 423.22585pt x 278.11717pt>
-File: clustering_404040_sparse.pdf Graphic file (type pdf)
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figures/rescale_order4.pdf
+): PDF inclusion: multiple pdfs with page group included in a single page
+>]
 
-<use clustering_404040_sparse.pdf>
-Package pdftex.def Info: clustering_404040_sparse.pdf used on input line 358.
-(pdftex.def)             Requested size: 178.5092pt x 117.30492pt.
+LaTeX Warning: Reference `tab:gene' on page 10 undefined on input line 414.
 
-<clustering_correct_sparse.pdf, id=421, 438.55766pt x 201.77438pt>
-File: clustering_correct_sparse.pdf Graphic file (type pdf)
-
-<use clustering_correct_sparse.pdf>
-Package pdftex.def Info: clustering_correct_sparse.pdf used on input line 359.
-(pdftex.def)             Requested size: 258.36668pt x 118.87651pt.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 367.
-
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 414.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 367.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 414.
  [10pdfTeX warning (ext4): destination with the same identifier (name{figure.3}
 ) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.368 
+l.421 
       pdfTeX warning (ext4): destination with the same identifier (name{table.2
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.368 
-       <./compare.pdf>] [11pdfTeX warning (ext4): destination with the same ide
-ntifier (name{figure.4}) has been already used, duplicate ignored
+l.421 
+       <./figures/compare.pdf>] (./tensor_block_arxiv.bbl [11pdfTeX warning (ex
+t4): destination with the same identifier (name{table.3}) has been already used
+, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.381 
-       <./clustering_404040_sparse.pdf> <./clustering_correct_sparse.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./clustering_correct_sparse.
-pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] (./tensor_block_arxiv.bbl [12])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 391.
+l.38 
+     ] [12])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 463.
  [13]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 391.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 463.
  (./tensor_block_arxiv.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 391.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 391.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 463.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 463.
 Package rerunfilecheck Info: File `tensor_block_arxiv.out' has not changed.
 (rerunfilecheck)             Checksum: 565CE60E355ABB9AE467B0A2BE613205;798.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 391.
+
+
+LaTeX Warning: There were undefined references.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 463.
  ) 
 Here is how much of TeX's memory you used:
- 8683 strings out of 493014
- 124153 string characters out of 6133351
- 231525 words of memory out of 5000000
- 11965 multiletter control sequences out of 15000+600000
+ 8687 strings out of 493014
+ 124203 string characters out of 6133351
+ 232602 words of memory out of 5000000
+ 11970 multiletter control sequences out of 15000+600000
  22241 words of font info for 87 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,14n,32p,1450b,443s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,14n,32p,1437b,445s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exi
 st, replaced by a fixed one
 
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
 usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
-r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/
-local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
-cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/lo
-cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></us
-r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
-local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/loc
-al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
-texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2016/t
-exmf-dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_block_arxiv.pdf (13 pages, 765183 bytes).
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
+local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/
+texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
+ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
+2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
+Output written on tensor_block_arxiv.pdf (13 pages, 803284 bytes).
 PDF statistics:
- 829 PDF objects out of 1000 (max. 8388607)
- 634 compressed objects within 7 object streams
+ 1665 PDF objects out of 1728 (max. 8388607)
+ 1190 compressed objects within 12 object streams
  80 named destinations out of 1000 (max. 500000)
- 130 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 125 words of extra memory for PDF output out of 10000 (max. 10000000)
 

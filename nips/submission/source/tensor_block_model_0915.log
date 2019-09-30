@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  17 SEP 2019 00:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  27 SEP 2019 00:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1004,76 +1004,62 @@ Package microtype Info: Loading generic settings for font family
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 89.
 
-<figures/demo.pdf, id=66, 1112.39565pt x 239.40057pt>
-File: figures/demo.pdf Graphic file (type pdf)
- <use figures/demo.pdf>
-Package pdftex.def Info: figures/demo.pdf used on input line 102.
+<demo.pdf, id=63, 1112.39565pt x 239.40057pt>
+File: demo.pdf Graphic file (type pdf)
+ <use demo.pdf>
+Package pdftex.def Info: demo.pdf used on input line 102.
 (pdftex.def)             Requested size: 317.9892pt x 68.43443pt.
+ [1
 
-[1
 
-
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./figur
-es/demo.pdf>] [2]
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./demo.
+pdf>] [2]
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 157.
+(amsmath)                 on input line 156.
 
 [3]
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 222.
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 221.
 
  (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 )
 [4]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 279.
- [5] [6] <figures/figure.pdf, id=268, 344.48149pt x 227.94687pt>
-File: figures/figure.pdf Graphic file (type pdf)
-
-<use figures/figure.pdf>
-Package pdftex.def Info: figures/figure.pdf used on input line 360.
+put line 278.
+ [5] [6] <figure.pdf, id=266, 344.48149pt x 227.94687pt>
+File: figure.pdf Graphic file (type pdf)
+ <use figure.pdf>
+Package pdftex.def Info: figure.pdf used on input line 358.
 (pdftex.def)             Requested size: 158.99156pt x 105.20811pt.
 
-<figures/rescale_order4.pdf, id=269, 350.54361pt x 225.4742pt>
-File: figures/rescale_order4.pdf Graphic file (type pdf)
+<rescale_order4.pdf, id=267, 350.54361pt x 225.4742pt>
+File: rescale_order4.pdf Graphic file (type pdf)
 
-<use figures/rescale_order4.pdf>
-Package pdftex.def Info: figures/rescale_order4.pdf used on input line 361.
+<use rescale_order4.pdf>
+Package pdftex.def Info: rescale_order4.pdf used on input line 359.
 (pdftex.def)             Requested size: 158.99156pt x 102.2675pt.
+ [7 <./figure.pdf> <./rescale_order4.pdf
 
-Underfull \vbox (badness 2111) has occurred while \output is active []
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./rescale_order4.pdf): PDF i
+nclusion: multiple pdfs with page group included in a single page
+>] <compare.pdf, id=1369, 1108.54288pt x 279.93098pt>
+File: compare.pdf Graphic file (type pdf)
+ <use compare.pdf>
+Package pdftex.def Info: compare.pdf used on input line 381.
+(pdftex.def)             Requested size: 397.48499pt x 100.37355pt.
 
- [7 <./figures/figure.pdf> <./figures/rescale_order4.pdf
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figures/rescale_order4.pdf
-): PDF inclusion: multiple pdfs with page group included in a single page
->] <figures/compare.pdf, id=517, 1108.54288pt x 279.93098pt>
-File: figures/compare.pdf Graphic file (type pdf)
-
-<use figures/compare.pdf>
-Package pdftex.def Info: figures/compare.pdf used on input line 383.
-(pdftex.def)             Requested size: 317.9892pt x 80.29799pt.
-
-./tensor_block_model_0915.tex:389: Undefined control sequence.
-l.389 ... levels of sparsity and noise. The \color
-                                                  {red}feed-in (??) }cluster...
-
-? 
-./tensor_block_model_0915.tex:389: Too many }'s.
-l.389 ... and noise. The \color{red}feed-in (??) }
-                                                  clustering size is set $\m...
-
-? 
-[8 <./figures/compare.pdf>] (./tensor_block_model_0915.bbl [9] [10])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 470.
+ [8 <./compare.pdf>] (./tensor_block_model_0915.bbl [9] [10])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 471.
  [11]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 470.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 471.
 
 (./tensor_block_model_0915.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 470.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 470.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 471.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 471.
 Package rerunfilecheck Info: File `tensor_block_model_0915.out' has not changed
 .
 (rerunfilecheck)             Checksum: 565CE60E355ABB9AE467B0A2BE613205;798.
@@ -1081,54 +1067,48 @@ Package rerunfilecheck Info: File `tensor_block_model_0915.out' has not changed
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 470.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 471.
  ) 
 Here is how much of TeX's memory you used:
- 12548 strings out of 493014
- 188195 string characters out of 6133351
- 329492 words of memory out of 5000000
- 15569 multiletter control sequences out of 15000+600000
- 54289 words of font info for 209 fonts, out of 8000000 for 9000
+ 12547 strings out of 493014
+ 188043 string characters out of 6133351
+ 330475 words of memory out of 5000000
+ 15568 multiletter control sequences out of 15000+600000
+ 54514 words of font info for 211 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,14n,42p,1394b,532s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{table.caption.4} has been referenced but does not
- exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{lemma.2} has been referenced but does not exist, re
-placed by a fixed one
-
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/tex
-live/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/
-texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib9.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf
--dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016
-/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb></usr/local/texlive/2016/t
-exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/
-fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
-1/urw/times/utmri8a.pfb>
-Output written on tensor_block_model_0915.pdf (11 pages, 751918 bytes).
+ 44i,14n,42p,1382b,514s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
+exlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texl
+ive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/loca
+l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib9.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/
+2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2016/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/
+2016/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb></usr/local/texlive/2016
+/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dis
+t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
+pe1/urw/times/utmri8a.pfb>
+Output written on tensor_block_model_0915.pdf (11 pages, 820182 bytes).
 PDF statistics:
- 814 PDF objects out of 1000 (max. 8388607)
- 627 compressed objects within 7 object streams
- 77 named destinations out of 1000 (max. 500000)
+ 1666 PDF objects out of 1728 (max. 8388607)
+ 1189 compressed objects within 12 object streams
+ 75 named destinations out of 1000 (max. 500000)
  24189 words of extra memory for PDF output out of 24883 (max. 10000000)
 

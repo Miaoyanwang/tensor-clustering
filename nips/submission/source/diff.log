@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  16 SEP 2019 17:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 SEP 2019 15:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -808,27 +808,29 @@ LaTeX Warning: Label `eq:opt' multiply defined.
 
 LaTeX Warning: Label `eq:lasso' multiply defined.
 
-(/usr/local/texlive/2016/texmf-dist/tex/generic/ulem/ulem.sty
-\UL@box=\box30
-\UL@hyphenbox=\box31
-\UL@skip=\skip67
-\UL@hook=\toks28
-\UL@height=\dimen159
-\UL@pe=\count152
-\UL@pixel=\dimen160
-\ULC@box=\box32
-Package: ulem 2012/05/18
-\ULdepth=\dimen161
-)
-(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2016/05/09 v1.1c Standard LaTeX Color (DPC)
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/color.cfg
-File: color.cfg 2016/01/02 v1.6 sample color configuration
-)
-Package color Info: Driver file: pdftex.def on input line 144.
-)
+Runaway argument?
+{\DIFdelbegin \DIFdel {Yuchen Zeng }\DIFdelend \DIFaddbegin \DIFadd {\ETC.
+./diff.tex:125: Paragraph ended before \author was complete.
+<to be read again> 
+                   \par 
+l.125 
+      
+? 
 (./diff.aux
+
+./diff.aux:59: LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.59 p
+      :factors}{{1}{3}{Identifiability}{prop.1}{}}
+? 
+./diff.aux:59: Extra }, or forgotten \endgroup.
+l.59 p:factors}
+               {{1}{3}{Identifiability}{prop.1}{}}
+? 
 
 LaTeX Warning: Label `eq:lasso' multiply defined.
 
@@ -887,6 +889,9 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+[1
+
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: letterpaper
@@ -921,17 +926,17 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count153
-\scratchdimen=\dimen162
-\scratchbox=\box33
-\nofMPsegments=\count154
-\nofMParguments=\count155
-\everyMPshowfont=\toks29
-\MPscratchCnt=\count156
-\MPscratchDim=\dimen163
-\MPnumerator=\count157
-\makeMPintoPDFobject=\count158
-\everyMPtoPDFconversion=\toks30
+\scratchcounter=\count152
+\scratchdimen=\dimen159
+\scratchbox=\box30
+\nofMPsegments=\count153
+\nofMParguments=\count154
+\everyMPshowfont=\toks28
+\MPscratchCnt=\count155
+\MPscratchDim=\dimen160
+\MPnumerator=\count156
+\makeMPintoPDFobject=\count157
+\everyMPtoPDFconversion=\toks29
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -947,7 +952,7 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\AtBeginShipoutBox=\box34
+\AtBeginShipoutBox=\box31
 Package hyperref Info: Link coloring OFF on input line 126.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
@@ -956,7 +961,7 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count159
+\c@section@level=\count158
 )
 LaTeX Info: Redefining \ref on input line 126.
 LaTeX Info: Redefining \pageref on input line 126.
@@ -1013,199 +1018,157 @@ LaTeX Font Info:    Try loading font information for U+stmry on input line 129.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 129.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 129.
 
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-Package microtype Info: Loading generic settings for font family
-(microtype)             `cmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
+LaTeX Warning: No \author given.
+
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 131.
+./diff.tex:133: Undefined control sequence.
+l.133 \DIFaddbegin
+                  
+? 
+./diff.tex:135: Undefined control sequence.
+l.135 \DIFaddend
+                 We consider the problem of identifying multiway block struc...
 
-<figures/demo.pdf, id=66, 1112.39565pt x 239.40057pt>
+? 
+<figures/demo.pdf, id=71, 1112.39565pt x 239.40057pt>
 File: figures/demo.pdf Graphic file (type pdf)
  <use figures/demo.pdf>
 Package pdftex.def Info: figures/demo.pdf used on input line 145.
 (pdftex.def)             Requested size: 317.9892pt x 68.43443pt.
 
-[1
+[2
 
+ <./figures/demo.pdf>]
+./diff.tex:161: Undefined control sequence.
+l.161 ...dots\times d_K}$ by matrices \DIFdelbegin
+                                                   \DIFdel{$\mM_k=\entry{m_{...
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./figur
-es/demo.pdf>] [2]
-Underfull \hbox (badness 1087) in paragraph at lines 184--187
-\T1/ptm/m/n/10 (+20) where $\OMS/cmsy/m/n/10 C 2 \U/msb/m/n/10 R[]$ \T1/ptm/m/n
-/10 (+20) is a core ten-sor con-sist-ing of block means, []|   []
- []
+? 
+./diff.tex:161: Undefined control sequence.
+l.161 ...es d_K}$ by matrices \DIFdelbegin \DIFdel
+                                                  {$\mM_k=\entry{m_{i_k,j_k}...
 
+? 
+./diff.tex:161: Undefined control sequence.
+l.161 ...in\mathbb{R}^{d_k\times s_k}$ }\DIFdelend
+                                                   \DIFaddbegin \DIFadd{$\mM...
 
-Package amsmath Warning: Foreign command \over;
-(amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 199.
+? 
+./diff.tex:161: Undefined control sequence.
+l.161 ...{d_k\times s_k}$ }\DIFdelend \DIFaddbegin
+                                                   \DIFadd{$\mM_k=\entry{m_{...
 
+? 
+./diff.tex:161: Undefined control sequence.
+l.161 ...es s_k}$ }\DIFdelend \DIFaddbegin \DIFadd
+                                                  {$\mM_k=\entry{m_{i_k,j_k}...
+
+? 
+./diff.tex:161: Undefined control sequence.
+l.161 ...in\mathbb{R}^{s_k\times d_k}$ }\DIFaddend
+                                                   is defined as
+? 
+./diff.tex:165: Undefined control sequence.
+l.165 ...k d_k$-dimensional vector. A \DIFdelbegin
+                                                   \DIFdel{fiber of $\tY$ is...
+
+? 
+./diff.tex:165: Undefined control sequence.
+l.165 ...imensional vector. A \DIFdelbegin \DIFdel
+                                                  {fiber of $\tY$ is an }\DI...
+
+? 
+./diff.tex:165: Undefined control sequence.
+l.165 ... \DIFdel{fiber of $\tY$ is an }\DIFdelend
+                                                   order-($K$-$1$) \DIFaddbe...
+
+? 
+./diff.tex:165: Undefined control sequence.
+l.165 ... }\DIFdelend order-($K$-$1$) \DIFaddbegin
+                                                   \DIFadd{slice of $\tY$ is...
+
+? 
+./diff.tex:165: Undefined control sequence.
+l.165 ...lend order-($K$-$1$) \DIFaddbegin \DIFadd
+                                                  {slice of $\tY$ is an }\DI...
+
+? 
+./diff.tex:165: Undefined control sequence.
+l.165 ... \DIFadd{slice of $\tY$ is an }\DIFaddend
+                                                   sub-tensor of $\tY$ obtai...
+
+? 
 [3]
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 282.
+./diff.tex:186: Undefined control sequence.
+l.186 where \DIFdelbegin
+                         \DIFdel{$\tC\in\mathbb{R}^{R_1\times\cdots\times R_...
 
- (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
-File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
-)
-Underfull \hbox (badness 1668) in paragraph at lines 281--287
-[]|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [
-]   |   []   |   []   [][]|   []   |   []   |   []
- []
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 where \DIFdelbegin \DIFdel
+                                {$\tC\in\mathbb{R}^{R_1\times\cdots\times R_...
 
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 ...^{R_1\times\cdots\times R_K}$ }\DIFdelend
+                                                   \DIFaddbegin \DIFadd{$\tC...
 
-Underfull \hbox (badness 2269) in paragraph at lines 281--287
-[]\T1/ptm/m/n/10 (+20) be two mem-ber-ship ma-tri-ces in the mode $\OML/cmm/m/i
-t/10 k$[]|   []   |   []   |   []   |   []   |   []   |   []   |   []
- []
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 ...dots\times R_K}$ }\DIFdelend \DIFaddbegin
+                                                   \DIFadd{$\tC=\entry{c_{r_...
 
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 300--301
-[]|   []   |   []   |   []   |   []   |   []   |   []
- []
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 ...es R_K}$ }\DIFdelend \DIFaddbegin \DIFadd
+                                                  {$\tC=\entry{c_{r_1,\ldots...
 
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 ...^{R_1\times\cdots\times R_K}$ }\DIFaddend
+                                                   is a core tensor consisti...
 
-Underfull \hbox (badness 2103) in paragraph at lines 300--301
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   [][]\T1/ptm/m/it/10 (+20) . Let
- []
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 ...r consisting of block means, \DIFdelbegin
+                                                   \DIFdel{$\mM_k \in\{0,1\}...
 
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 ...ting of block means, \DIFdelbegin \DIFdel
+                                                  {$\mM_k \in\{0,1\}^{R_k\ti...
 
-Underfull \hbox (badness 2165) in paragraph at lines 300--301
-\OML/cmm/b/it/10 M[]$ \T1/ptm/m/it/10 (+20) be the true mode-$\OML/cmm/m/it/10 
-k$ \T1/ptm/m/it/10 (+20) mem-ber-ship ma-trix and $[]$ the es-ti-ma-tor from []
-[]. []|   []
- []
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 ...k \in\{0,1\}^{R_k\times d_k}$ }\DIFdelend
+                                                   \DIFaddbegin \DIFadd{$\mM...
 
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 ...{R_k\times d_k}$ }\DIFdelend \DIFaddbegin
+                                                   \DIFadd{$\mM_k \in\{0,1\}...
 
-Underfull \hbox (badness 2521) in paragraph at lines 300--301
-|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
-  |   []   |   []   |   []   |   []   |   []
- []
+? 
+./diff.tex:186: Undefined control sequence.
+l.186 ...es d_k}$ }\DIFdelend \DIFaddbegin \DIFadd
+                                                  {$\mM_k \in\{0,1\}^{d_k\ti...
 
+? 
+./diff.tex:186: Emergency stop.
+l.186 ...es d_k}$ }\DIFdelend \DIFaddbegin \DIFadd
+                                                  {$\mM_k \in\{0,1\}^{d_k\ti...
+End of file on the terminal!
 
-Underfull \hbox (badness 3942) in paragraph at lines 300--301
-|   []   |   []   |   []   |   []   |   []   [][]|   []   |   []   |   []   |  
- []   |   []   |   []   |   []   |   []   |   []
- []
-
-
-Overfull \hbox (5.5053pt too wide) in paragraph at lines 300--301
-|   []
- []
-
-
-Underfull \hbox (badness 2460) in paragraph at lines 331--331
-[]\T1/ptm/m/n/10 (+20) Table 1: |[]|   []   |   []   |   []   |   []   |   []  
- |   []   |   []   |   []   |   []   |   []
- []
-
-
-Underfull \vbox (badness 2005) has occurred while \output is active []
-
- [5]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 362.
-
-[6] <figures/figure.pdf, id=268, 344.48149pt x 227.94687pt>
-File: figures/figure.pdf Graphic file (type pdf)
-
-<use figures/figure.pdf>
-Package pdftex.def Info: figures/figure.pdf used on input line 448.
-(pdftex.def)             Requested size: 158.99156pt x 105.20811pt.
-
-<figures/rescale_order4.pdf, id=269, 350.54361pt x 225.4742pt>
-File: figures/rescale_order4.pdf Graphic file (type pdf)
-
-<use figures/rescale_order4.pdf>
-Package pdftex.def Info: figures/rescale_order4.pdf used on input line 449.
-(pdftex.def)             Requested size: 158.99156pt x 102.2675pt.
- [7]
-<figures/compare.pdf, id=285, 1108.54288pt x 279.93098pt>
-File: figures/compare.pdf Graphic file (type pdf)
-
-<use figures/compare.pdf>
-Package pdftex.def Info: figures/compare.pdf used on input line 471.
-(pdftex.def)             Requested size: 317.9892pt x 80.29799pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[8 <./figures/figure.pdf> <./figures/rescale_order4.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figures/rescale_order4.pdf
-): PDF inclusion: multiple pdfs with page group included in a single page
->]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[9 <./figures/compare.pdf>] (./diff.bbl [10])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 580.
- [11]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 580.
- (./diff.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 580.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 580.
-Package rerunfilecheck Info: File `diff.out' has not changed.
-(rerunfilecheck)             Checksum: 565CE60E355ABB9AE467B0A2BE613205;798.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 580.
- ) 
+ 
 Here is how much of TeX's memory you used:
- 12688 strings out of 493014
- 189584 string characters out of 6133351
- 358486 words of memory out of 5000000
- 15696 multiletter control sequences out of 15000+600000
- 54525 words of font info for 212 fonts, out of 8000000 for 9000
+ 12191 strings out of 493014
+ 182151 string characters out of 6133351
+ 324426 words of memory out of 5000000
+ 15406 multiletter control sequences out of 15000+600000
+ 33346 words of font info for 102 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,14n,42p,1741b,514s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{table.caption.4} has been referenced but does not
- exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{lemma.2} has been referenced but does not exist, re
-placed by a fixed one
-
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/tex
-live/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/
-texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib9.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf
--dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/amsfonts/latxfont/lasy6.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/
-2016/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-d
-ist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/
-type1/urw/times/utmri8a.pfb>
-Output written on diff.pdf (11 pages, 767957 bytes).
-PDF statistics:
- 817 PDF objects out of 1000 (max. 8388607)
- 629 compressed objects within 7 object streams
- 78 named destinations out of 1000 (max. 500000)
- 24189 words of extra memory for PDF output out of 24883 (max. 10000000)
-
+ 44i,8n,42p,1153b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
+./diff.tex:186:  ==> Fatal error occurred, no output PDF file produced!

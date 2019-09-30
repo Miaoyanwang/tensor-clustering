@@ -205,7 +205,7 @@ The goal is to find a joint dimension reduction of $\tY$ and $\mX_K$ such that t
 Question: any connection to tensor completion?? If $\mX_K$ is a random design matrix? 
 
 \section{Rank-constrained likelihood-based estimation}
-Note that our tensor regression model is able to incorporate covariates on some or all modes, whenever available. Without loss of generality, we denote by $\tX=\{\mX_1,\ldots,\mX_K\}$ the covariates in all modes and treat $\mX_k=\mI_{d_k}$ when the mode-$k$ has no (informative) covariate. Our genral tensor regression model can be written as
+Note that our tensor regression model is able to incorporate covariates on some or all modes, whenever available. Without loss of generality, we denote by $\tX=\{\mX_1,\ldots,\mX_K\}$ the covariates in all modes and treat $\mX_k=\mI_{d_k}$ when the mode-$k$ has no (informative) covariate. Our general tensor regression model can be written as
 \begin{align}\label{eq:tensormodel}
 &\mathbb{E}(\tY|\tX)=f(\Theta),\quad \Theta =\tB\times\{\mX_1,\ldots,\mX_K\},\notag\\
 &\text{where}\ \text{rank}(\tB)=(r_1,\ldots,r_K),
@@ -229,14 +229,14 @@ We propose the following constrained maximum likelihood estimation for the tenso
 \hat \tB=\argmax_{\text{rank}(\tB)= \mr, \mnormSize{}{\Theta(\tB)}\leq \alpha} \tL_{\tY}(\tB).
 \]
 \subsection{Statistical properties}
-We assess the estimation accuracy using the deviation in the Frobenius norm. For the true coefficient tensor $\trueB$ and its estimator $\hat \tB$, define
+We assess the estimation accuracy using the deviation in the Frobenius norm. For the true cofficient tensor $\trueB$ and its estimator $\hat \tB$, define
 \[
-\text{Loss}(\trueB, \hat \tB)={ 1 \over \prod_k d_k} \FnormSize{}{\trueB- \hat \tB}^2
+\text{Loss}(\trueB, \hat \tB)={ 1 \over \prod_k d_k} \FnormSize{}{\trueB- \hat \tB}^2.
 \]
 
 \begin{figure*}
 \begin{center}
-\includegraphics[width=17.5cm]{unsupervised.png}
+\includegraphics[width=17.5cm]{algorithm.pdf}
   \end{center}
   \end{figure*}
   
@@ -254,12 +254,12 @@ We focus on the high-dimensional region in which both $d_k\to \infty$ and $p_k\t
 \begin{thm}[Convergence]\label{thm:main}
 Consider a generalized tensor regression model with multi-sided covariates. Let $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ be the tensor response and $\tX=\{\mX_1,\ldots,\mX_K\}$ the covariates, where $\mX_k\in\mathbb{R}^{p_k\times d_k}$ is the covariate matrix on mode-$k$. Suppose the entries in $\tY$ are independent realizations of an exponential family distribution, and $\mathbb{E}(\tY|\tX)$ follows the low-rank tensor regression model~\eqref{eq:tensormodel}. Under Assumption~\ref{ass}, there exist two constants $C_1, C_2>0$ such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
 \[
-\text{Loss}(\trueB, \hat \tB) \leq  {C_2\sum_k p_k \over \prod_k d_k},
+\text{Loss}(\trueB, \hat \tB) \leq  {2\over c_1^{2K}} \min\left\{ {C(\mr,\alpha)\sum_k p_k \over \prod_k d_k},\ 2\alpha^2 \right\},
 \]
-where $C_2=C_2(\alpha, K, r_1,\ldots,r_K)>0$ is a constant that does not depend on dimension $\{d_k\}$ and $\{p_k\}$. 
+where $C(\alpha,\mr)={1 \over b''(\alpha)}{\sum_k r_k \over r_{\max}}>0$ is a constant that does not depend on dimension $\{d_k\}$ and $\{p_k\}$. 
 \end{thm}
 
-To gain further insight on the bound~\label{thm:main} we consider the special case when $d_1=d_2=\ldots=d_K=d$ . 1. binary case; 2. large dimension region. $\tO\left({p \over d^k}\right)\leq \tO(d^{-(k-1)})$.
+To gain further insight on the bound~\label{thm:main} we consider the special case when dimensions are equal at each of the modes. 1. binary case; 2. large dimension region. $\tO\left({p \over d^k}\right)\leq \tO(d^{-(k-1)})$.
 
 \begin{cor}[Spatio-temporal growth model] Our method yields the convergence rate $\tO\left({p+r+s\over dmn}\right)$. Note that $p\leq d$, $r\leq m$ and $s\leq m$, so consistent estimator. 
 \end{cor}
@@ -276,13 +276,33 @@ Assume the same set-up as in Theorem~\eqref{thm:main}. Let $\mathbb{P}_{\tY_{\te
 \begin{align}
 &\text{KL}(\mathbb{P}_{\tY_{\text{true}}},\ \mathbb{P}_{\hat \tY})\leq  C(...) {\sum_k p_k\over \prod_k d_k},\\
 &\text{Loss}\left(\mathbb{E}(\tY|\tX),\ \widehat{\mathbb{E}(\tY|\tX)}\right)\leq b''(\alpha)C(...) {\sum_k p_k\over \prod_k d_k}.
-\end{aligh}
+\end{align}
 \end{thm}
 
 \subsubsection{Comparison between Gaussian and non-Gaussian models}
+Our earlier result gives the general bound with a constant factor $C$. The factor depends on the tensor order, rank, the distribution family, and the infinity norm bound. We now discuss its specific form for various distribution types of the response. 
+We consider the special case when $d_1=\ldots=d_K=d$, $p_1=\ldots=p_K=p$, $r_1=\ldots=r_K=r$. 
+The constant $C={2\over b''(\alpha)} \prod_k\sigma^{-1}_{\min}(\mX_k)$. For Bernoulli model with logistic link $b''(\alpha)={e^\alpha\over (1+e^\alpha)^2}$. 
+The bound
+\[
+\text{Loss}(\trueB,\hat B)\leq {2\over c_1^2K}\min\left\{ {r^{K-1} e^\alpha\over (1+e^\alpha)^2} {p\over d^K},\ 2\alpha^2 \right\}.
+\]
+The $\alpha$ can be interpreted as the signal level. As $p\to\infty, d\to\infty, {p\over d} \to \gamma\in[0,1]$. For consistent estimation, we require $\tO(d^{-(K-1)})\ll \alpha\ll \tO((K-1)\log d)$. 
+
+\resizebox{.5\textwidth}{!}{
+\begin{tabular}{c|ccc}
+Type & $\alpha \lesssim  d^{-(K-1)/2}$ & $ d^{-(K-1)/2} \ll \alpha\ll \tO((K-1)\log d)$ & $\alpha\gg (K-1)\log d$\\
+\hline
+Bernoulli& $2\alpha^2$ & $$& $e^{\alpha - (K-1)\log d}$ \\
+\end{tabular}}
 
 \section{Numerical implementation}
 \subsection{Alternating optimization}
+
+\[
+\check \mX^{(t+1)}_{-k}$ as covariates. Here $\check \mX^{(t+1)}_{-k}=\tC\times_1 [\mX_1\mM^{(t+1)}_1]\times_2 \cdots \times_{k-1}[\mX_{k-1}\mM^{(t+1)}_{k-1}] \times_{k+1} [\mX_{k+1}\mM^{(t)}_{k+1}]\times_{k+1}\cdots\times_K [\mX_{k+1}\mM^{(t)}_{k+1}]
+\]
+
 \subsection{Tuning parameter selection}\label{sec:tuning}
 We propose to use Bayesian information criterion (BIC) and choose the rank that minimizes BIC; i.e.
 \begin{align}
@@ -292,6 +312,14 @@ We propose to use Bayesian information criterion (BIC) and choose the rank that 
 where $p_e(\mr)\stackrel{\text{def}}{=}\sum_k (d_k-1)r_k+\prod_k r_k$ is the effective number of parameters in the model. We choose $\hat \mr$ that minimizes $\text{BIC}(\mr)$ via grid search. Our choice of BIC aims to balance between the goodness-of-fit for the data and the degree of freedom in the population model. We test its empirical performance in Section~\ref{sec:simulation}.  
 
 \section{Simulation}\label{sec:simulation}
+We evaluate the empirical performance of our generalized tensor regression through simulations. We focus on order-3 tensors of common distribution types, namely, Gaussian, Bernoulli and Poisson. The response tensors are generated from model~\eqref{eq:tensormodel} with canonical links, and covariates are set available on a subset of the modes. Unless otherwise stated, the entries of the covariate matrix $\mX_k$ are generated i.i.d.\ from $\tN(0,1)$. In each simulation study, we report the statistical error of the coefficient tensor averaged across $n_{\text{sim}}=50$ replications. 
+
+The first experiment considers covariates on all modes. We set $d_i=d$, $r_i=r$, and $p_i=p$ for all $i=1,2,3$. Figure~1 shows the error vs.\ $d$ of tucker rank. 
+
+
+The second experiment mimics the scenario of network population model. We set $d_1=d_2=20$ and vary $d_3\in \{20, 40, 60, 80, 100\}$. The $p$ is set as low-dimensional... 
+
+In the third experiment, we mimic the scenario for temporal growth model. 
 \section{Data analysis}
 \section{SUPPLEMENTARY MATERIAL}
 

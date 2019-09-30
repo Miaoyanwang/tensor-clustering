@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  22 SEP 2019 00:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  30 SEP 2019 14:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -965,11 +965,11 @@ Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
 (amsmath)                 on input line 217.
 
-<unsupervised.png, id=101, 763.85374pt x 408.52625pt>
-File: unsupervised.png Graphic file (type png)
- <use unsupervised.png>
-Package pdftex.def Info: unsupervised.png used on input line 239.
-(pdftex.def)             Requested size: 497.92322pt x 266.29941pt.
+<algorithm.pdf, id=101, 476.98201pt x 238.49101pt>
+File: algorithm.pdf Graphic file (type pdf)
+ <use algorithm.pdf>
+Package pdftex.def Info: algorithm.pdf used on input line 239.
+(pdftex.def)             Requested size: 497.92322pt x 248.9673pt.
 
 Overfull \hbox (10.10072pt too wide) in paragraph at lines 239--240
  [] 
@@ -981,46 +981,60 @@ Underfull \hbox (badness 1845) in paragraph at lines 267--268
 \T1/cmr/bx/n/10 . \T1/cmr/m/n/10 (+20) Our
  []
 
-
-./tensor_regression.tex:279: LaTeX Error: \begin{align} on input line 276 ended
- by \end{aligh}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.279 \end{aligh}
-                 
-? 
 [3]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 311.
+Overfull \hbox (9.03712pt too wide) in paragraph at lines 292--298
+[][] 
+ []
 
- (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
+./tensor_regression.tex:303: Display math should end with $$.
+<to be read again> 
+                    
+l.303 \check \mX^{(t+1)}_{-k}$ 
+                               as covariates. Here $\check \mX^{(t+1)}_{-k}=...
+
+? 
+
+Underfull \vbox (badness 3492) has occurred while \output is active []
+
+
+./tensor_regression.tex:304: Missing $ inserted.
+<inserted text> 
+                $
+l.304 \]
+        
+? 
+[4 <./algorithm.pdf>]
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 339.
+
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 Package microtype Info: Loading generic settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [4 <./unsupervised.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 390.
- [5pdfTeX warning (ext4): destination with the same identifier (name{cite.}) ha
+ [5]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 418.
+ [6pdfTeX warning (ext4): destination with the same identifier (name{cite.}) ha
 s been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.390 \end{document}
+l.418 \end{document}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.390 \end{document}
-                    ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 390.
+l.418 \end{document}
+                    
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 418.
  (./tensor_regression.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 390.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 390.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 418.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 418.
 Package rerunfilecheck Info: File `tensor_regression.out' has not changed.
 (rerunfilecheck)             Checksum: 95D1C08FF0577D33BB931EDFF1CA6AE3;842.
 
@@ -1030,48 +1044,51 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 390.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 418.
  ) 
 Here is how much of TeX's memory you used:
- 11799 strings out of 493014
- 175402 string characters out of 6133351
+ 11804 strings out of 493014
+ 175438 string characters out of 6133351
  319461 words of memory out of 5000000
  14957 multiletter control sequences out of 15000+600000
- 23826 words of font info for 113 fonts, out of 8000000 for 9000
+ 23993 words of font info for 116 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,12n,45p,855b,440s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,12n,45p,855b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/l
-ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/l
-ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/lo
-cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb
+></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></us
+r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/lo
+cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
 /texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
 texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texl
 ive/2016/texmf-dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/cm-super/sfti0500.pfb></usr/local/texlive/2016/te
-xmf-dist/fonts/type1/public/cm-super/sfti0700.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2016/texmf-
-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_regression.pdf (5 pages, 560481 bytes).
+live/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/l
+ocal/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/cm-super/sfti0500.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/cm-super/sfti0700.pfb></usr/local/texlive/2016/
+texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texm
+f-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
+Output written on tensor_regression.pdf (6 pages, 411578 bytes).
 PDF statistics:
- 242 PDF objects out of 1000 (max. 8388607)
- 203 compressed objects within 3 object streams
- 45 named destinations out of 1000 (max. 500000)
+ 308 PDF objects out of 1000 (max. 8388607)
+ 266 compressed objects within 3 object streams
+ 46 named destinations out of 1000 (max. 500000)
  19054 words of extra memory for PDF output out of 20736 (max. 10000000)
 

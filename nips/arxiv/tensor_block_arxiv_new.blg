@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: tensor_block_arxiv_new.aux
+The style file: unsrt.bst
+Database file #1: tensor_wang.bib
+You've used 26 entries,
+            1791 wiz_defined-function locations,
+            640 strings with 8809 characters,
+and the built_in function-call counts, 6895 in all, are:
+= -- 644
+> -- 285
+< -- 7
++ -- 105
+- -- 79
+* -- 489
+:= -- 1053
+add.period$ -- 80
+call.type$ -- 26
+change.case$ -- 26
+chr.to.int$ -- 0
+cite$ -- 26
+duplicate$ -- 298
+empty$ -- 658
+format.name$ -- 79
+if$ -- 1544
+int.to.chr$ -- 0
+int.to.str$ -- 26
+missing$ -- 26
+newline$ -- 133
+num.names$ -- 26
+pop$ -- 62
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 160
+stack$ -- 0
+substring$ -- 583
+swap$ -- 86
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 72
+width$ -- 28
+write$ -- 286

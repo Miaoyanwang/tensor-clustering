@@ -1,0 +1,106 @@
+\documentclass[10pt]{article}
+\usepackage{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{fancybox}
+\usepackage{algorithm, algpseudocode}
+\usepackage{url}
+
+
+
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{comment}
+\usepackage{bm}
+
+\begingroup
+\renewcommand{\section}[2]{}%
+%\renewcommand{\chapter}[2]{}% for othe
+
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+  \mathop{%
+    \mathchoice
+    {\underbrace{\displaystyle#1}}%
+    {\underbrace{\textstyle#1}}%
+    {\underbrace{\scriptstyle#1}}%
+    {\underbrace{\scriptscriptstyle#1}}%
+  }\limits
+}
+
+
+\usepackage[margin=1in]{geometry}
+ 
+\allowdisplaybreaks[4]
+\usepackage{bbm}
+
+
+\usepackage{amsrefs}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor = blue,
+    linkcolor=blue,
+    filecolor=magenta,           
+    urlcolor=cyan,
+}
+
+\usepackage[breakable, theorems, skins]{tcolorbox}
+\DeclareRobustCommand{\mybox}[2][gray!20]{%
+\begin{tcolorbox}[   %% Adjust the following parameters at will.
+        breakable,
+        left=0pt,
+        right=0pt,
+        top=0pt,
+        bottom=0pt,
+        colback=#1,
+        colframe=#1,
+        width=\dimexpr\textwidth\relax, 
+        enlarge left by=0mm,
+        boxsep=5pt,
+        arc=0pt,outer arc=0pt,
+        ]
+        #2
+\end{tcolorbox}
+}
+
+\usepackage{algpseudocode,algorithm}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+\algnewcommand\OUTPUT{\item[\algorithmicoutput]}
+
+\input macros.tex
+\begin{document}
+\begin{center}
+{\bf \large Comments on ``Tropp\_simulation.pdf''}\\
+Miaoyan Wang, 09/28/2019
+\end{center}
+\begin{enumerate}
+\item  
+\end{enumerate}
+\begin{algorithm}[H]
+\caption{Approx tensor SVD 2}\label{alg:B}
+\begin{algorithmic}[1]
+\INPUT Tensor $\tA\in \mathbb{R}^{d_1\times \cdots \times d_K}$ and Tucker rank $(r_1,\ldots,r_K)$.
+\OUTPUT Core tensor $\tS\in\mathbb{R}^{r_1\times \cdots \times r_K}$ and Tucker factors $\mQ^{(k)}\in\mathbb{R}^{d_k\times r_k}$.
+\State {\bf Initialization.} Generate Gaussian test matrices $\mOmega_k$ of size $d_k\times r_k$, for all $k=1,\ldots,K$.
+\For{$k$ in $\{1,2,\ldots,K\}$}
+\State Form a wide matrix $\tA^{(k)}=\text{Unfold}_{k}(\tA\times_1 \mOmega^T_1\times_2 \cdots \times_{k-1}\mOmega^T_{k-1}\times_{k+1}\mOmega^T_{k+1}\times \cdots\times_K \mOmega^T_k)$, where $\text{Unfold}_k(\cdot)$ denotes the unfolding operation along the mode $k$. Note that the matrix $\tA^{(k)}$ is of dimension $d_k\times \prod_{i\neq k}r_i$.
+\State Find a matrix $\mQ^{(k)}\in\mathbb{R}^{d_k\times r_k}$ whose columns form an orthogonal basis for the range of $\tA^{(k)}$. 
+\EndFor
+\State Return the core tensor $\tS=\tA\times_1(\mQ^{(1)})^T\times_2\cdots\times_K(\mQ^{(K)})^T$ and Tucker factors $\mQ^{(k)}$ for all $k=1,\ldots,K$.
+\end{algorithmic}
+\end{algorithm}
+
+Other comments:
+
+\end{document}

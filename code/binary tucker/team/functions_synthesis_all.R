@@ -384,10 +384,8 @@ sele_lambda = function(seed, lambda, ...){
 
 ###----  functions for simulation
 #####---- This is the function used for generating data through different distribution
-#         of core tensor in unsupervised setting
-gene_data_all = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),
-                        p1 = NULL,p2 = NULL, p3 = NULL,dis, gs_mean = 0,gs_sd = 10,
-                        unf_a = 0,unf_b = 1,dup, signal){ 
+#         of core tensor in  semi-supervised setting
+gene_data_all = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),p1 = NULL,p2 = NULL, p3 = NULL,dis, gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1,dup, signal){ 
   #dis can be "gaussian" and "uniform"
   #print(p3)
   d1 = whole_shape[1] ; d2 = whole_shape[2] ; d3 = whole_shape[3]
@@ -396,27 +394,30 @@ gene_data_all = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),
   set.seed(seed)  # 24 # 37  #  347
 
   if(is.null(p1)) {
-    A = as.matrix(randortho(d1)[,1:r1])     ## factor matrix
-    X_covar1 = NULL ; W1 = A
+    X_covar1 = NULL    
+    W1 = randortho(d1)[,1:r1]   
+    A = W1## factor matrix
   } else {
-    X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 1),d1,p1)
-    W1 = randortho(p1,type = c("orthonormal"))[,1:r1]
-    A = X_covar1%*%W1
+      X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 1),d1,p1) ## covariates
+      W1 = randortho(p1)[,1:r1] ## Tucker factor
+      A = X_covar1%*%W1 ## factor matrix
   }
   if(is.null(p2)) {
-    B = as.matrix(randortho(d2)[,1:r2])     ## factor matrix
-    X_covar2 = NULL ; W2 = B
+      X_covar2 = NULL    
+      W2 = randortho(d2)[,1:r2]   
+      A = W2 ## factor matrix
   } else {
-    X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd = 1),d2,p2)
-    W2 = randortho(p2,type = c("orthonormal"))[,1:r2]
-    B = X_covar2%*%W2
+      X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd = 1),d2,p2) ## covariates
+      W2 = randortho(p2)[,1:r2] ## Tucker factor
+      A = X_covar2%*%W2 ## factor matrix
   }
-  if(is.null(p3)) {
-    C = as.matrix(randortho(d3)[,1:r3])     ## factor matrix
-    X_covar3 = NULL ; W3 = C
+  if(is.null(p3)) {    ## factor matrix
+    X_covar3 = NULL
+    W3 = randortho(d3)[,1:r3]
+    C = W3
   } else {
     X_covar3 = matrix(rnorm(d3*p3,mean = 0, sd = 1),d3,p3)
-    W3 = randortho(p3,type = c("orthonormal"))[,1:r3]
+    W3 = randortho(p3)[,1:r3]
     C = X_covar3%*%W3
   }
   
@@ -453,46 +454,46 @@ gene_data_all = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),
 #####---- This is the function used for generating data through different distribution
 #         of core tensor in supervised setting
 #         dup: number of dupplicate generated from one ground truth
-gene_data = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p2,dis,
+#gene_data = function(seed, whole_shape = c(20,20,20), core_shape = c(3,3,3),p1,p2,p3,dis,
                      gs_mean = 0,gs_sd = 10,unf_a = 0,unf_b = 1, dup){
   #dis can be "gaussian" and "uniform"
   
-  d1 = whole_shape[1] ; d2 = whole_shape[2] ; d3 = whole_shape[3]
-  r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3]
+  # d1 = whole_shape[1] ; d2 = whole_shape[2] ; d3 = whole_shape[3]
+  #r1 = core_shape[1] ; r2 = core_shape[2] ; r3 = core_shape[3]
   ####-------- generate data
-  set.seed(seed)  # 24 # 37  #  347
+  #set.seed(seed)  # 24 # 37  #  347
   
-  X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 1),d1,p1)
-  X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd = 1),d2,p2)
-  W1 = randortho(p1,type = c("orthonormal"))[,1:r1]
-  W2 = randortho(p2,type = c("orthonormal"))[,1:r2]
+  #X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 1),d1,p1)
+  #X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd = 1),d2,p2)
+  #X_covar3 = matrix(rnorm(d3*p3,mean = 0, sd = 1),d3,p3)
+  #W1 = randortho(p1,type = c("orthonormal"))[,1:r1]
+  #W2 = randortho(p2,type = c("orthonormal"))[,1:r2]
+  #W3 = randortho(p3,type = c("orthonormal"))[,1:r3]
   
-  C = randortho(d3,type = c("orthonormal"))[,1:r3]
   
   ### G: core tensor
-  if(dis == "gaussian"){
-    G = as.tensor(array(data = rnorm(r1*r2*r3,mean = gs_mean,sd = gs_sd),dim = core_shape))
-  }
-  else if(dis == "uniform"){
-    G = as.tensor(array(data = runif(r1*r2*r3,min = unf_a,max = unf_b),dim = core_shape))
-  }
+  # if(dis == "gaussian"){
+  #  G = as.tensor(array(data = rnorm(r1*r2*r3,mean = gs_mean,sd = gs_sd),dim = core_shape))
+  #}
+  #else if(dis == "uniform"){
+  #  G = as.tensor(array(data = runif(r1*r2*r3,min = unf_a,max = unf_b),dim = core_shape))
+  #}
   
   ### true coefficient
-  C_ts = ttl(G,list(W1,W2,C),ms = c(1,2,3))@data
-  ### U: ground truth
-  U = ttl(G,list(X_covar1%*%W1,X_covar2%*%W2,C),ms = c(1,2,3))@data
+  #C_ts = ttl(G,list(W1,W2,W3),ms = c(1,2,3))@data
+  ### U: true linear predictor
+  #U = ttl(G,list(X_covar1%*%W1,X_covar2%*%W2,X_covar3%*%W3),ms = c(1,2,3))@data
   
   ### tsr:binary tensor
-  tsr = lapply(seq(dup), function(x) array(rbinom(d1*d2*d3,1,
-                                                  prob = as.vector( 1/(1 + exp(-U)))) , dim = c(d1,d2,d3)))
+  #tsr = lapply(seq(dup), function(x) array(rbinom(d1*d2*d3,1,prob = as.vector( 1/(1 + exp(-U)))) , dim = c(d1,d2,d3)))
   
   # tsr = list()
   # for (i in 1:dup) {
   #  binary = rbinom(d1*d2*d3,1,prob = as.vector( 1/(1 + exp(-U)) ) )
   #  tsr[[i]] = as.tensor(array(binary,dim = c(d1,d2,d3)))@data}
   # 
-  return(list(X_covar1 = X_covar1, X_covar2 = X_covar2,C_ts = C_ts, U = U,tsr = tsr))
-}
+  #return(list(X_covar1 = X_covar1, X_covar2 = X_covar2,X_covar3=X_covar3, C_ts = C_ts, U = U,tsr = tsr))
+  #}
 
 
 
@@ -508,9 +509,7 @@ conv_rate = function(seed,d,r, p1 = NULL, p2 = NULL,p3 = NULL , dis,gs_mean = 0,
     if(is.null(p2)) p_2 = p2 else p_2 = p2[i]
     if(is.null(p3)) p_3 = p3 else p_3 = p3[i]
     
-    data = gene_data_all(seed,rep(d[i],3), rep(r[i],3), p1 = p_1,  p2 = p_2,
-                         p3 = p_3, dis, gs_mean, gs_sd,
-                         unf_a, unf_b, dup,signal)
+    data = gene_data_all(seed,rep(d[i],3), rep(r[i],3), p1 = p_1,  p2 = p_2,p3 = p_3, dis, gs_mean, gs_sd,unf_a, unf_b, dup,signal)
     X_covar1 = data$X_covar1
     X_covar2 = data$X_covar2
     X_covar3 = data$X_covar3
