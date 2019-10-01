@@ -114,7 +114,7 @@ We consider the problem of learning higher-order tensors with side information o
 \section{Introduction}
 
 Many contemporary scientific and engineering studies collect multi-way array data, a.k.a.\ tensor, accompanied by additional covariates. For example, in neuro-imaging analysis, researchers measure brain connections from a sample of individuals with the goal to identify the brain edges affected by age and gender. In social network analysis, how to explain the connection (e.g. community, transitive, etc.) by attributable of both nodes. ... 
-(add two pictures; one for estimating network population; another for estimating link prediction)
+\includegraphics[width=8cm]{demo.pdf}
 
 In this article, we provide a general treatment to these seemingly different problems.
 
@@ -124,6 +124,9 @@ Our model is related to, but fundamentally different from, several lines of exis
 {\bf Tensor-predictor regression} multilinear in coefficients. \\
 {\bf Tensor-response regression} multilinear in coefficient vs. multilinear in covariates. \\
 {\bf Generalized linear model}. In the high-dimensions both $p$ and $n$ increase while $p \leq d$. This is the case we consider. Classical GLM fixes $p$. Compared to Gaussian model, the log-likelihood is not strictly convex in the linear predictor. We allow various types of dependent variable. 
+
+
+
 \section{Preliminaries}
 
 We begin by reviewing a few basic factors about tensors~\cite{kolda2009tensor}. We use $\tY=\entry{y_{i_1,\ldots,i_K}}\in \mathbb{R}^{d_1\times \cdots\times d_K}$ to denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. The multilinear multiplication of a tensor $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ by matrices $\mM_k=\entry{m_{i_k,j_k}^{(k)}}\in\mathbb{R}^{s_k\times d_k}$ is defined as

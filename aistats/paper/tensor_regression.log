@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  30 SEP 2019 15:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 OCT 2019 16:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -924,38 +924,41 @@ Overfull \hbox (5.1225pt too wide) in paragraph at lines 110--110
  [] 
  []
 
+<demo.pdf, id=56, 664.85278pt x 210.30498pt>
+File: demo.pdf Graphic file (type pdf)
+ <use demo.pdf>
+Package pdftex.def Info: demo.pdf used on input line 117.
+(pdftex.def)             Requested size: 227.62204pt x 72.00014pt.
 
-LaTeX Warning: Citation `kolda2009tensor' on page 1 undefined on input line 129
+
+LaTeX Warning: Citation `kolda2009tensor' on page 1 undefined on input line 132
 .
 
 
-Overfull \hbox (7.38934pt too wide) detected at line 132
+Overfull \hbox (7.38934pt too wide) detected at line 135
 \OMS/cmsy/m/n/10 Y ^^B[] \OML/cmm/b/it/10 M[] [] \OMS/cmsy/m/n/10 ^^B[] \OML/cm
 m/b/it/10 M[] \OT1/cmr/m/n/10 = \U/stmry/m/n/10 J[] \OML/cmm/m/it/10 y[]m[] [] 
 m[]\U/stmry/m/n/10 K\OML/cmm/m/it/10 ;
  []
 
 
-Underfull \hbox (badness 1472) in paragraph at lines 132--134
+Underfull \hbox (badness 1472) in paragraph at lines 135--137
 \T1/cmr/m/n/10 (+20) which re-sults in an order-$\OML/cmm/m/it/10 K$ \T1/cmr/m/
 n/10 (+20) ten-sor $\OT1/cmr/m/n/10 (+20) (\OML/cmm/m/it/10 s[]; [] ; s[]\OT1/c
 mr/m/n/10 (+20) )$\T1/cmr/m/n/10 (+20) -
  []
 
-
-Underfull \vbox (badness 1147) has occurred while \output is active []
-
- [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+[1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
-]
-Overfull \hbox (1.33931pt too wide) detected at line 165
+ <./demo.pdf>]
+Overfull \hbox (1.33931pt too wide) detected at line 168
 \OML/cmm/b/it/10 X[] \OT1/cmr/m/n/10 = [] \OML/cmm/m/it/10 ;  \OML/cmm/b/it/10 
 X[] \OT1/cmr/m/n/10 = []
  []
 
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 184.
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 187.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
@@ -963,48 +966,44 @@ File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 217.
+(amsmath)                 on input line 220.
 
-<algorithm.pdf, id=101, 476.98201pt x 238.49101pt>
+<algorithm.pdf, id=110, 476.98201pt x 238.49101pt>
 File: algorithm.pdf Graphic file (type pdf)
  <use algorithm.pdf>
-Package pdftex.def Info: algorithm.pdf used on input line 239.
+Package pdftex.def Info: algorithm.pdf used on input line 242.
 (pdftex.def)             Requested size: 497.92322pt x 248.9673pt.
 
-Overfull \hbox (10.10072pt too wide) in paragraph at lines 239--240
+Overfull \hbox (10.10072pt too wide) in paragraph at lines 242--243
  [] 
  []
 
 
-Underfull \hbox (badness 1845) in paragraph at lines 267--268
+Underfull \hbox (badness 1845) in paragraph at lines 270--271
 \T1/cmr/bx/n/10 Corollary 2 \T1/cmr/m/n/10 (+20) (Net-work pop-u-la-tion model)
 \T1/cmr/bx/n/10 . \T1/cmr/m/n/10 (+20) Our
  []
 
 [3]
-Overfull \hbox (9.03712pt too wide) in paragraph at lines 292--298
+Overfull \hbox (9.03712pt too wide) in paragraph at lines 295--301
 [][] 
  []
 
-./tensor_regression.tex:303: Display math should end with $$.
+./tensor_regression.tex:306: Display math should end with $$.
 <to be read again> 
                     
-l.303 \check \mX^{(t+1)}_{-k}$ 
+l.306 \check \mX^{(t+1)}_{-k}$ 
                                as covariates. Here $\check \mX^{(t+1)}_{-k}=...
 
 ? 
-
-Underfull \vbox (badness 3492) has occurred while \output is active []
-
-
-./tensor_regression.tex:304: Missing $ inserted.
+./tensor_regression.tex:307: Missing $ inserted.
 <inserted text> 
                 $
-l.304 \]
+l.307 \]
         
 ? 
 [4 <./algorithm.pdf>]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 339.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 342.
 
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
@@ -1015,26 +1014,26 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 418.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 421.
  [6pdfTeX warning (ext4): destination with the same identifier (name{cite.}) ha
 s been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.418 \end{document}
+l.421 \end{document}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.418 \end{document}
+l.421 \end{document}
                     
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 418.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 421.
  (./tensor_regression.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 418.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 418.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 421.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 421.
 Package rerunfilecheck Info: File `tensor_regression.out' has not changed.
 (rerunfilecheck)             Checksum: 95D1C08FF0577D33BB931EDFF1CA6AE3;842.
 
@@ -1044,13 +1043,13 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 418.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 421.
  ) 
 Here is how much of TeX's memory you used:
- 11804 strings out of 493014
- 175438 string characters out of 6133351
- 319461 words of memory out of 5000000
- 14957 multiletter control sequences out of 15000+600000
+ 11809 strings out of 493014
+ 175497 string characters out of 6133351
+ 318461 words of memory out of 5000000
+ 14961 multiletter control sequences out of 15000+600000
  23993 words of font info for 116 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  44i,12n,45p,855b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1085,10 +1084,10 @@ ve/2016/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive
 texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2016/te
 xmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texm
 f-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_regression.pdf (6 pages, 411578 bytes).
+Output written on tensor_regression.pdf (6 pages, 426972 bytes).
 PDF statistics:
- 308 PDF objects out of 1000 (max. 8388607)
- 266 compressed objects within 3 object streams
+ 317 PDF objects out of 1000 (max. 8388607)
+ 272 compressed objects within 3 object streams
  46 named destinations out of 1000 (max. 500000)
- 19054 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 19059 words of extra memory for PDF output out of 20736 (max. 10000000)
 

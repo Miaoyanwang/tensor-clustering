@@ -17,7 +17,6 @@ loss = function(beta,y,X,lambda,alpha,dist){
   if(max(abs(U))>alpha) return(Inf)
   else{
   L2 =L - lambda * sum(log(1 - (U/ alpha)^2))  ## object function
-  #L2 =sum(L) + lambda * sum(log((U / alpha)^2))  ## object function
   return(c(L2))
   }
 }
