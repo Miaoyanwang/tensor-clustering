@@ -1,6 +1,6 @@
 source('functions_synthesis_all_miaoyan.r')
 
-seed = 24;whole_shape = c(68,68,136); core_shape = c(2,2,3);p=c(-1,2,-1);signal=10;dup=2;dist="binary";
+seed = 24;whole_shape = c(10,10,10); core_shape = c(2,2,3);p=c(-1,2,-1);signal=10;dup=2;dist="binary";
 
 data = gene_data_all(seed,whole_shape , core_shape, p, dist,dup,signal)
 
@@ -25,16 +25,20 @@ table(attr[,5])
 X=attr[,4:5]
 levels(X[,2])=c("22-25","26-30","31+","31+") ## three groups
 
-X_covar3=model.matrix(~-1+as.factor(X[,1])+as.factor(X[,2])) ## baseline female and age 22-25
+contrasts(X[,1]) <- contr.sum 
+contrasts(X[,2]) <- contr.sum 
 
+X_covar3=model.matrix(~as.factor(X[,1])+as.factor(X[,2])) ## baseline female and age 22-25
+
+### intercept, F 1, M,-1; 22-25 [1,0]; 26-30 [0 1]
 X_covar1=X_covar2=NULL
 
 
 BIC=sele_rank(tsr,NULL, NULL ,X_covar3 ,rank1 = 8:10,rank2 = 8:10,rank3 = 3:4, Nsim,cons = 'non',dist)
 
+core_shape=c(10,10,4)
 
 result=update_binary_all(tsr,NULL,NULL,X_covar3,c(10,10,4),Nsim,cons,lambda,alpha,solver,dist)
-## baseline 22-25 and 
 
 
 ####-------------------------------  convergence rate

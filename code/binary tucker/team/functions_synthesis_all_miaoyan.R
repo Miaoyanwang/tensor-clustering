@@ -3,6 +3,7 @@ library(pracma)
 library(gtools)
 library(MASS)
 library(speedglm)
+library(fastglm)
 #library(rgl)
 library("RColorBrewer")
 
@@ -15,7 +16,7 @@ loss = function(beta,y,X,lambda,alpha,dist){
   L= - loglike(y,U,dist)
   if(max(abs(U))>alpha) return(Inf)
   else{
-  L2 =L - lambda * sum(log(1 - (abs(U)/ alpha)^2))  ## object function
+  L2 =L - lambda * sum(log(1 - (U/ alpha)^2))  ## object function
   #L2 =sum(L) + lambda * sum(log((U / alpha)^2))  ## object function
   return(c(L2))
   }
@@ -56,15 +57,22 @@ glm_modify=function(y,x,start = NULL,dist){
   
   #if(is.null(start)){
       if(dist=="binary"){
-          fit1 = suppressWarnings(speedglm(y~-1+x,family=binomial(link="logit")))
+          #fit1 = suppressWarnings(speedglm(y~-1+x,family=binomial(link="logit")))
+          
+          fit1 =fastglm(-1+x,y,family=binomial(link="logit"))
+          
         return(list(coef(fit1), logLik(fit1)))
       }
       else if (dist=="normal"){
-          fit1 = suppressWarnings(speedlm(y~-1+x))
+          #fit1 = suppressWarnings(speedlm(y~-1+x))
+          fit1 =fastglm(-1+x,y)
+          
           return(list(coef(fit1), logLik(fit1)))
       }
       else if (dist=="poisson"){
-          fit1 = suppressWarnings(speedglm(y~-1+x,family=poisson(link="log")))
+          #fit1 = suppressWarnings(speedglm(y~-1+x,family=poisson(link="log")))
+          
+          fit1 =fastglm(-1+x,y,family=poisson(link="log"))
           return(list(coef(fit1), logLik(fit1)))
       }
     
