@@ -3,6 +3,7 @@ source('functions_synthesis_all_miaoyan.R')
 
 ##BIC=sele_rank(tsr,X_covar1 , X_covar2 ,X_covar3 ,rank = 2:4, Nsim,cons = 'non',dist)
 
+
 data=load("HCP.RData")
 tsr=tensor
 table(attr[,5])
@@ -24,7 +25,7 @@ X_covar1=X_covar2=NULL
 ##BIC=sele_rank(tsr,NULL, NULL ,X_covar3 ,rank1 = 4:11,rank2 = 4:11,rank3 = 2:4, Nsim,cons = 'non',dist)
 
 core_shape=c(10,10,4)
-Nsim=10
+Nsim=50
 cons="non"
 lambda=0.1
 alpha=10

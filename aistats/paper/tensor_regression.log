@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 OCT 2019 22:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  2 OCT 2019 17:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -992,51 +992,41 @@ Overfull \hbox (9.03712pt too wide) in paragraph at lines 301--307
 [][] 
  []
 
-./tensor_regression.tex:312: Display math should end with $$.
-<to be read again> 
-                    
-l.312 \check \mX^{(t+1)}_{-k}$ 
-                               as covariates. Here $\check \mX^{(t+1)}_{-k}=...
 
-? 
-./tensor_regression.tex:313: Missing $ inserted.
-<inserted text> 
-                $
-l.313 \]
-        
-? 
-[4 <./algorithm.pdf>]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 348.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
+ [4 <./algorithm.pdf>]
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 351.
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 Package microtype Info: Loading generic settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 427.
+
+[5]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 430.
  [6pdfTeX warning (ext4): destination with the same identifier (name{cite.}) ha
 s been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.427 \end{document}
+l.430 \end{document}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.427 \end{document}
+l.430 \end{document}
                     
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 427.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 430.
  (./tensor_regression.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 427.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 427.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 430.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 430.
 Package rerunfilecheck Info: File `tensor_regression.out' has not changed.
 (rerunfilecheck)             Checksum: 95D1C08FF0577D33BB931EDFF1CA6AE3;842.
 
@@ -1046,16 +1036,16 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 427.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 430.
  ) 
 Here is how much of TeX's memory you used:
- 11811 strings out of 493014
- 175531 string characters out of 6133351
+ 11817 strings out of 493014
+ 175587 string characters out of 6133351
  316461 words of memory out of 5000000
  14962 multiletter control sequences out of 15000+600000
- 23993 words of font info for 116 fonts, out of 8000000 for 9000
+ 24160 words of font info for 119 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,12n,45p,855b,421s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,12n,45p,1047b,436s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
@@ -1087,7 +1077,7 @@ ve/2016/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive
 texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2016/te
 xmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texm
 f-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_regression.pdf (6 pages, 428075 bytes).
+Output written on tensor_regression.pdf (6 pages, 430146 bytes).
 PDF statistics:
  318 PDF objects out of 1000 (max. 8388607)
  273 compressed objects within 3 object streams

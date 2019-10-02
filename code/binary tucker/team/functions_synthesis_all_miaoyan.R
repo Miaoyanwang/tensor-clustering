@@ -3,7 +3,7 @@ library(pracma)
 library(gtools)
 library(MASS)
 library(speedglm)
-library(fastglm)
+#library(fastglm)
 #library(rgl)
 library("RColorBrewer")
 
@@ -64,59 +64,34 @@ loss_gr <- function(beta,y,X,lambda,alpha,dist){
   else if (dist=="poisson") p=exp(U)
   L_g=t(X) %*% (p - y)
   penal_g = 2 * lambda * t(X) %*% (U/(alpha^2 - U^2))
-  #penal_g = 2 * lambda * t(X) %*% (1/U)
   return(c(L_g) + c(penal_g))
 }
 
 
-glm_modify=function(y,x,start = NULL,dist){
-  
-  #if(is.null(start)){
+glm_modify=function(y,x,dist){
       if(dist=="binary"){
-          #fit1 = suppressWarnings(speedglm(y~-1+x,family=binomial(link="logit")))
-          
-          fit1 =fastglm(-1+x,y,family=binomial(link="logit"))
+          fit1 =speedglm(y~-1+x,family=binomial(link="logit"))
           
         return(list(coef(fit1), logLik(fit1)))
       }
       else if (dist=="normal"){
-          #fit1 = suppressWarnings(speedlm(y~-1+x))
-          fit1 =fastglm(-1+x,y)
+          fit1 =speedlm(y~-1+x)
           
           return(list(coef(fit1), logLik(fit1)))
       }
       else if (dist=="poisson"){
-          #fit1 = suppressWarnings(speedglm(y~-1+x,family=poisson(link="log")))
-          
-          fit1 =fastglm(-1+x,y,family=poisson(link="log"))
+          fit1 =speedglm(y~-1+x,family=poisson(link="log"))
           return(list(coef(fit1), logLik(fit1)))
       }
-    
-    # }
-  
-  ## initial coefficent
-  #ini_loglik=sum(log(inv.logit((2*y-1)*(x%*%start))))
-  
-  ## Option 1: glm fittig with default initilization
-  #fit1 = suppressWarnings(glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F)))
-  
-  ## Option 2: glm with user specified initilization
-  #fit2= suppressWarnings(glm(y~-1+x,family=binomial(link="logit"),control = list(maxit = 50,trace = F),start=start))
-  
-  ## report the result whichever gives the highest likelihood
-  #if(max(logLik(fit1),logLik(fit2))<ini_loglik) return (list(start, ini_loglik))
-  #else if(logLik(fit1)>logLik(fit2)) return(list(coef(fit1), logLik(fit1)))
-  #else return(list(coef(fit2), logLik(fit2)))
-  
 }
 
 ############################################################
 
 #    form U = X*Beta ## in parallel
-glm_mat = function(Y,start,X,dist){
+glm_mat = function(Y,X,dist){
   R = dim(X)[2]   ## R in note
   p = dim(Y)[2]
-  ma = mapply(glm_modify, y =  as.data.frame(Y),start = as.data.frame(start),MoreArgs = list(X),dist=dist)
+  ma = mapply(glm_modify, y =  as.data.frame(Y),MoreArgs = list(X),dist=dist)
   re = t(matrix(unlist(ma), nrow = p, byrow=T))
   beta = re[1:R,]
   lglk = sum(re[R + 1,])
@@ -126,7 +101,7 @@ glm_mat = function(Y,start,X,dist){
 ###########---------  GLM on two modes
 ##---  This section follows 1.3 of [Algorithm: Semi-Supervised Binary Tensor Factorization]
 ##---  function version
-glm_two = function(Y, X1, X2, start = start, dist){ 
+glm_two = function(Y, X1, X2, dist){ 
 ## Y_size = m * n
 # logit(E(Y)) = X1 %*% coe %*% X2
   m = dim(Y)[1] ; n = dim(Y)[2]
@@ -134,7 +109,7 @@ glm_two = function(Y, X1, X2, start = start, dist){
   
   N_long = kronecker_list(list(t(X2),X1))
   
-  mod_re=glm_modify(as.vector(Y),N_long,start = c(start),dist)
+  mod_re=glm_modify(as.vector(Y),N_long,dist)
   coe = mod_re[[1]]
   coe = matrix(coe, nrow = q1, ncol = q2)
   lglk= mod_re[[2]]
@@ -229,8 +204,8 @@ update_binary_all = function(tsr,X_covar1 = NULL, X_covar2 = NULL,X_covar3 = NUL
     G_BC = ttl(G, list(B,C), ms = c(2,3))
     G_BC1 = unfold(G_BC, row_idx = 1, col_idx = c(2,3))@data
     
-    if(un_m1) {re = glm_mat(t(Y_1),start = t(A),t(G_BC1),dist=dist) ## no covariate
-    } else {re = glm_two(Y = Y_1, X1 = X_covar1, X2 = G_BC1, start = W1,dist=dist)}
+    if(un_m1) {re = glm_mat(t(Y_1),t(G_BC1),dist=dist) ## no covariate
+    } else {re = glm_two(Y = Y_1, X1 = X_covar1, X2 = G_BC1, dist=dist)}
     
     W1 = as.matrix(re[[1]])
     lglk = c(lglk,re[[2]])
@@ -247,8 +222,8 @@ update_binary_all = function(tsr,X_covar1 = NULL, X_covar2 = NULL,X_covar3 = NUL
     G_AC = ttl(G, list(A,C), ms = c(1,3))
     G_AC2 = unfold(G_AC, row_idx = 2, col_idx = c(1,3))@data
     
-    if(un_m2) {re = glm_mat(t(Y_2),start = t(B),t(G_AC2),dist=dist)
-    } else {re = glm_two(Y_2, X_covar2, G_AC2, start = W2,dist=dist)}
+    if(un_m2) {re = glm_mat(t(Y_2),t(G_AC2),dist=dist)
+    } else {re = glm_two(Y_2, X_covar2, G_AC2, dist=dist)}
     
     W2 = as.matrix(re[[1]])
     lglk = c(lglk,re[[2]])
@@ -267,8 +242,8 @@ update_binary_all = function(tsr,X_covar1 = NULL, X_covar2 = NULL,X_covar3 = NUL
     G_AB = ttl(G, list(A,B), ms = c(1,2))
     G_AB3 = unfold(G_AB, row_idx = 3, col_idx = c(1,2))@data
     
-    if(un_m3) {re = glm_mat(t(Y_3),start = t(C),t(G_AB3),dist=dist)
-    } else {re = glm_two(Y_3, X_covar3, G_AB3, start = W3,dist=dist)}
+    if(un_m3) {re = glm_mat(t(Y_3),t(G_AB3),dist=dist)
+    } else {re = glm_two(Y_3, X_covar3, G_AB3,dist=dist)}
 
     W3 = as.matrix(re[[1]])
     lglk = c(lglk,re[[2]])
@@ -293,12 +268,12 @@ update_binary_all = function(tsr,X_covar1 = NULL, X_covar2 = NULL,X_covar3 = NUL
     
     print(paste(n,"-th  iteration -- when dimension is",d1,d2,d3,"- rank is ",r1,r2,r3," -----------------"))
 
-    if (tail(lglk,1)-lglk0 <= 0.0005 & tail(lglk,1)>= lglk0 ) break
-    else if (tail(lglk,1)-lglk0 < 0) {
-        W1 = W10 ; W2 = W20 ; W3 = W30; G=G0; lglk=lglk[-c((length(lglk)-3):length(lglk))]; 
-        A=A0;B=B0;C=C0;
-        break
-     } 
+if (tail(lglk,1)-lglk0 <= 0.0005 & tail(lglk,1)>= lglk0 ) break
+   else if (tail(lglk,1)-lglk0 < 0) {
+       W1 = W10 ; W2 = W20 ; W3 = W30; G=G0; lglk=lglk[-c((length(lglk)-3):length(lglk))]; 
+       A=A0;B=B0;C=C0;
+       break
+    } 
     
   }
   
@@ -381,7 +356,7 @@ if(p1<=0){
     X_covar1=diag(1,d1)
     p1=d1
 }else{
-    X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 1),d1,p1)
+    X_covar1 = matrix(rnorm(d1*p1,mean = 0, sd = 1/sqrt(d1)),d1,p1)
 }
 W1 =as.matrix(randortho(p1)[,1:r1])   
 A = X_covar1%*%W1 ## factor matrix
@@ -390,7 +365,7 @@ if(p2<=0){
      X_covar2=diag(1,d2)
      p2=d2
  }else{
-     X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd = 1),d2,p2)
+     X_covar2 = matrix(rnorm(d2*p2,mean = 0, sd =1/sqrt(d2)),d2,p2)
  }
  W2 = as.matrix(randortho(p2)[,1:r2])   
  B = X_covar2%*%W2 ## factor matrix
@@ -399,7 +374,7 @@ if(p3<=0){
      X_covar3=diag(1,d3)
      p3=d3
 }else{
-     X_covar3 = matrix(rnorm(d3*p3,mean = 0, sd = 1),d3,p3)
+     X_covar3 = matrix(rnorm(d3*p3,mean = 0, sd = 1/sqrt(d3)),d3,p3)
 }
 W3 = as.matrix(randortho(p3)[,1:r3])   
 C= X_covar3%*%W3 ## factor matrix 
@@ -432,54 +407,54 @@ C= X_covar3%*%W3 ## factor matrix
 
 
 
-conv_rate = function(seed,d,r, p1 = NULL, p2 = NULL,p3 = NULL , dis,gs_mean = 0,
-                     gs_sd = 10,unf_a = 0,unf_b = 1,dup,signal, Nsim, linear = TRUE,
-                     cons = 'vanilla' ,lambda = 1,solver = NULL){
+conv_rate = function(seed,signal=10,Nsim=20,cons="no",lambda = 1,alpha=10,solver ="GC",c_range,dist="binary",dup=10,d_range,p_range,match_dp=TRUE){
   #cons can be "non","vanilla","penalty"
-  rate = rep(0,length(d))
-  RMSE = rep(0,length(d))
-  for (i in 1:length(d)) {
-    if(is.null(p1)) p_1 = p1 else p_1 = p1[i]
-    if(is.null(p2)) p_2 = p2 else p_2 = p2[i]
-    if(is.null(p3)) p_3 = p3 else p_3 = p3[i]
-    
-    data = gene_data_all(seed,rep(d[i],3), rep(r[i],3), p1 = p_1,  p2 = p_2,p3 = p_3, dis, gs_mean, gs_sd,unf_a, unf_b, dup,signal)
-    X_covar1 = data$X_covar1
-    X_covar2 = data$X_covar2
-    X_covar3 = data$X_covar3
-    
-    un_m1 = un_m2 = un_m3 = FALSE
-    if(is.null(p1)) {p_1 = d[i];un_m1 = TRUE} else p_1 = p1[i]
-    if(is.null(p2)) {p_2 = d[i];un_m2 = TRUE} else p_2 = p2[i]
-    if(is.null(p3)) {p_3 = d[i];un_m3 = TRUE} else p_3 = p3[i]
-    if(all(un_m1,un_m2,un_m3)){
-      ratei = sqrt(r[i]^2*(p_1 + p_2 + p_3)/d[i]^3)
-    } else {
-      ratei = sqrt(r[i]^2*(p_1 + p_2 + p_3)/d[i]^(3-sum(c(un_m1,un_m2,un_m3))))
-    }
-
-    C_ts = ttl(data$G,list(data$W1,data$W2,data$W3),ms = c(1,2,3))@data
-    U = data$U
-    tsr = data$tsr
-    RMSEi = rep(0,dup)
-    for (j in 1:dup) {
-      upp = update_binary_all(tsr = tsr[[j]], X_covar1 = X_covar1, X_covar2 = X_covar2, X_covar3 = X_covar3, 
-                          core_shape =  rep(r[i],3), Nsim, linear, cons, lambda = lambda, 
-                          alpha = 10*max(abs(U)), solver = NULL)
-      
-      C_ts_est = ttl(upp$G,list(upp$W1,upp$W2,upp$W3),ms = c(1,2,3))@data
-      #U_est = ttl(upp$G,list(X_covar1%*%upp$W1,X_covar2%*%upp$W2,upp$C),ms = c(1,2,3))@data
-      RMSEi[j] = sqrt(sum((C_ts_est - C_ts)^2))
-      print(paste(j,"-th observation ---- when dimension is ",d[i],"-- rank is ",r[i]," ---------"))
-      # print(paste("p1 is ",p1[i],"---  p2 is ",p2[i],"--------------------"))
-    }
-    RMSE[i] = mean(RMSEi)
-    rate[i] = ratei
+  if(match_dp==TRUE){
+      n=m=nrow(d_range)
+      s=nrow(c_range)
+      error=array(0,dim=c(n,s,dup))
+      error_KL=array(0,dim=c(n,s,dup))
+      for(i in 1:n){
+              for(k in 1:s){
+                  data = gene_data_all(seed, d_range[i,], c_range[k,],p_range[i,],dist, dup, signal)
+                  X_covar1=data$X_covar1
+                  X_covar2=data$X_covar2
+                  X_covar3=data$X_covar3
+                  for(l in 1:dup){
+result=update_binary_all(data$tsr[[l]],X_covar1,X_covar2,X_covar3,c_range[k,],Nsim,cons,lambda,alpha,solver,dist)
+                      error[i,k,l]=mean((result$U-data$U)^2)
+                      error_KL[i,k,l]=KL(result$U,data$U,dist,sigma_est=result$sigma)
+                      print(paste(l,"-th replicate---- when dimension is ",d_range[i,],"-- covariate is ",p_range[i,]," --------core is ",c_range[k,]))
+                      
+                      
   }
-  return(list(RMSE = RMSE, rate = rate))
+              }
+      }
+      return(list(error,error_KL))  
+  }
+  else if (match_dp==FALSE){    
+  n=nrow(d_range)
+  m=nrow(p_range)
+  s=nrow(c_range)
+  error=array(0,dim=c(n,m,s,dup))
+  error_KL=array(0,dim=c(n,m,s,dup))
+  for(i in 1:n){
+      for(j in 1:m){
+          for(k in 1:s){
+          data = gene_data_all(seed, d_range[i,], c_range[k,],p_range[j,],dist, dup, signal)
+          X_covar1=data$X_covar1
+          X_covar2=data$X_covar2
+          X_covar3=data$X_covar3
+          for(l in 1:dup){
+result=update_binary_all(data$tsr[[l]],X_covar1,X_covar2,X_covar3,c_range[k,],Nsim,cons,lambda,alpha,solver,dist)
+error[i,j,k,l]=mean((result$U-data$U)^2)
+error_KL[i,j,k,l]=KL(result$U,data$U,dist,sigma_est=result$sigma)
+print(paste(l,"-th replicate---- when dimension is ",d_range[i,],"-- covariate is ",p_range[j,]," --------core is ",c_range[k,]))
+          }
+          }
+      }
+  }      
+ return(list(error,error_KL))  
+  }
 }
-
-# con = conv_rate(seed = 24,d = seq(20,70,10),r = rep(3,7), p1 = rep(5,7), p2 = rep(5,7),p3 = NULL, dis = 'gaussian',gs_mean = 0,gs_sd = 10, 
-#                 dup=2, signal = 10,Nsim =50, linear = FALSE, cons = 'penalty' ,lambda = 1,
-#                 solver = 'CG')
-# 
+ 

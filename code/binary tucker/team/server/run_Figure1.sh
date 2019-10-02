@@ -6,4 +6,4 @@
 #SBATCH --mem-per-cpu=10000M
 module load R/R-3.5.3
 export R_LIBS=/workspace/miaoyan/x86_64-pc-linux-gnu-library/3.4/
-R CMD BATCH simulation_miaoyan.R output_new.Rout
+R CMD BATCH Figure1.R Figure1.Rout
