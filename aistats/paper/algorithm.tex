@@ -40,7 +40,7 @@
 \State Calculate $\check \tB=\tY\times_1 \left[(\mX_1^T\mX_1)^{-1}\mX^T_1\right] \times_2\cdots\times_K\left[(\mX_K^T\mX_K)^{-1}\mX^T_K\right] $.
 \State Initialize the iteration index $t=0$.
 \State Initialize the core tensor $\tC^{(0)}$ and factor matrices $\mM^{(0)}_k\in\mathbb{R}^{p_k\times r_k}$ via rank-$(r_1,\ldots,r_K)$ Tucker approximation of $\check\tB$, in the least-square sense. 
-\State {\color{red}Alternatively, Gaussian random matrix $\mM_k^{(0)}$ for $k=1,\ldots,K$, and $\tC^{(0)}\leftarrow \tY \times_1(\mM^{(0)}_1)^T\times_2\cdots\times_K (\mM^{(0)}_K)^T$.}
+%\State {\color{red}Alternatively, Gaussian random matrix $\mM_k^{(0)}$ for $k=1,\ldots,K$, and $\tC^{(0)}\leftarrow \tY \times_1(\mM^{(0)}_1)^T\times_2\cdots\times_K (\mM^{(0)}_K)^T$.}
 %\State Initialize iteration index $t=0$.
   \While {the relative increase in objective function $\tL_\tY(\tB)$ is less than the tolerance}
 \State Update iteration index $t \leftarrow t+1$.

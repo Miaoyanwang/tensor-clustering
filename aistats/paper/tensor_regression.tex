@@ -113,8 +113,14 @@ We consider the problem of learning higher-order tensors with side information o
 
 \section{Introduction}
 
-Many contemporary scientific and engineering studies collect multi-way array data, a.k.a.\ tensor, accompanied by additional covariates. For example, in neuro-imaging analysis, researchers measure brain connections from a sample of individuals with the goal to identify the brain edges affected by age and gender. In social network analysis, how to explain the connection (e.g. community, transitive, etc.) by attributable of both nodes. ... 
-\includegraphics[width=8cm]{demo.pdf}
+Many contemporary scientific and engineering studies collect multi-way array data, a.k.a.\ tensor, accompanied by additional covariates. For example, in neuro-imaging analysis, researchers measure brain connections from a sample of individuals with the goal to identify the brain edges affected by age and gender. In social network analysis, how to explain the connection (e.g. community, transitive, etc.) by attributable of both nodes. ... see demonstration plot. 
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=17cm]{demo.pdf}
+  \end{center}
+\caption{Examples of tensor regression with multi-sided covariates. (a) Spatio-temproal growth model. (b) Network population model.}
+  \end{figure*}
 
 In this article, we provide a general treatment to these seemingly different problems.
 
@@ -277,7 +283,7 @@ We provide the prediction accuracy for the response tensor.
 \begin{thm} [Prediction error]
 Assume the same set-up as in Theorem~\eqref{thm:main}. Let $\mathbb{P}_{\tY_{\text{true}}}$ the distribution of $\tY$ given the true $\trueB$ and $\mathbb{E}(\tY|\tX)$ the true mean. Let $\mathbb{P}_{\hat \tY}$ denote the distribution given the estimated $\hat \tB$ and $\widehat{\mathbb{E}(\tY|\tX)}$ the predicted mean. We have, with probability at least $1-\exp(C_1\sum_k d_k)$,
 \begin{align}
-&\text{KL}(\mathbb{P}_{\tY_{\text{true}}},\ \mathbb{P}_{\hat \tY})\leq  C(...) {\sum_k p_k\over \prod_k d_k},\\
+&\text{KL}(\mathbb{P}_{\tY_{\text{true}}},\ \mathbb{P}_{\hat \tY})\leq  C(...) \sum_k p_k,\\
 &\text{Loss}\left(\mathbb{E}(\tY|\tX),\ \widehat{\mathbb{E}(\tY|\tX)}\right)\leq b''(\alpha)C(...) {\sum_k p_k\over \prod_k d_k}.
 \end{align}
 \end{thm}

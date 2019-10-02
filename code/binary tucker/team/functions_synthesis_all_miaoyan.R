@@ -11,6 +11,23 @@ library("RColorBrewer")
 ######----------   functions for update
 
 ## This part used for penalty (Conjugate gradient method)
+
+KL=function(U_est,U_true,dist,sigma_est=1,sigma_true=1){
+    d=prod(dim(U_est))
+    if(dist=="normal"){
+      KL=d*(0.5*log(sigma_true)-0.5*log(sigma_est)+sigma_est/(2*sigma_true)-0.5)+0.5/sigma_true*sum((U_est-U_true)^2)
+    }else if (dist=="binary"){
+        p_est=plogis(U_est)
+        p_true=plogis(U_true)
+        KL=sum(p_est*log(p_est/p_true)+(1-p_est)*log((1-p_est)/(1-p_true)))
+    }else if (dist=="poisson"){
+        lambda_est=exp(U_est)
+        lambda_true=exp(U_true)
+        KL=sum(lambda_est*log(lambda_est/lambda_true)+lambda_true-lambda_est)
+    }
+return(KL)
+}
+
 loss = function(beta,y,X,lambda,alpha,dist){
   U = X %*% beta
   L= - loglike(y,U,dist)
@@ -284,11 +301,20 @@ update_binary_all = function(tsr,X_covar1 = NULL, X_covar2 = NULL,X_covar3 = NUL
      } 
     
   }
-  return(list(W1 = W1,W2 = W2,W3 = W3,G = G,U=ttl(G,list(A,B,C),ms = c(1,2,3))@data, C_ts=ttl(G,list(W1,W2,W3),ms = c(1,2,3))@data,lglk = lglk, violate = violate))
+  
+U=ttl(G,list(A,B,C),ms = c(1,2,3))@data
+
+  sigma_est=mean((tsr@data-U_to_mean(U,dist))^2)
+
+  return(list(W1 = W1,W2 = W2,W3 = W3,G = G,U=U, C_ts=ttl(G,list(W1,W2,W3),ms = c(1,2,3))@data,lglk = lglk, sigma=sigma_est,violate = violate))
 }
 
 
-
+U_to_mean=function(U,dist){
+    if(dist=="normal") return(U)
+    else if (dist=="binary") return(plogis(U))
+    else if (dist=="poisson") return(exp(U))
+}
 ###
 ###----  This function shows how we select rank 
 ##   recommend to use non-constrain verison to select rank

@@ -24,8 +24,8 @@ X_covar1=X_covar2=NULL
 ##BIC=sele_rank(tsr,NULL, NULL ,X_covar3 ,rank1 = 4:11,rank2 = 4:11,rank3 = 2:4, Nsim,cons = 'non',dist)
 
 core_shape=c(10,10,4)
-Nsim=2
-cons="vanilla"
+Nsim=10
+cons="non"
 lambda=0.1
 alpha=10
 solver="GC"
