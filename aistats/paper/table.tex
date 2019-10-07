@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage[paperheight=10in,paperwidth=6.6in,margin=0.02in]{geometry}
+
+\usepackage{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{fancybox}
+\usepackage{algorithm, algpseudocode}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{comment}
+\usepackage{bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+
+
+
+\usepackage{algpseudocode,algorithm}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+\algnewcommand\OUTPUT{\item[\algorithmicoutput]}
+\usepackage{multirows}
+
+\input macros.tex
+
+\begin{document}
+
+\begin{table}
+\begin{tabular}{c|cc|cc|c|c|}
+Covariate&\multicolumn{2}{c|}{Brain Region}& \multicolumn{2}{c|}{Index}& Coefficient\\
+\hline
+\multirow{5}{*}{Global}&IP\_L&Insula\_L& 23&3&138.2\\
+&SupraM\_L&Insula\_L&20&   3&131.9\\
+&IP\_L&SupT\_L&10& 23&110.1\\
+&SupraM\_L&Tpole\_R&20&43& -19.5\\
+&IP\_L&Tpole\_R&23&43&-15.0\\
+\hline 
+\multirow{6}{*}{Male+}&parsOpercularis\_R&Insula\_L& 3&41&0.55\\
+&MT\_R&Fpole\_L&48&2& 0.53\\
+&SupT\_L&SupT\_R&33&67&0.52\\
+&SupP\_R&parsOpercularis\_R&53&41&-0.32\\
+&SupraM\_L&LO\_L& 20&24& -0.272\\
+ &preCentral\_L&SupP\_R&8 &  53 &-0.250\\
+\hline
+\multirow{6}{*}{Age 26 - 30} &SupraM\_L&Precuneus\_R&20&62& 0.66\\
+&CaudMF\_L&SupT\_L&5&10&0.6607\\
+&SupraM\_L&SupP\_R&53   &32& 0.516\\
+&SupraM\_L&Tpole\_R&20&43&-0.854\\
+&parsOpercularis\_R&SupraM\_L&41&   20& -0.569\\
+&Tpole\_R &MT\_L&43 &  12 &-0.539\\
+\hline
+\multirow{4}{*}{Age 31+} & SupF\_R&IT\_R&60  & 51&  0.54\\
+&SupraM\_R&IsthmusC\_R&54 &  61&  0.4929\\
+ &RMF\_L&SupraM\_R&1 &  54&  0.440\\
+\end{tabular}
+\end{table}
+
+
+
+\begin{tabular}{c|cc|cc|c|c|}
+Covariate&\multicolumn{2}{c|}{Brain Region}& \multicolumn{2}{c|}{Index}& Coefficient\\
+\hline
+\multirow{5}{*}{Global}&IP\_L&Insula\_L& 23&3&138.2\\
+&SupraM\_L&Insula\_L&20&   3&131.9\\
+&IP\_L&SupT\_L&10& 23&110.1\\
+&SupraM\_L&Tpole\_R&20&43& -19.5\\
+&IP\_L&Tpole\_R&23&43&-15.0\\
+\hline 
+\multirow{6}{*}{Male+}&SupraM\_L&Insula\_L&20&3&1.9\\
+&SupT\_L&IP\_L&10&23&1.6\\
+&IP\_L& Insula\_L&23&3&1.5\\
+&LO\_L& Insula\_L&34&3&1.5\\
+&Insula\_L&SupraM\_L&20&3&-1.92\\
+&IP\_L&SupT\_L&23&3&-1.54\\
+\hline
+\multirow{3}{*}{Age 26 - 30} &IP\_L&Insula\_L&23&3&5.6\\
+&SupraM\_L&Insula\_L&20&3&5.3\\
+&SupT\_L&IP\_L&10&23&4.6\\
+\hline
+\multirow{4}{*}{Age 31+} &IP\_L&Insula\_L&23&3&-3.8\\
+&IP\_L&Sup\_L&23&10&-2.9\\
+&LO\_L&Insula\_L&24&3&-2.6\\
+&Precuneus\_R&SupT\_R&62&44& 2.8\\
+\end{tabular}
+
+\begin{enumerate}
+\item 
+[1] "commonbloc0"        "blockpositionindex"
+\item 
+ [1] "officialvisits"             "violentactions"    
+ [4] "militaryactions"    "duration"           "negativebehavior"  
+ [7] "boycottembargo"     "aidenemy"           "negativecomm"      
+[10] "accusation"         "protests"           "unoffialacts"      
+[13] "nonviolentbehavior" "emigrants"          "relexports"        
+[16] "timesincewar"       "commonbloc2"         "intergovorgs3" "relintergovorgs""intergovorgs" 
+\item 
+ [1] "economicaid"         "releconomicaid"      "conferences"        
+ [4] "booktranslations"    "relbooktranslations" "severdiplomatic"    
+ [7] "expeldiplomats"      "attackembassy"       "unweightedunvote"   
+[10] "tourism"             "reltourism"          "tourism3"           
+[13] "relemigrants"        "emigrants3"          "students"           
+[16] "relstudents"         "exports"             "exports3"           
+[19] "lostterritory"       "dependent"           "militaryalliance"   "warning"    
+\item 
+ [1] "treaties"        "reltreaties"     "exportbooks"     "relexportbooks" 
+ [5] "weightedunvote"    "ngo"            "relngo"          "ngoorgs3"        "embassy"        
+[13] "reldiplomacy"    "timesinceally"   "independence"    "commonbloc1"   
+\end{enumerate}
+
+\end{document}

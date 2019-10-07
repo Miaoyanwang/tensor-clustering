@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: tensor_regression.aux
+The style file: unsrt.bst
+Database file #1: tensor_wang.bib
+You've used 12 entries,
+            1791 wiz_defined-function locations,
+            555 strings with 6621 characters,
+and the built_in function-call counts, 3644 in all, are:
+= -- 340
+> -- 165
+< -- 5
++ -- 59
+- -- 47
+* -- 243
+:= -- 536
+add.period$ -- 37
+call.type$ -- 12
+change.case$ -- 12
+chr.to.int$ -- 0
+cite$ -- 12
+duplicate$ -- 176
+empty$ -- 322
+format.name$ -- 47
+if$ -- 837
+int.to.chr$ -- 0
+int.to.str$ -- 12
+missing$ -- 12
+newline$ -- 63
+num.names$ -- 12
+pop$ -- 31
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 125
+stack$ -- 0
+substring$ -- 274
+swap$ -- 76
+text.length$ -- 5
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 34
+width$ -- 14
+write$ -- 135

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 SEP 2019 14:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  5 OCT 2019 00:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -382,323 +382,80 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@exmp=\count133
 \c@rmk=\count134
 \c@exam=\count135
- (./macros.tex
-(/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
-Package: stmaryrd 1994/03/03 St Mary's Road symbol package
-\symstmry=\mathgroup9
-LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
-(Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
-))
-(./tensor_block_arxiv.aux)
-\openout1 = `tensor_block_arxiv.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: I can't find file `macros.tex'.
+l.46 \input macros.tex
+                      
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name: 
+./tensor_block_arxiv.tex:46: Emergency stop.
+l.46 \input macros.tex
+                      
+End of file on the terminal!
 
-(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count136
-\scratchdimen=\dimen135
-\scratchbox=\box32
-\nofMPsegments=\count137
-\nofMParguments=\count138
-\everyMPshowfont=\toks35
-\MPscratchCnt=\count139
-\MPscratchDim=\dimen136
-\MPnumerator=\count140
-\makeMPintoPDFobject=\count141
-\everyMPtoPDFconversion=\toks36
-)
-*geometry* driver: auto-detecting
-*geometry* detected driver: pdftex
-*geometry* verbose mode - [ preamble ] result:
-* driver: pdftex
-* paper: <default>
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: 
-* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
-* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
-* \paperwidth=614.295pt
-* \paperheight=794.96999pt
-* \textwidth=469.75502pt
-* \textheight=650.43001pt
-* \oddsidemargin=0.0pt
-* \evensidemargin=0.0pt
-* \topmargin=-37.0pt
-* \headheight=12.0pt
-* \headsep=25.0pt
-* \topskip=11.0pt
-* \footskip=30.0pt
-* \marginparwidth=59.0pt
-* \marginparsep=10.0pt
-* \columnsep=10.0pt
-* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2016/05/09 v1.0r Standard LaTeX Graphics (DPC,SPQR)
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/trig.sty
-Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-)
-(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
-File: graphics.cfg 2016/01/02 v1.10 sample graphics configuration
-)
-Package graphics Info: Driver file: pdftex.def on input line 96.
-)
-(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
-)
-Package grfext Info: Graphics extension search list:
-(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 456.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
-\Gin@req@height=\dimen137
-\Gin@req@width=\dimen138
-)
-\AtBeginShipoutBox=\box33
-Package hyperref Info: Link coloring ON on input line 54.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
-
-(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
-Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
-)
-\c@section@level=\count142
-)
-LaTeX Info: Redefining \ref on input line 54.
-LaTeX Info: Redefining \pageref on input line 54.
-LaTeX Info: Redefining \nameref on input line 54.
-
-(./tensor_block_arxiv.out) (./tensor_block_arxiv.out)
-\@outlinefile=\write5
-\openout5 = `tensor_block_arxiv.out'.
-
-LaTeX Font Info:    Try loading font information for U+msa on input line 63.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 63.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    Try loading font information for U+stmry on input line 63.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
-Underfull \hbox (badness 10000) in paragraph at lines 70--71
-
- []
-
-<figures/demo.pdf, id=67, 1112.39565pt x 239.40057pt>
-File: figures/demo.pdf Graphic file (type pdf)
- <use figures/demo.pdf>
-Package pdftex.def Info: figures/demo.pdf used on input line 83.
-(pdftex.def)             Requested size: 375.80544pt x 80.87639pt.
-
-[1
-
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}pdfTeX wa
-rning (ext4): destination with the same identifier (name{figure.1}) has been al
-ready used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.90 
-      <./figures/demo.pdf>] [2]
-
-Package amsmath Warning: Foreign command \over;
-(amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 138.
-
-[3] [4]
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 203.
-
- (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
-File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
-)
-Overfull \hbox (76.67874pt too wide) in paragraph at lines 216--217
-\OT1/cmr/m/it/10.95 ram-e-ter $\OML/cmm/m/it/10.95 ^^[[]$\OT1/cmr/m/it/10.95 . 
-De-fine the min-i-mal gap be-tween the blocks $\OML/cmm/m/it/10.95 ^^N[] \OT1/c
-mr/m/n/10.95 = [][] \OML/cmm/m/it/10.95 ^^N[]$\OT1/cmr/m/it/10.95 , where $\OML
-/cmm/m/it/10.95 ^^N[] \OT1/cmr/m/n/10.95 = [][] [][]$
- []
-
-[5]
-Overfull \hbox (32.97472pt too wide) in paragraph at lines 226--234
-[][]
- []
-
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 261.
-[6pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
-as been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.290 \begin{equation}
-                      \label{eq:BIC}] [7]
-
-LaTeX Warning: Reference `prop:sparse' on page 8 undefined on input line 312.
-
-<figures/figure.pdf, id=278, 344.48149pt x 227.94687pt>
-File: figures/figure.pdf Graphic file (type pdf)
-
-<use figures/figure.pdf>
-Package pdftex.def Info: figures/figure.pdf used on input line 342.
-(pdftex.def)             Requested size: 187.89914pt x 124.33813pt.
-
-<figures/rescale_order4.pdf, id=279, 350.54361pt x 225.4742pt>
-File: figures/rescale_order4.pdf Graphic file (type pdf)
-
-<use figures/rescale_order4.pdf>
-Package pdftex.def Info: figures/rescale_order4.pdf used on input line 343.
-(pdftex.def)             Requested size: 187.89914pt x 120.85973pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: Reference `tab:rank' on page 8 undefined on input line 349.
-
-[8] <figures/compare.pdf, id=292, 1108.54288pt x 279.93098pt>
-File: figures/compare.pdf Graphic file (type pdf)
-
-<use figures/compare.pdf>
-Package pdftex.def Info: figures/compare.pdf used on input line 365.
-(pdftex.def)             Requested size: 375.80544pt x 94.89763pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: Reference `fig:sparse' on page 9 undefined on input line 374.
-
-[9pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) 
-has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.375 
-       <./figures/figure.pdf> <./figures/rescale_order4.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figures/rescale_order4.pdf
-): PDF inclusion: multiple pdfs with page group included in a single page
->]
-
-LaTeX Warning: Reference `tab:gene' on page 10 undefined on input line 414.
-
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 414.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 414.
- [10pdfTeX warning (ext4): destination with the same identifier (name{figure.3}
-) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.421 
-      pdfTeX warning (ext4): destination with the same identifier (name{table.2
-}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.421 
-       <./figures/compare.pdf>] (./tensor_block_arxiv.bbl [11pdfTeX warning (ex
-t4): destination with the same identifier (name{table.3}) has been already used
-, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.38 
-     ] [12])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 463.
- [13]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 463.
- (./tensor_block_arxiv.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 463.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 463.
-Package rerunfilecheck Info: File `tensor_block_arxiv.out' has not changed.
-(rerunfilecheck)             Checksum: 565CE60E355ABB9AE467B0A2BE613205;798.
-
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 463.
- ) 
+ 
 Here is how much of TeX's memory you used:
- 8687 strings out of 493014
- 124203 string characters out of 6133351
- 232602 words of memory out of 5000000
- 11970 multiletter control sequences out of 15000+600000
- 22241 words of font info for 87 fonts, out of 8000000 for 9000
+ 7239 strings out of 493014
+ 105372 string characters out of 6133351
+ 198913 words of memory out of 5000000
+ 10724 multiletter control sequences out of 15000+600000
+ 3940 words of font info for 15 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,14n,32p,1437b,445s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exi
-st, replaced by a fixed one
-
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
-/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb>
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><
-/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
-local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loc
-al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/
-texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
-2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_block_arxiv.pdf (13 pages, 803284 bytes).
-PDF statistics:
- 1665 PDF objects out of 1728 (max. 8388607)
- 1190 compressed objects within 12 object streams
- 80 named destinations out of 1000 (max. 500000)
- 125 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+ 29i,0n,32p,312b,36s stack positions out of 5000i,500n,10000p,200000b,80000s
+./tensor_block_arxiv.tex:46:  ==> Fatal error occurred, no output PDF file prod
+uced!

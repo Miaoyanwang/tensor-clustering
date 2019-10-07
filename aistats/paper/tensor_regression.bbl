@@ -1,0 +1,76 @@
+\begin{thebibliography}{10}
+
+\bibitem{kolda2009tensor}
+Tamara~G Kolda and Brett~W Bader.
+\newblock Tensor decompositions and applications.
+\newblock {\em SIAM review}, 51(3):455--500, 2009.
+
+\bibitem{acar2010scalable}
+Evrim Acar, Daniel~M Dunlavy, Tamara~G Kolda, and Morten M{\o}rup.
+\newblock Scalable tensor factorizations with missing data.
+\newblock In {\em Proceedings of the 2010 SIAM international conference on data
+  mining}, pages 701--712. SIAM, 2010.
+
+\bibitem{wang2018learning}
+Miaoyan Wang and Lexin Li.
+\newblock Learning from binary multiway data: Probabilistic tensor
+  decomposition and its statistical optimality.
+\newblock {\em arXiv preprint arXiv:1811.05076}, 2018.
+
+\bibitem{wang2017tensor}
+Miaoyan Wang and Yun Song.
+\newblock Tensor decompositions via two-mode higher-order {SVD} ({HOSVD}).
+\newblock In {\em Artificial Intelligence and Statistics}, pages 614--622,
+  2017.
+
+\bibitem{candes2009exact}
+Emmanuel~J Cand{\`e}s and Benjamin Recht.
+\newblock Exact matrix completion via convex optimization.
+\newblock {\em Foundations of Computational mathematics}, 9(6):717, 2009.
+
+\bibitem{ghadermarzy2018learning}
+Navid Ghadermarzy, Yaniv Plan, and Ozgur Yilmaz.
+\newblock Learning tensors from partial binary measurements.
+\newblock {\em IEEE Transactions on Signal Processing}, 67(1):29--40, 2018.
+
+\bibitem{robinson2015dynamic}
+Lucy~F Robinson, Lauren~Y Atlas, and Tor~D Wager.
+\newblock Dynamic functional connectivity using state-based dynamic community
+  structure: Method and application to opioid analgesia.
+\newblock {\em NeuroImage}, 108:274--291, 2015.
+
+\bibitem{zeng2019multiway}
+Miaoyan Wang and Yuchen Zeng.
+\newblock Multiway clustering via tensor block models.
+\newblock {\em Advances in Neural Information Processing Systems 32 (NeurIPS
+  2019), to appear}, page arXiv:1906.03807, 2019.
+
+\bibitem{desikan2006automated}
+Rahul~S Desikan, Florent S{\'e}gonne, Bruce Fischl, Brian~T Quinn, Bradford~C
+  Dickerson, Deborah Blacker, Randy~L Buckner, Anders~M Dale, R~Paul Maguire,
+  Bradley~T Hyman, et~al.
+\newblock An automated labeling system for subdividing the human cerebral
+  cortex on {MRI} scans into gyral based regions of interest.
+\newblock {\em Neuroimage}, 31(3):968--980, 2006.
+
+\bibitem{xia2013brainnet}
+Mingrui Xia, Jinhui Wang, and Yong He.
+\newblock Brainnet viewer: a network visualization tool for human brain
+  connectomics.
+\newblock {\em PloS one}, 8(7):e68910, 2013.
+
+\bibitem{ingalhalikar2014sex}
+Madhura Ingalhalikar, Alex Smith, Drew Parker, Theodore~D Satterthwaite, Mark~A
+  Elliott, Kosha Ruparel, Hakon Hakonarson, Raquel~E Gur, Ruben~C Gur, and
+  Ragini Verma.
+\newblock Sex differences in the structural connectome of the human brain.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  111(2):823--828, 2014.
+
+\bibitem{nickel2011three}
+Maximilian Nickel, Volker Tresp, and Hans-Peter Kriegel.
+\newblock A three-way model for collective learning on multi-relational data.
+\newblock In {\em International Conference on Machine Learning}, volume~11,
+  pages 809--816, 2011.
+
+\end{thebibliography}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  2 OCT 2019 17:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  7 OCT 2019 14:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -101,12 +101,24 @@ LaTeX Info: Redefining \] on input line 2740.
 \titrun=\box28
 \autrun=\box29
 )
+(/usr/local/texlive/2016/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen112
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\enitkv@toks@=\toks19
+\labelindent=\skip56
+\enit@outerparindent=\dimen113
+\enit@toks=\toks20
+\enit@inbox=\box30
+\enitdp@description=\count99
+)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks19
+\KV@toks@=\toks21
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2016/05/09 v1.0r Standard LaTeX Graphics (DPC,SPQR)
@@ -128,15 +140,15 @@ Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )
-\Gread@gobject=\count99
+\Gread@gobject=\count100
 ))
-\Gin@req@height=\dimen112
-\Gin@req@width=\dimen113
+\Gin@req@height=\dimen114
+\Gin@req@width=\dimen115
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
-\inpenc@prehook=\toks20
-\inpenc@posthook=\toks21
+\inpenc@prehook=\toks22
+\inpenc@posthook=\toks23
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
@@ -510,16 +522,16 @@ Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
-\@linkdim=\dimen114
-\Hy@linkcounter=\count100
-\Hy@pagecounter=\count101
+\@linkdim=\dimen116
+\Hy@linkcounter=\count101
+\Hy@pagecounter=\count102
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2016/05/05 v6.83n Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count102
+\Hy@SavedSpaceFactor=\count103
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -531,17 +543,17 @@ Package hyperref Info: Plain pages OFF on input line 4461.
 Package hyperref Info: Backreferencing OFF on input line 4466.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4691.
-\c@Hy@tempcnt=\count103
+\c@Hy@tempcnt=\count104
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5044.
-\XeTeXLinkMargin=\dimen115
-\Fld@menulength=\count104
-\Field@Width=\dimen116
-\Fld@charsize=\dimen117
+\XeTeXLinkMargin=\dimen117
+\Fld@menulength=\count105
+\Field@Width=\dimen118
+\Fld@charsize=\dimen119
 Package hyperref Info: Hyper figures OFF on input line 6298.
 Package hyperref Info: Link nesting OFF on input line 6303.
 Package hyperref Info: Hyper index ON on input line 6306.
@@ -551,44 +563,44 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6323.
 Package hyperref Info: PDF/A mode OFF on input line 6328.
 LaTeX Info: Redefining \ref on input line 6368.
 LaTeX Info: Redefining \pageref on input line 6372.
-\Hy@abspage=\count105
-\c@Item=\count106
-\c@Hfootnote=\count107
+\Hy@abspage=\count106
+\c@Item=\count107
+\c@Hfootnote=\count108
 )
 
 Package hyperref Message: Driver (autodetected): hpdftex.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2016/05/05 v6.83n Hyperref driver for pdfTeX
-\Fld@listcount=\count108
-\c@bookmark@seq@number=\count109
+\Fld@listcount=\count109
+\c@bookmark@seq@number=\count110
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
-\Hy@SectionHShift=\skip56
+\Hy@SectionHShift=\skip57
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2016/04/27 v1.618033 publication quality tables
-\heavyrulewidth=\dimen118
-\lightrulewidth=\dimen119
-\cmidrulewidth=\dimen120
-\belowrulesep=\dimen121
-\belowbottomsep=\dimen122
-\aboverulesep=\dimen123
-\abovetopsep=\dimen124
-\cmidrulesep=\dimen125
-\cmidrulekern=\dimen126
-\defaultaddspace=\dimen127
-\@cmidla=\count110
-\@cmidlb=\count111
-\@aboverulesep=\dimen128
-\@belowrulesep=\dimen129
-\@thisruleclass=\count112
-\@lastruleclass=\count113
-\@thisrulewidth=\dimen130
+\heavyrulewidth=\dimen120
+\lightrulewidth=\dimen121
+\cmidrulewidth=\dimen122
+\belowrulesep=\dimen123
+\belowbottomsep=\dimen124
+\aboverulesep=\dimen125
+\abovetopsep=\dimen126
+\cmidrulesep=\dimen127
+\cmidrulekern=\dimen128
+\defaultaddspace=\dimen129
+\@cmidla=\count111
+\@cmidlb=\count112
+\@aboverulesep=\dimen130
+\@belowrulesep=\dimen131
+\@thisruleclass=\count113
+\@lastruleclass=\count114
+\@thisrulewidth=\dimen132
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
@@ -602,40 +614,40 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2015/03/04 v2.20.2
-\thm@style=\toks22
-\thm@bodyfont=\toks23
-\thm@headfont=\toks24
-\thm@notefont=\toks25
-\thm@headpunct=\toks26
-\thm@preskip=\skip57
-\thm@postskip=\skip58
-\thm@headsep=\skip59
-\dth@everypar=\toks27
+\thm@style=\toks24
+\thm@bodyfont=\toks25
+\thm@headfont=\toks26
+\thm@notefont=\toks27
+\thm@headpunct=\toks28
+\thm@preskip=\skip58
+\thm@postskip=\skip59
+\thm@headsep=\skip60
+\dth@everypar=\toks29
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/units/nicefrac.sty
 Package: nicefrac 1998/08/04 v0.9b Nice fractions
-\L@UnitsRaiseDisplaystyle=\skip60
-\L@UnitsRaiseTextstyle=\skip61
-\L@UnitsRaiseScriptstyle=\skip62
+\L@UnitsRaiseDisplaystyle=\skip61
+\L@UnitsRaiseTextstyle=\skip62
+\L@UnitsRaiseScriptstyle=\skip63
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2016/05/14 v2.6a Micro-typographical refinements (RS)
-\MT@toks=\toks28
-\MT@count=\count114
+\MT@toks=\toks30
+\MT@count=\count115
 LaTeX Info: Redefining \textls on input line 774.
-\MT@outer@kern=\dimen131
+\MT@outer@kern=\dimen133
 LaTeX Info: Redefining \textmicrotypecontext on input line 1310.
-\MT@listname@count=\count115
+\MT@listname@count=\count116
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2016/05/14 v2.6a Definitions specific to pdftex (RS)
 
 LaTeX Info: Redefining \lsstyle on input line 916.
 LaTeX Info: Redefining \lslig on input line 916.
-\MT@outer@space=\skip63
+\MT@outer@space=\skip64
 )
 Package microtype Info: Loading configuration file microtype.cfg.
 
@@ -659,30 +671,30 @@ Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2016/02/04 v1.7-139 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 67.
-\captionmargin=\dimen132
-\captionmargin@=\dimen133
-\captionwidth=\dimen134
-\caption@tempdima=\dimen135
-\caption@indent=\dimen136
-\caption@parindent=\dimen137
-\caption@hangindent=\dimen138
+\captionmargin=\dimen134
+\captionmargin@=\dimen135
+\captionwidth=\dimen136
+\caption@tempdima=\dimen137
+\caption@indent=\dimen138
+\caption@parindent=\dimen139
+\caption@hangindent=\dimen140
 )
-\c@ContinuedFloat=\count116
+\c@ContinuedFloat=\count117
 Package caption Info: hyperref package is loaded.
 )
-\c@KVtest=\count117
-\sf@farskip=\skip64
-\sf@captopadj=\dimen139
-\sf@capskip=\skip65
-\sf@nearskip=\skip66
-\c@subfigure=\count118
-\c@subfigure@save=\count119
-\c@lofdepth=\count120
-\c@subtable=\count121
-\c@subtable@save=\count122
-\c@lotdepth=\count123
-\sf@top=\skip67
-\sf@bottom=\skip68
+\c@KVtest=\count118
+\sf@farskip=\skip65
+\sf@captopadj=\dimen141
+\sf@capskip=\skip66
+\sf@nearskip=\skip67
+\c@subfigure=\count119
+\c@subfigure@save=\count120
+\c@lofdepth=\count121
+\c@subtable=\count122
+\c@subtable@save=\count123
+\c@lotdepth=\count124
+\sf@top=\skip68
+\sf@bottom=\skip69
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2016/04/23 3.9r The Babel package
@@ -692,8 +704,8 @@ Language: english 2012/08/20 v3.3p English support from the babel system
 
 (/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2016/04/23 3.9r Babel common definitions
-\babel@savecnt=\count124
-\U@D=\dimen140
+\babel@savecnt=\count125
+\U@D=\dimen142
 )
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
@@ -705,30 +717,30 @@ nment
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count125
-\float@exts=\toks29
-\float@box=\box30
-\@float@everytoks=\toks30
-\@floatcapt=\box31
+\c@float@type=\count126
+\float@exts=\toks31
+\float@box=\box31
+\@float@everytoks=\toks32
+\@floatcapt=\box32
 )
-\@float@every@algorithm=\toks31
-\c@algorithm=\count126
+\@float@every@algorithm=\toks33
+\c@algorithm=\count127
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/appendix/appendix.sty
 Package: appendix 2009/09/02 v1.2b extra appendix facilities
-\c@@pps=\count127
-\c@@ppsavesec=\count128
-\c@@ppsaveapp=\count129
+\c@@pps=\count128
+\c@@ppsavesec=\count129
+\c@@ppsaveapp=\count130
 )
-\c@thm=\count130
-\c@lem=\count131
-\c@prop=\count132
-\c@pro=\count133
-\c@assumption=\count134
-\c@defn=\count135
-\c@cor=\count136
-\c@example=\count137
-\c@rmk=\count138
+\c@thm=\count131
+\c@lem=\count132
+\c@prop=\count133
+\c@pro=\count134
+\c@assumption=\count135
+\c@defn=\count136
+\c@cor=\count137
+\c@example=\count138
+\c@rmk=\count139
 
 (./macros.tex
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
@@ -740,9 +752,6 @@ LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
 (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/dsfont.sty
 Package: dsfont 1995/08/01 v0.1 Double stroke roman fonts
 )
-(/usr/local/texlive/2016/texmf-dist/tex/latex/multirow/multirow.sty
-\bigstrutjot=\dimen141
-)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
 Package: algpseudocode 
 
@@ -750,16 +759,16 @@ Package: algpseudocode
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count139
-\c@ALG@rem=\count140
-\c@ALG@nested=\count141
-\ALG@tlm=\skip69
-\ALG@thistlm=\skip70
-\c@ALG@Lnr=\count142
-\c@ALG@blocknr=\count143
-\c@ALG@storecount=\count144
-\c@ALG@tmpcounter=\count145
-\ALG@tmplength=\skip71
+\c@ALG@line=\count140
+\c@ALG@rem=\count141
+\c@ALG@nested=\count142
+\ALG@tlm=\skip70
+\ALG@thistlm=\skip71
+\c@ALG@Lnr=\count143
+\c@ALG@blocknr=\count144
+\c@ALG@storecount=\count145
+\c@ALG@tmpcounter=\count146
+\ALG@tmplength=\skip72
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/mathtools/mathtools.sty
@@ -767,16 +776,16 @@ Package: mathtools 2015/11/12 v1.18 mathematical typesetting tools
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count146
-\calc@Bcount=\count147
-\calc@Adimen=\dimen142
-\calc@Bdimen=\dimen143
-\calc@Askip=\skip72
-\calc@Bskip=\skip73
+\calc@Acount=\count147
+\calc@Bcount=\count148
+\calc@Adimen=\dimen143
+\calc@Bdimen=\dimen144
+\calc@Askip=\skip73
+\calc@Bskip=\skip74
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count148
-\calc@Cskip=\skip74
+\calc@Ccount=\count149
+\calc@Cskip=\skip75
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/mathtools/mhsetup.sty
 Package: mhsetup 2010/01/21 v1.2a programming setup (MH)
@@ -785,15 +794,15 @@ LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
-\g_MT_multlinerow_int=\count149
-\l_MT_multwidth_dim=\dimen144
-\origjot=\skip75
-\l_MT_shortvdotswithinadjustabove_dim=\dimen145
-\l_MT_shortvdotswithinadjustbelow_dim=\dimen146
-\l_MT_above_intertext_sep=\dimen147
-\l_MT_below_intertext_sep=\dimen148
-\l_MT_above_shortintertext_sep=\dimen149
-\l_MT_below_shortintertext_sep=\dimen150
+\g_MT_multlinerow_int=\count150
+\l_MT_multwidth_dim=\dimen145
+\origjot=\skip76
+\l_MT_shortvdotswithinadjustabove_dim=\dimen146
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen147
+\l_MT_above_intertext_sep=\dimen148
+\l_MT_below_intertext_sep=\dimen149
+\l_MT_above_shortintertext_sep=\dimen150
+\l_MT_below_shortintertext_sep=\dimen151
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/tools/xr.sty
 Package: xr 1994/05/28 v5.02 eXternal References (DPC)
@@ -802,7 +811,7 @@ Package: xr 1994/05/28 v5.02 eXternal References (DPC)
 Package xr Warning: 
 No file tensor_regression_supp.aux
 LABELS NOT IMPORTED.
- on input line 62.
+ on input line 63.
 
 (./tensor_regression.aux
 
@@ -811,42 +820,36 @@ LaTeX Warning: Label `eq:tensormodel' multiply defined.
 
 LaTeX Warning: Label `thm:main' multiply defined.
 
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
 )
 \openout1 = `tensor_regression.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
  (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count150
-\scratchdimen=\dimen151
-\scratchbox=\box32
-\nofMPsegments=\count151
-\nofMParguments=\count152
-\everyMPshowfont=\toks32
-\MPscratchCnt=\count153
-\MPscratchDim=\dimen152
-\MPnumerator=\count154
-\makeMPintoPDFobject=\count155
-\everyMPtoPDFconversion=\toks33
+\scratchcounter=\count151
+\scratchdimen=\dimen152
+\scratchbox=\box33
+\nofMPsegments=\count152
+\nofMParguments=\count153
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count154
+\MPscratchDim=\dimen153
+\MPnumerator=\count155
+\makeMPintoPDFobject=\count156
+\everyMPtoPDFconversion=\toks35
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -862,8 +865,8 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\AtBeginShipoutBox=\box33
-Package hyperref Info: Link coloring OFF on input line 86.
+\AtBeginShipoutBox=\box34
+Package hyperref Info: Link coloring OFF on input line 87.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -871,17 +874,17 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count156
+\c@section@level=\count157
 )
-LaTeX Info: Redefining \ref on input line 86.
-LaTeX Info: Redefining \pageref on input line 86.
-LaTeX Info: Redefining \nameref on input line 86.
+LaTeX Info: Redefining \ref on input line 87.
+LaTeX Info: Redefining \pageref on input line 87.
+LaTeX Info: Redefining \nameref on input line 87.
 
 (./tensor_regression.out) (./tensor_regression.out)
 \@outlinefile=\write3
 \openout3 = `tensor_regression.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 86.
+LaTeX Info: Redefining \microtypecontext on input line 87.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -900,7 +903,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+msa on input line 108.
+LaTeX Font Info:    Try loading font information for U+msa on input line 109.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -908,7 +911,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 108.
+LaTeX Font Info:    Try loading font information for U+msb on input line 109.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -916,33 +919,28 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+stmry on input line 108.
+LaTeX Font Info:    Try loading font information for U+stmry on input line 109.
 
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
-Overfull \hbox (5.1225pt too wide) in paragraph at lines 110--110
+Overfull \hbox (5.1225pt too wide) in paragraph at lines 111--111
  [] 
  []
 
 <demo.pdf, id=56, 1249.35631pt x 237.21136pt>
 File: demo.pdf Graphic file (type pdf)
  <use demo.pdf>
-Package pdftex.def Info: demo.pdf used on input line 120.
+Package pdftex.def Info: demo.pdf used on input line 123.
 (pdftex.def)             Requested size: 483.69684pt x 91.8352pt.
 
-
-LaTeX Warning: Citation `kolda2009tensor' on page 1 undefined on input line 138
-.
-
-
-Overfull \hbox (7.38934pt too wide) detected at line 141
+Overfull \hbox (7.38934pt too wide) detected at line 143
 \OMS/cmsy/m/n/10 Y ^^B[] \OML/cmm/b/it/10 M[] [] \OMS/cmsy/m/n/10 ^^B[] \OML/cm
 m/b/it/10 M[] \OT1/cmr/m/n/10 = \U/stmry/m/n/10 J[] \OML/cmm/m/it/10 y[]m[] [] 
 m[]\U/stmry/m/n/10 K\OML/cmm/m/it/10 ;
  []
 
 
-Underfull \hbox (badness 1472) in paragraph at lines 141--143
+Underfull \hbox (badness 1472) in paragraph at lines 143--145
 \T1/cmr/m/n/10 (+20) which re-sults in an order-$\OML/cmm/m/it/10 K$ \T1/cmr/m/
 n/10 (+20) ten-sor $\OT1/cmr/m/n/10 (+20) (\OML/cmm/m/it/10 s[]; [] ; s[]\OT1/c
 mr/m/n/10 (+20) )$\T1/cmr/m/n/10 (+20) -
@@ -953,12 +951,12 @@ mr/m/n/10 (+20) )$\T1/cmr/m/n/10 (+20) -
 
 
 ]
-Overfull \hbox (1.33931pt too wide) detected at line 174
+Overfull \hbox (1.33931pt too wide) detected at line 176
 \OML/cmm/b/it/10 X[] \OT1/cmr/m/n/10 = [] \OML/cmm/m/it/10 ;  \OML/cmm/b/it/10 
 X[] \OT1/cmr/m/n/10 = []
  []
 
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 193.
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 195.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
@@ -966,86 +964,124 @@ File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 226.
+(amsmath)                 on input line 224.
 
-<algorithm.pdf, id=110, 476.98201pt x 238.49101pt>
+./tensor_regression.tex:234: Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \endtemplate 
+l.234  $
+        b(\theta)$&$\theta^2/2$& $\exp(\theta)$&$\log (1+\exp(\theta))$\\
+? 
+./tensor_regression.tex:234: Missing $ inserted.
+<inserted text> 
+                $
+l.234  $
+        b(\theta)$&$\theta^2/2$& $\exp(\theta)$&$\log (1+\exp(\theta))$\\
+? 
+./tensor_regression.tex:234: Missing } inserted.
+<inserted text> 
+                }
+l.234  $
+        b(\theta)$&$\theta^2/2$& $\exp(\theta)$&$\log (1+\exp(\theta))$\\
+? 
+
+Overfull \hbox (1.8735pt too wide) in paragraph at lines 230--237
+[][] 
+ []
+
+<algorithm.pdf, id=113, 476.98201pt x 238.49101pt>
 File: algorithm.pdf Graphic file (type pdf)
  <use algorithm.pdf>
-Package pdftex.def Info: algorithm.pdf used on input line 248.
+Package pdftex.def Info: algorithm.pdf used on input line 260.
 (pdftex.def)             Requested size: 497.92322pt x 248.9673pt.
 
-Overfull \hbox (10.10072pt too wide) in paragraph at lines 248--249
+Overfull \hbox (10.10072pt too wide) in paragraph at lines 260--261
  [] 
  []
 
 [3]
-Underfull \hbox (badness 1845) in paragraph at lines 276--277
+Underfull \hbox (badness 1845) in paragraph at lines 288--289
 \T1/cmr/bx/n/10 Corollary 2 \T1/cmr/m/n/10 (+20) (Net-work pop-u-la-tion model)
 \T1/cmr/bx/n/10 . \T1/cmr/m/n/10 (+20) Our
  []
 
 
-Underfull \vbox (badness 1803) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
+ [4 <./algorithm.pdf>] [5]
+<..//../code/binary_tucker/team/figure/dimension.pdf, id=232, 912.38687pt x 295
+.33934pt>
+File: ..//../code/binary_tucker/team/figure/dimension.pdf Graphic file (type pd
+f)
+ <use ..//../code/binary_tucker/team/figure/dimension.pdf>
+Package pdftex.def Info: ..//../code/binary_tucker/team/figure/dimension.pdf us
+ed on input line 385.
+(pdftex.def)             Requested size: 241.84842pt x 78.28256pt.
 
-Overfull \hbox (9.03712pt too wide) in paragraph at lines 301--307
+Overfull \hbox (6.97092pt too wide) in paragraph at lines 385--386
 [][] 
  []
 
 
+<..//../code/binary_tucker/team/figure/comparison.pdf, id=237, 983.40408pt x 29
+2.83362pt>
+File: ..//../code/binary_tucker/team/figure/comparison.pdf Graphic file (type p
+df)
+ <use ..//../code/binary_tucker/team/figure/comparison.pdf>
+Package pdftex.def Info: ..//../code/binary_tucker/team/figure/comparison.pdf u
+sed on input line 395.
+(pdftex.def)             Requested size: 241.84842pt x 72.01518pt.
+
+Overfull \hbox (6.97092pt too wide) in paragraph at lines 395--396
+[][] 
+ []
+
+
+Underfull \vbox (badness 3271) has occurred while \output is active []
+
+ [6 <..//../code/binary_tucker/team/figure/dimension.pdf> <..//../code/binary_t
+ucker/team/figure/comparison.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ..//../code/binary_tucker/te
+am/figure/comparison.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+>] <HCP.pdf, id=530, 2901.76945pt x 2695.6167pt>
+File: HCP.pdf Graphic file (type pdf)
+ <use HCP.pdf>
+Package pdftex.def Info: HCP.pdf used on input line 410.
+(pdftex.def)             Requested size: 227.62204pt x 211.41718pt.
+
+<coef.pdf, id=532, 1128.15485pt x 942.40706pt>
+File: coef.pdf Graphic file (type pdf)
+ <use coef.pdf>
+Package pdftex.def Info: coef.pdf used on input line 420.
+(pdftex.def)             Requested size: 213.39566pt x 178.25392pt.
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [4 <./algorithm.pdf>]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 351.
-
- (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-Package microtype Info: Loading generic settings for font family
-(microtype)             `cmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-
-[5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 430.
- [6pdfTeX warning (ext4): destination with the same identifier (name{cite.}) ha
-s been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.430 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{cite.}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.430 \end{document}
-                    
-
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 430.
+ [7 <./HCP.pdf>] (./tensor_regression.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 431.
+ [8 <./coef.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 431.
  (./tensor_regression.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 430.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 430.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 431.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 431.
 Package rerunfilecheck Info: File `tensor_regression.out' has not changed.
-(rerunfilecheck)             Checksum: 95D1C08FF0577D33BB931EDFF1CA6AE3;842.
-
-
-LaTeX Warning: There were undefined references.
+(rerunfilecheck)             Checksum: DC15DD7B70DCA64876A1AC8F05E40E9F;804.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 430.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 431.
  ) 
 Here is how much of TeX's memory you used:
- 11817 strings out of 493014
- 175587 string characters out of 6133351
- 316461 words of memory out of 5000000
- 14962 multiletter control sequences out of 15000+600000
- 24160 words of font info for 119 fonts, out of 8000000 for 9000
+ 12157 strings out of 493014
+ 181242 string characters out of 6133351
+ 324004 words of memory out of 5000000
+ 15254 multiletter control sequences out of 15000+600000
+ 24167 words of font info for 130 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,12n,45p,1047b,436s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,12n,45p,1389b,452s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
@@ -1063,24 +1099,22 @@ cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
 texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texl
 ive/2016/texmf-dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/l
-ocal/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/loc
-al/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/cm-super/sfti0500.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/cm-super/sfti0700.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2016/te
-xmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_regression.pdf (6 pages, 430146 bytes).
+live/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2016/
+texmf-dist/fonts/type1/public/cm-super/sfti0500.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/cm-super/sfti0700.pfb></usr/local/texlive/2016/texm
+f-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2016/texmf-
+dist/fonts/type1/public/stmaryrd/stmary10.pfb>
+Output written on tensor_regression.pdf (8 pages, 1417698 bytes).
 PDF statistics:
- 318 PDF objects out of 1000 (max. 8388607)
- 273 compressed objects within 3 object streams
- 47 named destinations out of 1000 (max. 500000)
- 19059 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 912 PDF objects out of 1000 (max. 8388607)
+ 679 compressed objects within 7 object streams
+ 61 named destinations out of 1000 (max. 500000)
+ 17543 words of extra memory for PDF output out of 20736 (max. 10000000)
 
