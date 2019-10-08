@@ -5,6 +5,57 @@ Tamara~G Kolda and Brett~W Bader.
 \newblock Tensor decompositions and applications.
 \newblock {\em SIAM review}, 51(3):455--500, 2009.
 
+\bibitem{gabriel1998generalised}
+K~Ruben Gabriel.
+\newblock Generalised bilinear regression.
+\newblock {\em Biometrika}, 85(3):689--700, 1998.
+
+\bibitem{potthoff1964generalized}
+Richard~F Potthoff and SN~Roy.
+\newblock A generalized multivariate analysis of variance model useful
+  especially for growth curve problems.
+\newblock {\em Biometrika}, 51(3-4):313--326, 1964.
+
+\bibitem{srivastava2008estimation}
+Muni~S Srivastava, Tatjana Nahtman, and Dietrich Von~Rosen.
+\newblock Estimation in general multivariate linear models with kronecker
+  product covariance structure.
+\newblock Technical report.
+
+\bibitem{rabusseau2016low}
+Guillaume Rabusseau and Hachem Kadri.
+\newblock Low-rank regression with tensor responses.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  1867--1875, 2016.
+
+\bibitem{zhang2018network}
+Jingfei Zhang, Will~Wei Sun, and Lexin Li.
+\newblock Network response regression for modeling population of networks with
+  covariates.
+\newblock {\em arXiv preprint arXiv:1810.03192}, 2018.
+
+\bibitem{hoff2005bilinear}
+Peter~D Hoff.
+\newblock Bilinear mixed-effects models for dyadic data.
+\newblock {\em Journal of the american Statistical association},
+  100(469):286--295, 2005.
+
+\bibitem{hitchcock1927expression}
+Frank~L Hitchcock.
+\newblock The expression of a tensor or a polyadic as a sum of products.
+\newblock {\em Journal of Mathematics and Physics}, 6(1-4):164--189, 1927.
+
+\bibitem{oseledets2011tensor}
+Ivan~V Oseledets.
+\newblock Tensor-train decomposition.
+\newblock {\em SIAM Journal on Scientific Computing}, 33(5):2295--2317, 2011.
+
+\bibitem{mccullagh1989generalized}
+P.~McCullagh and J.A. Nelder.
+\newblock {\em Generalized Linear Models, Second Edition}.
+\newblock Chapman and Hall/CRC Monographs on Statistics and Applied Probability
+  Series. Chapman \& Hall, 1989.
+
 \bibitem{acar2010scalable}
 Evrim Acar, Daniel~M Dunlavy, Tamara~G Kolda, and Morten M{\o}rup.
 \newblock Scalable tensor factorizations with missing data.

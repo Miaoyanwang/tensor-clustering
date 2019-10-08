@@ -3,44 +3,47 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: tensor_regression.aux
 The style file: unsrt.bst
 Database file #1: tensor_wang.bib
-You've used 12 entries,
+Warning--empty institution in srivastava2008estimation
+Warning--empty year in srivastava2008estimation
+You've used 21 entries,
             1791 wiz_defined-function locations,
-            555 strings with 6621 characters,
-and the built_in function-call counts, 3644 in all, are:
-= -- 340
-> -- 165
-< -- 5
-+ -- 59
-- -- 47
-* -- 243
-:= -- 536
-add.period$ -- 37
-call.type$ -- 12
-change.case$ -- 12
+            611 strings with 7991 characters,
+and the built_in function-call counts, 5676 in all, are:
+= -- 539
+> -- 227
+< -- 6
++ -- 84
+- -- 63
+* -- 376
+:= -- 845
+add.period$ -- 65
+call.type$ -- 21
+change.case$ -- 21
 chr.to.int$ -- 0
-cite$ -- 12
-duplicate$ -- 176
-empty$ -- 322
-format.name$ -- 47
-if$ -- 837
+cite$ -- 23
+duplicate$ -- 268
+empty$ -- 530
+format.name$ -- 63
+if$ -- 1292
 int.to.chr$ -- 0
-int.to.str$ -- 12
-missing$ -- 12
-newline$ -- 63
-num.names$ -- 12
-pop$ -- 31
+int.to.str$ -- 21
+missing$ -- 21
+newline$ -- 108
+num.names$ -- 21
+pop$ -- 54
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 125
+skip$ -- 168
 stack$ -- 0
-substring$ -- 274
-swap$ -- 76
-text.length$ -- 5
+substring$ -- 445
+swap$ -- 96
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 34
-width$ -- 14
-write$ -- 135
+warning$ -- 2
+while$ -- 56
+width$ -- 23
+write$ -- 231
+(There were 2 warnings)

@@ -109,8 +109,7 @@
 \aistatsaddress{ Unknown Institution 1 \And  Unknown Institution 2 \And Unknown Institution 3 } ]
 
 \begin{abstract}
-We consider the problem of learning higher-order tensors with side information on a set of modes. Such data problems arise frequently arise in applications such as neuroimaging, network analysis, and recommendation systems. We propose a new family of tensor response regression models that incorporate covariate information, and obtain the theoretical accuracy guarantees. An efficient alternating updating algorithm is further developed. Our proposal handles a broad range of applications, including modeling brain connection in populations, link prediction in networks, and spatial-temporal growth model. The efficacy of our method is demonstrated through both simulations and analyses of two real-word datasets. 
-\end{abstract}
+We consider the problem of tensor-valued regression given covariates on a set of modes. Such data problems arise frequently arise in applications such as neuroimaging, network analysis, and spatial-temporal modeling. We propose a new family of tensor response regression models that incorporate covariate information, and obtain the theoretical accuracy guarantees. An efficient alternating updating algorithm is further developed. Our proposal handles a broad range of data types, including continuous, count, and binary observations. Through simulation and application to two real datasets, we demonstrate the outperformance of our approach over the state-of-art. \end{abstract}
 
 \section{Introduction}
 
@@ -137,26 +136,29 @@ In this article, we provide a general treatment to these seemingly different pro
 
 \section{Preliminaries}
 
-We begin by reviewing a few basic factors about tensors~\cite{kolda2009tensor}. We use $\tY=\entry{y_{i_1,\ldots,i_K}}\in \mathbb{R}^{d_1\times \cdots\times d_K}$ to denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. The multilinear multiplication of a tensor $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ by matrices $\mM_k=\entry{m_{i_k,j_k}^{(k)}}\in\mathbb{R}^{s_k\times d_k}$ is defined as
+We begin by reviewing basic properties on tensors~\cite{kolda2009tensor}. We use $\tY=\entry{y_{i_1,\ldots,i_K}}\in \mathbb{R}^{d_1\times \cdots\times d_K}$ to denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. The multilinear multiplication of a tensor $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ by matrices $\mX_k=\entry{x_{i_k,j_k}^{(k)}}\in\mathbb{R}^{s_k\times d_k}$ is defined as
 \[
-\tY \times_1\mM_1\ldots \times_K \mM_K=\entry{\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}m_{i_1,j_1}^{(1)}\ldots m_{i_K,j_K}^{(K)}},
+\tY \times_1\mX_1\ldots \times_K \mX_K=\entry{\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}x_{i_1,j_1}^{(1)}\ldots x_{i_K,j_K}^{(K)}},
 \]
-which results in an order-$K$ tensor $(s_1,\ldots,s_K)$-dimensional tensor. For ease of notation, we also write the above Tucker product $\tY\times\{\mM_1,\ldots,\mM_K\}$ for short. For any two tensors $\tY=\entry{y_{i_1,\ldots,i_K}}$, $\tY'=\entry{y'_{i_1,\ldots,i_K}}$ of identical order and dimensions, their inner product is defined as $\langle \tY, \tY'\rangle =\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}y'_{i_1,\ldots,i_K}$. The Frobenius norm of tensor $\tY$ is defined as $\FnormSize{}{\tY}=\langle \tY,\ \tY \rangle^{1/2}$; it is the Euclidean norm of $\tY$ regarded as an $\prod_k d_k$-dimensional vector. We use lower-case letters $a,b,c,\ldots$ for scalars and vectors, upper-case boldface letters $\mA,\mB,\mC,\ldots$ for matrices, and calligraphy letter $\tA, \tB, \tC,\ldots$ for tensors of order 3 or greater. We denote by $\mI_n$ the identity matrix of dimension $n$.
+which results in an order-$K$ tensor $(s_1,\ldots,s_K)$-dimensional tensor. For ease of notation, we use shorthand notion $\tY\times\{\mX_1,\ldots,\mX_K\}$ to denote the above product. A higher-order tensor can be reshaped into a lower-order representation. We let $\text{vec}(\cdot)$ to denote the operation that reshapes a tensor into a vector, and $\text{Unfold}_k(\cdot)$ the operation that reshapes a tensor along mode-$k$ into a matrix of size $d_k$-by-$\prod_{i\neq k}d_i$. The Tucker rank of an order-$K$ tensor $\tY$ is defined as a length-$K$ vector $\mr=(r_1,\ldots,r_K)$, where $r_k$ is the rank of matrix $\text{Unfold}_k(\tY)$. 
 
 
-\section{Motivation and models}
-Let $\tY=\entry{y_{i_1,\ldots,i_K}}\in\mathbb{R}^{d_1\times \cdots\times d_K}$ denote an order-$K$ data tensor of interest. In addition, suppose we observe covariates on a subset of modes. Let $\mX_k\in\mathbb{R}^{d_k\times p_k}$ be the available covariates on the mode-$k$, where $p_k\leq d_k$. We propose the following multilinear structure in the mean of the tensor. Specifically, 
+For any two tensors $\tY=\entry{y_{i_1,\ldots,i_K}}$, $\tY'=\entry{y'_{i_1,\ldots,i_K}}$ of identical order and dimensions, their inner product is defined as $\langle \tY, \tY'\rangle =\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}y'_{i_1,\ldots,i_K}$. The Frobenius norm of tensor $\tY$ is defined as $\FnormSize{}{\tY}=\langle \tY,\ \tY \rangle^{1/2}$; it is the Euclidean norm of $\tY$ regarded as an $\prod_k d_k$-dimensional vector. We use lower-case letters, e.g.,\ $a,b,c$, for scalars and vectors, upper-case boldface letters, e.g., $\mA,\mB,\mC,$ for matrices, and calligraphy letter, e.g.\ $\tA, \tB, \tC,$ for tensors of order 3 or greater. We denote by $\mI_n$ the identity the $d \times d$ identity matrix. 
+
+
+\section{Motivation and model}\label{sec:model}
+Let $\tY=\entry{y_{i_1,\ldots,i_K}}\in\mathbb{R}^{d_1\times \cdots\times d_K}$ denote an order-$K$ data tensor of interest. Suppose we observe covariates on some of the $K$ modes. Let $\mX_k\in\mathbb{R}^{d_k\times p_k}$ denote the available covariates on the mode-$k$, where $p_k\leq d_k$. We propose the following multilinear structure for the mean tensor. Specifically, 
 \begin{align}\label{eq:tensormodel}
-&\mathbb{E}(\tY|\mX_1,\ldots,\mX_K)=f(\Theta),\ \text{where}\\
+&\mathbb{E}(\tY|\mX_1,\ldots,\mX_K)=f(\Theta),\ \text{with}\\
 &\Theta =\tB\times\{\mX_1,\ldots,\mX_K\} ,
 \end{align}
-where $f(\cdot)$ is a known link function, $\Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}$ is called the linear predictor tensor, $\tB\in\mathbb{R}^{p_1\times \cdots p_K}$ is the parameter tensor of interest, and $\times$ denotes the tensor Tucker product. The link function depends on the distribution family of the response. Some common choices are identity link for Gaussian tensor, logistic link for binary tensor, and log link for Poisson tensor. We give three examples of multi-covariates tensor regression model that arises in practice. 
+where $f(\cdot)$ is a known link function, $\Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}$ is the linear predictor, $\tB\in\mathbb{R}^{p_1\times \cdots p_K}$ is the parameter tensor of interest, and $\times$ denotes the tensor Tucker product. The choice of link function depends on the distribution of the response data. Some common choices are identity link for Gaussian tensor, logistic link for binary tensor, and log link for Poisson tensor. We give three concrete examples of tensor regression model that arises in practice. 
 
 \begin{example}[Spatio-temporal growth model]
-Let $\tY=\entry{y_{ijk}}\in\mathbb{R}^{d \times m\times n}$ denote the pH measurements of $d$ lakes at $m$ levels of depth and for $n$ time points. Suppose the sampled lakes belong to $q$ types, with $p$ lakes in each type. Let $\{\ell_j\}_{j\in[m]}$ denote the sampled depth levels and $\{t_k\}_{k\in[n]}$ the time points. Assume the expected pH trend in depth is a polynomial of order $r$ and that the expected trend in time is a polynomial of order $s$. Then, a classical spatio-temporal growth model can be represented as
-\[
+Let $\tY=\entry{y_{ijk}}\in\mathbb{R}^{d \times m\times n}$ denote the pH measurements of $d$ lakes at $m$ levels of depth and for $n$ time points. Suppose the sampled lakes belong to $q$ types, with $p$ lakes in each type. Let $\{\ell_j\}_{j\in[m]}$ denote the sampled depth levels and $\{t_k\}_{k\in[n]}$ the time points. Assume the expected pH trend in depth is a polynomial of order $r$ and that the expected trend in time is a polynomial of order $s$. Then, the spatio-temporal growth model can be represented as
+\begin{equation}\label{eq:time}
 \mathbb{E}(\tY|\mX_1,\mX_2,\mX_3)=\tB\times\{\mX_1,\mX_2,\mX_3\},
-\]
+\end{equation}
 where $\tB\in\mathbb{R}^{p\times (r+1)\times (s+1)}$ is the coefficient tensor of interest, $\mX_1=\text{blockdiag}\{\mathbf{1}_p,\ldots,\mathbf{1}_p\}\in \{0,1\}^{d\times p}$ is the design matrix for lake types, 
 \[
 \mX_2=
@@ -174,56 +176,59 @@ where $\tB\in\mathbb{R}^{p\times (r+1)\times (s+1)}$ is the coefficient tensor o
 1&t_{n}&\cdots&t^{s}_{n}
 \end{pmatrix}
 \]
-are the design matrices for spatial and temporal effects, respectively. 
+are the design matrices for spatial and temporal effects, respectively. Clearly, the spatial-temporal model is a special case of our tensor regression model, with covariates on each of the three modes. The model~\eqref{eq:time} can be viewed as a higher-order extension of the classical ``growth curve'' models for matrix data in the context of factorial design~\cite{gabriel1998generalised,potthoff1964generalized,srivastava2008estimation}. 
+
 \end{example}
 \begin{example}[Network population model] 
-Network response model is recently developed in the context of neuroimanig analysis. The goal is to study the relationship between the network-valued response with the individual covariates. Suppose we observe $n$ i.i.d.\ observations $\{(\mY_i, \mx_i): i=1,\ldots,n\}$, where $\mY_i\in\{0,1\}^{d\times n}$ is the brain connectivity network on the $i$-th individual and $\mx_i\in\mathbb{R}^p$ is the subject covariate such as age, gender. The network-response model has the form
+Network response model is recently developed in the context of neuroimanig analysis. The goal is to study the relationship between network-valued response and the individual covariates. Suppose we observe $n$ i.i.d.\ observations $\{(\mY_i, \mx_i): i=1,\ldots,n\}$, where $\mY_i\in\{0,1\}^{d\times n}$ is the brain connectivity network on the $i$-th individual, and $\mx_i\in\mathbb{R}^p$ is the individual covariate such as age, gender, cognition, etc. The network-response model~\cite{rabusseau2016low, zhang2018network} has the form
 \begin{equation}\label{eq:network}
 \text{logit}(\mathbb{E}(\mY_i|\mx_i))=\tB\times_3\mx_i, \quad \text{for }i=1,\ldots,n
 \end{equation}
-where $\tB\in \mathbb{R}^{d\times d\times p}$ is the coefficient tensor of interest. In fact, the model~\eqref{eq:network} is a special case of our multilinear tensor-response model. To see this, let $\tY\in\{0,1\}^{d\times d\times n}$ denote the response tensor by stacking $\{\mY_i\}$ together along the 3$^\text{rd}$ mode and $\mX=[\mx_1,\ldots,\mx_n]\in\mathbb{R}^{p\times n}$, then model~\eqref{eq:network} can be expressed as 
+where $\tB\in \mathbb{R}^{d\times d\times p}$ is the coefficient tensor of interest. 
+
+The model~\eqref{eq:network} is a special case of our tensor-response model, with covariate on one of the three modes. Specifically, let $\tY\in\{0,1\}^{d\times d\times n}$ denote the response tensor by stacking $\{\mY_i\}$ together along the 3$^\text{rd}$ mode and $\mX=[\mx_1,\ldots,\mx_n]\in\mathbb{R}^{p\times n}$, then model~\eqref{eq:network} can be expressed as 
 \[
-\text{logit}(\mathbb{E}(\tY|\mX))=\tB\times_3 \mX=\tB\times\{\mI_d, \mI_d, \mX\},
+\text{logit}(\mathbb{E}(\tY|\mX))=\tB\times_3 \mX=\tB\times\{\mI_d, \mI_d, \mX\}.
 \]
-where $\mI_d$ denotes the identity matrix of dimension $d$. 
  \end{example}
  
- \begin{example}[Link model with node attributes] Let $V=[n]$ be a set of vertices and explanatory variable $x_i\in\mathbb{R}^p$ associated to each $i\in V$. The network $G=(V,E)$ is described by the following matrix model. The edge connects the two vertices $i$ and $j$ independently of the others. The probability of connection is modeled as
- \[
+ \begin{example}[Dyadic data with node attributes] Dyadic data consist of measurements on pairs of objects or under a pair of conditions. Common examples include networks and graphs. Let $\tG=(V,E)$ denote a network, where $V=[n]$ is the node set of the graph, and $E\subset V\times V$ is the edge set. We also observe covariate $x_i\in\mathbb{R}^p$ associated to each $i\in V$. The network $\tG=(V,E)$ is described by the following matrix model. The edge connects the two vertices $i$ and $j$ independently of the others, and the probability of connection is modeled as
+\begin{equation}\label{eq:edge}
  \text{logit}(\mathbb{P}((i,j)\in E)=\mx^T_i\mB\mx_j=\langle \mB, \mx^T_i\mx_j\rangle.
- \]
-Again, we show that this model is a special case of our tensor regression model. Let $\tY=\entry{y_{ij}}$ where $y_{ij}=\mathds{1}_{(i,j)\in E}$. Define $\mX=[\mx_1,\ldots,\mx_n]\in\mathbb{R}^{p\times n}$. Then the above model can be expressed as
+ \end{equation}
+The above model has demonstrated its success in explaining higher-order dependence, such as transitivity, balance, and clusterability in the network data~\cite{hoff2005bilinear}. We show that our tensor regression model incorporates the dyadic model as a special case. Let $\tY=\entry{y_{ij}}$ where $y_{ij}=\mathds{1}_{(i,j)\in E}$. Define $\mX=[\mx_1,\ldots,\mx_n]\in\mathbb{R}^{p\times n}$. Then, the dyadic model~\eqref{eq:edge} can be expressed as
  \[
  \text{logit}(\mathbb{E}(\mY|\mX))=\tB\times\{\mX,\mX\}.
  \]
 \end{example}
-In the above three example and many other studies, researchers are interested in uncovering the variation in the data tensor that are explained by the covariates. 
 
-Without any structure on the coefficient tensor $\tB$: \emph{A naive approach is to regress the tensor entry, one at a time, on the covariates, and this model is repeatedly fitted for each tensor element.} Though this approach is scalable, it suffers from two drawbacks: (1) ignore the multilinear structure in the tensor (?) and (2) suffers from the multiplicity issue. To allow the structure among ..we further impose a multilinear low-rank structure on the coefficient tensor $\tB$
+In the above three examples and many other studies, researchers are interested in uncovering the variation in the data tensor that are explained by the covariates. The regression coefficient $\tB$ in our model model~\eqref{eq:tensormodel} serves this goal by revealing the effects that are attributable to covariates and the interaction thereof.  %Estimation accuracy can be improved by restricting $\tB$ to a parameter space of lower dimension. 
+%Without any structure on the coefficient tensor $\tB$: \emph{A naive approach is to regress the tensor entry, one at a time, on the covariates, and this model is repeatedly fitted for each tensor element.} Though this approach is scalable, it suffers from two drawbacks: (1) ignore the interdependence among entries in the tensor and (2) suffers from the multiplicity issue. %To allow the structure among ..
+Furthermore, we assume that the coefficient tensor $\tB$ admits a low-rank Tucker decomposition,
 \begin{equation}\label{eq:rank}
 \tP=\{\tB\in\mathbb{R}^{p_1\times \cdots \times p_K}: r_k(\tB)\leq r_k \text{ for } k\in[K]\},
 \end{equation}
-where $r_k(\tB)\leq p_k$ is the Tucker rank of the tensor at mode $k$. Other low-rankness such as CP rank is also possible. 
+where $r_k(\tB)\leq p_k$ is the Tucker rank of the tensor at mode $k$. The low-rank assumption is plausible in many scientific applications. In brain imaging analysis, for instance, it is often believed that the nodes can be classified into fewer communities, and the numbers of communities are much smaller than the dimension. Moreover, the low-rank structure encourages the shared information across tensor entries, thereby greatly improving the estimation stability.  
+
 
 Our tensor regression model is able to incorporate covariates on some or all modes, whenever available. Without loss of generality, we denote by $\tX=\{\mX_1,\ldots,\mX_K\}$ the covariates in all modes and treat $\mX_k=\mI_{d_k}$ if the mode-$k$ has no (informative) covariate. Then, the final form of our tensor regression model can be written as:
 \begin{align}\label{eq:tensormodel}
 &\mathbb{E}(\tY|\tX)=f(\Theta),\quad \Theta =\tB\times\{\mX_1,\ldots,\mX_K\},\notag\\
 &\text{where}\ \text{rank}(\tB)=(r_1,\ldots,r_K),
 \end{align}
-where $\tB\in\mathbb{R}^{p_1\times \cdots\times p_K}$ is the low-rank coefficient tensor of interest, and the entries of $\tY$ are independent realizations from an exponential distribution which are detailed in the next paragraph. 
-
-Note that the key assumption in the model is the low-rankness of the tensor form. The low-rank structure in~\eqref{eq:rank} implies that the coefficient tensor can be expressed as $\tB=\tC\times\{\mM_1,\ldots, \mM_K\}$. Then, our tensor regression model~\eqref{eq:tensormodel} is equivalent to
-\[
-f(\mathbb{E}(\tY|\mX_1,\ldots,\mX_K))=\tC\times\{\mX_1\mM_1,\ldots,\mX_k\mM_k\}.
-\]
-The goal is to find a joint dimension reduction of $\tY$ and $\mX_K$ such that the unexplained variation in the mean tensor. The factorization is restricted to the space spanned by $\mX_k$. Here $\mX_1\mM_1$ can be interpreted as the latent covariates that explains the variation in the response tensor. The core tensor $\tC$ collects the interaction effects of latent covariates across the $K$ modes.  
+where $\tB\in\mathbb{R}^{p_1\times \cdots\times p_K}$ is the low-rank coefficient tensor of interest, and the entries of $\tY$ are independent conditional on $\tX$. We comment that other forms of tensor low-rankness is also possible, and here we choose Tucker rank for parsimony. Similar models can be derived using other notions of low-rankness based on CP decomposition~\cite{hitchcock1927expression} and train decomposition~\cite{oseledets2011tensor}. 
+%Note that the key assumption in the model is the low-rankness of the tensor form. The low-rank structure in~\eqref{eq:rank} implies that the coefficient tensor can be expressed as $\tB=\tC\times\{\mM_1,\ldots, \mM_K\}$. Then, our tensor regression model~\eqref{eq:tensormodel} is equivalent to
+%\[
+%f(\mathbb{E}(\tY|\mX_1,\ldots,\mX_K))=\tC\times\{\mX_1\mM_1,\ldots,\mX_k\mM_k\}.
+%\]
+%The goal is to find a joint dimension reduction of $\tY$ and $\mX_K$ such that the unexplained variation in the mean tensor. The factorization is restricted to the space spanned by $\mX_k$. Here $\mX_1\mM_1$ can be interpreted as the latent covariates that explains the variation in the response tensor. The core tensor $\tC$ collects the interaction effects of latent covariates across the $K$ modes.  
 
 \section{Rank-constrained likelihood-based estimation}
-We develop a likelihood-based procedure to estimate $\tB$. The exponential family is a flexible framework for different data types. In a classical GLM with a scalar response $y$ and covariate $\mx$, the density is expressed as:
+We develop a likelihood-based procedure to estimate the tensor. The exponential family is a flexible framework for different data types. In a classical GLM with a scalar response $y$ and covariate $\mx$, the density is expressed as:
 \[
 p(y|\mx, \boldsymbol{\beta})=c(y)\exp\left({y\theta- b(\theta) \over \phi}\right)\ \text{with}\ \theta=\boldsymbol{\beta}^T\mx,
 \]
-where $b(\cdot)$ is the known function, $\theta$ is the linear predictor, $\phi>0$ is the dispersion parameter, and $c(\cdot)$ is a known normalizing function. The choice of link functions are tailored to the data types and the observation domain of $y$, denoted $\mathbb{Y}$. For example, the observation space for continuous data is $\mathbb{Y}=\mathbb{R}$, and for count data $\mathbb{Y}=\mathbb{N}$, and for binary data, $\mathbb{Y}=\{0,1\}$. 
+where $b(\cdot)$ is a known function, $\theta$ is the linear predictor, $\phi>0$ is the dispersion parameter, and $c(\cdot)$ is a known normalizing function. The choice of link functions depends on the data types and on the observation domain of $y$, denoted $\mathbb{Y}$. For example, the observation domain for continuous data is $\mathbb{Y}=\mathbb{R}$, for count data $\mathbb{Y}=\mathbb{N}$, and for binary data, $\mathbb{Y}=\{0,1\}$. 
 Note that the canonical link function $f$ is chosen to be $f(\cdot)=b'(\cdot)$. Table~1 summarizes the canonical link functions for common types of distributions. 
 
 \begin{table}
@@ -242,17 +247,17 @@ In our context, the entries in the response tensor $y_{ijk}$ conditional on $\th
 \tL_{\tY}(\tB)&=\langle \tY, \Theta \rangle - \sum_{i_1,\ldots,i_K} b(\theta_{i_1,\ldots,i_K}),\\
 \text{where}\ \Theta&=\tB\times\{\mX_1,\ldots,\mX_K\}.
 \end{align}
-We assume that we have an additional information on an upper bound $\alpha>0$ such that $\mnormSize{}{\Theta}\leq \alpha$. \emph{This is the case for many applications we have in mind such as recommendation systems where user ratings are bounded.} We propose a constrained maximum likelihood estimator for the coefficient tensor $\tB$:
+We assume that we have an additional information on an upper bound $\alpha>0$ such that $\mnormSize{}{\Theta}\leq \alpha$. This is the case for many applications we have in mind such as brain imaging where fiber connections are bounded. We propose a constrained maximum likelihood estimator for the coefficient tensor:
 \begin{equation}\label{eq:MLE}
 \hat \tB=\argmax_{\text{rank}(\tB)= \mr, \mnormSize{}{\Theta(\tB)}\leq \alpha} \tL_{\tY}(\tB).
 \end{equation}
-In the theoretical analysis, we assume the rank $\mr=(r_1,\ldots,r_K)$ is known. The adaptation of unknown $\mr$ will be addressed in Section~\ref{sec:tuning}. 
+In the following theoretical analysis, we assume the rank $\mr=(r_1,\ldots,r_K)$ is known and fixed. The adaptation of unknown $\mr$ will be addressed in Section~\ref{sec:tuning}. 
 
 
 \subsection{Statistical properties}
 We assess the estimation accuracy using the deviation in the Frobenius norm. For the true coefficient tensor $\trueB$ and its estimator $\hat \tB$, define
 \[
-\text{Loss}(\trueB, \hat \tB)={ 1 \over \prod_k p_k} \FnormSize{}{\trueB- \hat \tB}^2.
+\text{Loss}(\trueB,\ \hat \tB)=\FnormSize{}{\trueB- \hat \tB}^2.
 \]
 
 \begin{figure*}
@@ -261,46 +266,51 @@ We assess the estimation accuracy using the deviation in the Frobenius norm. For
   \end{center}
   \end{figure*}
   
-We focus on the high-dimensional region in which both $d_k\to \infty$ and $p_k\to\infty$ while ${p_k\over d_k} \to \gamma_k \in[0,1]$. 
+ In modern applications, the response tensor and covariates are often large-scale. We are particularly interested in the high-dimensional region in which both $d_k$ and $p_k$ diverge; i.e.\ $d_k\to \infty$ and $p_k\to\infty$, while ${p_k\over d_k} \to \gamma_k \in[0,1)$. As the size of problem grows, and so does the number of unknown parameters. As such, the classical maximum likelihood estimation  theory does not directly apply. We leverage the recent development in random tensor theory and high-dimensional statistics to establish the error bounds of the tensor estimation. 
+
 \begin{assumption}\label{ass}We make the following assumptions:
 \vspace{-.5cm}
 \begin{enumerate}
-\item [1.] There exists two positive constants $c_1,\ c_2>0$ such that $c_1\leq \sigma_{\min}(\mX_k)\leq  \sigma_{\max}(\mX_k)\leq c_2$ for all $k\in[K]$.
-\item [2.] There exist two positive constants $L,\ U>0$ such that $L\leq \text{Var}(y_{i_1,\ldots,i_K}|\tX)\leq U$ uniformly over the parameter space $\tP$. 
-\item [2'.] Equivalently, $L\leq b''(x) \leq U$ for all $x\leq \alpha$, where $b(\cdot)$ is the known function in the exponential family distribution and $\alpha$ is the upper bound of the linear predictor. 
+\item [A1.] There exist two positive constants $c_1, c_2>0$ such that $c_1\leq \sigma_{\min}(\mX_k)\leq  \sigma_{\max}(\mX_k)\leq c_2$ for all $k\in[K]$. Here $\sigma_{\text{min}}(\cdot)$ and $\sigma_{\text{max}}(\cdot)$ denotes the smallest and largest singular values, respectively.
+\item [A2.] There exist two positive constants $L,\ U>0$ such that $L\leq \text{Var}(y_{i_1,\ldots,i_K}|\tX, \tB)\leq U$ uniformly over the parameter space $\tP$. 
 \end{enumerate}
 \end{assumption}
+Both assumptions are fairly mild. Assumption A1 guarantees the non-singularity of the covariates, and Assumption A2 ensures the log-likelihood $\tY(\Theta)$ is strictly concave in the linear predictor $\Theta$. Note that, for exponential family, $\text{Var}(y_{i_1,\ldots,i_K}|\tX,\tB)=b''(\theta_{i_1,\ldots,i_K})$~\cite{mccullagh1989generalized}, so the Assumption A2 can also be replaced by $L\leq b''(\theta) \leq U$ for all $|\theta|\leq \alpha$, where $\alpha$ is the upper bound of the linear predictor $\theta$. 
 
   
 \begin{thm}[Statistical convergence]\label{thm:main}
-Consider a generalized tensor regression model with multi-sided covariates. Let $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ be the tensor response and $\tX=\{\mX_1,\ldots,\mX_K\}$ the covariates, where $\mX_k\in\mathbb{R}^{p_k\times d_k}$ is the covariate matrix on mode-$k$. Suppose the entries in $\tY$ are independent realizations of an exponential family distribution, and $\mathbb{E}(\tY|\tX)$ follows the low-rank tensor regression model~\eqref{eq:tensormodel}. Under Assumption~\ref{ass}, there exist two constants $C_1, C_2>0$ such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
-\[
-\text{Loss}(\trueB, \hat \tB) \leq  {2\over c_1^{2K}} \min\left\{ {C(\mr,\alpha)\sum_k p_k \over \prod_k p_k},\ 2\alpha^2 \right\},
-\]
-where $C(\alpha,\mr)={1 \over b''(\alpha)}{\prod_k r_k \over r_{\max}}>0$ is a constant that does not depend on dimension $\{d_k\}$ and $\{p_k\}$. 
+Consider a generalized tensor regression model with multi-sided covariates $\tX=\{\mX_1,\ldots,\mX_K\}$. Suppose the entries in $\tY$ are independent realizations of an exponential family distribution, and $\mathbb{E}(\tY|\tX)$ follows the low-rank tensor regression model~\eqref{eq:tensormodel}. Under Assumption~\ref{ass}, there exist two absolute constants $C_1, C_2>0$, such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
+\begin{equation}\label{eq:bound}
+\text{Loss}(\trueB,\ \hat \tB) \leq C_3\sum_k p_k,
+\end{equation}
+where $C_3=C_3(\mr)={1\over C^{2K}_2U}{\prod_k r_k \over \max_k r_k}>0$ is a constant that does not depend on the dimensions $\{d_k\}$ and $\{p_k\}$. 
 \end{thm}
 
-To gain further insight on the bound~\label{thm:main} we consider the special case when dimensions are equal at each of the modes. 1. binary case; 2. large dimension region. $\tO\left({p \over d^k}\right)\leq \tO(d^{-(k-1)})$.
+To gain further insight on the bound~\eqref{eq:bound}, we consider a special case when dimensions are equal at each of the modes, i.e., $d_k=d$, $p_k=\gamma d$, $\gamma\in [0,1)$ for all $k\in[K]$, and the covariates $\mX_k$ are Gaussian design matrices with i.i.d.\ $N(0,\sigma^2)$ entries. To put the result in the context of Theorem~\ref{thm:main}, we define rescaled covariates $\check \mX_k={1\over \sqrt{d}}\mX_k$, and note that the singular values of $\check \mX_k$ are bounded in $1\pm \sqrt{\gamma}$. The bound~\eqref{eq:bound} then reduces to $\tO({p\over d^K})$ for the estimated coefficient under the original, unscaled covariates $\{\mX_k\}$. Therefore, our estimation is consistent as the dimension grows, and the convergence becomes especially favorably as we have more modes in the tensor data. 
 
-\begin{cor}[Spatio-temporal growth model] Our method yields the convergence rate $\tO\left({p+r+s\over dmn}\right)$. Note that $p\leq d$, $r\leq m$ and $s\leq m$, so consistent estimator. 
+As immediate applications, we obtain the convergence rate for the three examples mentioned in Section~\ref{sec:model}. Without loss of generality, we assume that the singular values of the (informative) covariates $\mX_k$ are scaled as $\sqrt{d_k}$. 
+\begin{cor}[Spatio-temporal growth model] The estimated type-by-time-by-level tensor converges at the rate $\tO\left({p+r+s\over dmn}\right)$ where $p\leq d$, $r\leq m$ and $s\leq n$. The estimation achieves consistency as long as the dimension grows in either of the three modes.
 \end{cor}
 
-\begin{cor} [Network population model] Our method yields the convergence rate $\tO\left({2d+p\over d^2n}\right)$. Note that $p\leq m$, so this is a consistent estimator. In contrast, a naive repeated glm will give $\tO({p\over n})$.
+\begin{cor} [Network population model] The estimated node-by-node-by-covariate tensor converges at the rate $\tO\left({2d+p\over d^2n}\right)$ where $p\leq n$. The estimation achieves consistency as the number of individuals or the number of nodes grows. 
 \end{cor}
 
-\begin{cor} [Link model with node attributes] Our method yields the convergence rate is $\tO\left({p\over d^2}\right)$. Note that $p\leq m$, so again a consistent estimator. In contrast, a naive repeated glm will give $\tO({p\over n})$.
+\begin{cor} [Link model with node attributes] The estimated covariate-by-covariate matrix converges at the rate $\tO\left({p\over d^2}\right)$ where $p\leq d$. Again, our estimation achieves consistency as the number of nodes grows. 
 \end{cor}
 
-We provide the prediction accuracy for the response tensor.  
+We conclude this section by providing the prediction accuracy for the response tensor.  
+
 \begin{thm} [Prediction error]
-Assume the same set-up as in Theorem~\eqref{thm:main}. Let $\mathbb{P}_{\tY_{\text{true}}}$ the distribution of $\tY$ given the true $\trueB$ and $\mathbb{E}(\tY|\tX)$ the true mean. Let $\mathbb{P}_{\hat \tY}$ denote the distribution given the estimated $\hat \tB$ and $\widehat{\mathbb{E}(\tY|\tX)}$ the predicted mean. We have, with probability at least $1-\exp(C_1\sum_k d_k)$,
+Assume the same set-up as in Theorem~\ref{thm:main}. Let $\mathbb{P}_{\tY_{\text{true}}}$ and $\mathbb{P}_{\hat \tY}$ denote the distribution of $\tY$ given the $\trueB$ and $\hat \tB$, respectively. Similarly, let $\mathbb{E}(\tY|\tX)$ and $\widehat{\mathbb{E}(\tY|\tX)}$ denote, respectively, the true and estimated mean. We have, with probability at least $1-\exp(C_1\sum_k p_k)$,
 \begin{align}
-&\text{KL}(\mathbb{P}_{\tY_{\text{true}}},\ \mathbb{P}_{\hat \tY})\leq  C(...) \sum_k p_k,\\
-&\text{Loss}\left(\mathbb{E}(\tY|\tX),\ \widehat{\mathbb{E}(\tY|\tX)}\right)\leq b''(\alpha)C(...) {\sum_k p_k\over \prod_k p_k}.
+&\text{KL}(\mathbb{P}_{\tY_{\text{true}}},\ \mathbb{P}_{\hat \tY})\leq C_4 \sum_k p_k,\ \text{and}\\
+&\text{Loss}\left(\mathbb{E}(\tY|\tX),\ \widehat{\mathbb{E}(\tY|\tX)}\right)\leq C_5 \sum_k p_k,
 \end{align}
+where $C_4, C_5>0$ are two constants that do not depend on the dimension $\{d_k\}$ and $\{p_k\}$.
 \end{thm}
 
-%\subsection{Comparison with existing work}
+\subsection{Comparison with existing work}\label{sec:compare}
+In this section, we discuss the comparison between our method and previous work.  A fundamental feature of tensor-valued data is the statistical interdependence among entries, and one of our goals is to quantify this interdependence. 
 %\newpage
 %\subsubsection{Comparison between Gaussian and non-Gaussian models}
 %Our earlier result gives the general bound with a constant factor $C$. The factor depends on the tensor order, rank, the distribution family, and the infinity norm bound. We now discuss its specific form for various distribution types of the response. We consider the special case when $d_1=\ldots=d_K=d$, $p_1=\ldots=p_K=p$, $r_1=\ldots=r_K=r$. The constant $C={2\over b''(\alpha)} \prod_k\sigma^{-1}_{\min}(\mX_k)$. For Bernoulli model with logistic link $b''(\alpha)={e^\alpha\over (1+e^\alpha)^2}$. The bound
@@ -334,7 +344,7 @@ The decision variables in the above objective function consist of $K+1$ blocks o
 \[
 \mX^{(t)}_{-K}=\tC^{(t)}\times \{ \mM^{(t)}_1\mX_1,\ \ldots,\ \mM^{(t)}_{K-1}\mX_{K-1}\},
 \]
-Then, the objective~\eqref{eq:obj} implies that the $i$-th row of $\mM^{(t)}_K$ is the ``regression coefficient'' for a GLM whose response vector is $\text{vec}(\tY(:,\ :, \ i))\in\mathbb{R}^{d_{-K}}$ and covariate matrix is $\text{Unfold}_K(\mX_{-K}^{(t)})\in\mathbb{R}^{d_{-K} \times r_K}$, where $d_{-K}\stackrel{\text{def}}{=}\prod_{k\in[K-1]}d_k$. Here $\text{vec}(\cdot)$ is the operator that reshapes a tensor into a vector, $\text{Unfold}_{K}(\cdot)$ is the operator that reshapes a tensor along the mode $K$ into a matrix. The property of separation by row allows us to leverage state-of-art GLM solvers and parallel processing to achieve computational efficiency. After each iteration, we rescale the core tensor $\tC^{(t+1)}$ subject to the infinity norm constraint. This post-processing in principle may not guarantee the monotonic increase of the objective, but we found that in our experiment this simple post-processing appears to be good enough for a desirable solution. The full algorithm is described in Algorithm~1.
+Then, the objective~\eqref{eq:obj} implies that the $i$-th row of $\mM^{(t)}_K$ is the ``regression coefficient'' for a GLM whose response vector is $\text{vec}(\tY(:,\ :, \ i))\in\mathbb{R}^{d_{-K}}$ and covariate matrix is $\text{Unfold}_K(\mX_{-K}^{(t)})\in\mathbb{R}^{d_{-K} \times r_K}$, where $d_{-K}\stackrel{\text{def}}{=}\prod_{k\in[K-1]}d_k$. The property of separation by row allows us to leverage state-of-art GLM solvers and parallel processing to achieve computational efficiency. After each iteration, we rescale the core tensor $\tC^{(t+1)}$ subject to the infinity norm constraint. This post-processing in principle may not guarantee the monotonic increase of the objective, but we found that in our experiment this simple post-processing appears to be good enough for a desirable solution. The full algorithm is described in Algorithm~1.
 
 
 
@@ -359,7 +369,7 @@ We evaluate the empirical performance of our generalized tensor regression throu
 \end{enumerate}
 Here $\alpha>0$ is a scalar controlling the magnitude of the linear predictor. In each simulation study, we report the mean squared error for the coefficient tensor averaged across $n_{\text{sim}}=30$ replications. 
 
-The first experiment assesses the selection accuracy of our BIC criterion~\eqref{eq:BIC}. We consider the balanced situation where $d_i=d$, $p_i=0.4d_i$ for $i=1,2,3$. We set $\alpha=10$, $\alpha=4$, and consider various combinations of dimension $d$ and rank $\mr=(r_1,r_2,r_3)$. For each combination, we simulate tensor data following Gaussian, Bernoulli, and Poisson models. We then minimize BIC over $\mr$ using a grid search over three dimensions. We set the hyper-parameter $\alpha$ to infinity in the fitting, which essentially poses no prior on the coefficient magnitude. Table~\ref{tab:rank} reports the selected rank averaged over $n_{\text{sim}}=30$ replicates for Gaussian and Poisson models. (The results for Bernoulli model is shown in the Supplements.) We found that when $d=20$ the selected rank is slightly smaller than the true rank, and the accuracy increases immediately when the dimension increases to $d=40$. This agrees with our expectation, as in tensor regression, the sample size is related to the number of entries. A larger $d$ implies a larger sample size, so the BIC selection becomes more accurate. 
+The first experiment assesses the selection accuracy of our BIC criterion~\eqref{eq:BIC}. We consider the balanced situation where $d_k=d$, $p_k=0.4d_k$ for $k=1,2,3$. We set $\alpha=10$, $\alpha=4$, and consider various combinations of dimension $d$ and rank $\mr=(r_1,r_2,r_3)$. For each combination, we simulate tensor data following Gaussian, Bernoulli, and Poisson models. We then minimize BIC over $\mr$ using a grid search over three dimensions. We set the hyper-parameter $\alpha$ to infinity in the fitting, which essentially poses no prior on the coefficient magnitude. Table~\ref{tab:rank} reports the selected rank averaged over $n_{\text{sim}}=30$ replicates for Gaussian and Poisson models. (The results for Bernoulli model is shown in the Supplements.) We found that when $d=20$ the selected rank is slightly smaller than the true rank, and the accuracy increases immediately when the dimension increases to $d=40$. This agrees with our expectation, as in tensor regression, the sample size is related to the number of entries. A larger $d$ implies a larger sample size, so the BIC selection becomes more accurate. 
 
 
 \begin{table}[t]
@@ -367,7 +377,7 @@ The first experiment assesses the selection accuracy of our BIC criterion~\eqref
 \begin{tabular}{|c|cc|cc|}
 \hline
 %&\multicolumn{4}{c}{Dimension}\\
-\multirow{2}{*}{True Rank} &\multicolumn{2}{c|}{Dimension (Gaussian tensors)}&\multicolumn{2}{c|}{Dimension (Poisson tensors)}\\
+True Rank &\multicolumn{2}{c|}{Dimension (Gaussian tensors)}&\multicolumn{2}{c|}{Dimension (Poisson tensors)}\\
 $\mr$& $d=20$  &$d=40$&$d=20$ &$d=40$\\
 \hline
 $(3,\ 3,\ 3)$&$(2.1,\ 2.0,\ 2.0)$&$({\bf 3},\ {\bf 3},\ {\bf 3})$&$(2.0,\ 2.2,\ 2.1)$&$({\bf 3},\ {\bf 3},\ {\bf 3})$\\
@@ -379,7 +389,7 @@ $(6,\ 8,\ 8)$&$(5.1,\ 7.0,\ 6.9)$&$({\bf 6},\ {\bf 8},\ {\bf 8})$&$(5.0,\ 6.1,\ 
 \caption{Performance for rank selection via BIC. Bold number indicates no significant difference between the estimate and the ground truth, based on a $z$-test with a level 0.05.}\label{tab:rank}
 \end{table}
 
-The second experiment evaluates the accuracy when covariates are available on all modes. We set $\alpha=10, d_i=d, r_i=r\in\{2,4,6\}$ and increase $d$ from 25 to 50. Our theoretical analysis suggests $\hat \tB$ has a convergence rate $\tO(d^{-2})$ in this setting. Figure~1 plots the estimation error versus the ``effective sample size'' $d^2$ under three different distribution models. We found that the empirical RMSE decreases roughly at the rate of $1/d^2$, which is consistent with our theoretical ascertainment. We also observed that coefficients with higher ranks tend to yield higher estimation errors, as reflected by the upward shift of the curves as $r$ increases. Indeed, a larger $r$ implies higher model complexity, thus increasing the difficulty of the estimation. Similar behaviors can be observed in the non-Gaussian data in Figure~2b-c. 
+The second experiment evaluates the accuracy when covariates are available on all modes. We set $\alpha=10, d_k=d, r_k=r\in\{2,4,6\}$ and increase $d$ from 25 to 50. Our theoretical analysis suggests $\hat \tB$ has a convergence rate $\tO(d^{-2})$ in this setting. Figure~1 plots the estimation error versus the ``effective sample size'' $d^2$ under three different distribution models. We found that the empirical RMSE decreases roughly at the rate of $1/d^2$, which is consistent with our theoretical ascertainment. We also observed that coefficients with higher ranks tend to yield higher estimation errors, as reflected by the upward shift of the curves as $r$ increases. Indeed, a larger $r$ implies higher model complexity, thus increasing the difficulty of the estimation. Similar behaviors can be observed in the non-Gaussian data in Figure~2b-c. 
 
 \begin{figure}[H]
 \includegraphics[width=8.5cm]{..//../code/binary_tucker/team/figure/dimension.pdf}
