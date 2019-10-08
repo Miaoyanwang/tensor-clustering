@@ -121,20 +121,20 @@ This paper presents a general treatment to these seemingly different problems. W
 
 \begin{figure*}[t]
 \begin{center}
-\includegraphics[width=17cm]{demo.pdf}
+\includegraphics[width=16cm]{demo.pdf}
 \end{center}
-\caption{Examples of tensor response regression model with multi-sided covariates. (a) Network population model. (b) Spatial-Temporal growth model. }\label{fig:intro1}
+\caption{Examples of tensor response regression model with covariates on multiple modes. (a) Network population model. (b) Spatial-Temporal growth model. }\label{fig:intro1}
 \end{figure*}
 
 \vspace{-.1cm}
 \section{Preliminaries}
 \vspace{-.1cm}
-We begin by reviewing the basic properties about tensors~\cite{kolda2009tensor}. We use $\tY=\entry{y_{i_1,\ldots,i_K}}\in \mathbb{R}^{d_1\times \cdots\times d_K}$ to denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. The multilinear multiplication of a tensor $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ by matrices $\mX_k=\entry{x_{i_k,j_k}^{(k)}}\in\mathbb{R}^{s_k\times d_k}$ is defined as
+We begin by reviewing the basic properties about tensors~\cite{kolda2009tensor}. We use $\tY=\entry{y_{i_1,\ldots,i_K}}\in \mathbb{R}^{d_1\times \cdots\times d_K}$ to denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. The multilinear multiplication of a tensor $\tY\in\mathbb{R}^{d_1\times \cdots\times d_K}$ by matrices $\mX_k=\entry{x_{i_k,j_k}^{(k)}}\in\mathbb{R}^{p_k\times d_k}$ is defined as
 \vspace{-.5cm}
 \begin{equation}
 \tY \times_1\mX_1\ldots \times_K \mX_K=\entry{\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}x_{i_1,j_1}^{(1)}\ldots x_{i_K,j_K}^{(K)}},
 \end{equation}
-which results in an order-$K$ tensor $(s_1,\ldots,s_K)$-dimensional tensor. For ease of presentation, we use shorthand notion $\tY\times\{\mX_1,\ldots,\mX_K\}$ to denote the tensor-by-matrix product. For any two tensors $\tY=\entry{y_{i_1,\ldots,i_K}}$, $\tY'=\entry{y'_{i_1,\ldots,i_K}}$ of identical order and dimensions, their inner product is defined as $\langle \tY, \tY'\rangle =\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}y'_{i_1,\ldots,i_K}$. The Frobenius norm of tensor $\tY$ is defined as $\FnormSize{}{\tY}=\langle \tY,\ \tY \rangle^{1/2}$. A higher-order tensor can be reshaped into a lower-order representation~\cite{wang2017operator}. We use $\text{vec}(\cdot)$ to denote the operation that reshapes the tensor into a vector, and $\text{Unfold}_k(\cdot)$ the operation that reshapes the tensor along mode-$k$ into a matrix of size $d_k$-by-$\prod_{i\neq k}d_i$. The Tucker rank of an order-$K$ tensor $\tY$ is defined as a length-$K$ vector $\mr=(r_1,\ldots,r_K)$, where $r_k$ is the rank of matrix $\text{Unfold}_k(\tY)$, $k=1,\ldots,K$. We use lower-case letters (e.g.,\ $a,b,c$) for scalars and vectors, upper-case boldface letters (e.g.,\ $\mA,\mB,\mC,$) for matrices, and calligraphy letters (e.g.,\ $\tA, \tB, \tC,$) for tensors of order 3 or greater. We use $\mI_n$ to denote the $d \times d$ identity matrix, and the shorthand $[k]$ to denote the $k$-set $\{1,\ldots,k\}$ for $k\in \mathbb{N}_{+}$.
+which results in an order-$K$ tensor $(p_1,\ldots,p_K)$-dimensional tensor. For ease of presentation, we use shorthand notion $\tY\times\{\mX_1,\ldots,\mX_K\}$ to denote the tensor-by-matrix product. For any two tensors $\tY=\entry{y_{i_1,\ldots,i_K}}$, $\tY'=\entry{y'_{i_1,\ldots,i_K}}$ of identical order and dimensions, their inner product is defined as $\langle \tY, \tY'\rangle =\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}y'_{i_1,\ldots,i_K}$. The Frobenius norm of tensor $\tY$ is defined as $\FnormSize{}{\tY}=\langle \tY,\ \tY \rangle^{1/2}$. A higher-order tensor can be reshaped into a lower-order representation~\cite{wang2017operator}. We use $\text{vec}(\cdot)$ to denote the operation that reshapes the tensor into a vector, and $\text{Unfold}_k(\cdot)$ the operation that reshapes the tensor along mode-$k$ into a matrix of size $d_k$-by-$\prod_{i\neq k}d_i$. The Tucker rank of an order-$K$ tensor $\tY$ is defined as a length-$K$ vector $\mr=(r_1,\ldots,r_K)$, where $r_k$ is the rank of matrix $\text{Unfold}_k(\tY)$, $k=1,\ldots,K$. We use lower-case letters (e.g.,\ $a,b,c$) for scalars and vectors, upper-case boldface letters (e.g.,\ $\mA,\mB,\mC,$) for matrices, and calligraphy letters (e.g.,\ $\tA, \tB, \tC,$) for tensors of order 3 or greater. We use $\mI_n$ to denote the $d \times d$ identity matrix, and the shorthand $[k]$ to denote the $k$-set $\{1,\ldots,k\}$ for $k\in \mathbb{N}_{+}$.
 
 
 \section{Motivation and model}\label{sec:model}
@@ -185,7 +185,7 @@ yields an order-3 response tensor $\tY\in\{0,1\}^{d\times d\times n}$, along wit
 \]
  \end{example}
  
- \begin{example}[Dyadic data with node attributes] Dyadic data consist of measurements on pairs of objects or under a pair of conditions. Common examples include networks and graphs. Let $\tG=(V,E)$ denote a network, where $V=[n]$ is the node set of the graph, and $E\subset V\times V$ is the edge set. Suppose that we also observe covariate $\mx_i\in\mathbb{R}^p$ associated to each $i\in V$. A probabilistic model on the graph $\tG=(V,E)$ can be described by the following matrix regression. The edge connects the two vertices $i$ and $j$ independently of the others, and the probability of connection is modeled as
+ \begin{example}[Dyadic data with node attributes] Dyadic data consist of measurements on pairs of objects or under a pair of conditions. Common examples include networks and graphs. Let $\tG=(V,E)$ denote a network, where $V=[d]$ is the node set of the graph, and $E\subset V\times V$ is the edge set. Suppose that we also observe covariate $\mx_i\in\mathbb{R}^p$ associated to each $i\in V$. A probabilistic model on the graph $\tG=(V,E)$ can be described by the following matrix regression. The edge connects the two vertices $i$ and $j$ independently of the others, and the probability of connection is modeled as
 \begin{equation}\label{eq:edge}
  \text{logit}(\mathbb{P}((i,j)\in E)=\mx^T_i\mB\mx_j=\langle \mB, \mx^T_i\mx_j\rangle.
  \end{equation}
@@ -206,7 +206,7 @@ where $r_k(\tB)\leq p_k$ is the Tucker rank at mode $k$ of the tensor. The low-r
 Our tensor regression model is able to incorporate covariates on any subset of modes, whenever available. Without loss of generality, we denote by $\tX=\{\mX_1,\ldots,\mX_K\}$ the covariates in all modes and treat $\mX_k=\mI_{d_k}$ if the mode-$k$ has no (informative) covariate. Then, the final form of our tensor regression model can be written as:
 \begin{align}\label{eq:tensormodel}
 &\mathbb{E}(\tY|\tX)=f(\Theta),\quad \Theta =\tB\times\{\mX_1,\ldots,\mX_K\},\notag\\
-&\text{where}\ \text{rank}(\tB)=(r_1,\ldots,r_K),
+&\text{where}\ \text{rank}(\tB)\leq (r_1,\ldots,r_K),
 \end{align}
 where the entries of $\tY$ are independent conditional on $\tX$ and $\tB\in\mathbb{R}^{p_1\times \cdots\times p_K}$ is the low-rank coefficient tensor of interest. We comment that other forms of tensor low-rankness are also possible, and here we choose Tucker rank just for parsimony. Similar models can be derived using other notions of low-rankness including CP decomposition~\cite{hitchcock1927expression} and train decomposition~\cite{oseledets2011tensor}. 
 
@@ -269,11 +269,11 @@ The assumptions are fairly mild. Assumption A1 guarantees the non-singularity of
 
   
 \begin{thm}[Statistical convergence]\label{thm:main}
-Consider a generalized tensor regression model with multi-sided covariates $\tX=\{\mX_1,\ldots,\mX_K\}$. Suppose the entries in $\tY$ are independent realizations of an exponential family distribution, and $\mathbb{E}(\tY|\tX)$ follows the low-rank tensor regression model~\eqref{eq:tensormodel}. Under Assumption~\ref{ass}, there exist two absolute constants $C_1, C_2>0$, such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
+Consider a generalized tensor regression model with covariates on multiple modes $\tX=\{\mX_1,\ldots,\mX_K\}$. Suppose the entries in $\tY$ are independent realizations of an exponential family distribution, and $\mathbb{E}(\tY|\tX)$ follows the low-rank tensor regression model~\eqref{eq:tensormodel}. Under Assumption~\ref{ass}, there exist two absolute constants $C_1, C_2>0$, such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
 \begin{equation}\label{eq:bound}
 \text{Loss}(\trueB,\ \hat \tB) \leq C_3\sum_k p_k,
 \end{equation}
-where $C_3=C_3(\mr)={1\over C^{2K}_2U}{\prod_k r_k \over \max_k r_k}>0$ is a constant that does not depend on the dimensions $\{d_k\}$ and $\{p_k\}$. 
+where $C_3=C_3(\mr,\alpha)={1\over C^{2K}_2U}{\prod_k r_k \over \max_k r_k}>0$ is a constant that does not depend on the dimensions $\{d_k\}$ and $\{p_k\}$. 
 \end{thm}
 
 To gain further insight on the bound~\eqref{eq:bound}, we consider a special case when tensor dimensions are equal at each of the modes, i.e., $d_k=d$, $p_k=\gamma d$, $\gamma\in [0,1)$ for all $k\in[K]$, and the covariates $\mX_k$ are Gaussian design matrices with i.i.d.\ $N(0,\sigma^2)$ entries. To put the context in the framework of Theorem~\ref{thm:main}, we rescale the covariates into $\check \mX_k={1\over \sqrt{d}}\mX_k$ so that the singular values of $\check \mX_k$ are bounded by $1\pm \sqrt{\gamma}$. The result in~\eqref{eq:bound} implies a convergence rate $\tO({p\over d^K})$ for the coefficient estimation in the scale of the original, unscaled covariates $\{\mX_k\}$. Therefore, our estimation is consistent as the dimension grows, and the convergence becomes especially favorably as we have more modes in the tensor data. 
@@ -293,14 +293,15 @@ As immediate applications, we obtain the convergence rate for the three examples
 We conclude this section by providing the prediction accuracy for the response tensor.  
 
 \begin{thm} [Prediction error]
-Assume the same set-up as in Theorem~\ref{thm:main}. Let $\mathbb{P}_{\tY_{\text{true}}}$ and $\mathbb{P}_{\hat \tY}$ denote the distributions of $\tY$ given the true parameter $\trueB$ and estimated parameter $\hat \tB$, respectively. Similarly, let $\mathbb{E}(\tY|\tX)$ and $\widehat{\mathbb{E}(\tY|\tX)}$ denote, respectively, the true and estimated mean. Then, we have, with probability at least $1-\exp(C_1\sum_k p_k)$,
+Assume the same set-up as in Theorem~\ref{thm:main}. Let $\mathbb{P}_{\tY_{\text{true}}}$ and $\mathbb{P}_{\hat \tY}$ denote the distributions of $\tY$ given the true parameter $\trueB$ and estimated parameter $\hat \tB$, respectively. %Similarly, let $\mathbb{E}(\tY|\tX)$ and $\widehat{\mathbb{E}(\tY|\tX)}$ denote, respectively, the true and estimated mean. 
+Then, we have, with probability at least $1-\exp(C_1\sum_k p_k)$,
 \[
 \text{KL}(\mathbb{P}_{\tY_{\text{true}}},\ \mathbb{P}_{\hat \tY})\leq C_4 \sum_k p_k,
 \]
-\[
-\text{Loss}\left(\mathbb{E}(\tY|\tX),\ \widehat{\mathbb{E}(\tY|\tX)}\right)\leq C_5 \sum_k p_k,
-\]
-where $C_4, C_5>0$ are two constants that do not depend on the dimensions $\{d_k\}$ and $\{p_k\}$.
+%\[
+%\text{Loss}\left(\mathbb{E}(\tY|\tX),\ \widehat{\mathbb{E}(\tY|\tX)}\right)\leq C_5 \sum_k p_k,
+%\]
+where $C_4=C_4(\mr,\alpha)>0$ is a constant that do not depend on the dimensions $\{d_k\}$ and $\{p_k\}$.
 \end{thm}
 
 %\subsection{Comparison with existing work}\label{sec:compare}
@@ -427,7 +428,7 @@ To investigate how the dyadic attributes affect the connection, we depicted the 
 \vspace{-.2cm}
 \section{Conclusions}
 \vspace{-.2cm}
-We have developed a generalized tensor regression model with multi-sided covariates. Our proposal handles a broad range of data types, including continuous, count, and binary observations. For the optimization, we leverage on a block relaxation algorithm and demonstrate its performance via simulation. An alternative approach would be utilizing nuclear norm for convex relation of the low-rankness. Computing tensor nuclear norm, however, remains challenging. Exploiting the properties of different solvers warrants future research.
+We have developed a generalized tensor regression model with covariates on multiple modes. Our proposal handles a broad range of data types, including continuous, count, and binary observations. For the optimization, we leverage on a block relaxation algorithm and demonstrate its performance via simulation. An alternative approach is to utilize the nuclear norm of tensor for convex relation. Computing tensor nuclear norm, however, remains challenging. Exploiting the properties of different solvers warrants future research.
 
 
 \bibliographystyle{unsrt}
