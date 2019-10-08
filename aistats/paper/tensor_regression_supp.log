@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  8 OCT 2019 01:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  8 OCT 2019 02:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -372,21 +372,20 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@every@algorithm=\toks34
 \c@algorithm=\count125
 )
-\c@theorem=\count126
+\c@thm=\count126
 \c@lem=\count127
 \c@prop=\count128
 \c@pro=\count129
-\c@cor=\count130
-\c@ass=\count131
-\c@defn=\count132
-\c@exmp=\count133
+\c@assumption=\count130
+\c@defn=\count131
+\c@cor=\count132
+\c@example=\count133
 \c@rmk=\count134
-\c@exam=\count135
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/tools/xr.sty
 Package: xr 1994/05/28 v5.02 eXternal References (DPC)
 )
-Package xr Info: IMPORTING LABELS FROM tensor_regression.aux on input line 72.
+Package xr Info: IMPORTING LABELS FROM tensor_regression.aux on input line 74.
 
 
 LaTeX Warning: Label `eq:tensormodel' multiply defined.
@@ -398,36 +397,39 @@ Package: stmaryrd 1994/03/03 St Mary's Road symbol package
 LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
 (Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
 ))
-(./tensor_regression_supp.aux)
+(./tensor_regression_supp.aux
+
+LaTeX Warning: Label `eq:bound' multiply defined.
+
+)
 \openout1 = `tensor_regression_supp.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-
-(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+ (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count136
+\scratchcounter=\count135
 \scratchdimen=\dimen135
 \scratchbox=\box32
-\nofMPsegments=\count137
-\nofMParguments=\count138
+\nofMPsegments=\count136
+\nofMParguments=\count137
 \everyMPshowfont=\toks35
-\MPscratchCnt=\count139
+\MPscratchCnt=\count138
 \MPscratchDim=\dimen136
-\MPnumerator=\count140
-\makeMPintoPDFobject=\count141
+\MPnumerator=\count139
+\makeMPintoPDFobject=\count140
 \everyMPtoPDFconversion=\toks36
 )
 *geometry* driver: auto-detecting
@@ -497,7 +499,7 @@ e
 \Gin@req@width=\dimen138
 )
 \AtBeginShipoutBox=\box33
-Package hyperref Info: Link coloring ON on input line 92.
+Package hyperref Info: Link coloring ON on input line 94.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -505,76 +507,102 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count142
+\c@section@level=\count141
 )
-LaTeX Info: Redefining \ref on input line 92.
-LaTeX Info: Redefining \pageref on input line 92.
-LaTeX Info: Redefining \nameref on input line 92.
+LaTeX Info: Redefining \ref on input line 94.
+LaTeX Info: Redefining \pageref on input line 94.
+LaTeX Info: Redefining \nameref on input line 94.
 
 (./tensor_regression_supp.out) (./tensor_regression_supp.out)
 \@outlinefile=\write5
 \openout5 = `tensor_regression_supp.out'.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 103.
+LaTeX Font Info:    Try loading font information for U+msa on input line 105.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 103.
+LaTeX Font Info:    Try loading font information for U+msb on input line 105.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+stmry on input line 103.
+LaTeX Font Info:    Try loading font information for U+stmry on input line 105.
 
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 105.
+(amsmath)                 on input line 109.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 108.
 [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 108.
+Overfull \hbox (12.04565pt too wide) in paragraph at lines 177--180
+[]\OT1/cmr/m/n/10.95 officialvisits, vi-o-len-tac-tions, mil-i-tary-ac-tions, d
+u-ra-tion, neg-a-tive-be-hav-ior, boy-cottem-bargo, aiden-
+ []
 
-(./tensor_regression_supp.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 108.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 108.
+
+Overfull \hbox (55.93678pt too wide) in paragraph at lines 177--180
+\OT1/cmr/m/n/10.95 grants" "rel-ex-ports" [16] "timesince-war" "com-mon-bloc2" 
+"in-ter-gov-orgs3" "re-lin-ter-gov-orgs""intergovorgs" 
+ []
+
+(./tensor_regression_supp.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 197.
+ [2] [3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 197.
+ (./tensor_regression_supp.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 197.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 197.
+Package rerunfilecheck Info: File `tensor_regression_supp.out' has not changed.
+
+(rerunfilecheck)             Checksum: 0C495863ABA6EEE89D4C3F45B5782078;94.
 
 
-Package rerunfilecheck Warning: File `tensor_regression_supp.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: Checksums for `tensor_regression_supp.out':
-(rerunfilecheck)             Before: 917485B15566886BE67C84E033099BAA;69
-(rerunfilecheck)             After:  95EF595A715A0FA1787B664CB106F3D6;41.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 108.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 197.
  ) 
 Here is how much of TeX's memory you used:
- 8433 strings out of 493014
- 120521 string characters out of 6133351
- 218154 words of memory out of 5000000
- 11825 multiletter control sequences out of 15000+600000
- 12621 words of font info for 47 fonts, out of 8000000 for 9000
+ 8457 strings out of 493014
+ 120903 string characters out of 6133351
+ 227376 words of memory out of 5000000
+ 11830 multiletter control sequences out of 15000+600000
+ 13322 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,5n,32p,445b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{subsection.0.1} has been referenced but does not 
-exist, replaced by a fixed one
+ 40i,12n,32p,548b,403s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{assumption.1} has been referenced but does not ex
+ist, replaced by a fixed one
 
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
-/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
-r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/l
-ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/lo
-cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on tensor_regression_supp.pdf (1 page, 61159 bytes).
+pdfTeX warning (dest): name{equation.3.5} has been referenced but does not exis
+t, replaced by a fixed one
+
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
+local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
+l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/
+texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
+Output written on tensor_regression_supp.pdf (3 pages, 190229 bytes).
 PDF statistics:
- 43 PDF objects out of 1000 (max. 8388607)
- 33 compressed objects within 1 object stream
- 4 named destinations out of 1000 (max. 500000)
- 9 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 129 PDF objects out of 1000 (max. 8388607)
+ 103 compressed objects within 2 object streams
+ 18 named destinations out of 1000 (max. 500000)
+ 17 words of extra memory for PDF output out of 10000 (max. 10000000)
 
