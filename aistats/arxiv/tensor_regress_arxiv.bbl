@@ -158,4 +158,21 @@ Maximilian Nickel, Volker Tresp, and Hans-Peter Kriegel.
 \newblock In {\em International Conference on Machine Learning}, volume~11,
   pages 809--816, 2011.
 
+\bibitem{wang2018learning}
+Miaoyan Wang and Lexin Li.
+\newblock Learning from binary multiway data: Probabilistic tensor
+  decomposition and its statistical optimality.
+\newblock {\em arXiv preprint arXiv:1811.05076}, 2018.
+
+\bibitem{tomioka2014spectral}
+Ryota Tomioka and Taiji Suzuki.
+\newblock Spectral norm of random tensors.
+\newblock {\em arXiv preprint arXiv:1407.1870}, 2014.
+
+\bibitem{fan2019generalized}
+Jianqing Fan, Wenyan Gong, and Ziwei Zhu.
+\newblock Generalized high-dimensional trace regression via nuclear norm
+  regularization.
+\newblock {\em Journal of Econometrics}, 2019.
+
 \end{thebibliography}

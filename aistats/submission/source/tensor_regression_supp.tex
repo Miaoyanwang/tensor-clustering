@@ -197,13 +197,13 @@ where $\mathbb{P}_{\tY_{\text{true}}}$ denotes the distribution of $\tY|\tX$ wit
 \text{KL}(\mathbb{P}_{\tY_{\text{true}}},\ \mathbb{P}_{\hat \tY}) &= \ell(\trueB)-\ell(\hat \tB)\\
 &={1\over 2}\sum_{i_1\ldots,i_K}b''(\check \theta_{i_1,\ldots,i_K})(\theta_{i_1,\ldots,i_K}-\theta_{\text{true},i_1,\ldots,i_K})^2\\
 &\leq {U\over 2} \FnormSize{}{\Theta-\trueT}^2\\
-&\leq {U \over 2}c^2_2\FnormSize{}{\tB-\trueB}^2,
+&\leq {U \over 2}c^{2K}_2\FnormSize{}{\tB-\trueB}^2,
 \end{align}
 where the second line comes from~\eqref{eq:log}, and $c_2>0$ is the upper bound for the $\sigma_{\max}(\mX_k)$. The result then follows from Theorem~\ref{thm:main}.
 \end{proof}
 
 \section{Time complexity}
-The computational complexity of our tensor regression model is $O(d^3+d)$ for each loop of iterations, where $d=\prod_k d_k$ is the total size of the response tensor, and $p=\prod_k p_k$ is the total size of the coefficient tensor. More precisely, the update of core tensor costs $O(r^3d^3)$. The update of factor matrix $\mM_k$ involves solving $p_k$ separate GLMs. Solving those GLMs requires $O(r_k^3 p_k + p_kr_k^3 dd^{-1}_k)$, and therefore the cost for updating $K$ factors in total is $O( \sum_k r^3_k p_k d_k + d\sum_k r_k^3 p_k d_k^{-1})\approx \tO(\sum p_k d_k +d)$. 
+The computational complexity of our tensor regression model is $O(d^3+d)$ for each loop of iterations, where $d=\prod_k d_k$ is the total size of the response tensor. More precisely, the update of core tensor costs $O(r^3d^3)$, where $r=\sum_k r_k$ is the total size of the core tensor. The update of factor matrix $\mM_k$ involves solving $p_k$ separate GLMs. Solving those GLMs requires $O(r_k^3 p_k + p_kr_k^3 dd^{-1}_k)$, and therefore the cost for updating $K$ factors in total is $O( \sum_k r^3_k p_k d_k + d\sum_k r_k^3 p_k d_k^{-1})\approx O(\sum p_k d_k +d)\approx O(d)$. 
 \section{Additional results for real data analysis}
 Here we provide additional results for the real data analysis. 
 
