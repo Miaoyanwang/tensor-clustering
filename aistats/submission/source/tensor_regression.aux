@@ -45,18 +45,18 @@
 \citation{srivastava2008models}
 \citation{rabusseau2016low}
 \citation{zhang2018network}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Examples of tensor response regression model with covariates on multiple modes. (a) Network population model. (b) Spatial-Temporal growth model. \relax }}{2}{figure.caption.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Examples of tensor response regression model with covariates on multiple modes. (a) Network population model. (b) Spatial-temporal growth model. \relax }}{2}{figure.caption.2}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:intro1}{{1}{2}{Examples of tensor response regression model with covariates on multiple modes. (a) Network population model. (b) Spatial-Temporal growth model. \relax }{figure.caption.2}{}}
+\newlabel{fig:intro1}{{1}{2}{Examples of tensor response regression model with covariates on multiple modes. (a) Network population model. (b) Spatial-temporal growth model. \relax }{figure.caption.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Motivation and model}{2}{section.3}}
 \newlabel{sec:model}{{3}{2}{Motivation and model}{section.3}{}}
 \newlabel{eq:tensormodel}{{1}{2}{Motivation and model}{equation.3.1}{}}
 \newlabel{eq:time}{{2}{2}{Spatio-temporal growth model}{equation.3.2}{}}
 \MT@newlabel{eq:time}
-\newlabel{eq:network}{{3}{2}{Network population model}{equation.3.3}{}}
 \citation{hoff2005bilinear}
 \citation{hitchcock1927expression}
 \citation{oseledets2011tensor}
+\newlabel{eq:network}{{3}{3}{Network population model}{equation.3.3}{}}
 \MT@newlabel{eq:network}
 \MT@newlabel{eq:network}
 \newlabel{eq:edge}{{4}{3}{Dyadic data with node attributes}{equation.3.4}{}}
@@ -64,13 +64,14 @@
 \MT@newlabel{eq:edge}
 \MT@newlabel{eq:tensormodel}
 \newlabel{eq:rank}{{5}{3}{Motivation and model}{equation.3.5}{}}
-\MT@newlabel{eq:rank}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Canonical links for common distributions.\relax }}{3}{table.caption.3}}
+\newlabel{table:link}{{1}{3}{Canonical links for common distributions.\relax }{table.caption.3}{}}
+\MT@newlabel{eq:rank}
 \newlabel{eq:tensormodel}{{6}{3}{Motivation and model}{equation.3.6}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Rank-constrained likelihood-based estimation}{3}{section.4}}
 \MT@newlabel{eq:tensormodel}
-\MT@newlabel{eq:tensormodel}
 \citation{mccullagh1989generalized}
+\MT@newlabel{eq:tensormodel}
 \newlabel{eq:MLE}{{7}{4}{Rank-constrained likelihood-based estimation}{equation.4.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Statistical properties}{4}{subsection.4.1}}
 \newlabel{ass}{{1}{4}{}{assumption.1}{}}
@@ -79,17 +80,18 @@
 \newlabel{eq:bound}{{8}{4}{Statistical convergence}{equation.4.8}{}}
 \MT@newlabel{eq:bound}
 \MT@newlabel{eq:bound}
+\newlabel{thm:KL}{{4.2}{5}{}{thm.4.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Numerical implementation}{5}{section.5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Alternating optimization}{5}{subsection.5.1}}
 \MT@newlabel{eq:MLE}
 \MT@newlabel{eq:MLE}
 \newlabel{eq:tucker}{{9}{5}{Alternating optimization}{equation.5.9}{}}
 \MT@newlabel{eq:MLE}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Rank selection }{5}{subsection.5.2}}
-\newlabel{sec:tuning}{{5.2}{5}{Rank selection}{subsection.5.2}{}}
 \citation{robinson2015dynamic}
 \citation{abbe2017community}
 \citation{zeng2019multiway}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Rank selection }{6}{subsection.5.2}}
+\newlabel{sec:tuning}{{5.2}{6}{Rank selection}{subsection.5.2}{}}
 \newlabel{eq:BIC}{{10}{6}{Rank selection}{equation.5.10}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Simulation}{6}{section.6}}
 \newlabel{sec:simulation}{{6}{6}{Simulation}{section.6}{}}
@@ -97,17 +99,17 @@
 \MT@newlabel{eq:BIC}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Rank selection via BIC. Bold number indicates no significant difference between the estimate and the ground truth, based on a $z$-test with a level 0.05.\relax }}{6}{table.caption.5}}
 \newlabel{tab:rank}{{2}{6}{Rank selection via BIC. Bold number indicates no significant difference between the estimate and the ground truth, based on a $z$-test with a level 0.05.\relax }{table.caption.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Estimation error against effective sample size. The three panels depicts the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. Each solid curve corresponds to a fixed rank. The dashed curve corresponds to $\mathcal  {O}({1/d^2})$.\relax }}{6}{figure.caption.6}}
-\newlabel{fig:dim}{{2}{6}{Estimation error against effective sample size. The three panels depicts the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. Each solid curve corresponds to a fixed rank. The dashed curve corresponds to $\tO ({1/d^2})$.\relax }{figure.caption.6}{}}
 \citation{HCP}
 \citation{desikan2006automated}
 \citation{xia2013brainnet}
 \citation{ingalhalikar2014sex}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Performance comparison when the population network admit block structure. The three panels depicts the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. The $x$-axis represents the number of blocks in the networks. \relax }}{7}{figure.caption.7}}
-\newlabel{fig:glm}{{3}{7}{Performance comparison when the population network admit block structure. The three panels depicts the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. The $x$-axis represents the number of blocks in the networks. \relax }{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Estimation error against effective sample size. The three panels depict the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. The dashed curves correspond to $\mathcal  {O}({1/d^2})$.\relax }}{7}{figure.caption.6}}
+\newlabel{fig:dim}{{2}{7}{Estimation error against effective sample size. The three panels depict the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. The dashed curves correspond to $\tO ({1/d^2})$.\relax }{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Performance comparison when the networks have block structure. The three panels depict the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. The $x$-axis represents the number of blocks in the networks. \relax }}{7}{figure.caption.7}}
+\newlabel{fig:glm}{{3}{7}{Performance comparison when the networks have block structure. The three panels depict the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. The $x$-axis represents the number of blocks in the networks. \relax }{figure.caption.7}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {7}Data analysis}{7}{section.7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Top edges with large effect sizes. Red edges represent relatively strong connections and blue edges represent relatively weak connections. (a) Global effect; (b) Female; (c) Age 22-25; (d) Age 31+\relax }}{7}{figure.caption.8}}
-\newlabel{fig:brain}{{4}{7}{Top edges with large effect sizes. Red edges represent relatively strong connections and blue edges represent relatively weak connections. (a) Global effect; (b) Female; (c) Age 22-25; (d) Age 31+\relax }{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Top edges with large effects. Red edges represent relatively strong connections and blue edges represent relatively weak connections. (a) Global effect; (b) Female; (c) Age 22-25; (d) Age 31+.\relax }}{7}{figure.caption.8}}
+\newlabel{fig:brain}{{4}{7}{Top edges with large effects. Red edges represent relatively strong connections and blue edges represent relatively weak connections. (a) Global effect; (b) Female; (c) Age 22-25; (d) Age 31+.\relax }{figure.caption.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Human Connectome Project (HCP)}{7}{subsection.7.1}}
 \citation{nickel2011three}
 \bibstyle{unsrt}

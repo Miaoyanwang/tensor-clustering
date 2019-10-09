@@ -33,23 +33,20 @@
 
 
 \begin{algorithm}[t]
-\caption{Generalized tensor response regression with multi-sided covariates}\label{alg:B}
+\caption{Generalized tensor response regression with covariates on multiple modes}\label{alg:B}
 \begin{algorithmic}[1]
 \INPUT Response tensor $\tY\in \mathbb{R}^{d_1\times \cdots \times d_K}$, covariate matrices $\mX_k\in\mathbb{R}^{d_k\times p_k}$ for $k=1,\ldots,K$, target Tucker rank $\mr=(r_1,\ldots,r_K)$, link function $f$, infinity norm bound $\alpha$
 \OUTPUT Low-rank estimation for the coefficient tensor $\tB\in\mathbb{R}^{p_1\times \cdots\times p_K}$. 
 \State Calculate $\check \tB=\tY\times_1 \left[(\mX_1^T\mX_1)^{-1}\mX^T_1\right] \times_2\cdots\times_K\left[(\mX_K^T\mX_K)^{-1}\mX^T_K\right] $.
 \State Initialize the iteration index $t=0$. Initialize the core tensor $\tC^{(0)}$ and factor matrices $\mM^{(0)}_k\in\mathbb{R}^{p_k\times r_k}$ via rank-$\mr$ Tucker approximation of $\check\tB$, in the least-square sense. 
-%\State {\color{red}Alternatively, Gaussian random matrix $\mM_k^{(0)}$ for $k=1,\ldots,K$, and $\tC^{(0)}\leftarrow \tY \times_1(\mM^{(0)}_1)^T\times_2\cdots\times_K (\mM^{(0)}_K)^T$.}
-%\State Initialize iteration index $t=0$.
   \While {the relative increase in objective function $\tL_\tY(\tB)$ is less than the tolerance}
 \State Update iteration index $t \leftarrow t+1$.
-%Here $\check \mX^{(t+1)}\stackrel{\text{def}}{=}\odot_{k=1}^K[ \mX_k\mM^{(t)}_k ]$ is a matrix of size $\prod_k d_k$-by-$\prod_k r_k$, where $\odot$ denotes Khatri-Rao product.
 \For { $k=1$ to $K$}
-\State Obtain the factor matrix $\mM_k^{(t+1)}\in\mathbb{R}^{p_k\times r_k}$ by solving $d_k$ separate GLMs with link function $f$. 
+\State Obtain the factor matrix $\mM_k^{(t+1)}\in\mathbb{R}^{p_k\times r_k}$ by solving $p_k$ separate GLMs with link function $f$. 
 \State Update the columns of $\mM_k^{(t+1)}$ by Gram-Schmidt orthogonalization.
 \EndFor
-\State Obtain the core tensor $\tC^{(t+1)}\in\mathbb{R}^{r_1\times\cdots\times r_K}$ by solving a GLM with $\text{vec}(\tY)$ as response, $\odot_{k=1}^K[ \mX_k\mM^{(t)}_k]$ as covariates, and $f$ as link function. Here $\circ$ denotes the Khatri-Rao product of matrices. 
-\State Rescale the core tensor subject to the entrywise bound constraint. 
+\State Obtain the core tensor $\tC^{(t+1)}\in\mathbb{R}^{r_1\times\cdots\times r_K}$ by solving a GLM with $\text{vec}(\tY)$ as response, $\odot_{k=1}^K[ \mX_k\mM^{(t)}_k]$ as covariates, and $f$ as link function. Here $\odot$ denotes the Khatri-Rao product of matrices. 
+\State Rescale the core tensor subject to the infinity norm constraint. 
 \State Update $\tB^{(t+1)}\leftarrow \tC^{(t+1)}\times_1\mM_1^{(t+1)}\times_2\cdots\times_K\mM_K^{(t+1)}$.
 \EndWhile
 \end{algorithmic}
