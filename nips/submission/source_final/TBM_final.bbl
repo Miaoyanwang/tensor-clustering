@@ -99,10 +99,16 @@ Peter~J Bickel and Aiyou Chen.
 \newblock {\em Proceedings of the National Academy of Sciences},
   106(50):21068--21073, 2009.
 
-\bibitem{lei2015consistency}
-Jing Lei, Alessandro Rinaldo, et~al.
-\newblock Consistency of spectral clustering in stochastic block models.
-\newblock {\em The Annals of Statistics}, 43(1):215--237, 2015.
+\bibitem{lei2019consistent}
+Kehui~Chen Jing~Lei and Brian Lynch.
+\newblock Consistent community detection in multi-layer network data.
+\newblock {\em Biometrika}, to appear, 2019.
+
+\bibitem{paul2016consistent}
+Subhadeep Paul, Yuguo Chen, et~al.
+\newblock Consistent community detection in multi-relational data through
+  restricted multi-layer stochastic blockmodel.
+\newblock {\em Electronic Journal of Statistics}, 10(2):3807--3870, 2016.
 
 \bibitem{darton1980rotation}
 Robin~A Darton.

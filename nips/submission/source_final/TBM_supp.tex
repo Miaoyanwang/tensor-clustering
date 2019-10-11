@@ -44,6 +44,13 @@
 \newtheorem{exam}{Example}
 \newtheorem{prop}{Proposition}
 \newtheorem{property}{Property}
+
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\DeclareMathOperator*{\mcr}{MCR}
+\DeclareMathOperator*{\cer}{CER}
+
 \input macros.tex
 
 
@@ -56,7 +63,7 @@
     {\underbrace{\scriptscriptstyle#1}}%
   }\limits
 }
-\usepackage{xr}
+
 \usepackage{mathtools}
 \mathtoolsset{showonlyrefs}
 \renewcommand{\thefigure}{{S\arabic{figure}}}%
@@ -66,10 +73,8 @@
 \setcounter{figure}{0}   
 \setcounter{table}{0}  
 
-
-
-
-\externaldocument{tensor_block_model}
+\usepackage{xr}
+\externaldocument{TBM_final}
 
 \title{Supplements for ``Multiway clustering via tensor block models''}
 
@@ -147,12 +152,12 @@ Equation~\eqref{eq:same} implies that $\tA$ and $\tB$ can be merged into one clu
 %\tilde \tC \times_1 \left(\mB_1\mM_1\right) \times_2 \cdots\times_K \left(\mB_K\mM_K\right)=\tilde \tC \times_1 \tilde \mM_1 \times_2 \cdots\times_K \tilde \mM_K.
 %\end{equation}
 %Both sides of the above expression represent a block tensor with a same core. Let us consider the mode-1 structure first. Based on the Assumption~\ref{ass:core}, $\mB_1\mM_1$ has full row rank. Furthermore, the mode-$1$ partition is determined by $\mM_1$, because multiplying a $R_1$-by-$R_1$ confusion matrix $B_1$ will not change the cluster allocation. On the right-hand hand, the mode-$1$ partition is determined by $\tilde \mM_1$. Therefore the partition encoded in $\mM_1$ is the same as that in $\tilde \mM_1$. Equivalently, $\mB_1$ must be a permutation matrix. The proof is complete by applying the same argument to all $k\in[K]$. 
-%\subsection{Proof of Theorem~\ref{thm:main}}
-%We first present three lemmas that will be used in the proof of Theorem~\ref{thm:main}. 
+%\subsection{Proof of Theorem~\ref{thm:mse}}
+%We first present three lemmas that will be used in the proof of Theorem~\ref{thm:mse}. 
 %\begin{lemma} 
 %\end{lemma}
-\subsection{Proofs of Theorems~\ref{thm:main} and~\ref{thm:partition}}
-The following lemma is useful for the proof of Theorem~\ref{thm:main}.
+\subsection{Proof of Theorem~\ref{thm:mse}}
+The following lemma is useful for the proof of Theorem~\ref{thm:mse}.
 \begin{lemma} \label{lem:high}
 Suppose $\tY=\trueT+\tE$ with $\trueT\in\tP$. Let $\hat \Theta=\arg\min_{\Theta \in \tP}\FnormSize{}{\hat \Theta-\tY}^2$ be the least-square estimator of $\trueT$. We have
 \[
@@ -165,10 +170,12 @@ where $\tP-\tP'=\{\Theta-\Theta'\colon \Theta, \Theta'\in \tP\}$ and $\tS/|\tS|=
 \FnormSize{}{\hat \Theta-\tY}^2\leq \FnormSize{}{\trueT-\tY}^2.
 \end{equation}
 Combining~\eqref{eq:least} with the fact 
-\begin{align}
+\begin{equation}
+\begin{split}
 \FnormSize{}{\hat \Theta -\tY}^2&=\FnormSize{}{\hat \Theta-\trueT+\trueT-\tY}^2\\
 &=\FnormSize{}{\hat \Theta-\trueT}^2+\FnormSize{}{\trueT-\tY}^2+2\langle \hat \Theta-\trueT, \trueT-\tY\rangle,
-\end{align}
+\end{split}
+\end{equation}
 yields
 \[
 \FnormSize{}{\hat \Theta-\trueT}^2\leq 2\langle \hat \Theta-\trueT, \tY-\trueT\rangle=2\langle \hat \Theta-\trueT, \tE\rangle.
@@ -180,7 +187,8 @@ Dividing each side by $\FnormSize{}{\hat \Theta-\trueT}$, we have
 The desired inequality follows by noting ${\hat \Theta-\trueT \over \FnormSize{}{\hat \Theta-\trueT}}\in {\tP-\tP'\over |\tP-\tP'|}$. 
 \end{proof}
 
-\begin{proof}[Proof of Theorem~\ref{thm:main}]
+
+\begin{proof}[Proof of Theorem~\ref{thm:mse}]
 To study the performance of the least-square estimator $\hat \Theta$, we need to introduce some additional notation. We view the membership matrix $\mM_k$ as an onto function $\mM_k\colon [d_k]\mapsto [R_k]$. With a little abuse of notation, we still use $\mM_k$ to denote the mapping function and write $\mM_k\in R_k^{d_k}$ by convention. We use $\mM=\{\mM_k\}_{k\in[K]}$ to denote the collection of $K$ membership matrices, and write $\tM=\{\mM \colon \text{$\mM$ is the collection of membership matrices $\mM_k$'s}\}$. For any set $J$, $|J|$ denotes its cardinality. Note that $|\tM|\leq \prod_k R_k^{d_k}$, because each $\mM_k$ can be identified by a partition of $[d_k]$ into $R_k$ disjoint non-empty sets. 
 
 For ease of notation, we define $d=\prod_k d_k$ and $R=\prod_k R_k$. We sometimes identify a tensor in $\mathbb{R}^{d_1\times \cdots \times d_K}$ with a vector in $\mathbb{R}^d$. By the definition of the parameter space $\tP$, the element $\Theta\in \tP$ can be equivalently identified by $\Theta=\Theta(\mM, \mC)$, where $\mM\in \tM$ is the collection of $K$ membership matrices and $\mC=\text{vec}(\tC)\in\mathbb{R}^R$ is the core tensor. Note that, for a fixed clustering structure $\mM$, the space consisting of $\Theta=\Theta(\mM,\cdot)$ is a linear space of dimension $R$. 
@@ -194,19 +202,23 @@ Now consider the least-square estimator
 \hat \Theta=\argmin_{\Theta\in\tP}\{-2\langle \tY, \Theta\rangle+\FnormSize{}{\Theta}^2 \}=\argmin_{\Theta\in\tP}\{\FnormSize{}{\tY-\Theta}^2 \}.
 \]
 Based on the Lemma~\ref{lem:high},
-\begin{align}
+\begin{equation}
+\begin{split}
 \FnormSize{}{\hat \Theta-\trueT}&\leq 2\sup_{\Theta\in\tP} \sup_{\Theta'\in \tP} \Big\langle {\Theta-\Theta'\over \FnormSize{}{\Theta-\Theta'}}, \tE \Big\rangle\\
 &\leq 2\sup_{\mM, \mM' \in \tM}\sup_{\mC, \mC' \in \mathbb{R}^R}\Big\langle {\Theta(\mM, \mC)-\Theta'(\mM', \mC')\over \FnormSize{}{\Theta(\mM, \mC)-\Theta' (\mM', \mC')}}, \tE \Big\rangle.
-\end{align}
+\end{split}
+\end{equation}
 %where $\tP-\Theta=\{\Theta'-\Theta: \Theta' \in \tP\}$ denotes the shifted set for a given $\Theta$. 
 
 By union bound, we have, for any $t>0$,
-\begin{align}
+\begin{equation}
+\begin{split}
 \mathbb{P}\left(\FnormSize{}{\hat \Theta-\trueT} > t\right)&\leq \mathbb{P}\left(\sup_{\mM, \mM'\in \tM}\sup_{\mC, \mC'\in \mathbb{R}^R} \left|\Big\langle {\Theta(\mM,\mC)-\Theta'(\mM',\mC')\over \FnormSize{}{\Theta(\mM,\mC)-\Theta'(\mM',\mC')}}, \ \tE\Big\rangle\right|>{t\over 2}\right)\\
-&\leq \sum_{\mM, \mM'\in \tM}\mathbb{P}\left(\sup_{\mC'\in \mathbb{R}^R}\sup_{\mC\in \mathbb{R}^R}\left|\Big\langle {\Theta(\mM,\cdot)-\Theta'(\mM',\cdot)\over \FnormSize{}{\Theta(\mM,\cdot)-\Theta'(\mM',\cdot)}},\ \tE\Big\rangle \right|\geq {t\over 2}\right)\\
+&\leq \sum_{\mM, \mM'\in \tM}\mathbb{P}\left(\sup_{\mC'\in \mathbb{R}^R}\sup_{\mC\in \mathbb{R}^R}\left|\Big\langle {\Theta(\mM,\tC)-\Theta'(\mM',\tC)\over \FnormSize{}{\Theta(\mM,\tC)-\Theta'(\mM',\tC)}},\ \tE\Big\rangle \right|\geq {t\over 2}\right)\\
 &\leq |\tM|^2C_1^R\exp\left(-{C_2 t^2\over 32\sigma^2}\right)\\
 &=\exp\left(2\sum_kd_k\log R_k+C_1\prod_k R_k-{C_2t^2\over 32\sigma^2}\right),
-\end{align}
+\end{split}
+\end{equation}
 for two universal constants $C_1, C_2>0$. Here the third line follows from~\cite{rigollet2015high} (Theorem 1.19) and the fact that $\Theta=\Theta(\mM,\cdot)$ lies in a linear space of dimension $R$. The last line uses $|\tM|\leq \prod_k R_k^{d_k}$ and $R=\prod_k R_k$. Choosing $t=C\sigma\sqrt{\prod_k R_k+\sum_k d_k\log R_k}$ yields the desired bound. 
 \end{proof}
 
@@ -216,30 +228,251 @@ for two universal constants $C_1, C_2>0$. Here the third line follows from~\cite
 %\]
 %\end{lemma}
 
+%--------REMOVED BY YUCHEN -----------------------
+% \begin{proof}[Proof of Theorem~\ref{thm:mcr}]
+% Let $\trueM, \hat \mM_k$ denote the true and estimated membership matrix in the mode $k$, respectively. It suffices to show that
+% \begin{equation}\label{CER}
+% \text{CER}(\hat \mM_k, \trueM)={1\over d_k}\sum_{i\in[d_k]}\mathds{1}\{\trueM(i)\neq \hat \mM_k(i)\} \to 0,\quad \text{for all }k \in[K]. 
+% \end{equation}
+% We provide the proof below for $k=1$; the proof for other modes is exactly the same. We use $\mj=(i_2,\ldots,i_K)$ to denote the tensor coordinates except the 1st mode. Define the gap between cluster means
+% \[
+% \delta=\min_{i\in[r_1]}\min_{\mj,\mj'\in[r_2]\times \cdots [r_K]}|\trueC(i,\mj)-\trueC(i,\mj')|.
+% \]
+% Note that $\delta\gg d_2\ldots d_k$, so $ \to \infty$ from the Assumption. Based on a modified proof of Theorem~\ref{thm:mse}, we have
+% \begin{equation}\label{eq:zero}
+% \mnormSize{}{\hat \Theta-\trueT}\to  0,\quad \text{as $d_{\min} \to \infty$},
+% \end{equation}
+% where $\mnormSize{}{\cdot}$ denotes the maximum absolute entry value in the tensor. Therefore, when $d_{\min}$ is sufficiently large,
+% \begin{equation}\label{eq:fact}
+% \mnormSize{}{\hat \Theta -\trueT} < {\delta\over 2}.
+% \end{equation}
+% The inequality~\eqref{eq:fact} implies that $\mM_1$ and $\mM_{\text{true},1}$ disagree at most $o(d_1)$ entries. Otherwise, there exist $O(d_1)$ pairs of indices $r,s\in[d_1]$, such that they belong to the same cluster in $\hat \Theta$, but they belong to different clusters in $\trueT$. Then, we have
+% \[
+% |\trueT_{,r,\mj}-  \trueT_{,s,\mj}|\leq  |\trueT_{,r,\mj}-\hat \Theta_{r,\mj}|+|\hat \Theta_{r,\mj}- \hat \Theta_{s,\mj}|+| \hat \Theta_{s,\mj}-\trueT_{,s,\mj}|<\delta,
+% \]
+% for all $\mj \in[d_2]\times \cdots \times [d_K]$. This contracts the definition of $\delta$. Therefore, the convergence~\eqref{CER} holds.  
+% \end{proof}
+%---------------------------------------------------
 
-\begin{proof}[Proof of Theorem~\ref{thm:partition}]
-Let $\trueM, \hat \mM_k$ denote the true and estimated membership matrix in the mode $k$, respectively. It suffices to show that
-\begin{equation}\label{CER}
-\text{CER}(\hat \mM_k, \trueM)={1\over d_k}\sum_{i\in[d_k]}\mathds{1}\{\trueM(i)\neq \hat \mM_k(i)\} \to 0,\quad \text{for all }k \in[K]. 
+
+\subsection{Proof of Theorem~\ref{thm:mcr}}
+First we give a list of notation used in the proof. For ease of notation, we allow the basic arithmetic operators ($+, -, \geq$, etc) to be applied to pairs of vectors in an element-wise manner. 
+
+\subsubsection{Notations}\label{sec:notations}
+$\mM_{k}= \entry{m_{ir}^{(k)}} \in \{0,1\}^{d_k\times R_k}$: the mode-$k$ membership matrix. The element $m_{ir}^{(k)}=1$ if and only if the $i$th slide in mode $k$ belongs to the $r$th cluster.
+
+
+$\mM_{k,\text{true}}$, $\hat \mM_{k} \in \{0,1\}^{d_k\times R_k}$: the true and estimated mode-$k$ cluster membership matrices, respectively.
+
+
+$\mp^{(k)} = \entry{p^{(k)}_r} \in [0,1]^{R_k}$: the marginal cluster proportion vector listing the relative cluster sizes along the mode $k$. The element $p_{r}^{(k)}=\frac{1}{d_k}\sum_{i=1}^{d_k}\mathds{1}\{m_{ir}^{(k)}=1\}$ denotes the proportion of the $r$th cluster. The cluster proportion vector $\mp^{(k)}=\mp^{(k)}(\mM_k)$ can be viewed as a function of $\mM_{k}$.
+
+$ \mp^{(k)}_{\text{true}}$, $\hat \mp^{(k)} \in [0,1]^{R_k}$: the true and estimated mode-$k$ cluster proportion vectors, respectively.
+
+
+$\mD^{(k)} = \entry{D^{(k)}_{rr'}}\in [0,1]^{R_k\times R_k}$: the mode-$k$ confusion matrix between clustering $\mM_{k,\text{true}}$ and $\hat \mM_{k}$. The entries in the confusion matrix is $D_{rr'}^{(k)}=\frac{1}{d_k}\sum_{i=1}^{d_k}\mathbb{I}\{m_{ir,\text{true}}^{(k)}=\hat m_{ir'}^{(k)}=1\}$. The confusion matrix $\mD^{(k)}=\mM^T_{k,\text{true}}\hat \mM_k$ is a function of $\mM_{k,\text{true}}$ and $\hat \mM_k$.
+
+$\mathcal{J}_{\tau}=\{(\mM_1,\ldots,\mM_K): \mp^{(k)}(\mM_k)\geq \tau \text{ for all } k\in[K]\}$: the set of all possible partitions that satisfy the marginal non-degenerating assumption. 
+
+$\mathcal{I} \subset 2^{[d_1]}\times \cdot\cdot\cdot \times 2^{[d_K]}$: the set of blocks that satisfy the marginal non-degenerating assumption for all $k\in[K]$;
+
+$L=\inf\{|I|: I\in\mathcal{I}\}$: the minimum block size in $\tI$. 
+
+$\mnormSize{}{\tA}=\max_{r_1,\ldots,r_K}|a_{r_1,\ldots,r_K}|$ for any tensor $\tA=\entry{a_{i_1,\ldots,i_K}}\in\mathbb{R}^{R_1\times\ldots \times R_K}$.
+
+$f(x)=x^2$: the quadratic objective function. 
+
+\begin{remark}
+By definition, the confusion matrix $\mD^{(k)}$ satisfies the following two properties:
+\begin{enumerate}
+\item $\mD^{(k)}\boldsymbol{1}=\mp^{(k)}_{\text{true}}$,\ $(\mD^{(k)})^T\boldsymbol{1} =\hat \mp^{(k)}$.
+\item The estimated clustering matches the true clustering if and only if $\mD^{(k)}$ equals to the diagonal matrix up to permutation. 
+\end{enumerate}
+\end{remark}
+
+We view the membership matrix $\mM_k$ as an onto function $\mM_k: [d_k] \mapsto [R_k]$. With a little abuse of notation, we still use $\mM_k$ to denote the mapping function. In this context, $\mM_k(i)$ represents the cluster that the index $i$ belongs to, and $\mM_k^{-1}(r)$ represents the set of indices that belong to cluster~$r$.
+
+\subsubsection{Auxiliary Results}
+
+Recall that the objective function in our tensor block model is 
+\begin{align}\label{seq:opt}
+&f(\tC, \{ \mM_k\})=\langle \tY,\ \Theta\rangle -\frac{\FnormSize{}{\Theta}^2}{2},\\
+&\text{where } \Theta=\tC\times_1\mM_1\times_2\cdots\times_K \mM_K,
+\end{align}
+where $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is the data, $\tC$ is the core tensor of interest, and $\{\mM_k\}$ is the membership matrices of interest. Without loss of generality, we will work with the scaled objective ${1\over 2\prod_k d_k}f(\tC, \{\mM_k\})$. With a little abuse of notation, we still denote the scaled function as $f(C,\{\mM_k\})$.
+
+We will prove that, if there is non-negligible mismatch between $\{\hat \mM_k\}$ and $\{\mM_{k,\text{true}}\}$, then $\{\hat \mM_k\}$ cannot be the optimizer to~\eqref{seq:opt}. To show this, we investigate the objective values at the global optimizer vs.\ at the true parameter. The deviation between these two values comes from two aspects: the label assignments (i.e., the estimation of $\{\mM_k\}$) and the estimation of the core tensor. In what follows, we tease apart these two aspects.
+ 
+ \begin{enumerate}
+\item First, suppose the partitions $\{\mM_k\}$ are given, which are not necessarily equal to $\{\mM_{k,\text{true}}\}$. We now assess the stochastic error due to estimation of $\tC$, conditional on $\{\mM_k\}$. In such a case, the core $\hat \tC = \argmin_{\tC} f(\tC,\{\mM_k\})$ can be solved explicitly. Specifically, the optimizer $\hat \tC=\entry{\hat c_{r_1,\ldots,r_K}}$ consists of the sample averages of each tensor block, where
+\begin{align}\label{eq:core}
+\displaystyle \hat c_{r_1,\ldots,r_K}&=\hat c_{r_1,\ldots,r_K}(\{\mM_k\})\\
+&= \frac{1}{p_{r_1}^{(1)}\ldots p_{r_K}^{(K)}}\left[\tY\times_1\mM^T_1\times_2\cdots\times_K \mM^T_K\right]_{r_1,\ldots,r_K}
+\end{align}
+where the marginal cluster proportion $p^{(k)}_{r_k}$ is induced by the clustering $\mM_k$. 
+
+Define a new cost function $F(\mM_1,\ldots,\mM_K)= f(\hat \tC, \mM_1,\ldots,\mM_k)$, where $\hat \tC=\entry{\hat c_{i_1,\ldots,i_K}}$ is expressed in~\eqref{eq:core}. A straightforward calculation shows that the function $F(\cdot)$ has the form
+\begin{equation}\label{eq:F}
+F(\mM_1,\ldots,\mM_K) = \sum_{r_1,\ldots,r_K}\left(\prod_k p^{(k)}_{r_k}\right) \hat c_{r_1,\ldots,r_K}^2.
 \end{equation}
-We provide the proof below for $k=1$; the proof for other modes is exactly the same. We use $\mj=(i_2,\ldots,i_K)$ to denote the tensor coordinates except the 1st mode. Define the gap between cluster means
+
+
+Let $G(\mM_1,\ldots,\mM_k)=\mathbb{E}(F(\mM_1,\ldots,\mM_K))$, where the expectation is taken with respect to the $\tC=\entry{ \hat c_{r_1,\ldots,r_K}}$. We have that  
+\begin{equation}\label{eq:G}
+G(\mM_1,\ldots,\mM_K)=\sum_{r_1,\ldots,r_K} \left(\prod_k p^{(k)}_{r_k}\right) \mu^2_{r_1,\ldots,r_K},
+\end{equation}
+where
 \[
-\delta=\min_{i\in[r_1]}\min_{\mj,\mj'\in[r_2]\times \cdots [r_K]}|\trueC(i,\mj)-\trueC(i,\mj')|.
+\mu_{r_1,\ldots,r_K}=\mathbb{E}(\hat c_{r_1,\ldots,r_K})={1\over \prod_k p^{(k)}_{r_k}}\left[ \tC\times_1 \mD^{(1)^T} \times_2\cdots\times_K \mD^{(K)^T}\right]_{r_1,\ldots,r_K}
 \]
-Note that $\delta\gg d_2\ldots d_k$, so $ \to \infty$ from the Assumption. Based on a modified proof of Theorem~\ref{thm:main}, we have
-\begin{equation}\label{eq:zero}
-\mnormSize{}{\hat \Theta-\trueT}\to  0,\quad \text{as $d_{\min} \to \infty$},
+is the expectation of the average of $y_{i_1,\ldots,i_K}$ over the tensor block indexed by $(r_1,\ldots,r_K)$, and $\mD^{(k)}=\entry{D^{(k)}_{i_kj_k}}$ is the confusion matrix between $\mM_{k,\text{true}}$ and $\mM_k$.
+
+The deviation $F(\mM_1,\ldots,\mM_K)-G(\mM_1,\ldots,\mM_K)$ quantifies the stochastic error caused by the core tensor estimation. We sometimes use $G(\mD^{(1)},\ldots,\mD^{(K)})$ to denote $G(\mM_1,\ldots,\mM_k)$ if we want to emphasize the error caused by mismatch in label assignments. 
+Based on~\eqref{eq:F} and~\eqref{eq:G}, we define a residual tensor 
+\begin{align}\label{eq:residual}
+&\tR(\mM_1,\ldots,\mM_K)=\entry{R_{r_1,\ldots,r_K}},\text{where}\\
+&R_{r_1,\ldots,r_K}= \hat c_{r_1,\ldots,r_K}-\mu_{r_1,\ldots,r_K} ,\quad \text{for all }(r_1,\ldots,r_K)\in[R_1]\times\cdots\times[R_K].
+\end{align}
+Note that the entries in the residual tensor are i.i.d.\ $\sigma$-sub-Gaussian, conditional on the partition $\{\mM_k\}$.  
+
+
+\item Next, we free $\{\mM_k\}$ and quantify the stochastic error caused by clustering. Note that optimizing~\eqref{seq:opt} is equivalent to optimizing~\eqref{eq:F} with respect to $\{\mM_k\}$. So the least-square estimator of $\{\mM_k\}$ can be expressed as
+\begin{equation}
+   (\widehat{\mM}_1,\ldots,\widehat{\mM}_K) = \displaystyle\argmax_{(\mM_1,\ldots,\mM_K)\in \mathcal{J}_\tau}F(\mM_1,\ldots,\mM_K).
 \end{equation}
-where $\mnormSize{}{\cdot}$ denotes the maximum absolute entry value in the tensor. Therefore, when $d_{\min}$ is sufficiently large,
-\begin{equation}\label{eq:fact}
-\mnormSize{}{\hat \Theta -\trueT} < {\delta\over 2}.
-\end{equation}
-The inequality~\eqref{eq:fact} implies that $\mM_1$ and $\mM_{\text{true},1}$ disagree at most $o(d_1)$ entries. Otherwise, there exist $O(d_1)$ pairs of indices $r,s\in[d_1]$, such that they belong to the same cluster in $\hat \Theta$, but they belong to different clusters in $\trueT$. Then, we have
+The expectation (with respect to $\hat \tC$) of the objective value at the true parameter is
 \[
-|\trueT_{,r,\mj}-  \trueT_{,s,\mj}|\leq  |\trueT_{,r,\mj}-\hat \Theta_{r,\mj}|+|\hat \Theta_{r,\mj}- \hat \Theta_{s,\mj}|+| \hat \Theta_{s,\mj}-\trueT_{,s,\mj}|<\delta,
+G(\mM_{1,\text{true}},\ \ldots,\mM_{K,\text{true}})=\sum_{r_1,\ldots,r_K} p^{(1)}_{r_1,\text{true}} \cdots p^{(K)}_{r_K,\text{true}}c^2_{r_1,\ldots,r_K,\text{true}}
 \]
-for all $\mj \in[d_2]\times \cdots \times [d_K]$. This contracts the definition of $\delta$. Therefore, the convergence~\eqref{CER} holds.  
+We use $ G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ \ldots,\mM_{K,\text{true}})$ to measure the stochastic error caused by mismatch in label assignments; and use $F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})$ to measure stochastic error caused estimation of core tensors.  
+
+
+\end{enumerate}
+
+The following lemma shows that, if there is non-negligible mismatch between $\mM_{k,\text{true}}$ and $\hat \mM_k$, then $\hat \mM_k$ cannot be the global optimizer to the objective function~\eqref{seq:opt}.
+
+\begin{lemma}\label{1}
+Consider partitions that satisfying $(\mM_1,\ldots,\mM_K)\in \mathcal{J}_\tau$, for some $\tau>0$. 
+Define the minimal gap between block means $\delta^{(k)}=\min_{r_k\neq r_k'}$ $\max_{r_1,\ldots,r_{k-1},r_{k+1},\ldots,r_K}(c_{r_1,\ldots,r_k,\ldots,r_K}-c_{r_1,\ldots,r_k',\ldots,r_K})^2>0$ and assume $\delta_{\min}=\min_k\delta^{(k)}>0$. For any fixed $\varepsilon>0$, suppose $\text{MCR}(\mM_{k,\text{true}}, \hat \mM_k)\geq \varepsilon $ for some $k\in[K]$. Then, we have
+\begin{equation*}
+    G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ \ldots,\mM_{K,\text{true}}) \leq -\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min},
+\end{equation*}
+where $\mD^{(k)}$ is the confusion matrix between $\mM_{k,\text{true}}$ and $\hat \mM_k$.
+\end{lemma}
+
+\begin{proof}[Proof of Lemma~\ref{1}]
+For ease of notation, we drop the subscript ``true'' and simply write $p^{(k)}_{r_k}$, $\mM_k$, $\tC$, etc. as the true parameters. The corresponding estimators are denoted as $\hat p^{(k)}_{r_k}$, $\hat \mM_k$, etc.
+Recall that 
+\begin{equation}\label{eq:D}
+G(\mD^{(1)},\ldots,\mD^{(K)})=\sum_{r_1,\ldots,r_K} \hat p^{(1)}_{r_1}\cdots \hat p^{(K)}_{r_K}  \mu^2_{r_1,\ldots,r_K},
+\end{equation}
+where  $\hat p^{(k)}_{r_k}$ is the marginal cluster proportion induced by $\hat \mM_k$, and $\mu_{r_1,\ldots,r_K}$ is the expected block mean induced by $\hat \mM_k$:
+\[
+\mu_{r_1,\ldots,r_K}=\mu_{r_1,\ldots,r_K}(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)={1\over \prod_k \hat p^{(k)}_{r_k}}\left[ \tC\times_1 \mD^{(1)^T} \times_2\cdots\times_K \mD^{(K)^T}\right]_{r_1,\ldots,r_K}.
+\]
+
+
+We provide the proof for $k=1$. The proof for other $k\in[K]$ is similar. The condition on MCR implies that, there exist some $r_1\in[R_1]$ and some $a_1\neq a_1'\in[R_1]$, such that $\min\{D_{a_1r_1}^{(1)}, D_{a_1'r_1}^{(1)}\}\geq \varepsilon$. Because the minimal gap between tensor block means are non-zero, we choose $(a_2,\ldots,a_K)$ such that $(c_{a_1,a_2,\ldots,a_K}-c_{a_1',a_2,\ldots,a_K})^2 = \displaystyle\max_{a_2,\ldots,a_K}(c_{a_1,a_2,\ldots,a_K}-c_{a_1',a_2,\ldots,a_K})^2>0$. 
+
+Let $\tN=\entry{c^2_{a_1,\ldots,a_K}}\in \mathbb{R}^{R_1\times\cdots\times R_K}$ be the quadratic loss evaluated at block, $W_{r_1,\ldots,r_K} = \prod_k \hat p^{(k)}_{r_k} >0$ the size for the block indexed by $(r_1,\ldots,r_K)$. For ease of notation, we drop the subscript ${(r_1,\ldots,r_K)}$ and simply write $W$.
+
+Based on the convexity of quadratic loss, there exists $c_*\in\mathbb{R}$ such that the weighted quadratic loss can be expressed as
+\begin{align}
+&[\tN\times_1\mD^{(1)^T}\times_2\cdots\times_K \mD^{(K)^T}]_{r_1,\ldots,r_K}\\
+=&\ D_{a_1r_1}^{(1)}D_{a_2r_2}^{(2)} \cdots D_{a_Kr_K}^{(K)}c^2_{a_1,a_2,\ldots.,a_K}+D_{a_1'r_1}^{(1)}D_{a_2r_2}^{(2)} \cdots D_{a_Kr_K}^{(K)}c^2_{a_1',a_2,\ldots,a_K}+\\
+&(W-D_{a_1r_1}^{(1)}D_{a_2r_2}^{(1)}\cdots D_{a_Kr_K}^{(K)}-D_{a_1'r_1}^{(1)}D_{a_2r_2}^{(1)}\cdots D_{a_Kr_K}^{(K)})c^2_*.
+\end{align}
+
+Recall that $\mu_{r_1,\ldots,r_K} ={1\over W} [\mathcal{C}\times_1\mD^{(1)^T}\times_2\cdots\times_K \mD^{(K)^T}]_{r_1,\ldots,r_K}$ is the $(r_1,\ldots,r_k)$-th weighted entry of the block means. 
+By the Taylor expansion of quadratic loss function at $\mu_{r_1,\ldots,r_K}$, we have
+\begin{align}\label{inq:taylor}
+&{1\over W} [\tN\times_1\mD^{(1)^T}\times_2\cdots \times_K\mD^{(K)^T}]_{r_1,\ldots,r_K}-\mu^2_{r_1,\ldots,r_K}\notag \\
+\geq &\ {1\over 2W} D_{a_1r_1}^{(1)}D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)} (c_{a_1,a_2,\ldots,a_K}-\mu_{r_1,\ldots,r_K})^2+\notag \\
+ &{1\over 2W} D_{a'_1,r_1}^{(1)}D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}(c_{a'_1,a_2,\ldots,a_K}-\mu_{r_1,\ldots,r_K})^2 +\notag \\
+&\frac{1}{2W} \left(W-D_{a_1r_1}^{(1)}D_{a_2,r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}-D_{a'_1,r_1}^{(1)}D_{a_2,r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}\right)(c_*-\mu_{r_1,\ldots,r_K})^2.
+\end{align}
+
+Combining \eqref{inq:taylor} and  basic inequality $(a^2+b^2)\geq {1\over 2}(a+b)^2$ gives
+\begin{align}\label{inq:6}
+&\ {1\over W}[\tN\times_1\mD^{(1)^T}\times_2\cdots \times_K\mD^{(K)^T}]_{r_1,\ldots,r_K}-\mu_{r_1,\ldots,r_K}^2\notag \\
+   \geq & \frac{1}{4W}\min\left\{D_{a_1r_1}^{(1)},\ D_{a_1'r_1}^{(1)}\right\}D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}(c_{a_1,\ldots,a_K}-c_{a_1',\ldots,a_K})^2\notag \\
+   \geq &\ \frac{\varepsilon D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}}{4W}(c_{a_1,a_2,\ldots,a_K}-c_{a_1',a_2,\ldots,a_K})^2.
+\end{align}
+The inequality \eqref{inq:6} only holds for a certain $r_1\in[R_1]$. For any other $r'_1\in [R_1]/\{r_1\}$, by Jensen's inequality we have
+\begin{equation} 
+    \frac{1}{W}[\tN\times_1\mD^{(1)^T}\times_2\cdots \times_K\mD^{(K)^T}]_{r'_1,\ldots,r_K}-\mu^2_{r'_1,\ldots,r_K} \geq 0.
+    \label{inq:7}
+\end{equation}
+
+
+Combining the sum of \eqref{inq:6} and \eqref{inq:7} over $(r_2,\ldots,r_K)$ gives
+
+\begin{eqnarray*}
+&& G(\mD^{(1)},\ldots,\mD^{(K)})-\sum_{r_1,\ldots,r_K} p^{(1)}_{r_1} \cdots p^{(K)}_{r_K} c^2_{r_1,\ldots,r_K}    \\
+&\leq& -\varepsilon\displaystyle\sum_{r_2,\ldots,r_K}\frac{D_{a_2r_2}^{(2)}\cdots D_{a_Kr_K}^{(K)}}{4}(c_{a_1,a_2,\ldots,a_K}-c_{a_1',a_2,\ldots,a_K})^2\\
+&\leq& -\frac{1}{4}\varepsilon\tau^{K-1}\delta_{\min},
+\end{eqnarray*}
+where the last line uses the fact that $\displaystyle\sum_{r_k}D_{a_kr_k}^{(k)}=p_{a_k}^{(k)}\geq \tau$. 
 \end{proof}
+
+\subsubsection{Proof}
+\begin{proof}[Proof of Theorem~\ref{thm:mcr}]
+The notations we use here are inherited from Lemma~\ref{1}. By~lemma \ref{1}, we obtain that
+\begin{align}\label{inq:1}
+   &\mathbb{P}\left(\mcr(\widehat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon\right)\notag \\
+ %\leq& \mathbb{P}\left( G(\mD^{(1)}, \ldots,\mD^{(K)})-\displaystyle\sum_{r_1,\ldots,r_K}p_{r_1,\text{true}}^{(1)}\cdot\cdot\cdot p_{r_K,\text{true}}^{(K)}c^2_{r_1,\ldots,r_K}\leq -\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}\right)\notag \\
+\leq & \mathbb{P}\left(G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq -\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}\right).
+\end{align}
+
+
+Define $r=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})|$ as the stochastic deviation caused by the label assignment. When the event $G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq -\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}$ holds, by triangle inequality, we have
+
+\begin{equation} \label{inq:2}
+F(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)-F(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq  2r-\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}.
+\end{equation}
+
+Plugging the event \eqref{inq:2} back into inequality \eqref{inq:1}, we obtain
+\begin{equation}\label{inq:3}
+\begin{split}
+    &\mathbb{P}\left(\mcr(\widehat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon\right)\\
+    \leq & \mathbb{P}\left(F(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)-F(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq 2r-\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}\right)\\
+    =& \mathbb{P}\left(r \geq\frac{\varepsilon\tau^{K-1}\delta_{\min}}{4}\right).
+\end{split}
+\end{equation}
+
+%Now we convert our problem into finding the upper bound of $\mathbb{P}\left(r_{\md}\geq \frac{\varepsilon\tau^{K-1}\delta_{min}}{8}\right)$.
+Now we aim to bound $r=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})|$. Note that $r$ involves the quadratic objective $f(x)=x^2$. The quadratic function $f(x)$ is locally lipschitz continuous with lipschitz constant $b = \sup_x|f'(x)|$, where $x$ is in the closure of the convex hull of the entries of $\tC$. Therefore, for any partitions $\{\mM_k\}$ (which are necessarily equal to $\{\hat \mM_k\}$ or $\{\mM_{k,\text{true}}\}$):
+\begin{align}\label{inq:4}
+&\left|F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)}, \ldots,\mD^{(K)})\right|\notag \\
+%&=|\displaystyle\sum_{r_1,\ldots,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}[f(\overline{Y_{r_1,\ldots,r_K}})-f(E_{r_1,\ldots,r_K})]|\\
+\leq&\sum_{r_1,\ldots,r_K}p_{r_1}^{(1)}p_{r_2}^{(2)}\cdots p_{r_K}^{(K)}\left|f(\hat c_{r_1,\ldots,r_K})-f(\mu_{r_1,\ldots,r_K})\right|\notag \\
+%&\leq& c\sum_{r_1,\ldots,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}|R(\mM_1,\ldots,\mM_K)_{r_1,\ldots,r_K}|\\
+\leq& \ b\mnormSize{}{\tR(\mM_1,\ldots,\mM_K)},
+\end{align}
+where 
+\[
+\hat c_{r_1,\ldots,r_K}={1\over \prod_k p^{(k)}_{r_k}}  (\tY\times_1 \mM^T_1\times_2\cdots\times_K\mM^T_K)_{r_1,\ldots,r_K},
+\]
+and
+\[
+\mu_{r_1,\ldots,r_K}={1\over \prod_k  p^{(k)}_{r_k}}\left[ \tC\times_1 \mD^{(1)^T} \times_2\cdots\times_K \mD^{(K)^T}\right]_{r_1,\ldots,r_K}.
+\]
+are, respectively, sample average and expected sample average, conditional on the partitions ${\mM_k}$, and $\tR( \mM_1,\ldots,\mM_K)$ is the residual tensor defined in~\eqref{eq:residual}. 
+
+Combining~\eqref{inq:3},~\eqref{inq:4} and Hoeffding's inequality, we have
+\begin{align}\label{eq:final}
+\mathbb{P}\left(\mcr(\widehat{\mM}_k, \mM_{k,\text{true}}) \geq \varepsilon\right)
+&\leq \mathbb{P}\left(\sup_{\tJ_\tau}\mnormSize{}{\tR(\mM_1,\ldots,\mM_K)} \geq {\varepsilon \tau^{K-1}\delta_{\min} \over 4 b}\right)\notag\notag \\
+&\leq \mathbb{P}\left(  \sup_{I\in\tI} {\sum_{(i_1,\ldots,i_K)\in I}\left(Y_{i_1,\ldots,i_K}-\mathbb{E}(Y_{i_1,\ldots,i_K})\right)\over |I|}\geq   {\varepsilon \tau^{K-1}\delta_{\min} \over 4 b} \right)\notag \\
+&\leq 2^{1+\sum_k d_k}\text{exp}\left( -\frac{\varepsilon^2\tau^{2(K-1)}\delta_{\min}^2L}{64\sigma^2b^2} \right),
+\end{align}
+where the last line comes from the fact that the residuals are i.i.d.\ sub-Gaussian (conditional on partition $\{\mM_k\}$), and $L=\inf\{|I|: I\subset \tI\} \geq \tau^K\prod_{k=1}^Kd_k$ is introduced in Section~\ref{sec:notations}.
+Defining $C=\frac{1}{64b^2}$ in~\eqref{eq:final} yields the desired conclusion.
+
+
+\end{proof}
+
+
 
 \subsection{Sparse estimator}
 \begin{lemma}\label{prop:sparse}
@@ -274,17 +507,19 @@ When $\lambda=0$ (no penalty), the minimizer is $\hat {\bm \beta}^{\text{ols}}=(
 
 {\bf Case 1: } $\rho=0$.\par
 %Note that $\zeronorm{\boldsymbol{\beta}}$ takes on integer values in $\{1,2,\ldots, R\}$. We will find the optimal $L_1$ for different values of $L_2$. 
-Note that $\mX$ induces a partition of indices $[d]$ into $R$ blocks. With a little abuse of notation, we use ${\mr}=\{i\in[d]:\mX(i)=r\}$ to denote the tensor indices that belong to the $r$th block, and use $\my_{\mr}\in\mathbb{R}^{n_r}$ to denote the corresponding tensor entries. By the orthogonality of $\mX$, we have
-\begin{align}
-L(\boldsymbol{\beta})&=\sum_{r=1}^R \vnormSize{}{\my_{\mr}-\beta_r\mathbf{1}_{n_r}}^2+\lambda \sum_{r=1}^R \mathds{1}{\{ \beta_r\neq 0\}}\\
-&=\sum_{r=1}^R\KeepStyleUnderBrace{\left( \vnormSize{}{\my_{\mr}-\beta_r\mathbf{1}_{n_r}}^2+\lambda \mathds{1}{\{ \beta_r\neq 0\}}\right)}_{:=L_r(\beta_r)}
-\end{align}
+Note that $\mX$ induces a partition of indices $[d]$ into $R$ blocks. With a little abuse of notation, we use $\tR=\{i\in[d]:\mX(i)=r\}$ to denote the collection of tensor indices that belong to the $r$th block, and use $\mY_{\tR}\in\mathbb{R}^{n_r}$ to denote the corresponding tensor entries. By the orthogonality of $\mX$, we have
+\begin{equation}
+\begin{split}
+L(\boldsymbol{\beta})&=\sum_{r=1}^R \vnormSize{}{\mY_{\tR}-\beta_r\mathbf{1}_{n_r}}^2+\lambda \sum_{r=1}^R \mathds{1}{\{ \beta_r\neq 0\}}\\
+&=\sum_{r=1}^R\KeepStyleUnderBrace{\left( \vnormSize{}{\mY_{\tR}-\beta_r\mathbf{1}_{n_r}}^2+\lambda \mathds{1}{\{ \beta_r\neq 0\}}\right)}_{:=L_r(\beta_r)}
+\end{split}
+\end{equation}
 The optimization can be separated into each of $\beta_r$'s. For any $r\in[R]$, the sub-optimization $\min_{\beta_r}L_r(\beta_r)$ has a closed-form solution
 \[
 \min_{\beta_r} L_r(\beta_r)
 =\begin{cases}
-\my^T_{\mr}\my_{\mr}-n_r\left(\hat \beta_r^{\text{ols}}\right)^2+\lambda& \text{if $\hat \beta^{\text{ols}}_r\neq 0$,}\\
-\my^T_{\mr}\my_{\mr}&\text{if $\hat \beta^{\text{ols}}_r=0$,}
+\mY^T_{\tR}\mY_{\tR}-n_r\left(\hat \beta_r^{\text{ols}}\right)^2+\lambda& \text{if $\hat \beta^{\text{ols}}_r\neq 0$,}\\
+\mY^T_{\tR}\mY_{\tR}&\text{if $\hat \beta^{\text{ols}}_r=0$,}
 \end{cases}
 \]
 with
@@ -303,7 +538,7 @@ Solution~\eqref{eq:sparse} can be simplified as $\hat \beta^{\text{sparse}}_r=\h
 
 Similar as in Case 1, we write the optimization~\eqref{eq:opt} as
 \[
-L({\bm \beta})=\sum_{r=1}^R\KeepStyleUnderBrace{\left(\vnormSize{}{\my_{\mr}-\beta_r\mathbf{1}_{n_r}}^2+\lambda |\beta_{r}|\right)}_{:=L_r(\beta_r)},
+L({\bm \beta})=\sum_{r=1}^R\KeepStyleUnderBrace{\left(\vnormSize{}{\mY_{\tR}-\beta_r\mathbf{1}_{n_r}}^2+\lambda |\beta_{r}|\right)}_{:=L_r(\beta_r)},
 \]
 where, with a little abuse of notation, we still use $L_r(\beta_r)$ to denote the sub-optimization. To solve $\argmin_{\beta_r}L_r(\beta_r)$, we use the properties of subderivative. Taking the subderivative with respect to $\beta_r$, we obtain
 	
@@ -366,7 +601,7 @@ The solution~\eqref{eq:lasso} can be simplified as
 \includegraphics[width=.38\textwidth]{figures/clustering_404040_sparse}
 \includegraphics[width=.55\textwidth]{figures/clustering_correct_sparse}
 \end{center}
-\caption{(a) estimation error and (b) sparse error rate against noise for sparse tensors of dimension $(40,40,40)$ when $\rho=0.8$. }\label{fig:sparse}
+\caption{(a) estimation error and (b) sparse error rate against noise for sparse tensors of dimension $(40,40,40)$ when $p=0.8$. }\label{fig:sparse}
 \end{figure}
 
 
@@ -536,27 +771,28 @@ Supplementary Table~\ref{tab:rel} reports the cluster constitutions for top bloc
 \end{document}
 
 \begin{comment}
-\begin{align}
+\begin{equation}
 \FnormSize{}{\hat \Theta-\trueT}&\leq 2\sup_{\mu\in\tD(R)} \sup_{\mu'\in \tD(R)} \Big\langle {\mu-\mu'\over \FnormSize{}{\mu-\mu'}}, \tE \Big\rangle\\
 &\leq \sup_{\mu\in \tD(R)}\sup_{\mu'\in \tD(R)\cap \mB_2(\mu)}\langle \mu', \tE  \rangle\\
 &\leq \sup_{\mu \in \tD(R)} 6^R{d \choose R}
-\end{align}
-\begin{align}
+\end{equation}
+\begin{equation}
 \sup_{\mu\in (\tP-\tP')\cap \mB^d_2}\langle \mu ,\tE\rangle&\leq \sup_{\mu\in \tD()\cap\mB^d_2}\sup_{\tP} \langle \mu, \tE\rangle\\
 &\leq \sup_{|\ms|= R^2}\sup_{\mu\in\mB_2^{\ms}}\langle \mu, \tE\rangle\\
 &\leq2\sigma \log\left(6^{R^2}{d \choose R^2}\right)\\
-&\leq 2\sigma R^2+....
-\end{align}
+&\leq 2\sigma R^2+\ldots.
+\end{equation}
 with probability at least $1-\exp(R^2)$
 \end{proof}
-\subsection{Proof of Theorem~\ref{thm:main}}
+
+\subsection{Proof of Theorem~\ref{thm:mse}}
 To study the performance of the least-square estimator $\hat \Theta$, we need to introduce some additional notations. We view the membership matrix $\mM_k$ as an onto function $\mM_k\colon [d_k]\mapsto [R_k]$, and with a little abuse of notation, we still use $\mM_k$ to denote the mapping function. Correspondingly, we use $\mM_k(i_k)$ to denote the cluster label for the element $i_k\in[d_k]$, and $\mM^{-1}_k(r_k)$ the group of elements in cluster $r_k\in[R_k]$.
 
 To simplify notation, we define $\mi=(i_1,\ldots,i_K)$, $\mr=(r_1,\ldots,r_K)$, and $\mM^{-1}(\mi)=\mM_1^{-1}(r_1)\times \cdots \times \mM^{-1}_K(r_K)$. 
 The parameter space $\tP$ can be equivalently written as
-\begin{align}
+\begin{equation}
 \tP=&\big\{ \Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}\colon \Theta_{\mi}=\tC_{\mr} \text{ for }\mi \in\mM^{-1}(\mr)\text{ and a core tensor $\tC\in\mathbb{R}^{R_1\times \cdots \times R_K}$} \big\}.\notag
-\end{align}
+\end{equation}
 That is, the mean signal tensor $\Theta$ is a piecewise constant with respect to the blocks in the Cartesian product of the mode-$k$ clusters, $\mM^{-1}(\mi)$, for all $\mr \in[R_1]\times \cdots\times [R_K]$. 
 
 The estimate $\hat \Theta$ consists of two components: the mean parameter $\tC$ and the clustering (structure) parameter $ \mM\colon [d_1]\times \cdots [d_K]\mapsto [R_1]\times \cdots \times [R_K]$. We introduce an intermediate estimate 
@@ -564,10 +800,10 @@ The estimate $\hat \Theta$ consists of two components: the mean parameter $\tC$ 
 \bar \Theta =\mathbb{E}(\hat \Theta|\hat \mM)=\mathbb{E}(\hat \tC\times_1 \hat \mM_1\times\cdots \times_K \hat \mM_K|\hat \mM),
 \] 
 where the expectation is taken with respect to the $\hat \tC$ (which is a function of the data $\tY$). Note that, given the structure estimate $\hat \mM$, the mean estimate $\hat \tC$ is simply the sample average of $\tY$ within the blocks defined by $\hat \mM$. Therefore, 
-%\begin{align}
+%\begin{equation}
 %\bar \Theta=\mathbb{E}(\hat \tC|\hat \mM)\times_1\hat \mM_1\times\cdots \times_k \hat \mM_K&=\tC\times_1 (\mB_1\hat \mM_1)\cdots \times_K(\mB_K\hat \mM_K)\\
 %&=\KeepStyleUnderBrace{(\tC\times_1\mB_1\times \cdots \times_K \mB_K)}_{\bar \tC}\times_1\hat \mM_1\times_2 \cdots \times_K\hat \mM_K
-%\end{align}
+%\end{equation}
 %where $\mB_k=\mM_k\hat \mM'_k(\hat \mM_k\hat \mM'_k)^{-1}$ is the (row-normalized) confusion matrix between $\mM_k$ and $\mM'_k$, for all $k\in[K]$.
 Note that $\hat \Theta$ is the minimizer of $\FnormSize{}{\Theta -\tY}$. By Lemma 1, 
 \[
@@ -588,10 +824,10 @@ holds uniformly over $\hat \mM$.
 \hat \Theta_{\mi}={1\over |\hat \mM^{-1}(\mr)|} \sum_{\mj\in\hat \mM^{-1}(\mr)}\tY_{\mj}.
 \]
 By the definition of $\bar \Theta=\mathbb{E}(\hat \Theta|\hat \mM)$, we have
-\begin{align}
+\begin{equation}
 \hat \Theta_{\mi}-\bar \Theta_{\mi}&={1\over |\hat \mM^{-1}(\mr)|} \sum_{\mj\in\hat \mM^{-1}(\mr)}\left(\tY_{\mj}-\mathbb{E}(\tY_{\mj})\right)\\
 &={1\over| \hat \mM^{-1}(\mr)|} \sum_{\mj\in\hat \mM^{-1}(\mr)}\tE_{\mj}
-\end{align}
+\end{equation}
 Therefore, 
 \[
 \langle \hat \Theta-\bar \Theta, \tY-\trueT\rangle=\sum_{\mr}\left({1\over \sqrt{|\hat \mM^{-1}(\mr)|}} \sum_{\mj\in\hat \mM^{-1}(\mr)}\tE_{\mj}\right)^2
@@ -657,18 +893,18 @@ where $(\tP-\tP')=\{\mu-\mu'\colon \mu, \mu'\in\tP\}$ and $\mB^{d}_2$ denotes th
 (\tP-\tP')\subset \tD^d(R^2).
 \]
 
-(to be finished...)
-\begin{align}
+(to be finished\ldots)
+\begin{equation}
 \FnormSize{}{\hat \Theta-\trueT}&\leq 2\sup_{\mu\in\tD(R)} \sup_{\mu'\in \tD(R)} \Big\langle {\mu-\mu'\over \FnormSize{}{\mu-\mu'}}, \tE \Big\rangle\\
 &\leq \sup_{\mu\in \tD(R)}\sup_{\mu'\in \tD(R)\cap \mB_2(\mu)}\langle \mu', \tE  \rangle\\
 &\leq \sup_{\mu \in \tD(R)} 6^R{d \choose R}
-\end{align}
-\begin{align}
+\end{equation}
+\begin{equation}
 \sup_{\mu\in (\tP-\tP')\cap \mB^d_2}\langle \mu ,\tE\rangle&\leq \sup_{\mu\in \tD()\cap\mB^d_2}\sup_{\tP} \langle \mu, \tE\rangle\\
 &\leq \sup_{|\ms|= R^2}\sup_{\mu\in\mB_2^{\ms}}\langle \mu, \tE\rangle\\
 &\leq2\sigma \log\left(6^{R^2}{d \choose R^2}\right)\\
-&\leq 2\sigma R^2+....
-\end{align}
+&\leq 2\sigma R^2+\ldots.
+\end{equation}
 with probability at least $1-\exp(R^2)$
 
 For fixed $\mM_k$'s, $\tC$ is a linear space of dimension no greater than $R^2$. 

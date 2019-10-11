@@ -1,46 +1,46 @@
 This is BibTeX, Version 0.99d (TeX Live 2016)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
-The top-level auxiliary file: diff.aux
+The top-level auxiliary file: TBM_final.aux
 The style file: unsrt.bst
 Database file #1: tensor_wang.bib
 You've used 27 entries,
             1791 wiz_defined-function locations,
-            644 strings with 8951 characters,
-and the built_in function-call counts, 7379 in all, are:
-= -- 687
-> -- 310
-< -- 8
-+ -- 114
-- -- 87
-* -- 528
-:= -- 1120
+            644 strings with 8966 characters,
+and the built_in function-call counts, 7064 in all, are:
+= -- 659
+> -- 293
+< -- 7
++ -- 108
+- -- 81
+* -- 497
+:= -- 1083
 add.period$ -- 83
 call.type$ -- 27
 change.case$ -- 27
 chr.to.int$ -- 0
 cite$ -- 27
-duplicate$ -- 320
-empty$ -- 701
-format.name$ -- 87
-if$ -- 1655
+duplicate$ -- 306
+empty$ -- 674
+format.name$ -- 81
+if$ -- 1581
 int.to.chr$ -- 0
 int.to.str$ -- 27
 missing$ -- 27
 newline$ -- 138
 num.names$ -- 27
-pop$ -- 66
+pop$ -- 63
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 174
+skip$ -- 165
 stack$ -- 0
-substring$ -- 628
-swap$ -- 97
-text.length$ -- 8
+substring$ -- 589
+swap$ -- 87
+text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 78
+while$ -- 73
 width$ -- 29
-write$ -- 298
+write$ -- 297
