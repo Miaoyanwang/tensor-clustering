@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  9 OCT 2019 12:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  10 OCT 2019 23:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -536,34 +536,10 @@ Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
 (amsmath)                 on input line 119.
 
-
-LaTeX Warning: Citation `wang2018learning' on page 1 undefined on input line 13
-4.
-
-
-LaTeX Warning: Citation `wang2017operator' on page 1 undefined on input line 13
-4.
-
-
-LaTeX Warning: Citation `wang2018learning' on page 1 undefined on input line 13
-4.
-
-
-LaTeX Warning: Citation `tomioka2014spectral' on page 1 undefined on input line
- 134.
-
 [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-
-LaTeX Warning: Citation `fan2019generalized' on page 2 undefined on input line 
-178.
-
-
-LaTeX Warning: Citation `baldin2018optimal' on page 2 undefined on input line 1
-90.
-
-[2] <compare.pdf, id=71, 578.16pt x 794.97pt>
+[2] <compare.pdf, id=81, 578.16pt x 794.97pt>
 File: compare.pdf Graphic file (type pdf)
  <use compare.pdf>
 Package pdftex.def Info: compare.pdf used on input line 216.
@@ -581,11 +557,10 @@ Overfull \hbox (6.0546pt too wide) in paragraph at lines 224--241
 [][]
  []
 
-[3]
-No file tensor_regression_supp.bbl.
+[3] (./tensor_regression_supp.bbl)
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 248.
-[4pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
-as been already used, duplicate ignored
+ [4pdfTeX warning (ext4): destination with the same identifier (name{table.1}) 
+has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
@@ -606,17 +581,14 @@ Package rerunfilecheck Info: File `tensor_regression_supp.out' has not changed.
 (rerunfilecheck)             Checksum: 862F7E97BE4FFA88B2BBD3367102B3D0;303.
 
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: There were multiply-defined labels.
 
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 248.
  ) 
 Here is how much of TeX's memory you used:
- 8482 strings out of 493014
- 121143 string characters out of 6133351
- 230259 words of memory out of 5000000
+ 8490 strings out of 493014
+ 121318 string characters out of 6133351
+ 230455 words of memory out of 5000000
  11854 multiletter control sequences out of 15000+600000
  13226 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -645,10 +617,10 @@ texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/tex
 live/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local
 /texlive/2016/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_regression_supp.pdf (5 pages, 199712 bytes).
+Output written on tensor_regression_supp.pdf (5 pages, 205610 bytes).
 PDF statistics:
- 158 PDF objects out of 1000 (max. 8388607)
- 129 compressed objects within 2 object streams
- 22 named destinations out of 1000 (max. 500000)
+ 171 PDF objects out of 1000 (max. 8388607)
+ 142 compressed objects within 2 object streams
+ 28 named destinations out of 1000 (max. 500000)
  46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,178 @@
+\begin{thebibliography}{10}
+
+\bibitem{sun2017store}
+Will~Wei Sun and Lexin Li.
+\newblock {STORE}: sparse tensor response regression and neuroimaging analysis.
+\newblock {\em The Journal of Machine Learning Research}, 18(1):4908--4944,
+  2017.
+
+\bibitem{zhou2013tensor}
+Hua Zhou, Lexin Li, and Hongtu Zhu.
+\newblock Tensor regression with applications in neuroimaging data analysis.
+\newblock {\em Journal of the American Statistical Association},
+  108(502):540--552, 2013.
+
+\bibitem{wu2017generalized}
+Yun-Jhong Wu, Elizaveta Levina, and Ji~Zhu.
+\newblock Generalized linear models with low rank effects for network data.
+\newblock {\em arXiv preprint arXiv:1705.06772}, 2017.
+
+\bibitem{baldin2018optimal}
+Nicolai Baldin and Quentin Berthet.
+\newblock Optimal link prediction with matrix logistic regression.
+\newblock {\em arXiv preprint arXiv:1803.07054}, 2018.
+
+\bibitem{hoff2005bilinear}
+Peter~D Hoff.
+\newblock Bilinear mixed-effects models for dyadic data.
+\newblock {\em Journal of the American Statistical Association},
+  100(469):286--295, 2005.
+
+\bibitem{zhang2018network}
+Jingfei Zhang, Will~Wei Sun, and Lexin Li.
+\newblock Network response regression for modeling population of networks with
+  covariates.
+\newblock {\em arXiv preprint arXiv:1810.03192}, 2018.
+
+\bibitem{de2000multilinear}
+Lieven De~Lathauwer, Bart De~Moor, and Joos Vandewalle.
+\newblock A multilinear singular value decomposition.
+\newblock {\em SIAM Journal on Matrix Analysis and Applications},
+  21(4):1253--1278, 2000.
+
+\bibitem{kolda2009tensor}
+Tamara~G Kolda and Brett~W Bader.
+\newblock Tensor decompositions and applications.
+\newblock {\em SIAM review}, 51(3):455--500, 2009.
+
+\bibitem{zhang2018tensor}
+Anru Zhang and Dong Xia.
+\newblock Tensor {SVD}: Statistical and computational limits.
+\newblock {\em IEEE Transactions on Information Theory}, 2018.
+
+\bibitem{chen2019non}
+Han Chen, Garvesh Raskutti, and Ming Yuan.
+\newblock Non-convex projected gradient descent for generalized low-rank tensor
+  regression.
+\newblock {\em The Journal of Machine Learning Research}, 20(1):172--208, 2019.
+
+\bibitem{rabusseau2016low}
+Guillaume Rabusseau and Hachem Kadri.
+\newblock Low-rank regression with tensor responses.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  1867--1875, 2016.
+
+\bibitem{li2017parsimonious}
+Lexin Li and Xin Zhang.
+\newblock Parsimonious tensor response regression.
+\newblock {\em Journal of the American Statistical Association},
+  112(519):1131--1146, 2017.
+
+\bibitem{wang2017operator}
+Miaoyan Wang, Khanh~Dao Duc, Jonathan Fischer, and Yun~S Song.
+\newblock Operator norm inequalities between tensor unfoldings on the partition
+  lattice.
+\newblock {\em Linear Algebra and Its Applications}, 520:44--66, 2017.
+
+\bibitem{gabriel1998generalised}
+K~Ruben Gabriel.
+\newblock Generalised bilinear regression.
+\newblock {\em Biometrika}, 85(3):689--700, 1998.
+
+\bibitem{potthoff1964generalized}
+Richard~F Potthoff and SN~Roy.
+\newblock A generalized multivariate analysis of variance model useful
+  especially for growth curve problems.
+\newblock {\em Biometrika}, 51(3-4):313--326, 1964.
+
+\bibitem{srivastava2008models}
+Muni~S Srivastava, Tatjana von Rosen, and Dietrich Von~Rosen.
+\newblock Models with a kronecker product covariance structure: estimation and
+  testing.
+\newblock {\em Mathematical Methods of Statistics}, 17(4):357--370, 2008.
+
+\bibitem{hitchcock1927expression}
+Frank~L Hitchcock.
+\newblock The expression of a tensor or a polyadic as a sum of products.
+\newblock {\em Journal of Mathematics and Physics}, 6(1-4):164--189, 1927.
+
+\bibitem{oseledets2011tensor}
+Ivan~V Oseledets.
+\newblock Tensor-train decomposition.
+\newblock {\em SIAM Journal on Scientific Computing}, 33(5):2295--2317, 2011.
+
+\bibitem{mccullagh1989generalized}
+P.~McCullagh and J.A. Nelder.
+\newblock {\em Generalized Linear Models, Second Edition}.
+\newblock Chapman and Hall/CRC Monographs on Statistics and Applied Probability
+  Series. Chapman \& Hall, 1989.
+
+\bibitem{robinson2015dynamic}
+Lucy~F Robinson, Lauren~Y Atlas, and Tor~D Wager.
+\newblock Dynamic functional connectivity using state-based dynamic community
+  structure: Method and application to opioid analgesia.
+\newblock {\em NeuroImage}, 108:274--291, 2015.
+
+\bibitem{abbe2017community}
+Emmanuel Abbe.
+\newblock Community detection and stochastic block models: recent developments.
+\newblock {\em The Journal of Machine Learning Research}, 18(1):6446--6531,
+  2017.
+
+\bibitem{zeng2019multiway}
+Miaoyan Wang and Yuchen Zeng.
+\newblock Multiway clustering via tensor block models.
+\newblock {\em Advances in Neural Information Processing Systems 32 (NeurIPS
+  2019), to appear}, page arXiv:1906.03807, 2019.
+
+\bibitem{HCP}
+Linda Geddes.
+\newblock Human brain mapped in unprecedented detail.
+\newblock {\em Nature}, 2016.
+
+\bibitem{desikan2006automated}
+Rahul~S Desikan, Florent S{\'e}gonne, Bruce Fischl, Brian~T Quinn, Bradford~C
+  Dickerson, Deborah Blacker, Randy~L Buckner, Anders~M Dale, R~Paul Maguire,
+  Bradley~T Hyman, et~al.
+\newblock An automated labeling system for subdividing the human cerebral
+  cortex on {MRI} scans into gyral based regions of interest.
+\newblock {\em Neuroimage}, 31(3):968--980, 2006.
+
+\bibitem{xia2013brainnet}
+Mingrui Xia, Jinhui Wang, and Yong He.
+\newblock Brainnet viewer: a network visualization tool for human brain
+  connectomics.
+\newblock {\em PloS one}, 8(7):e68910, 2013.
+
+\bibitem{ingalhalikar2014sex}
+Madhura Ingalhalikar, Alex Smith, Drew Parker, Theodore~D Satterthwaite, Mark~A
+  Elliott, Kosha Ruparel, Hakon Hakonarson, Raquel~E Gur, Ruben~C Gur, and
+  Ragini Verma.
+\newblock Sex differences in the structural connectome of the human brain.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  111(2):823--828, 2014.
+
+\bibitem{nickel2011three}
+Maximilian Nickel, Volker Tresp, and Hans-Peter Kriegel.
+\newblock A three-way model for collective learning on multi-relational data.
+\newblock In {\em International Conference on Machine Learning}, volume~11,
+  pages 809--816, 2011.
+
+\bibitem{wang2018learning}
+Miaoyan Wang and Lexin Li.
+\newblock Learning from binary multiway data: Probabilistic tensor
+  decomposition and its statistical optimality.
+\newblock {\em arXiv preprint arXiv:1811.05076}, 2018.
+
+\bibitem{tomioka2014spectral}
+Ryota Tomioka and Taiji Suzuki.
+\newblock Spectral norm of random tensors.
+\newblock {\em arXiv preprint arXiv:1407.1870}, 2014.
+
+\bibitem{fan2019generalized}
+Jianqing Fan, Wenyan Gong, and Ziwei Zhu.
+\newblock Generalized high-dimensional trace regression via nuclear norm
+  regularization.
+\newblock {\em Journal of Econometrics}, 2019.
+
+\end{thebibliography}

@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  9 OCT 2019 14:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  13 OCT 2019 12:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**tensor_regress_arxiv.tex
-(./tensor_regress_arxiv.tex
+**tensor_regress_v2.tex
+(./tensor_regress_v2.tex
 LaTeX2e <2016/03/31>
 Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/article.cls
@@ -835,15 +835,12 @@ No file tensor_regression_supp.aux
 LABELS NOT IMPORTED.
  on input line 75.
 
-(./tensor_regress_arxiv.aux
+(./tensor_regress_v2.aux
 
 LaTeX Warning: Label `eq:tensormodel' multiply defined.
 
-
-LaTeX Warning: Label `eq:log' multiply defined.
-
 )
-\openout1 = `tensor_regress_arxiv.aux'.
+\openout1 = `tensor_regress_v2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
 LaTeX Font Info:    ... okay on input line 78.
@@ -937,9 +934,9 @@ LaTeX Info: Redefining \ref on input line 78.
 LaTeX Info: Redefining \pageref on input line 78.
 LaTeX Info: Redefining \nameref on input line 78.
 
-(./tensor_regress_arxiv.out) (./tensor_regress_arxiv.out)
+(./tensor_regress_v2.out) (./tensor_regress_v2.out)
 \@outlinefile=\write4
-\openout4 = `tensor_regress_arxiv.out'.
+\openout4 = `tensor_regress_v2.out'.
 
 LaTeX Info: Redefining \microtypecontext on input line 78.
 Package microtype Info: Generating PDF output.
@@ -1090,66 +1087,73 @@ Package amsmath Warning: Foreign command \over;
 File: algorithm.pdf Graphic file (type pdf)
 
 <use algorithm.pdf>
-Package pdftex.def Info: algorithm.pdf used on input line 307.
+Package pdftex.def Info: algorithm.pdf used on input line 299.
 (pdftex.def)             Requested size: 497.92322pt x 248.9673pt.
 
-Overfull \hbox (28.1682pt too wide) in paragraph at lines 307--308
+Overfull \hbox (28.1682pt too wide) in paragraph at lines 299--300
  [] 
  []
 
-[7] [8 <./algorithm.pdf>] <dimension.pdf, id=315, 912.38687pt x 295.33934pt>
+[7 <./algorithm.pdf>] [8] <dimension.pdf, id=316, 912.38687pt x 295.33934pt>
 File: dimension.pdf Graphic file (type pdf)
 
 <use dimension.pdf>
-Package pdftex.def Info: dimension.pdf used on input line 353.
+Package pdftex.def Info: dimension.pdf used on input line 345.
 (pdftex.def)             Requested size: 426.79134pt x 138.15155pt.
- [9 <./dimension.pdf>]
-<comparison.pdf, id=478, 983.40408pt x 292.83362pt>
+ <comparison.pdf, id=320, 983.40408pt x 292.83362pt>
 File: comparison.pdf Graphic file (type pdf)
- <use comparison.pdf>
-Package pdftex.def Info: comparison.pdf used on input line 363.
-(pdftex.def)             Requested size: 426.79134pt x 127.09114pt.
 
-<HCP.pdf, id=482, 2901.76945pt x 2695.6167pt>
+<use comparison.pdf>
+Package pdftex.def Info: comparison.pdf used on input line 355.
+(pdftex.def)             Requested size: 426.79134pt x 127.09114pt.
+ [9 <./dimension.pdf>]
+<HCP.pdf, id=484, 2901.76945pt x 2695.6167pt>
 File: HCP.pdf Graphic file (type pdf)
  <use HCP.pdf>
-Package pdftex.def Info: HCP.pdf used on input line 381.
+Package pdftex.def Info: HCP.pdf used on input line 373.
 (pdftex.def)             Requested size: 227.62204pt x 211.41718pt.
- [10 <./comparison.pdf>] [11 <./HCP.pdf>] <coef.pdf, id=651, 1128.15485pt x 942
-.40706pt>
+ [10 <./comparison.pdf>] <coef.pdf, id=629, 1128.15485pt x 942.40706pt>
 File: coef.pdf Graphic file (type pdf)
-
-<use coef.pdf>
-Package pdftex.def Info: coef.pdf used on input line 395.
+ <use coef.pdf>
+Package pdftex.def Info: coef.pdf used on input line 387.
 (pdftex.def)             Requested size: 227.62204pt x 190.14615pt.
- [12 <./coef.pdf>] [13] [14]
-<compare.pdf, id=951, 578.16pt x 794.97pt>
+ [11 <./HCP.pdf>] [12 <./coef.pdf>] [13]
+Overfull \hbox (1.18251pt too wide) in paragraph at lines 476--477
+[]\T1/cmr/bx/n/10.95 Proposition 1 \T1/cmr/m/n/10.95 (-20) (sub---Gaus-sian ten
+-sors)\T1/cmr/bx/n/10.95 . []\T1/cmr/m/it/10.95 (-20) Let $\OMS/cmsy/m/n/10.95 
+S$ \T1/cmr/m/it/10.95 (-20) be a sub-Gaussian-$\OT1/cmr/m/n/10.95 (-20) (\OML/c
+mm/m/it/10.95 ^^[\OT1/cmr/m/n/10.95 (-20) )$ \T1/cmr/m/it/10.95 (-20) ten-sor o
+f di-men-sion $\OT1/cmr/m/n/10.95 (-20) (\OML/cmm/m/it/10.95 d[]; [] ; d[]\OT1/
+cmr/m/n/10.95 (-20) )$\T1/cmr/m/it/10.95 (-20) ,
+ []
+
+[14] [15] <compare.pdf, id=957, 578.16pt x 794.97pt>
 File: compare.pdf Graphic file (type pdf)
  <use compare.pdf>
-Package pdftex.def Info: compare.pdf used on input line 512.
+Package pdftex.def Info: compare.pdf used on input line 532.
 (pdftex.def)             Requested size: 483.69684pt x 665.07733pt.
 
-Overfull \hbox (13.94182pt too wide) in paragraph at lines 512--513
+Overfull \hbox (13.94182pt too wide) in paragraph at lines 532--533
 [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 38.24731pt on input line 514.
+LaTeX Warning: Float too large for page by 38.24731pt on input line 534.
 
 
-Overfull \hbox (3.39659pt too wide) in paragraph at lines 520--537
+Overfull \hbox (3.39659pt too wide) in paragraph at lines 540--557
 [][] 
  []
 
-[15] (./tensor_regress_arxiv.bbl [16] [17])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 548.
+(./tensor_regress_v2.bbl [16] [17])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 568.
  [18] [19 <./compare.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 548.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 568.
 
-(./tensor_regress_arxiv.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 548.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 548.
-Package rerunfilecheck Info: File `tensor_regress_arxiv.out' has not changed.
+(./tensor_regress_v2.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 568.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 568.
+Package rerunfilecheck Info: File `tensor_regress_v2.out' has not changed.
 (rerunfilecheck)             Checksum: E44644D23B8AC412FAEA6727DA468ED5;1093.
 
 
@@ -1159,16 +1163,16 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 548.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 568.
  ) 
 Here is how much of TeX's memory you used:
- 12956 strings out of 493014
- 193336 string characters out of 6133351
- 337781 words of memory out of 5000000
- 15939 multiletter control sequences out of 15000+600000
- 39297 words of font info for 202 fonts, out of 8000000 for 9000
+ 12963 strings out of 493014
+ 193372 string characters out of 6133351
+ 337892 words of memory out of 5000000
+ 15944 multiletter control sequences out of 15000+600000
+ 39360 words of font info for 203 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,12n,42p,1627b,466s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,18n,42p,1624b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
@@ -1204,10 +1208,10 @@ nts/type1/public/cm-super/sfti0600.pfb></usr/local/texlive/2016/texmf-dist/font
 s/type1/public/cm-super/sfti0800.pfb></usr/local/texlive/2016/texmf-dist/fonts/
 type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
 pe1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_regress_arxiv.pdf (19 pages, 1566956 bytes).
+Output written on tensor_regress_v2.pdf (19 pages, 1576422 bytes).
 PDF statistics:
- 1102 PDF objects out of 1200 (max. 8388607)
- 848 compressed objects within 9 object streams
+ 1104 PDF objects out of 1200 (max. 8388607)
+ 850 compressed objects within 9 object streams
  106 named destinations out of 1000 (max. 500000)
  26804 words of extra memory for PDF output out of 29859 (max. 10000000)
 

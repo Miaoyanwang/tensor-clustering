@@ -290,7 +290,6 @@ By definition, the confusion matrix $\mD^{(k)}$ satisfies the following two prop
 \end{enumerate}
 \end{remark}
 
-We view the membership matrix $\mM_k$ as an onto function $\mM_k: [d_k] \mapsto [R_k]$. With a little abuse of notation, we still use $\mM_k$ to denote the mapping function. In this context, $\mM_k(i)$ represents the cluster that the index $i$ belongs to, and $\mM_k^{-1}(r)$ represents the set of indices that belong to cluster~$r$.
 
 \subsubsection{Auxiliary Results}
 
@@ -333,10 +332,10 @@ Based on~\eqref{eq:F} and~\eqref{eq:G}, we define a residual tensor
 &\tR(\mM_1,\ldots,\mM_K)=\entry{R_{r_1,\ldots,r_K}},\text{where}\\
 &R_{r_1,\ldots,r_K}= \hat c_{r_1,\ldots,r_K}-\mu_{r_1,\ldots,r_K} ,\quad \text{for all }(r_1,\ldots,r_K)\in[R_1]\times\cdots\times[R_K].
 \end{align}
-Note that the entries in the residual tensor are i.i.d.\ $\sigma$-sub-Gaussian, conditional on the partition $\{\mM_k\}$.  
+Note that, conditional on $\{\mM_k\}$, the entries $R_{r_1,\ldots,r_K}$ in the residual tensor are independent sub-Gaussian with parameter depending on the size of the $(r_1,\ldots,r_K)$th block. 
 
 
-\item Next, we free $\{\mM_k\}$ and quantify the stochastic error caused by clustering. Note that optimizing~\eqref{seq:opt} is equivalent to optimizing~\eqref{eq:F} with respect to $\{\mM_k\}$. So the least-square estimator of $\{\mM_k\}$ can be expressed as
+\item Next, we free $\{\mM_k\}$ and quantify the total stochastic deviation. Note that optimizing~\eqref{seq:opt} is equivalent to optimizing~\eqref{eq:F} with respect to $\{\mM_k\}$. So the least-square estimator of $\{\mM_k\}$ can be expressed as
 \begin{equation}
    (\widehat{\mM}_1,\ldots,\widehat{\mM}_K) = \displaystyle\argmax_{(\mM_1,\ldots,\mM_K)\in \mathcal{J}_\tau}F(\mM_1,\ldots,\mM_K).
 \end{equation}
@@ -344,7 +343,7 @@ The expectation (with respect to $\hat \tC$) of the objective value at the true 
 \[
 G(\mM_{1,\text{true}},\ \ldots,\mM_{K,\text{true}})=\sum_{r_1,\ldots,r_K} p^{(1)}_{r_1,\text{true}} \cdots p^{(K)}_{r_K,\text{true}}c^2_{r_1,\ldots,r_K,\text{true}}
 \]
-We use $ G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ \ldots,\mM_{K,\text{true}})$ to measure the stochastic error caused by mismatch in label assignments; and use $F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})$ to measure stochastic error caused estimation of core tensors.  
+We use $ G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ \ldots,\mM_{K,\text{true}})$ to measure the stochastic deviation caused by mismatch in label assignments; and use $F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})$ to measure stochastic deviation caused estimation of core tensors.  
 
 
 \end{enumerate}
@@ -366,7 +365,7 @@ Recall that
 \begin{equation}\label{eq:D}
 G(\mD^{(1)},\ldots,\mD^{(K)})=\sum_{r_1,\ldots,r_K} \hat p^{(1)}_{r_1}\cdots \hat p^{(K)}_{r_K}  \mu^2_{r_1,\ldots,r_K},
 \end{equation}
-where  $\hat p^{(k)}_{r_k}$ is the marginal cluster proportion induced by $\hat \mM_k$, and $\mu_{r_1,\ldots,r_K}$ is the expected block mean induced by $\hat \mM_k$:
+where  $\hat p^{(k)}_{r_k}$ is the marginal cluster proportion induced by $\widehat{\mM}_k$, and $\mu_{r_1,\ldots,r_K}$ is the expected block mean induced by $\widehat{\mM}_k$:
 \[
 \mu_{r_1,\ldots,r_K}=\mu_{r_1,\ldots,r_K}(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)={1\over \prod_k \hat p^{(k)}_{r_k}}\left[ \tC\times_1 \mD^{(1)^T} \times_2\cdots\times_K \mD^{(K)^T}\right]_{r_1,\ldots,r_K}.
 \]
@@ -417,7 +416,7 @@ where the last line uses the fact that $\displaystyle\sum_{r_k}D_{a_kr_k}^{(k)}=
 
 \subsubsection{Proof}
 \begin{proof}[Proof of Theorem~\ref{thm:mcr}]
-The notations we use here are inherited from Lemma~\ref{1}. By~lemma \ref{1}, we obtain that
+The notations we use here are inherited from Lemma~\ref{1}. By~Lemma \ref{1}, we obtain that
 \begin{align}\label{inq:1}
    &\mathbb{P}\left(\mcr(\widehat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon\right)\notag \\
  %\leq& \mathbb{P}\left( G(\mD^{(1)}, \ldots,\mD^{(K)})-\displaystyle\sum_{r_1,\ldots,r_K}p_{r_1,\text{true}}^{(1)}\cdot\cdot\cdot p_{r_K,\text{true}}^{(K)}c^2_{r_1,\ldots,r_K}\leq -\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}\right)\notag \\
@@ -432,16 +431,15 @@ F(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)-F(\mM_{1,\text{true}},\ldots,\mM_{K,\t
 \end{equation}
 
 Plugging the event \eqref{inq:2} back into inequality \eqref{inq:1}, we obtain
-\begin{equation}\label{inq:3}
-\begin{split}
-    &\mathbb{P}\left(\mcr(\widehat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon\right)\\
-    \leq & \mathbb{P}\left(F(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)-F(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq 2r-\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}\right)\\
-    =& \mathbb{P}\left(r \geq\frac{\varepsilon\tau^{K-1}\delta_{\min}}{4}\right).
-\end{split}
-\end{equation}
+\begin{align}\label{inq:3}
+    &\mathbb{P}\left(\mcr(\widehat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon\right)\notag \\
+    \leq & \mathbb{P}\left(F(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)-F(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq 2r-\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}\right)\notag \\
+    \leq & \mathbb{P}\left(r \geq\frac{\varepsilon\tau^{K-1}\delta_{\min}}{4}\right),
+\end{align}
+where the last line uses the fact that the ${\widehat{\mM}_k}$ is the global optimizer of $F(\cdot)$; i.e. $F(\widehat{\mM}_1,\ldots,\widehat {\mM}_K)=\arg\max F(\mM_1,\ldots,\mM_K)\geq F(\mM_{1,\text{true}},\ldots,\hat \mM_{K,\text{true})$.
 
 %Now we convert our problem into finding the upper bound of $\mathbb{P}\left(r_{\md}\geq \frac{\varepsilon\tau^{K-1}\delta_{min}}{8}\right)$.
-Now we aim to bound $r=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})|$. Note that $r$ involves the quadratic objective $f(x)=x^2$. The quadratic function $f(x)$ is locally lipschitz continuous with lipschitz constant $b = \sup_x|f'(x)|$, where $x$ is in the closure of the convex hull of the entries of $\tC$. Therefore, for any partitions $\{\mM_k\}$ (which are necessarily equal to $\{\hat \mM_k\}$ or $\{\mM_{k,\text{true}}\}$):
+Now we aim to find the probability~\eqref{inq:3} with respect to $r=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})|$. Note that $r$ involves the quadratic objective $f(x)=x^2$. The quadratic function $f(x)$ is locally lipschitz continuous with lipschitz constant $b = \sup_x|f'(x)|$, where $x$ is in the closure of the convex hull of the entries of $\tC$. Therefore, for any partitions $\{\mM_k\}$ (which are necessarily equal to $\{\hat \mM_k\}$ or $\{\mM_{k,\text{true}}\}$):
 \begin{align}\label{inq:4}
 &\left|F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)}, \ldots,\mD^{(K)})\right|\notag \\
 %&=|\displaystyle\sum_{r_1,\ldots,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}[f(\overline{Y_{r_1,\ldots,r_K}})-f(E_{r_1,\ldots,r_K})]|\\
@@ -466,7 +464,7 @@ Combining~\eqref{inq:3},~\eqref{inq:4} and Hoeffding's inequality, we have
 &\leq \mathbb{P}\left(  \sup_{I\in\tI} {\sum_{(i_1,\ldots,i_K)\in I}\left(Y_{i_1,\ldots,i_K}-\mathbb{E}(Y_{i_1,\ldots,i_K})\right)\over |I|}\geq   {\varepsilon \tau^{K-1}\delta_{\min} \over 4 b} \right)\notag \\
 &\leq 2^{1+\sum_k d_k}\text{exp}\left( -\frac{\varepsilon^2\tau^{2(K-1)}\delta_{\min}^2L}{64\sigma^2b^2} \right),
 \end{align}
-where the last line comes from the fact that the residuals are i.i.d.\ sub-Gaussian (conditional on partition $\{\mM_k\}$), and $L=\inf\{|I|: I\subset \tI\} \geq \tau^K\prod_{k=1}^Kd_k$ is introduced in Section~\ref{sec:notations}.
+where the last line uses the sub-Gaussianness of the entries in the residual tensor (conditional on $\{\mM_k\}$), and $L=\inf\{|I|: I\subset \tI\} \geq \tau^K\prod_{k=1}^Kd_k$ is introduced in Section~\ref{sec:notations}.
 Defining $C=\frac{1}{64b^2}$ in~\eqref{eq:final} yields the desired conclusion.
 
 

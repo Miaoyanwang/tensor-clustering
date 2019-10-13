@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  10 OCT 2019 22:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  10 OCT 2019 23:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1025,21 +1025,36 @@ LaTeX Font Info:    Try loading font information for U+dsrom on input line 268.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 )
-[3] [4] [5] [6] [7] [8]
-<figures/clustering_404040_sparse.pdf, id=189, 423.22585pt x 278.11717pt>
+[3] [4] [5] [6]
+./TBM_supp.tex:439: Missing } inserted.
+<inserted text> 
+                }
+l.439 ...t{true}},\ldots,\hat \mM_{K,\text{true})$
+                                                  .
+? 
+
+Underfull \hbox (badness 1009) in paragraph at lines 442--443
+[]\T1/ptm/m/n/10 (+20) Now we aim to find the prob-a-bil-ity [][] with re-spect
+ to $\OML/cmm/m/it/10 r \OT1/cmr/m/n/10 = [] \OMS/cmsy/m/n/10 j\OML/cmm/m/it/10
+ F\OT1/cmr/m/n/10 (\OML/cmm/b/it/10 M[]\OML/cmm/m/it/10 ; [] ; \OML/cmm/b/it/10
+ M[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^@
+ []
+
+[7] [8]
+<figures/clustering_404040_sparse.pdf, id=190, 423.22585pt x 278.11717pt>
 File: figures/clustering_404040_sparse.pdf Graphic file (type pdf)
 
 <use figures/clustering_404040_sparse.pdf>
 Package pdftex.def Info: figures/clustering_404040_sparse.pdf used on input lin
-e 601.
+e 599.
 (pdftex.def)             Requested size: 151.04623pt x 99.25638pt.
 
-<figures/clustering_correct_sparse.pdf, id=190, 438.55766pt x 201.77438pt>
+<figures/clustering_correct_sparse.pdf, id=191, 438.55766pt x 201.77438pt>
 File: figures/clustering_correct_sparse.pdf Graphic file (type pdf)
 
 <use figures/clustering_correct_sparse.pdf>
 Package pdftex.def Info: figures/clustering_correct_sparse.pdf used on input li
-ne 602.
+ne 600.
 (pdftex.def)             Requested size: 218.61795pt x 100.5852pt.
 
 Underfull \vbox (badness 1199) has occurred while \output is active []
@@ -1051,7 +1066,7 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figures/clustering_correct
 _sparse.pdf): PDF inclusion: multiple pdfs with page group included in a single
  page
 >]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 745.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 743.
 
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
@@ -1062,28 +1077,28 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             See the microtype manual for details.
 
 (./TBM_supp.bbl [10])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 771.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 769.
  [11]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 771.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 769.
  (./TBM_supp.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 771.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 771.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 769.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 769.
 Package rerunfilecheck Info: File `TBM_supp.out' has not changed.
 (rerunfilecheck)             Checksum: CE9BED0D57DD5E76C3C4FEE29C357146;846.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 771.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 769.
  ) 
 Here is how much of TeX's memory you used:
- 12372 strings out of 493014
- 185376 string characters out of 6133351
+ 12378 strings out of 493014
+ 185424 string characters out of 6133351
  335122 words of memory out of 5000000
  15455 multiletter control sequences out of 15000+600000
- 49336 words of font info for 149 fonts, out of 8000000 for 9000
+ 49596 words of font info for 153 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,26n,42p,752b,532s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,26n,42p,752b,534s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{algorithm.1} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1123,10 +1138,10 @@ texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/20
 exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/
 fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
 1/urw/times/utmri8a.pfb>
-Output written on TBM_supp.pdf (11 pages, 352074 bytes).
+Output written on TBM_supp.pdf (11 pages, 351881 bytes).
 PDF statistics:
- 455 PDF objects out of 1000 (max. 8388607)
- 370 compressed objects within 4 object streams
+ 456 PDF objects out of 1000 (max. 8388607)
+ 371 compressed objects within 4 object streams
  80 named destinations out of 1000 (max. 500000)
  26219 words of extra memory for PDF output out of 29859 (max. 10000000)
 
