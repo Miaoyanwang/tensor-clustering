@@ -300,7 +300,7 @@ Recall that the objective function in our tensor block model is
 \end{align}
 where $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is the data, $\tC$ is the core tensor of interest, and $\{\mM_k\}$ is the membership matrices of interest. Without loss of generality, we will work with the scaled objective ${1\over 2\prod_k d_k}f(\tC, \{\mM_k\})$. With a little abuse of notation, we still denote the scaled function as $f(C,\{\mM_k\})$.
 
-We will prove that, if there is non-negligible mismatch between $\{\hat \mM_k\}$ and $\{\mM_{k,\text{true}}\}$, then $\{\hat \mM_k\}$ cannot be the optimizer to~\eqref{seq:opt}. To show this, we investigate the objective values at the global optimizer vs.\ at the true parameter. The deviation between these two values comes from two aspects: the label assignments (i.e., the estimation of $\{\mM_k\}$) and the estimation of the core tensor. In what follows, we tease apart these two aspects.
+We will prove that, if there is non-negligible mismatch between $\{\hat{ \mM}_k\}$ and $\{\mM_{k,\text{true}}\}$, then $\{\hat{ \mM}_k\}$ cannot be the optimizer to~\eqref{seq:opt}. To show this, we investigate the objective values at the global optimizer vs.\ at the true parameter. The deviation between these two values comes from two aspects: the label assignments (i.e., the estimation of $\{\mM_k\}$) and the estimation of the core tensor. In what follows, we tease apart these two aspects.
  
  \begin{enumerate}
 \item First, suppose the partitions $\{\mM_k\}$ are given, which are not necessarily equal to $\{\mM_{k,\text{true}}\}$. We now assess the stochastic error due to estimation of $\tC$, conditional on $\{\mM_k\}$. In such a case, the core $\hat \tC = \argmin_{\tC} f(\tC,\{\mM_k\})$ can be solved explicitly. Specifically, the optimizer $\hat \tC=\entry{\hat c_{r_1,\ldots,r_K}}$ consists of the sample averages of each tensor block, where
@@ -337,7 +337,7 @@ Note that, conditional on $\{\mM_k\}$, the entries $R_{r_1,\ldots,r_K}$ in the r
 
 \item Next, we free $\{\mM_k\}$ and quantify the total stochastic deviation. Note that optimizing~\eqref{seq:opt} is equivalent to optimizing~\eqref{eq:F} with respect to $\{\mM_k\}$. So the least-square estimator of $\{\mM_k\}$ can be expressed as
 \begin{equation}
-   (\widehat{\mM}_1,\ldots,\widehat{\mM}_K) = \displaystyle\argmax_{(\mM_1,\ldots,\mM_K)\in \mathcal{J}_\tau}F(\mM_1,\ldots,\mM_K).
+   (\hat{\mM}_1,\ldots,\hat{\mM}_K) = \displaystyle\argmax_{(\mM_1,\ldots,\mM_K)\in \mathcal{J}_\tau}F(\mM_1,\ldots,\mM_K).
 \end{equation}
 The expectation (with respect to $\hat \tC$) of the objective value at the true parameter is
 \[
@@ -348,13 +348,13 @@ We use $ G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ \ldots,\mM_{K,\te
 
 \end{enumerate}
 
-The following lemma shows that, if there is non-negligible mismatch between $\mM_{k,\text{true}}$ and $\hat \mM_k$, then $\hat \mM_k$ cannot be the global optimizer to the objective function~\eqref{seq:opt}.
+The following lemma shows that, if there is non-negligible mismatch between $\mM_{k,\text{true}}$ and $\hat {\mM}_k$, then $\hat {\mM}_k$ cannot be the global optimizer to the objective function~\eqref{seq:opt}.
 
 \begin{lemma}\label{1}
 Consider partitions that satisfying $(\mM_1,\ldots,\mM_K)\in \mathcal{J}_\tau$, for some $\tau>0$. 
 Define the minimal gap between block means $\delta^{(k)}=\min_{r_k\neq r_k'}$ $\max_{r_1,\ldots,r_{k-1},r_{k+1},\ldots,r_K}(c_{r_1,\ldots,r_k,\ldots,r_K}-c_{r_1,\ldots,r_k',\ldots,r_K})^2>0$ and assume $\delta_{\min}=\min_k\delta^{(k)}>0$. For any fixed $\varepsilon>0$, suppose $\text{MCR}(\mM_{k,\text{true}}, \hat \mM_k)\geq \varepsilon $ for some $k\in[K]$. Then, we have
 \begin{equation*}
-    G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ \ldots,\mM_{K,\text{true}}) \leq -\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min},
+    G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ \ldots,\mM_{K,\text{true}}) \leq -\frac{1}{4}\varepsilon\tau^{K-1}\delta_{\min},
 \end{equation*}
 where $\mD^{(k)}$ is the confusion matrix between $\mM_{k,\text{true}}$ and $\hat \mM_k$.
 \end{lemma}
@@ -365,9 +365,9 @@ Recall that
 \begin{equation}\label{eq:D}
 G(\mD^{(1)},\ldots,\mD^{(K)})=\sum_{r_1,\ldots,r_K} \hat p^{(1)}_{r_1}\cdots \hat p^{(K)}_{r_K}  \mu^2_{r_1,\ldots,r_K},
 \end{equation}
-where  $\hat p^{(k)}_{r_k}$ is the marginal cluster proportion induced by $\widehat{\mM}_k$, and $\mu_{r_1,\ldots,r_K}$ is the expected block mean induced by $\widehat{\mM}_k$:
+where  $\hat p^{(k)}_{r_k}$ is the marginal cluster proportion induced by $\hat{\mM}_k$, and $\mu_{r_1,\ldots,r_K}$ is the expected block mean induced by $\hat{\mM}_k$:
 \[
-\mu_{r_1,\ldots,r_K}=\mu_{r_1,\ldots,r_K}(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)={1\over \prod_k \hat p^{(k)}_{r_k}}\left[ \tC\times_1 \mD^{(1)^T} \times_2\cdots\times_K \mD^{(K)^T}\right]_{r_1,\ldots,r_K}.
+\mu_{r_1,\ldots,r_K}=\mu_{r_1,\ldots,r_K}(\hat{\mM}_1,\ldots,\hat{\mM}_K)={1\over \prod_k \hat p^{(k)}_{r_k}}\left[ \tC\times_1 \mD^{(1)^T} \times_2\cdots\times_K \mD^{(K)^T}\right]_{r_1,\ldots,r_K}.
 \]
 
 
@@ -418,33 +418,30 @@ where the last line uses the fact that $\displaystyle\sum_{r_k}D_{a_kr_k}^{(k)}=
 \begin{proof}[Proof of Theorem~\ref{thm:mcr}]
 The notations we use here are inherited from Lemma~\ref{1}. By~Lemma \ref{1}, we obtain that
 \begin{align}\label{inq:1}
-   &\mathbb{P}\left(\mcr(\widehat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon\right)\notag \\
- %\leq& \mathbb{P}\left( G(\mD^{(1)}, \ldots,\mD^{(K)})-\displaystyle\sum_{r_1,\ldots,r_K}p_{r_1,\text{true}}^{(1)}\cdot\cdot\cdot p_{r_K,\text{true}}^{(K)}c^2_{r_1,\ldots,r_K}\leq -\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}\right)\notag \\
-\leq & \mathbb{P}\left(G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq -\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}\right).
+   &\mathbb{P}\left(\mcr(\hat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon\right)\notag \\
+\leq & \mathbb{P}\left(G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq -\frac{1}{4}\varepsilon\tau^{K-1}\delta_{\min}\right).
 \end{align}
 
 
-Define $r=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})|$ as the stochastic deviation caused by the label assignment. When the event $G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq -\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}$ holds, by triangle inequality, we have
+Define $r=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})|$ as the stochastic deviation caused by the label assignment. When the event $G(\mD^{(1)},\ldots,\mD^{(K)})-G(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq -\frac{1}{4}\varepsilon\tau^{K-1}\delta_{\min}$ holds, by triangle inequality, we have
 
 \begin{equation} \label{inq:2}
-F(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)-F(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq  2r-\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}.
+F(\hat{\mM}_1,\ldots,\hat{\mM}_K)-F(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq  2r-\frac{1}{4}\varepsilon\tau^{K-1}\delta_{\min}.
 \end{equation}
 
 Plugging the event \eqref{inq:2} back into inequality \eqref{inq:1}, we obtain
 \begin{align}\label{inq:3}
-    &\mathbb{P}\left(\mcr(\widehat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon\right)\notag \\
-    \leq & \mathbb{P}\left(F(\widehat{\mM}_1,\ldots,\widehat{\mM}_K)-F(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq 2r-\frac{1}{2}\varepsilon\tau^{K-1}\delta_{\min}\right)\notag \\
-    \leq & \mathbb{P}\left(r \geq\frac{\varepsilon\tau^{K-1}\delta_{\min}}{4}\right),
+    &\mathbb{P}\left(\mcr(\hat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon\right)\notag \\
+    \leq & \mathbb{P}\left(F(\hat{\mM}_1,\ldots,\hat{\mM}_K)-F(\mM_{1,\text{true}},\ldots,\mM_{K,\text{true}})\leq 2r-\frac{1}{4}\varepsilon\tau^{K-1}\delta_{\min}\right)\notag \\
+    \leq & \mathbb{P}\left(r \geq\frac{\varepsilon\tau^{K-1}\delta_{\min}}{8}\right),
 \end{align}
-where the last line uses the fact that the ${\widehat{\mM}_k}$ is the global optimizer of $F(\cdot)$; i.e. $F(\widehat{\mM}_1,\ldots,\widehat {\mM}_K)=\arg\max F(\mM_1,\ldots,\mM_K)\geq F(\mM_{1,\text{true}},\ldots,\hat \mM_{K,\text{true})$.
+where the last line uses the fact that the ${\hat{\mM}_k}$ is the global optimizer of $F(\cdot)$; i.e. $F(\hat{\mM}_1,\ldots,\hat {\mM}_K)=\arg\max F(\mM_1,\ldots,\mM_K)\geq F(\mM_{1,\text{true}},\ldots, \mM_{K,\text{true}})$.
 
-%Now we convert our problem into finding the upper bound of $\mathbb{P}\left(r_{\md}\geq \frac{\varepsilon\tau^{K-1}\delta_{min}}{8}\right)$.
+
 Now we aim to find the probability~\eqref{inq:3} with respect to $r=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})|$. Note that $r$ involves the quadratic objective $f(x)=x^2$. The quadratic function $f(x)$ is locally lipschitz continuous with lipschitz constant $b = \sup_x|f'(x)|$, where $x$ is in the closure of the convex hull of the entries of $\tC$. Therefore, for any partitions $\{\mM_k\}$ (which are necessarily equal to $\{\hat \mM_k\}$ or $\{\mM_{k,\text{true}}\}$):
 \begin{align}\label{inq:4}
 &\left|F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)}, \ldots,\mD^{(K)})\right|\notag \\
-%&=|\displaystyle\sum_{r_1,\ldots,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}[f(\overline{Y_{r_1,\ldots,r_K}})-f(E_{r_1,\ldots,r_K})]|\\
 \leq&\sum_{r_1,\ldots,r_K}p_{r_1}^{(1)}p_{r_2}^{(2)}\cdots p_{r_K}^{(K)}\left|f(\hat c_{r_1,\ldots,r_K})-f(\mu_{r_1,\ldots,r_K})\right|\notag \\
-%&\leq& c\sum_{r_1,\ldots,r_K}\hat{p}_{r_1}^{(1)}\hat{p}_{r_2}^{(2)}\cdots\hat{p}_{r_K}^{(K)}|R(\mM_1,\ldots,\mM_K)_{r_1,\ldots,r_K}|\\
 \leq& \ b\mnormSize{}{\tR(\mM_1,\ldots,\mM_K)},
 \end{align}
 where 
@@ -459,13 +456,13 @@ are, respectively, sample average and expected sample average, conditional on th
 
 Combining~\eqref{inq:3},~\eqref{inq:4} and Hoeffding's inequality, we have
 \begin{align}\label{eq:final}
-\mathbb{P}\left(\mcr(\widehat{\mM}_k, \mM_{k,\text{true}}) \geq \varepsilon\right)
-&\leq \mathbb{P}\left(\sup_{\tJ_\tau}\mnormSize{}{\tR(\mM_1,\ldots,\mM_K)} \geq {\varepsilon \tau^{K-1}\delta_{\min} \over 4 b}\right)\notag\notag \\
-&\leq \mathbb{P}\left(  \sup_{I\in\tI} {\sum_{(i_1,\ldots,i_K)\in I}\left(Y_{i_1,\ldots,i_K}-\mathbb{E}(Y_{i_1,\ldots,i_K})\right)\over |I|}\geq   {\varepsilon \tau^{K-1}\delta_{\min} \over 4 b} \right)\notag \\
-&\leq 2^{1+\sum_k d_k}\text{exp}\left( -\frac{\varepsilon^2\tau^{2(K-1)}\delta_{\min}^2L}{64\sigma^2b^2} \right),
+\mathbb{P}\left(\mcr(\hat{\mM}_k, \mM_{k,\text{true}}) \geq \varepsilon\right)
+&\leq \mathbb{P}\left(\sup_{\tJ_\tau}\mnormSize{}{\tR(\mM_1,\ldots,\mM_K)} \geq {\varepsilon \tau^{K-1}\delta_{\min} \over 8 b}\right)\notag\notag \\
+&\leq \mathbb{P}\left(  \sup_{I\in\tI} {\left|\sum_{(i_1,\ldots,i_K)\in I}\left(Y_{i_1,\ldots,i_K}-\mathbb{E}(Y_{i_1,\ldots,i_K})\right)\right|\over |I|}\geq   {\varepsilon \tau^{K-1}\delta_{\min} \over 8 b} \right)\notag \\
+&\leq 2^{1+\sum_k d_k}\text{exp}\left( -\frac{\varepsilon^2\tau^{2(K-1)}\delta_{\min}^2L}{128\sigma^2b^2} \right),
 \end{align}
 where the last line uses the sub-Gaussianness of the entries in the residual tensor (conditional on $\{\mM_k\}$), and $L=\inf\{|I|: I\subset \tI\} \geq \tau^K\prod_{k=1}^Kd_k$ is introduced in Section~\ref{sec:notations}.
-Defining $C=\frac{1}{64b^2}$ in~\eqref{eq:final} yields the desired conclusion.
+Defining $C=\frac{1}{128b^2}$ in~\eqref{eq:final} yields the desired conclusion.
 
 
 \end{proof}
