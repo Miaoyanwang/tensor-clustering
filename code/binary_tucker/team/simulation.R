@@ -12,6 +12,22 @@ library("RColorBrewer")
 
 ## This part used for penalty (Conjugate gradient method)
 
+KL=function(U_est,U_true,dist,sigma_est=1,sigma_true=1){
+    d=prod(dim(U_est))
+    if(dist=="normal"){
+      KL=d*(0.5*log(sigma_true)-0.5*log(sigma_est)+sigma_est/(2*sigma_true)-0.5)+0.5/sigma_true*sum((U_est-U_true)^2)
+    }else if (dist=="binary"){
+        p_est=plogis(U_est)
+        p_true=plogis(U_true)
+        KL=sum(p_est*log(p_est/p_true)+(1-p_est)*log((1-p_est)/(1-p_true)))
+    }else if (dist=="poisson"){
+        lambda_est=exp(U_est)
+        lambda_true=exp(U_true)
+        KL=sum(lambda_est*log(lambda_est/lambda_true)+lambda_true-lambda_est)
+    }
+return(KL)
+}
+
 loss = function(beta,y,X,lambda,alpha,dist){
   U = X %*% beta
   L= - loglike(y,U,dist)
@@ -433,6 +449,30 @@ massive_glm=function(response,X,dist){
     return(coe)
 }
 
+conv_rate = function(seed,signal=10,Nsim=20,cons="no",lambda = 1,alpha=10,solver ="CG",c_range,dist="binary",dup=10,d_range,p_range,naive=TRUE,block=c(FALSE,3)){
+  #cons can be "non","vanilla","penalty"
+      n=m=nrow(d_range)
+      s=nrow(c_range)
+      error=error_naive=array(0,dim=c(n,s,dup))
+      for(i in 1:n){
+              for(k in 1:s){
+                  data = gene_data_all(seed, d_range[i,], c_range[k,],p_range[i,],dist, dup, signal,block)
+                  X_covar1=data$X_covar1
+                  X_covar2=data$X_covar2
+                  X_covar3=data$X_covar3
+                  for(l in 1:dup){ 
+                      result=update_binary_all(data$tsr[[l]],X_covar1,X_covar2,X_covar3,c_range[k,],Nsim,cons,lambda,alpha,solver,dist)
+                      if(naive==TRUE) {
+                          naive_C=massive_glm(data$tsr[[l]],X_covar3,dist)
+                          error_naive[i,k,l]=mean((naive_C-data$C_ts)^2)
+}
+error[i,k,l]=mean((result$C_ts-data$C_ts)^2)
+print(paste(l,"-th replicate---- when dimension is ",d_range[i,1],d_range[i,2],d_range[i,3],"-- covariate is",p_range[i,1],p_range[i,2],p_range[i,3]," --------core is ",c_range[k,1],c_range[k,2],c_range[k,3]))
+  }
+}
+}
+return(list(error,error_naive))  
+}
 
 
 #### This function is to select the lambda in the penalty constrain version

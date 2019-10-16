@@ -270,7 +270,7 @@ $\mp^{(k)} = \entry{p^{(k)}_r} \in [0,1]^{R_k}$: the marginal cluster proportion
 $ \mp^{(k)}_{\text{true}}$, $\hat \mp^{(k)} \in [0,1]^{R_k}$: the true and estimated mode-$k$ cluster proportion vectors, respectively.
 
 
-$\mD^{(k)} = \entry{D^{(k)}_{rr'}}\in [0,1]^{R_k\times R_k}$: the mode-$k$ confusion matrix between clustering $\mM_{k,\text{true}}$ and $\hat \mM_{k}$. The entries in the confusion matrix is $D_{rr'}^{(k)}=\frac{1}{d_k}\sum_{i=1}^{d_k}\mathbb{I}\{m_{ir,\text{true}}^{(k)}=\hat m_{ir'}^{(k)}=1\}$. The confusion matrix $\mD^{(k)}=\mM^T_{k,\text{true}}\hat \mM_k$ is a function of $\mM_{k,\text{true}}$ and $\hat \mM_k$.
+$\mD^{(k)} = \entry{D^{(k)}_{rr'}}\in [0,1]^{R_k\times R_k}$: the mode-$k$ confusion matrix between clustering $\mM_{k,\text{true}}$ and $\hat \mM_{k}$. The entries in the confusion matrix is $D_{rr'}^{(k)}=\frac{1}{d_k}\sum_{i=1}^{d_k}\mathbb{I}\{m_{ir,\text{true}}^{(k)}=\hat m_{ir'}^{(k)}=1\}$. The confusion matrix $\mD^{(k)}={1\over d_k}\mM^T_{k,\text{true}}\hat \mM_k$ is a function of $\mM_{k,\text{true}}$ and $\hat \mM_k$.
 
 $\mathcal{J}_{\tau}=\{(\mM_1,\ldots,\mM_K): \mp^{(k)}(\mM_k)\geq \tau \text{ for all } k\in[K]\}$: the set of all possible partitions that satisfy the marginal non-degenerating assumption. 
 
@@ -298,7 +298,7 @@ Recall that the objective function in our tensor block model is
 &f(\tC, \{ \mM_k\})=\langle \tY,\ \Theta\rangle -\frac{\FnormSize{}{\Theta}^2}{2},\\
 &\text{where } \Theta=\tC\times_1\mM_1\times_2\cdots\times_K \mM_K,
 \end{align}
-where $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is the data, $\tC$ is the core tensor of interest, and $\{\mM_k\}$ is the membership matrices of interest. Without loss of generality, we will work with the scaled objective ${1\over 2\prod_k d_k}f(\tC, \{\mM_k\})$. With a little abuse of notation, we still denote the scaled function as $f(C,\{\mM_k\})$.
+where $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is the data, $\tC$ is the core tensor of interest, and $\{\mM_k\}$ is the membership matrices of interest. Without loss of generality, we will work with the scaled objective ${2\over \prod_k d_k}f(\tC, \{\mM_k\})$. With a little abuse of notation, we still denote the scaled function as $f(C,\{\mM_k\})$.
 
 We will prove that, if there is non-negligible mismatch between $\{\hat{ \mM}_k\}$ and $\{\mM_{k,\text{true}}\}$, then $\{\hat{ \mM}_k\}$ cannot be the optimizer to~\eqref{seq:opt}. To show this, we investigate the objective values at the global optimizer vs.\ at the true parameter. The deviation between these two values comes from two aspects: the label assignments (i.e., the estimation of $\{\mM_k\}$) and the estimation of the core tensor. In what follows, we tease apart these two aspects.
  
@@ -306,17 +306,17 @@ We will prove that, if there is non-negligible mismatch between $\{\hat{ \mM}_k\
 \item First, suppose the partitions $\{\mM_k\}$ are given, which are not necessarily equal to $\{\mM_{k,\text{true}}\}$. We now assess the stochastic error due to estimation of $\tC$, conditional on $\{\mM_k\}$. In such a case, the core $\hat \tC = \argmin_{\tC} f(\tC,\{\mM_k\})$ can be solved explicitly. Specifically, the optimizer $\hat \tC=\entry{\hat c_{r_1,\ldots,r_K}}$ consists of the sample averages of each tensor block, where
 \begin{align}\label{eq:core}
 \displaystyle \hat c_{r_1,\ldots,r_K}&=\hat c_{r_1,\ldots,r_K}(\{\mM_k\})\\
-&= \frac{1}{p_{r_1}^{(1)}\ldots p_{r_K}^{(K)}}\left[\tY\times_1\mM^T_1\times_2\cdots\times_K \mM^T_K\right]_{r_1,\ldots,r_K}
+&= {1\over d_1\cdots d_K}\frac{1}{p_{r_1}^{(1)}\cdots p_{r_K}^{(K)}}\left[\tY\times_1\mM^T_1\times_2\cdots\times_K \mM^T_K\right]_{r_1,\ldots,r_K}
 \end{align}
 where the marginal cluster proportion $p^{(k)}_{r_k}$ is induced by the clustering $\mM_k$. 
 
-Define a new cost function $F(\mM_1,\ldots,\mM_K)= f(\hat \tC, \mM_1,\ldots,\mM_k)$, where $\hat \tC=\entry{\hat c_{i_1,\ldots,i_K}}$ is expressed in~\eqref{eq:core}. A straightforward calculation shows that the function $F(\cdot)$ has the form
+Define a new cost function $F(\mM_1,\ldots,\mM_K)= -f(\hat \tC, \mM_1,\ldots,\mM_k)$, where $\hat \tC=\entry{\hat c_{i_1,\ldots,i_K}}$ is expressed in~\eqref{eq:core}. A straightforward calculation shows that the function $F(\cdot)$ has the form
 \begin{equation}\label{eq:F}
 F(\mM_1,\ldots,\mM_K) = \sum_{r_1,\ldots,r_K}\left(\prod_k p^{(k)}_{r_k}\right) \hat c_{r_1,\ldots,r_K}^2.
 \end{equation}
 
 
-Let $G(\mM_1,\ldots,\mM_k)=\mathbb{E}(F(\mM_1,\ldots,\mM_K))$, where the expectation is taken with respect to the $\tC=\entry{ \hat c_{r_1,\ldots,r_K}}$. We have that  
+Let $G(\mM_1,\ldots,\mM_k)=\mathbb{E}(F(\mM_1,\ldots,\mM_K))$, where the expectation is taken with respect to the $\hat \tC=\entry{ \hat c_{r_1,\ldots,r_K}}$. We have that  
 \begin{equation}\label{eq:G}
 G(\mM_1,\ldots,\mM_K)=\sum_{r_1,\ldots,r_K} \left(\prod_k p^{(k)}_{r_k}\right) \mu^2_{r_1,\ldots,r_K},
 \end{equation}
@@ -327,7 +327,7 @@ where
 is the expectation of the average of $y_{i_1,\ldots,i_K}$ over the tensor block indexed by $(r_1,\ldots,r_K)$, and $\mD^{(k)}=\entry{D^{(k)}_{i_kj_k}}$ is the confusion matrix between $\mM_{k,\text{true}}$ and $\mM_k$.
 
 The deviation $F(\mM_1,\ldots,\mM_K)-G(\mM_1,\ldots,\mM_K)$ quantifies the stochastic error caused by the core tensor estimation. We sometimes use $G(\mD^{(1)},\ldots,\mD^{(K)})$ to denote $G(\mM_1,\ldots,\mM_k)$ if we want to emphasize the error caused by mismatch in label assignments. 
-Based on~\eqref{eq:F} and~\eqref{eq:G}, we define a residual tensor 
+Based on~\eqref{eq:F} and~\eqref{eq:G}, we define a residual tensor for the block means:
 \begin{align}\label{eq:residual}
 &\tR(\mM_1,\ldots,\mM_K)=\entry{R_{r_1,\ldots,r_K}},\text{where}\\
 &R_{r_1,\ldots,r_K}= \hat c_{r_1,\ldots,r_K}-\mu_{r_1,\ldots,r_K} ,\quad \text{for all }(r_1,\ldots,r_K)\in[R_1]\times\cdots\times[R_K].
@@ -438,11 +438,11 @@ Plugging the event \eqref{inq:2} back into inequality \eqref{inq:1}, we obtain
 where the last line uses the fact that the ${\hat{\mM}_k}$ is the global optimizer of $F(\cdot)$; i.e. $F(\hat{\mM}_1,\ldots,\hat {\mM}_K)=\arg\max F(\mM_1,\ldots,\mM_K)\geq F(\mM_{1,\text{true}},\ldots, \mM_{K,\text{true}})$.
 
 
-Now we aim to find the probability~\eqref{inq:3} with respect to $r=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})|$. Note that $r$ involves the quadratic objective $f(x)=x^2$. The quadratic function $f(x)$ is locally lipschitz continuous with lipschitz constant $b = \sup_x|f'(x)|$, where $x$ is in the closure of the convex hull of the entries of $\tC$. Therefore, for any partitions $\{\mM_k\}$ (which are necessarily equal to $\{\hat \mM_k\}$ or $\{\mM_{k,\text{true}}\}$):
+Now we aim to find the probability~\eqref{inq:3} with respect to $r=\displaystyle\sup_{\mathcal{J}_\tau} |F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)},\ldots,\mD^{(K)})|$. Note that $r$ involves the quadratic objective $f(x)=x^2$. The quadratic function $f(x)$ is locally lipschitz continuous with lipschitz constant $b = \sup_x|f'(x)|$, where $x$ is in the closure of the convex hull of the entries of $\tC$. Note that $b\leq 2\mnormSize{}{\tC}$. Therefore, for any partitions $\{\mM_k\}$ (which are necessarily equal to $\{\hat \mM_k\}$ or $\{\mM_{k,\text{true}}\}$):
 \begin{align}\label{inq:4}
 &\left|F(\mM_1,\ldots,\mM_K)-G(\mD^{(1)}, \ldots,\mD^{(K)})\right|\notag \\
 \leq&\sum_{r_1,\ldots,r_K}p_{r_1}^{(1)}p_{r_2}^{(2)}\cdots p_{r_K}^{(K)}\left|f(\hat c_{r_1,\ldots,r_K})-f(\mu_{r_1,\ldots,r_K})\right|\notag \\
-\leq& \ b\mnormSize{}{\tR(\mM_1,\ldots,\mM_K)},
+\leq& \ 2\mnormSize{}{\tC}\mnormSize{}{\tR(\mM_1,\ldots,\mM_K)},
 \end{align}
 where 
 \[
@@ -457,12 +457,12 @@ are, respectively, sample average and expected sample average, conditional on th
 Combining~\eqref{inq:3},~\eqref{inq:4} and Hoeffding's inequality, we have
 \begin{align}\label{eq:final}
 \mathbb{P}\left(\mcr(\hat{\mM}_k, \mM_{k,\text{true}}) \geq \varepsilon\right)
-&\leq \mathbb{P}\left(\sup_{\tJ_\tau}\mnormSize{}{\tR(\mM_1,\ldots,\mM_K)} \geq {\varepsilon \tau^{K-1}\delta_{\min} \over 8 b}\right)\notag\notag \\
-&\leq \mathbb{P}\left(  \sup_{I\in\tI} {\left|\sum_{(i_1,\ldots,i_K)\in I}\left(Y_{i_1,\ldots,i_K}-\mathbb{E}(Y_{i_1,\ldots,i_K})\right)\right|\over |I|}\geq   {\varepsilon \tau^{K-1}\delta_{\min} \over 8 b} \right)\notag \\
-&\leq 2^{1+\sum_k d_k}\text{exp}\left( -\frac{\varepsilon^2\tau^{2(K-1)}\delta_{\min}^2L}{128\sigma^2b^2} \right),
+&\leq \mathbb{P}\left(\sup_{\tJ_\tau}\mnormSize{}{\tR(\mM_1,\ldots,\mM_K)} \geq {\varepsilon \tau^{K-1}\delta_{\min} \over 16 \mnormSize{}{\tC}}\right)\notag\notag \\
+&\leq \mathbb{P}\left(  \sup_{I\in\tI} {\left|\sum_{(i_1,\ldots,i_K)\in I}\left(Y_{i_1,\ldots,i_K}-\mathbb{E}(Y_{i_1,\ldots,i_K})\right)\right|\over |I|}\geq   {\varepsilon \tau^{K-1}\delta_{\min} \over 16 \mnormSize{}{\tC}} \right)\notag \\
+&\leq 2^{1+\sum_k d_k}\text{exp}\left( -\frac{\varepsilon^2\tau^{2(K-1)}\delta_{\min}^2L}{512\sigma^2 \mnormSize{}{\tC}^2} \right),
 \end{align}
 where the last line uses the sub-Gaussianness of the entries in the residual tensor (conditional on $\{\mM_k\}$), and $L=\inf\{|I|: I\subset \tI\} \geq \tau^K\prod_{k=1}^Kd_k$ is introduced in Section~\ref{sec:notations}.
-Defining $C=\frac{1}{128b^2}$ in~\eqref{eq:final} yields the desired conclusion.
+Defining $C=\frac{1}{512}$ in~\eqref{eq:final} yields the desired conclusion.
 
 
 \end{proof}

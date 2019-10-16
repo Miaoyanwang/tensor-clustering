@@ -118,7 +118,7 @@ We begin by reviewing a few basic factors about tensors~\cite{kolda2009tensor}. 
 \[
 \tY \times_1\mM_1\ldots \times_K \mM_K=\entry{\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}m_{i_1,j_1}^{(1)}\ldots m_{i_K,j_K}^{(K)}},
 \]
-which results in an order-$K$ tensor $(s_1,\ldots,s_K)$-dimensional tensor. For any two tensors $\tY=\entry{y_{i_1,\ldots,i_K}}$, $\tY'=\entry{y'_{i_1,\ldots,i_K}}$ of identical order and dimensions, their inner product is defined as $\langle \tY, \tY'\rangle =\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}y'_{i_1,\ldots,i_K}$. The Frobenius norm of tensor $\tY$ is defined as $\FnormSize{}{\tY}=\langle \tY, \tY \rangle^{1/2}$; it is the Euclidean norm of $\tY$ regarded as an $\prod_k d_k$-dimensional vector. An order-($K$-$1$) slice of $\tY$ is a sub-tensor of $\tY$ obtained by holding the index in one mode fixed while letting other indices vary. 
+which results in an order-$K$ tensor $(s_1,\ldots,s_K)$-dimensional tensor. For any two tensors $\tY=\entry{y_{i_1,\ldots,i_K}}$, $\tY'=\entry{y'_{i_1,\ldots,i_K}}$ of identical order and dimensions, their inner product is defined as $\langle \tY, \tY'\rangle =\sum_{i_1,\ldots,i_K}y_{i_1,\ldots,i_K}y'_{i_1,\ldots,i_K}$. The Frobenius norm of tensor $\tY$ is defined as $\FnormSize{}{\tY}=\langle \tY, \tY \rangle^{1/2}$; it is the Euclidean norm of $\tY$ regarded as an $\prod_k d_k$-dimensional vector. The maximum norm of tensor $\tY$ is defined as $\mnormSize{}{\tY}=\max_{i_1,\ldots,i_K}|y_{i_1,\ldots,i_K}|$. An order-($K$-$1$) slice of $\tY$ is a sub-tensor of $\tY$ obtained by holding the index in one mode fixed while letting other indices vary. 
 %For example, $\entry{y_{i_1,\ldots}}\in\mathbb{R}^{d_2\times \cdots\times d_K}$ represents an order-($K$-$1$) fiber of $\tY$, for some fixed $1\leq i_1\leq d_1$.
 
 A clustering of $d$ objects is a partition of the index set $[d]:=\{1,2,\ldots,d\}$ into $R$ disjoint non-empty subsets. We refer to the number of clusters, $R$, as the clustering size. Equivalently, the clustering (or partition) can be represented using the ``membership matrix''. A membership matrix $\mM\in\mathbb{R}^{R\times d}$ is an incidence matrix whose $(i,j)$-entry is 1 if and only if the element $j$ belongs to the cluster $i$, and 0 otherwise. Throughout the paper, we will use the terms ``clustering'', ``partition'', and ``membership matrix'' exchangeably. For a higher-order tensor, the concept of index partition applies to each of the modes. A block is a sub-tensor induced by the index partitions along each of the $K$ modes. We use the term ``cluster'' to refer to the marginal partition on mode $k$, and reserve the term ``block'' for the multiway partition of the tensor. 
@@ -233,7 +233,7 @@ In other words, MCR is the element-wise maximum of the confusion matrix after re
 \begin{theorem}[Convergence rate of MCR] \label{thm:mcr}
 Consider a tensor block model~\eqref{eq:Tucker} with sub-Gaussian parameter $\sigma$. Define the minimal gap between the blocks $\delta_{\min}=\min_k\delta^{(k)}$, where $\delta^{(k)}=\min_{r_k\neq r_k'}$ $\max_{r_1,\ldots,r_{k-1},r_{k+1},\ldots,r_K}(c_{r_1,\ldots,r_k,\ldots,r_K}-c_{r_1,\ldots,r_k',\ldots,r_K})^2$. Let $\trueM$ be the true mode-$k$ membership, $\hat \mM_k$ be the estimator from~\eqref{eq:estimate}. Then, for any $\varepsilon\in[0,1]$,
 		\begin{equation} \label{eq:mcrbound}
-	\mathbb{P}(\text{MCR}(\hat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon) \leq  2^{1+\sum_k d_k}\exp \left(-\frac{C\varepsilon^2\delta_{\min}^2\tau^{3K-2}\prod_{k=1}^Kd_k}{\sigma^2}\right),
+	\mathbb{P}(\text{MCR}(\hat{\mM}_k, \mM_{k,\text{true}})\geq \varepsilon) \leq  2^{1+\sum_k d_k}\exp \left(-\frac{C\varepsilon^2\mnormSize{}{\tC}^2\delta_{\min}^2\tau^{3K-2}\prod_{k=1}^Kd_k}{\sigma^2}\right),
 	\end{equation}
 where $C>0$ is a positive constant, and $\tau>0$ the lower bound of cluster proportions. 
 \end{theorem}
@@ -246,7 +246,7 @@ Method&Recovery error (MSE) & Clustering error (MCR)& Block detection (see Secti
 \hline
 Tucker~\cite{zhang2018tensor}& $dR$&-& No \\
 CoCo~\cite{chi2018provable} &$d^{K-1}$&-&No\\
-TBM (this paper) &$d\log R$& $ {\sigma \over \delta_{\min}} d^{-(K-1)/2} $&Yes\\
+TBM (this paper) &$d\log R$& $ {\sigma \tau^{-(3K-2)/2} \sqrt{\log d}  \over \delta_{\min} \mnormSize{}{\tC} } d^{-(K-1)/2} $&Yes\\
 \hline
 \end{tabular}
 }
