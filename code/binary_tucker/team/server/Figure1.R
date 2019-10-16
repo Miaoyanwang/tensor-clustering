@@ -23,13 +23,6 @@ save(F1_poisson,file="F1_poisson.RData")
 load("F1_poisson.RData")
 table=F1_poisson
 
-#for(i in 1:7){
-i=6
-y=table[[1]][i,3,]
-y=y+0.015
-#y[y>1]=rnorm(sum(y>1),mean(y[y<1]),sd(y[y<1]))
-table[[1]][i,3,]=y
-}
 
 MSE_matrix=apply(table[[1]],c(1,2),mean)
 sd_matrix=apply(table[[1]],c(1,2),sd)
