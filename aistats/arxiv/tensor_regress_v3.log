@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  16 OCT 2019 23:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  18 OCT 2019 23:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1025,11 +1025,11 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 9020 strings out of 493014
- 133211 string characters out of 6133351
+ 9016 strings out of 493014
+ 133181 string characters out of 6133351
  251803 words of memory out of 5000000
  12138 multiletter control sequences out of 15000+600000
- 39249 words of font info for 201 fonts, out of 8000000 for 9000
+ 39147 words of font info for 199 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  44i,18n,42p,1624b,330s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
@@ -1067,7 +1067,7 @@ nts/type1/public/cm-super/sfti0600.pfb></usr/local/texlive/2016/texmf-dist/font
 s/type1/public/cm-super/sfti0800.pfb></usr/local/texlive/2016/texmf-dist/fonts/
 type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
 pe1/public/stmaryrd/stmary10.pfb>
-Output written on tensor_regress_v3.pdf (19 pages, 1567461 bytes).
+Output written on tensor_regress_v3.pdf (19 pages, 1567586 bytes).
 PDF statistics:
  824 PDF objects out of 1000 (max. 8388607)
  573 compressed objects within 6 object streams
