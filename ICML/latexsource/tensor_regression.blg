@@ -1,0 +1,80 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: tensor_regression.aux
+I couldn't open database file tensor_regression.bbl.bib
+---line 85 of file tensor_regression.aux
+ : \bibdata{tensor_regression.bbl
+ :                               }
+I'm skipping whatever remains of this command
+The style file: icml2020.bst
+I found no database files---while reading file tensor_regression.aux
+Warning--I didn't find a database entry for "sun2017store"
+Warning--I didn't find a database entry for "zhou2013tensor"
+Warning--I didn't find a database entry for "baldin2018optimal"
+Warning--I didn't find a database entry for "hoff2005bilinear"
+Warning--I didn't find a database entry for "rabusseau2016low"
+Warning--I didn't find a database entry for "yu2016learning"
+Warning--I didn't find a database entry for "zhao2012higher"
+Warning--I didn't find a database entry for "de2000multilinear"
+Warning--I didn't find a database entry for "hong2018generalized"
+Warning--I didn't find a database entry for "zhang2018tensor"
+Warning--I didn't find a database entry for "chen2019non"
+Warning--I didn't find a database entry for "li2017parsimonious"
+Warning--I didn't find a database entry for "kolda2009tensor"
+Warning--I didn't find a database entry for "wang2017operator"
+Warning--I didn't find a database entry for "gabriel1998generalised"
+Warning--I didn't find a database entry for "potthoff1964generalized"
+Warning--I didn't find a database entry for "srivastava2008models"
+Warning--I didn't find a database entry for "zhang2018network"
+Warning--I didn't find a database entry for "hitchcock1927expression"
+Warning--I didn't find a database entry for "oseledets2011tensor"
+Warning--I didn't find a database entry for "mccullagh1989generalized"
+Warning--I didn't find a database entry for "robinson2015dynamic"
+Warning--I didn't find a database entry for "abbe2017community"
+Warning--I didn't find a database entry for "zeng2019multiway"
+Warning--I didn't find a database entry for "HCP"
+Warning--I didn't find a database entry for "xia2013brainnet"
+Warning--I didn't find a database entry for "ingalhalikar2014sex"
+Warning--I didn't find a database entry for "nickel2011three"
+You've used 0 entries,
+            2773 wiz_defined-function locations,
+            622 strings with 5336 characters,
+and the built_in function-call counts, 33 in all, are:
+= -- 0
+> -- 0
+< -- 0
++ -- 0
+- -- 0
+* -- 2
+:= -- 10
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 1
+format.name$ -- 0
+if$ -- 1
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 0
+newline$ -- 8
+num.names$ -- 0
+pop$ -- 0
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 1
+stack$ -- 0
+substring$ -- 0
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 0
+width$ -- 0
+write$ -- 7
+(There were 2 error messages)
