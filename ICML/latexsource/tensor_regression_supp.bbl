@@ -1,0 +1,31 @@
+\begin{thebibliography}{1}
+
+\bibitem{wang2018learning}
+Miaoyan Wang and Lexin Li.
+\newblock Learning from binary multiway data: Probabilistic tensor
+  decomposition and its statistical optimality.
+\newblock {\em arXiv preprint arXiv:1811.05076}, 2018.
+
+\bibitem{wang2017operator}
+Miaoyan Wang, Khanh~Dao Duc, Jonathan Fischer, and Yun~S Song.
+\newblock Operator norm inequalities between tensor unfoldings on the partition
+  lattice.
+\newblock {\em Linear Algebra and Its Applications}, 520:44--66, 2017.
+
+\bibitem{tomioka2014spectral}
+Ryota Tomioka and Taiji Suzuki.
+\newblock Spectral norm of random tensors.
+\newblock {\em arXiv preprint arXiv:1407.1870}, 2014.
+
+\bibitem{fan2019generalized}
+Jianqing Fan, Wenyan Gong, and Ziwei Zhu.
+\newblock Generalized high-dimensional trace regression via nuclear norm
+  regularization.
+\newblock {\em Journal of Econometrics}, 2019.
+
+\bibitem{baldin2018optimal}
+Nicolai Baldin and Quentin Berthet.
+\newblock Optimal link prediction with matrix logistic regression.
+\newblock {\em arXiv preprint arXiv:1803.07054}, 2018.
+
+\end{thebibliography}
