@@ -169,11 +169,12 @@ Domain $\mathbb{Y}$& $\mathbb{R}$&$\mathbb{N}$&$\{0,1\}$\\
 \end{tabular}
 \vspace{.2cm}
 \caption{Canonical links for common distributions.}\label{table:link}
-\vspace{-.5cm}
+\vspace{-.6cm}
 \end{table}
 
 
 We give three concrete examples of tensor regression that arise in practice. 
+
 \begin{example}[Spatio-temporal growth model]
 Let $\tY=\entry{y_{ijk}}\in\mathbb{R}^{d \times m\times n}$ denote the pH measurements of $d$ lakes at $m$ levels of depth and for $n$ time points. Suppose the sampled lakes belong to $p$ types, with $q$ lakes in each type. Let $\{\ell_j\}_{j\in[m]}$ denote the sampled depth levels and $\{t_k\}_{k\in[n]}$ the time points. Assume that the expected pH trend in depth is a polynomial of order $r$ and that the expected trend in time is a polynomial of order $s$. Then, the spatio-temporal growth model can be represented as
 \begin{equation}\label{eq:time}
@@ -199,6 +200,7 @@ where $\tB\in\mathbb{R}^{p\times (r+1)\times (s+1)}$ is the coefficient tensor o
 are the design matrices for spatial and temporal effects, respectively. The model~\eqref{eq:time} is a higher-order extension of the ``growth curve'' model originally proposed for matrix data~\cite{gabriel1998generalised,potthoff1964generalized,srivastava2008models}. Clearly, the spatial-temporal model is a special case of our tensor regression model, with covariates available on each of the three modes. 
 
 \end{example}
+
 \begin{example}[Network population model] 
 Network response model is recently developed in the context of neuroimanig analysis. The goal is to study the relationship between network-valued response and the individual covariates. Suppose we observe $n$ i.i.d.\ observations $\{(\mY_i, \mx_i): i=1,\ldots,n\}$, where $\mY_i\in\{0,1\}^{d\times d}$ is the brain connectivity network on the $i$-th individual, and $\mx_i\in\mathbb{R}^p$ is the individual covariate such as age, gender, cognition, etc. The network-response model~\cite{rabusseau2016low, zhang2018network} has the form
 \begin{equation}\label{eq:network}
@@ -212,7 +214,7 @@ yields an order-3 response tensor $\tY\in\{0,1\}^{d\times d\times n}$, along wit
 \text{logit}(\mathbb{E}(\tY|\mX))=\tB\times_3 \mX=\tB\times\{\mI_d, \mI_d, \mX\}.
 \]
  \end{example}
- 
+
  \begin{example}[Dyadic data with node attributes] Dyadic dataset consists of measurements on pairs of objects or under a pair of conditions. Common examples include networks and graphs. Let $\tG=(V,E)$ denote a network, where $V=[d]$ is the node set of the graph, and $E\subset V\times V$ is the edge set. Suppose that we also observe covariate $\mx_i\in\mathbb{R}^p$ associated to each $i\in V$. A probabilistic model on the graph $\tG=(V,E)$ can be described by the following matrix regression. The edge connects the two vertices $i$ and $j$ independently of other pairs, and the probability of connection is modeled as
 \begin{equation}\label{eq:edge}
  \text{logit}(\mathbb{P}((i,j)\in E)=\mx^T_i\mB\mx_j=\langle \mB, \mx^T_i\mx_j\rangle.
@@ -237,7 +239,7 @@ Our tensor regression model is able to incorporate covariates on any subset of m
 &\text{where}\ \text{rank}(\tB)\leq (r_1,\ldots,r_K),
 \end{align}
 where the entries of $\tY$ are independent r.v.'s conditional on $\tX$, and $\tB\in\mathbb{R}^{p_1\times \cdots\times p_K}$ is the low-rank coefficient tensor of interest. We comment that other forms of tensor low-rankness are also possible, and here we choose Tucker rank just for parsimony. Similar models can be derived using various notions of low-rankness based on CP decomposition~\cite{hitchcock1927expression} and train decomposition~\cite{oseledets2011tensor}. 
-
+\vspace{-.2cm}
 \section{Rank-constrained likelihood-based estimation}
 We develop a likelihood-based procedure to estimate the coefficient tensor $\tB$ in~\eqref{eq:tensormodel2}. We adopt the exponential family as a flexible framework for different data types. In a classical generalized linear model (GLM) with a scalar response $y$ and covariate $\mx$, the density is expressed as:
 \[
@@ -266,10 +268,8 @@ We assess the estimation accuracy using the deviation in the Frobenius norm. For
 
 In modern applications, the response tensor and covariates are often large-scale. We are particularly interested in the high-dimensional region in which both $d_k$ and $p_k$ diverge; i.e.\ $d_k\to \infty$ and $p_k\to\infty$, while ${p_k\over d_k} \to \gamma_k \in[0,1)$. As the size of problem grows, and so does the number of unknown parameters. As such, the classical MLE theory does not directly apply. We leverage the recent development in random tensor theory and high-dimensional statistics to establish the error bounds of the estimation. 
 
-  
-  
 \begin{assumption}\label{ass}We make the following assumptions:
-\begin{enumerate}[itemsep=-.5pt,topsep=-.5pt,leftmargin=*,partopsep=-.5pt]
+\begin{enumerate}[itemsep=-.5pt,topsep=-.5pt,leftmargin=*,partopsep=-.3pt]
 \item [A1.] There exist two positive constants $c_1, c_2>0$ such that $c_1\leq \sigma_{\min}(\mX_k)\leq  \sigma_{\max}(\mX_k)\leq c_2$ for all $k\in[K]$. Here $\sigma_{\text{min}}(\cdot)$ and $\sigma_{\text{max}}(\cdot)$ denotes the smallest and largest singular values, respectively.
 \item [A2.] There exist positive constants $L,\ U>0$ such that $L\phi \leq \text{Var}(y_{i_1,\ldots,i_K}|\theta_{i_1,\ldots,i_K})\leq U\phi $ for all $|\theta_{i_1,\ldots,i_K}|\leq \alpha$.
 \item[A2$'$.] Equivalently, there exists two positive constants $L,\ U>0$ such that $L\leq b''(\theta) \leq U$ for all $|\theta|\leq \alpha$, where $\alpha$ is the upper bound of the linear predictor. 
@@ -278,7 +278,7 @@ In modern applications, the response tensor and covariates are often large-scale
 \end{assumption}
 The assumptions are fairly mild. Assumption A1 guarantees the non-singularity of the covariates, and Assumption A2 ensures the log-likelihood $\tY(\Theta)$ is strictly concave in the linear predictor $\Theta$. Assumption A2 and A2$'$ are equivalent, because $\text{Var}(y_{i_1,\ldots,i_K}|\tX,\tB)=\phi b''(\theta_{i_1,\ldots,i_K})$ when $y_{i_1,\ldots,i_K}$ belongs to an exponential family~\cite{mccullagh1989generalized}. 
 
-  
+\vspace{.1cm}  
 \begin{thm}[Statistical convergence]\label{thm:main}
 Consider a generalized tensor regression model with covariates on multiple modes $\tX=\{\mX_1,\ldots,\mX_K\}$. Suppose the entries in $\tY$ are independent realizations of an exponential family distribution, and $\mathbb{E}(\tY|\tX)$ follows the low-rank tensor regression model~\eqref{eq:tensormodel2}. Under Assumption~\ref{ass}, there exist two constants $C_1, C_2>0$, such that, with probability at least $1-\exp(-C_1\sum_k p_k)$, 
 \begin{equation}\label{eq:bound}
@@ -298,7 +298,7 @@ As immediate applications, we obtain the convergence rate for the three examples
 \begin{example} [Network population model] The estimated node-by-node-by-covariate tensor converges at the rate $\tO\left({2d+p\over d^2n}\right)$ where $p\leq n$. The estimation achieves consistency as the number of individuals or the number of nodes grows. 
 \end{example}
 
-\begin{example} [Dyadic data with node attributes] The estimated covariate-by-covariate matrix converges at the rate $\tO\left({p\over d^2}\right)$ where $p\leq d$. Again, our estimation achieves consistency as the number of nodes grows. 
+\begin{example} [Dyadic data with node attributes] The estimated covariate-by-covariate matrix converges at the rate $\tO\left({p\over d^2}\right)$ where $p\leq d$. Again, our estimation is consistent as the number of nodes grows. 
 \end{example}
 
 We conclude this section by providing the prediction accuracy, measured in KL divergence, for the response distribution.   
@@ -310,7 +310,7 @@ Assume the same set-up as in Theorem~\ref{thm:main}. Let $\mathbb{P}_{\tY_{\text
 \]
 where $C_4=C_4(\mr,\alpha, K)>0$ is a constant that do not depend on the dimensions $\{d_k\}$ and $\{p_k\}$.
 \end{thm}
-
+\vspace{-.2cm}
 
 \section{Numerical implementation}
 \subsection{Alternating optimization}
@@ -331,9 +331,9 @@ The decision variables in the above objective function consist of $K+1$ blocks o
 \begin{center}
   \includegraphics[width=14cm]{algorithm.pdf}
   \end{center}
-  \vspace{-.5cm}
+  \vspace{-.6cm}
 \end{figure*}
-
+\vspace{-.2cm}
 \subsection{Rank selection}\label{sec:tuning}
 Algorithm~1 takes the rank $\mr$ as an input. Estimating an appropriate rank given the data is of practical importance. We propose to use Bayesian information criterion (BIC) and choose the rank that minimizes BIC; i.e.
 \begin{align}\label{eq:BIC}
@@ -341,8 +341,9 @@ Algorithm~1 takes the rank $\mr$ as an input. Estimating an appropriate rank giv
 &=\argmin_{\mr=(r_1,\ldots,r_K)}[-2\tL_{\tY}(\hat \tB)+p_e(\mr)\log (\prod_k d_k)],
 \end{align}
 where $p_e(\mr)\stackrel{\text{def}}{=}\sum_k (p_k-r_k)r_k+\prod_k r_k$ is the effective number of parameters in the model. We choose $\hat \mr$ that minimizes $\text{BIC}(\mr)$ via grid search. Our choice of BIC aims to balance between the goodness-of-fit for the data and the degree of freedom in the population model. We test its empirical performance in Section~\ref{sec:simulation}.  
-
 \vspace{-.2cm}
+
+
 \section{Simulation}\label{sec:simulation}
 We evaluate the empirical performance of our generalized tensor regression through simulations. We consider order-3 tensors with a range of distribution types. The coefficient tensor $\tB$ is generated using the factorization form~\eqref{eq:tucker} where both the core and factor matrices are drawn i.i.d.\ from Uniform[-1,1]. The linear predictor is then simulated from $\tU=\tB\times\{\mX_1,\mX_2,\mX_3\}$, where $\mX_k$ is either an identity matrix (i.e.\ no covariate available) or Gaussian random matrix with i.i.d.\ entries from $N(0,\sigma_k^2)$. We set $\sigma_k=d_k^{-1/2}$ to ensure the singular values of $\mX_k$ are bounded as $d_k$ increases. The $\tU$ is scaled such that $\mnormSize{}{\tU}=1$. Conditional on the linear predictor $\tU=\entry{u_{ijk}}$, the entries in the tensor $\tY=\entry{y_{ijk}}$ are drawn independently according to one of the following three probabilistic models:
 
@@ -376,7 +377,10 @@ $(6,\ 8,\ 8)$&$(5.1,\ 7.0,\ 6.9)$&$({\bf 6},\ {\bf 8},\ {\bf 8})$&$(5.0,\ 6.1,\ 
 \vspace{-.4cm}
 \end{table}
 
-The experiment II evaluates the accuracy when covariates are available on all modes. We set $\alpha=10, d_k=d, p_k=0.4d_k, r_k=r\in\{2,4,6\}$ and increase $d$ from 25 to 50. Our theoretical analysis suggests that $\hat \tB$ has a convergence rate $\tO(d^{-2})$ in this setting. Figure~1 plots the estimation error versus the ``effective sample size'', $d^2$, under three different distribution models. We found that the empirical MSE decreases roughly at the rate of $1/d^2$, which is consistent with our theoretical ascertainment. We also observed that, tensors with higher ranks tend to yield higher estimation errors, as reflected by the upward shift of the curves as $r$ increases. Indeed, a larger $r$ implies a higher model complexity and thus greater difficulty in the estimation. Similar behaviors can be observed in the non-Gaussian data in Figures~\ref{fig:dim}b-c. 
+The experiment II evaluates the accuracy when covariates are available on all modes. We set $\alpha=10, d_k=d, p_k=0.4d_k, r_k=r\in\{2,4,6\}$ and increase $d$ from 25 to 50. Our theoretical analysis suggests that $\hat \tB$ has a convergence rate $\tO(d^{-2})$ in this setting. Figure~2a plots the estimation error versus the ``effective sample size'', $d^2$, under three different distribution models. We found that the empirical MSE decreases roughly at the rate of $1/d^2$, which is consistent with our theoretical ascertainment. We also observed that, tensors with higher ranks tend to yield higher estimation errors, as reflected by the upward shift of the curves as $r$ increases. Indeed, a larger $r$ implies a higher model complexity and thus greater difficulty in the estimation. Similar behaviors can be observed in the non-Gaussian data in Figures~2b-c. 
+
+The experiment III investigates the capability of our model in handling correlation among coefficients. We mimic the scenario of brain imaging analysis. A sample of $d_3=50$ networks are simulated, one for each individual. Each network measures the connections between $d_1=d_2=20$ brain nodes. We simulate $p=5$ covariates for the each of the 50 individuals. These covariates may represent, for example, age, gender, cognitive score, etc. Recent study~\cite{robinson2015dynamic} has suggested that brain connectivity networks often exhibit community structure represented as a collection of subnetworks, and each subnetwork is comprised of a set of spatially distributed brain nodes. To accommodate this structure, we utilize the stochastic block model~\cite{abbe2017community} to generate the effect size. Specifically, we partition the nodes into $r$ blocks by assigning each node to a block with uniform probability. Edges within a same block are assumed to share the same covariate effects, where the effects are drawn i.i.d.\ from $N(0,1)$. We then apply our tensor regression model to the network data using the BIC-selected rank. Note that in this case, the true model rank is unknown; the rank of a $r$-block matrix is not necessarily equal to~$r$~\cite{zeng2019multiway}. 
+\iffalse
 
 \begin{figure}[ht]
 \centering
@@ -386,11 +390,6 @@ The experiment II evaluates the accuracy when covariates are available on all mo
 \end{figure}
 
 
-The experiment III investigates the capability of our model in handling correlation among coefficients. We mimic the scenario of brain imaging analysis. A sample of $d_3=50$ networks are simulated, one for each individual. Each network measures the connections between $d_1=d_2=20$ brain nodes. We simulate $p=5$ covariates for the each of the 50 individuals. These covariates may represent, for example, age, gender, cognitive score, etc. Recent study~\cite{robinson2015dynamic} has suggested that brain connectivity networks often exhibit community structure represented as a collection of subnetworks, and each subnetwork is comprised of a set of spatially distributed brain nodes. To accommodate this structure, we utilize the stochastic block model~\cite{abbe2017community} to generate the effect size. Specifically, we partition the nodes into $r$ blocks by assigning each node to a block with uniform probability. Edges within a same block are assumed to share the same covariate effects, where the effects are drawn i.i.d.\ from $N(0,1)$. We then apply our tensor regression model to the network data using the BIC-selected rank. Note that in this case, the true model rank is unknown; the rank of a $r$-block matrix is not necessarily equal to~$r$~\cite{zeng2019multiway}. 
-
-
-
-
 \begin{figure}[ht]
 \centering
 \includegraphics[width=14cm]{comparison.pdf}
@@ -398,27 +397,33 @@ The experiment III investigates the capability of our model in handling correlat
 \vspace{-.4cm}
 \end{figure}
 
-
-
-\iffalse
-\begin{figure}[htbp]
-\centering
-\begin{minipage}[t]{0.47\textwidth}
-\centering
-\includegraphics[width=7cm]{dimension.pdf}
-\caption{World Map}
-\end{minipage}
-\begin{minipage}[t]{0.47\textwidth}
-\centering
-\includegraphics[width=7cm]{comparison.pdf}
-\caption{Concrete and Constructions}
-\end{minipage}
-\end{figure}
 \fi
 
 
 
-Figure~\ref{fig:glm} compares the MSE of our method with a classical GLM approach. A classical GLM is to regress the dyadic edges, one at a time, on the covariates, and this model is repeatedly fitted for each edge. This repeated approach, however, does not account for the correlation among the edges, and may suffer from overfitting. As we can see in Figure~\ref{fig:glm}, our tensor regression method achieves significant error reduction in all three models considered. The outer-performance is significant in the presence of large communities, and even in the less structured case ($\sim 20/15=1.33$ nodes per block), our method still outer-performs GLM. This is because the low-rankness in our modeling automatically identifies the shared information across entries. By selecting the rank in a data-driven way, our method is able to achieve accurate estimation with improved interpretability. 
+\begin{figure}[h]
+\begin{minipage}[b]{0.47\textwidth}
+
+    \centering
+    \includegraphics[width=0.99\textwidth]{dimension.pdf}\label{fig:dim}
+    \caption{Mean squared error (MSE) against effective sample size. The three panels depict the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. The dashed curves correspond to $\tO({1/d^2})$.}
+
+\end{minipage}
+\hspace{.5cm}
+\begin{minipage}[b]{0.47\textwidth}
+
+   \centering
+    \includegraphics[width=0.93\textwidth]{comparison.pdf}\label{fig:glm}
+    \vspace{-.2cm}
+    \caption{MSE when the networks have block structure. The three panels depict the MSE when the response tensors are generated form (a) Gaussian (b) Poisson and (c) Bernoulli models. The $x$-axis represents the number of blocks in the networks.}
+
+\end{minipage}
+\vspace{-.2cm}
+\end{figure}
+
+
+
+Figure~3 compares the MSE of our method with a classical GLM approach. A classical GLM is to regress the dyadic edges, one at a time, on the covariates, and this model is repeatedly fitted for each edge. This repeated approach, however, does not account for the correlation among the edges, and may suffer from overfitting. As we can see in Figure~3, our tensor regression method achieves significant error reduction in all three models considered. The outer-performance is significant in the presence of large communities, and even in the less structured case ($\sim 20/15=1.33$ nodes per block), our method still outer-performs GLM. This is because the low-rankness in our modeling automatically identifies the shared information across entries. By selecting the rank in a data-driven way, our method is able to achieve accurate estimation with improved interpretability. 
 
 \vspace{-.2cm}
 \subsection{Comparison with alternative methods}
@@ -475,7 +480,9 @@ Figure~\ref{fig:compare2} compares the prediction error with respect to sample s
 \section{Data analysis}
 \vspace{-.1cm}
 We apply our method to two real datasets. The first application concerns the brain network modeling in response to individual attributes (i.e.\ covariate on one mode), and the second application focuses on multi-relational network analysis with dyadic attributes (i.e.\ covariates on two modes). 
+\vspace{-.2cm}
 \subsection{Human Connectome Project (HCP)}
+\vspace{-.2cm}
 The Human connectome project (HCP,~\citep{HCP}) aims to build a network map  that characterizes the anatomical and functional connectivity within healthy human brains. We take a subset of HCP data that consists of 136 brain structural networks, one for each individual. Each brain network is represented as a 68-by-68 binary matrix, where the entries encode the presence or absence of fiber connections between 68 brain regions. We consider four individual-covariates: gender, age 22-25, age 26-30, and age 31$+$. 
 
 \begin{figure}[ht]
