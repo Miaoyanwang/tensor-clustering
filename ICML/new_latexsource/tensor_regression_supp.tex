@@ -128,10 +128,10 @@ Next we prove C2. Applying Taylor expansion to $\ell(\tB)$ around $\trueB$,
 \ell(\tB)=\ell(\trueB)-{1\over 2}\text{vec}(\tB-\trueB)^T \tH_{\tY}(\check \tB)\text{vec}(\tB-\trueB),
 \end{equation}
 where $\tH_{\tY}(\check \tB)$ is the (non-random) Hession of ${\partial \ell^2 (\tB)\over\partial^2 \tB}$ evaluated at $\check \tB =\alpha \text{vec}(\alpha \tB+(1-\alpha)\trueB)$ for some $\alpha\in[0,1]$. Recall that $b''(\theta)=\text{Var}(y|\theta)$, because $y\in\mathbb{R}$ follows the exponential family distribution with function $b(\cdot)$. By chain rule and the fact that $\Theta=\Theta(\tB)=\tB\times_1\mX_1\cdots\times_K\mX_K$, the equation~\eqref{eq:log} implies that
-\begin{equation}\label{eq:log}
+\begin{equation}\label{eq:log2}
 \ell(\tB)-\ell(\trueB)=-{1\over 2}\sum_{i_1,\ldots,i_K}b''(\check \theta_{i_1,\ldots,i_K}) (\theta_{i_1,\ldots,i_K}-\theta_{\text{true},i_1,\ldots,i_K})^2 \leq -{L \over 2}\FnormSize{}{\Theta-\trueT}^2,
 \end{equation}
-holds for all $\tB\in\tP$, provided that $\min_{|\theta|\leq \alpha}|b''(\theta)|\geq L>0$. In particular, the inequality~\eqref{eq:log} also applies to the constrained MLE $\hat \tB$. So we have
+holds for all $\tB\in\tP$, provided that $\min_{|\theta|\leq \alpha}|b''(\theta)|\geq L>0$. In particular, the inequality~\eqref{eq:log2} also applies to the constrained MLE $\hat \tB$. So we have
 \begin{equation}\label{upperbound}
 \ell(\hat \tB)-\ell(\trueB)\leq -{L \over 2}\FnormSize{}{\hat \Theta-\trueT}^2.
 \end{equation}
@@ -189,8 +189,38 @@ where $\mathbb{P}_{\tY_{\text{true}}}$ denotes the distribution of $\tY|\tX$ wit
 where the second line comes from~\eqref{eq:log}, and $c_2>0$ is the upper bound for the $\sigma_{\max}(\mX_k)$. The result then follows from Theorem~\ref{thm:main}.
 \end{proof}
 
-\section{Time complexity}
+\section{Numerical implementation}
+\subsection{Algorithm}
+Here we provide the detailed alternating algorithm.
+\begin{figure*}[hb]
+  \includegraphics[width=16cm]{algorithm.pdf}
+\end{figure*}
+
+\subsection{Time complexity}
 The computational complexity of our tensor regression model is $O(d^3+d)$ for each loop of iterations, where $d=\prod_k d_k$ is the total size of the response tensor. More precisely, the update of core tensor costs $O(r^3d^3)$, where $r=\sum_k r_k$ is the total size of the core tensor. The update of factor matrix $\mM_k$ involves solving $p_k$ separate GLMs. Solving those GLMs requires $O(r_k^3 p_k + p_kr_k^3 dd^{-1}_k)$, and therefore the cost for updating $K$ factors in total is $O( \sum_k r^3_k p_k d_k + d\sum_k r_k^3 p_k d_k^{-1})\approx O(\sum p_k d_k +d)\approx O(d)$. 
+
+\section{Additional results for simulation}
+Here we provide the experiment results for assessing our BIC criterion~\eqref{eq:BIC}. We consider the balanced situation where $d_k=d$, $p_k=0.4d_k$ for $k=1,2,3$. We set $\alpha=10$ and consider various combinations of dimension $d$ and rank $\mr=(r_1,r_2,r_3)$. For each combination, we simulate tensor data following Gaussian, Bernoulli, and Poisson models. We then minimize BIC using a grid search over three dimensions. The hyper-parameter $\alpha$ is set to infinity in the fitting, which essentially imposes no prior on the coefficient magnitude. Table~\ref{tab:rank} reports the selected rank averaged over $n_{\text{sim}}=30$ replicates for Gaussian and Poisson models. We found that when $d=20$, the selected rank is slightly smaller than the true rank, and the accuracy improves immediately when the dimension increases to $d=40$. This agrees with our expectation, as in tensor regression, the sample size is related to the number of entries. A larger $d$ implies a larger sample size, so the BIC selection becomes more accurate. 
+
+\begin{table}[ht]
+\centering
+\resizebox{.8\textwidth}{!}{
+\begin{tabular}{|c|cc|cc|}
+\hline
+True Rank &\multicolumn{2}{c|}{Dimension (Gaussian tensors)}&\multicolumn{2}{c|}{Dimension (Poisson tensors)}\\
+$\mr$& $d=20$  &$d=40$&$d=20$ &$d=40$\\
+\hline
+$(3,\ 3,\ 3)$&$(2.1,\ 2.0,\ 2.0)$&$({\bf 3},\ {\bf 3},\ {\bf 3})$&$(2.0,\ 2.2,\ 2.1)$&$({\bf 3},\ {\bf 3},\ {\bf 3})$\\
+$(4,\ 4,\ 6)$&$(3.2,\ 3.1,\ 5.0)$&$({\bf 4},\ {\bf 4},\ {\bf 6})$&$({\bf 4.0},\ {\bf 4.0},\ 5.2)$&$({\bf 4},\ {\bf 4},\ {\bf 6})$\\
+$(6,\ 8,\ 8)$&$(5.1,\ 7.0,\ 6.9)$&$({\bf 6},\ {\bf 8},\ {\bf 8})$&$(5.0,\ 6.1,\ 7.1)$&$({\bf 6},\ {\bf 8},\ {\bf 8})$\\
+\hline
+\end{tabular}
+}
+\vspace{.2cm}
+\caption{Rank selection via BIC. Bold number indicates no significant difference between the estimate and the ground truth, based on a $z$-test with a level 0.05.}\label{tab:rank}
+\vspace{-.4cm}
+\end{table}
+
 \section{Additional results for real data analysis}
 Here we provide additional results for the real data analysis. 
 
@@ -239,8 +269,8 @@ Cluster IV & commonbloc0, blockpositionindex\\
 \caption{$K$-means clustering of relations based on factor matrix in the coefficient tensor.}\label{tab:s1}
 \end{table}
 
-
+\clearpage
 \bibliographystyle{unsrt}
-\bibliography{tensor_regression.bbl}
+\bibliography{tensor_wang}
 
 \end{document}
