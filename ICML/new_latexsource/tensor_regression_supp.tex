@@ -114,7 +114,7 @@ To prove C1, we note that the stochastic deviation can be written as:
 &= \langle \tY- b'(\trueT),\ \Theta\rangle \notag \\
 &= \langle \tE\times_1\mX^T_1\times_2\cdots\times_K\mX^T_K,\ \tB\rangle,
 \end{align}
-where $\tE=\entry{\varepsilon_{i_1,\ldots,i_K}}\stackrel{\text{def}}{=}\tY-b'(\trueT)$. Based on Proposition~\ref{prop}, $\varepsilon_{i_1,\ldots,i_K}$ is sub-Gaussian-$(\phi U)$. Let $\check\tE\stackrel{\text{def}}{=}\tE\times_1\mX^T_1\times_2\cdots\times_K\mX^T_K$. By the property of sub-Gaussian r.v's, $\check \tE$ is a $(p_1,\ldots,p_K)$-dimensional sub-Gaussian tensor with parameter bounded by $C_2=\phi Uc^{K}_2$. Here $c_2>0$ is the upper bound of $\sigma_{\max}(\mX_k)$. Applying Cauchy-Schwarz inequality to~\eqref{bound} yields
+where $\tE=\entry{\varepsilon_{i_1,\ldots,i_K}}\stackrel{\text{def}}{=}\tY-b'(\trueT)$. Based on Lemma~\ref{prop}, $\varepsilon_{i_1,\ldots,i_K}$ is sub-Gaussian-$(\phi U)$. Let $\check\tE\stackrel{\text{def}}{=}\tE\times_1\mX^T_1\times_2\cdots\times_K\mX^T_K$. By the property of sub-Gaussian r.v's, $\check \tE$ is a $(p_1,\ldots,p_K)$-dimensional sub-Gaussian tensor with parameter bounded by $C_2=\phi Uc^{K}_2$. Here $c_2>0$ is the upper bound of $\sigma_{\max}(\mX_k)$. Applying Cauchy-Schwarz inequality to~\eqref{bound} yields
 \begin{equation}\label{eq:bound2}
 |\tL_{\tY}(\tB)-\ell(\tB)|\leq \norm{\check \tE} \nnorm{\tB},
 \end{equation}
@@ -159,9 +159,9 @@ Combining~\eqref{eq:1} with C1 yields the desired conclusion.
 %holds with probability at least $1-\exp(C_1\sum_k p_k)$.
 \end{proof}
 
-\begin{prop}[sub-Gaussian residual]\label{prop}
+\begin{lem}[sub-Gaussian residual]\label{prop}
 Define the residual tensor $\tE=\entry{\varepsilon_{i_1,\ldots,i_K}}=\tY-b'(\Theta)\in\mathbb{R}^{d_1\times \cdots \times d_K}$. Under the Assumption A2, $\varepsilon_{i_1,\ldots,i_K}$ is a sub-Gaussian random variable with sub-Gaussian parameter bounded by $\phi U$, for all $(i_1,\ldots,i_K)\in[d_1]\times\cdots\times[d_K]$.
-\end{prop}
+\end{lem}
 \begin{proof} The proof is similar to Lemma 3 in~\cite{fan2019generalized}. For ease of presentation, we drop the subscript $(i_1,\ldots,i_K)$ and simply write $\varepsilon$ ($=y-b'(\theta)$). For any given $t\in\mathbb{R}$, we have
 \begin{align}
 \mathbb{E}(\exp(t\varepsilon|\theta)&=\int c(x) \exp\left({\theta x - b(\theta)\over \phi}   \right)\exp \left(t(x-b'(\theta))\right)dx\\
@@ -189,9 +189,13 @@ where $\mathbb{P}_{\tY_{\text{true}}}$ denotes the distribution of $\tY|\tX$ wit
 where the second line comes from~\eqref{eq:log}, and $c_2>0$ is the upper bound for the $\sigma_{\max}(\mX_k)$. The result then follows from Theorem~\ref{thm:main}.
 \end{proof}
 
+\begin{proof}[Proof of Proposition 1]
+Waiting for the proof.
+\end{proof}
+
 \section{Numerical implementation}
-\subsection{Algorithm}
-Here we provide the detailed alternating algorithm.
+\subsection{Alternating Algorithm}
+The detailed alternating algorithm is organized in Algorithm 1.
 \begin{figure*}[hb]
   \includegraphics[width=16cm]{algorithm.pdf}
 \end{figure*}
@@ -199,8 +203,12 @@ Here we provide the detailed alternating algorithm.
 \subsection{Time complexity}
 The computational complexity of our tensor regression model is $O(d^3+d)$ for each loop of iterations, where $d=\prod_k d_k$ is the total size of the response tensor. More precisely, the update of core tensor costs $O(r^3d^3)$, where $r=\sum_k r_k$ is the total size of the core tensor. The update of factor matrix $\mM_k$ involves solving $p_k$ separate GLMs. Solving those GLMs requires $O(r_k^3 p_k + p_kr_k^3 dd^{-1}_k)$, and therefore the cost for updating $K$ factors in total is $O( \sum_k r^3_k p_k d_k + d\sum_k r_k^3 p_k d_k^{-1})\approx O(\sum p_k d_k +d)\approx O(d)$. 
 
-\section{Additional results for simulation}
-Here we provide the experiment results for assessing our BIC criterion~\eqref{eq:BIC}. We consider the balanced situation where $d_k=d$, $p_k=0.4d_k$ for $k=1,2,3$. We set $\alpha=10$ and consider various combinations of dimension $d$ and rank $\mr=(r_1,r_2,r_3)$. For each combination, we simulate tensor data following Gaussian, Bernoulli, and Poisson models. We then minimize BIC using a grid search over three dimensions. The hyper-parameter $\alpha$ is set to infinity in the fitting, which essentially imposes no prior on the coefficient magnitude. Table~\ref{tab:rank} reports the selected rank averaged over $n_{\text{sim}}=30$ replicates for Gaussian and Poisson models. We found that when $d=20$, the selected rank is slightly smaller than the true rank, and the accuracy improves immediately when the dimension increases to $d=40$. This agrees with our expectation, as in tensor regression, the sample size is related to the number of entries. A larger $d$ implies a larger sample size, so the BIC selection becomes more accurate. 
+\section{Simulation}
+\subsection{Detailed simulation setting}
+In simulations, we used linear predictor simulated from $\tU = \entry{u_{ijk}} = \tB \times \{\mX_1,\mX_2,\mX_3\}$. Here, we introduce the detailed setting to generate $\tU$. The coefficient tensor $\tB$ was generated using the Tucker factor representation $\tB = \tC \times \{ \mM_1,\mM_2,\mM_3 \}$, where both the core tensor $\tC$ and factor matrices $\{\mM_k\}$ were drawn i.i.d. from Uniform[-1,1]. The covariate matrix $\mX_k$ was either an identity matrix(i.e. no covariate available) or Gaussian random matrix with i.i.d. entries from $N(0,\sigma_k)$. We set $\sigma_k = d^{1/2}_k$ to ensure the singular values of $\mX_k$ are bounded as $d_k$ increases. The  linear predictor $\tU$ was also scaled such that $\maxnormSize{\tU} = 1$.
+
+\subsection{Simulation for rank selection}
+We provide the experiment results for assessing our BIC criterion~\eqref{eq:BIC}. We consider the balanced situation where $d_k=d$, $p_k=0.4d_k$ for $k=1,2,3$. We set $\alpha=10$ and consider various combinations of dimension $d$ and rank $\mr=(r_1,r_2,r_3)$. For each combination, we simulate tensor data following Gaussian, Bernoulli, and Poisson models. We then minimize BIC using a grid search over three dimensions. The hyper-parameter $\alpha$ is set to infinity in the fitting, which essentially imposes no prior on the coefficient magnitude. Table~\ref{tab:rank} reports the selected rank averaged over $n_{\text{sim}}=30$ replicates for Gaussian and Poisson models. We found that when $d=20$, the selected rank is slightly smaller than the true rank, and the accuracy improves immediately when the dimension increases to $d=40$. This agrees with our expectation, as in tensor regression, the sample size is related to the number of entries. A larger $d$ implies a larger sample size, so the BIC selection becomes more accurate. 
 
 \begin{table}[ht]
 \centering
@@ -222,7 +230,7 @@ $(6,\ 8,\ 8)$&$(5.1,\ 7.0,\ 6.9)$&$({\bf 6},\ {\bf 8},\ {\bf 8})$&$(5.0,\ 6.1,\ 
 \end{table}
 
 \section{Additional results for real data analysis}
-Here we provide additional results for the real data analysis. 
+
 
 
 \subsection{HCP data analysis}
@@ -242,7 +250,7 @@ To investigate the effects of dyadic attributes towards connections, we depicted
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=8cm]{coef.pdf}
+\includegraphics[width=12cm]{coef.pdf}
 \caption{Effect estimation in the \emph{Nations} data. Panels (a)-(d) represent the estimated effects of country-level attributes towards the connection probability, for relations \emph{warnning}, \emph{economicaid},\emph{intergovorg}, and \emph{commonblock}, respectively. }\label{fig:est}
 \end{figure}
 Supplement table~\ref{tab:s1} summarizes the $K$-means clustering of the 56 relations based on the $3^{\text{rd}}$ mode factor $\mM_3\in\mathbb{R}^{56\times 4}$ in the tensor regression model. 
