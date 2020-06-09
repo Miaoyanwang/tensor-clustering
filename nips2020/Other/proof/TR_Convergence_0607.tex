@@ -1,0 +1,308 @@
+
+\documentclass[11pt]{article}
+\usepackage[explicit]{titlesec}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+\usepackage{hyphenat}
+\usepackage{ragged2e}
+\RaggedRight
+
+% These commands change the font. If you do not have Garamond on your computer, you will need to install it.
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amsthm}
+\usepackage{graphicx}
+
+% This adjusts the underline to be in keeping with word processors.
+\usepackage{soul}
+\setul{.6pt}{.4pt}
+
+
+% The following sets margins to 1 in. on top and bottom and .75 in on left and right, and remove page numbers.
+\usepackage{geometry}
+\geometry{vmargin={1in,1in}, hmargin={.85in, .85in}}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\pagenumbering{gobble}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{0.0pt}
+
+% These Commands create the label style for tables, figures and equations.
+\usepackage[labelfont={footnotesize,bf} , textfont=footnotesize]{caption}
+\captionsetup{labelformat=simple, labelsep=period}
+\newcommand\num{\addtocounter{equation}{1}\tag{\theequation}}
+\renewcommand{\theequation}{\arabic{equation}}
+\makeatletter
+%\renewcommand\tagform@[1]{\maketag@@@ {\ignorespaces {\footnotesize{\textbf{Equation}}} #1.\unskip \@@italiccorr }}
+\makeatother
+\setlength{\intextsep}{10pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{-10pt}
+
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\floatpagefraction}{0.90}
+
+% These commands set the paragraph and line spacing
+\titleformat{\section}
+  {\normalfont}{\thesection}{1em}{\MakeUppercase{\textbf{#1}}}
+\titlespacing\section{0pt}{0pt}{-10pt}
+\titleformat{\subsection}
+  {\normalfont}{\thesubsection}{1em}{\textbf{\textit{#1}}}
+\titlespacing\subsection{0pt}{0pt}{-8pt}
+\renewcommand{\baselinestretch}{1.15}
+
+\titleformat{\subsubsection}
+  {\normalfont}{\thesubsubsection}{0.5em}{\textbf{#1}}
+\titlespacing\subsubsection{0pt}{0pt}{-8pt}
+
+% This designs the title display style for the maketitle command
+\makeatletter
+\newcommand\sixteen{\@setfontsize\sixteen{17pt}{6}}
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+\sixteen\bfseries \@title
+\medskip
+\end{flushleft}
+\textit{\@author}
+\egroup}
+\makeatother
+
+% This styles the bibliography and citations.
+%\usepackage[biblabel]{cite}
+\usepackage[sort&compress]{natbib}
+\setlength\bibindent{2em}
+\makeatletter
+\renewcommand\@biblabel[1]{\textbf{#1.}\hfill}
+\makeatother
+\renewcommand{\citenumfont}[1]{\textbf{#1}}
+\bibpunct{}{}{,~}{s}{,}{,}
+\setlength{\bibsep}{0pt plus 0.3ex}
+
+%math
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}{Assumption}
+\newtheorem{defn}{Definition}
+\usepackage{amsfonts}
+\usepackage{amsmath}%
+\usepackage{MnSymbol}%
+\usepackage{wasysym}%
+\usepackage{stmaryrd} 
+
+\input macros.tex
+
+
+%%% track the change 
+ %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%%
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFaddtex}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdeltex}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF HYPERREF PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{{\DIFaddtex{#1}}} %DIF PREAMBLE
+%\texorpdfstring
+\providecommand{\DIFdel}[1]{{\DIFdeltex{#1}}} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Authors: Add additional packages and new commands here.  
+% Limit your use of new commands and special formatting.
+
+% Place your title below. Use Title Capitalization.
+
+\title{
+\centering 
+TR Local Convergence 0607}
+
+% Add author information below. Communicating author is indicated by an asterisk, the affiliation is shown by superscripted lower case letter if several affiliations need to be noted.
+
+\author{ \centering
+Jiaxin Hu\\ \medskip 06/07/2020 \\ 
+}
+
+\pagestyle{empty}
+\begin{document}
+
+% Makes the title and author information appear.
+\vspace*{.01 in}
+\maketitle
+\vspace{.12 in}
+
+% Abstracts are required.
+\section*{Local Convergence Property for TR Algorithm 1}
+
+Here we study the local convergence property of iterates generated by Algorithm 1.
+
+\begin{theorem}
+	[Local Convergence] Assume the solution to each block update in the alternating optimization exists and is unique. Let $\tB^* = (\tC^*, \{M^*_k \})$ be a local minimizer of $\tL$ and assume the Hessian at $\tB^*$ is strictly negative definite in every direction except those tangent to the orthogonal transformation of $M^*_k$. Then the sequence $\tB^{(t)} = \tC^{(t)}\times \{M^{(t)}_k\}$ generated by alternating algorithm linearly converges to $\tB^*$; i.e.
+\begin{align*}
+	\Fnorm{\tB^{(t)} - \tB^*} \leq \rho^t(\Fnorm{\tC^{(0)} - \tC} + \sum_{k=1}^K \Fnorm{M^{(0)}_k - M^*_K} ), 
+\end{align*}
+for any initialization $(\tC^{(0)}, \{M^{(0)}_k\})$ sufficiently close to $(\tC^{*}, \{M^{*}_k\})$. Here $t \in \mathbb{N}^+$ is the iteration number and $\rho \in (0,1)$ is a contraction parameter.
+\end{theorem}
+
+\section*{Proof}
+
+
+Let $S: \mathbb{R}^d \mapsto  \mathbb{R}^d $ denote the update mapping that sends $t$-th iterate to $(t+1)$-th iterate, where $d = r_1 \dots r_K + \sum_k r_k(d_k -1)$ is the number of decision variables. Then, $S(\tA^{(t)}) = \tA^{(t+1)}$ and $S(\tA^*) = \tA^*$. 
+
+According to the alternating algorithm, there are $K+1$ micro-steps for each block of decision variables in one iteration. That implies $S$ is composed by $K+1$ block-wise mappings. Next we prove $S$ is continuously differentiable through decomposing the $S$.
+
+To decompose $S$, let $C_k: \mathbb{R}^{d - r_k(d_k - 1)} \mapsto \mathbb{R}^{r_k(d_k -1)}$ denote the mapping to obtain $M_k$ given $(\tC, M_1, \dots, M_{k-1},$ $ M_{k+1},\dots, M_{K})$, for $\forall k \in [K]$ and let $C_{K+1}:  \mathbb{R}^{d - r_1 \dots r_K} \mapsto \mathbb{R}^{r_1 \dots r_K}$ denote the mapping to obtain $\tC$ given $\{M_k\}$:
+\begin{align}
+	 C_k (\tC, M_1, \dots, M_{k-1}, M_{k+1},\dots, M_{K}) \overset{\Delta}{=}C_k
+	 ,&\text{ where } \nabla_{M_k} \tL( \tC, M_1, \dots, M_{k-1},C_k, M_{k+1},\dots, M_{K}) = 0 \label{pro:1} \\
+	\text{ and } C_{K+1} (\{M_k\}) \overset{\Delta}{=} C_{K+1} , &\text{ where }   \nabla_{\tC} \tL( C_{K+1}, \{M_k\}) = 0. \notag
+\end{align}
+
+Because each block update exists a unique solution, there exists such a $C_k$ satisfies the condition~\ref{pro:1}  and $\nabla_{M_k,M_k} \tL( \tC, M_1, \dots, M_{k-1},C_k, M_{k+1},\dots, M_{K})$ is non-singular $ \forall k \in [K]$. By implicit function theorem, $C_k, \forall k \in [K]$ is continuously differentiable. Similarly, $C_{K+1}$ is also continuously differentiable.
+
+Then we define the block-wise mapping $S_k: \mathbb{R}^{d} \mapsto \mathbb{R}^{d} $ based on $C_k$:
+\begin{align*}
+	&S_k(\tC, \{M_k\}) \overset{\Delta}{=}  (\tC, M_1, \dots, M_{k-1}, C_k ,M_{k+1},\dots, M_{K}), \forall k \in [K] \\
+	& S_{K+1} (\tC,\{M_k\}) \overset{\Delta}{=} (C_{K+1},\{M_k\})
+\end{align*}
+Since $C_k$s are continuously differentiable,  $S_k, \forall k \in [K+1]$ are continuously differentiable. The update mapping $S$ can be decomposed as:
+\begin{align*}
+	S(\tC^{(t)}, \{M^{(t)}_k\}) = S_{K+1}\circ \dots \circ S_1 (\tC^{(t)}, \{M^{t}_k\}).
+\end{align*}
+Therefore $S$ is continuously differentiable.
+
+Next, we want to find the first order derivative of $S$ at $(\tC^*,\{M^*_k\})$. For simplicity, let $\tA = (\tC,\{M_k\})$ denote the decision variables. Define the function $F_k: \mathbb{R}^{d} \times \mathbb{R}^{d}  \mapsto \mathbb{R}^{r_k(d_k -1)}$ for $\forall k \in [K]$ as:
+\begin{align*}
+	F_k(\tA,\tA') \overset{\Delta}{=} \nabla_{M_k} \tL(\tC', M_1,\dots, M_k,M'_{k+1},\dots, M'_{K+1})
+\end{align*}
+Similarly, define $F_{K+1}:\mathbb{R}^{d} \times \mathbb{R}^{d}  \mapsto \mathbb{R}^{r_1 \dots r_K} $ as $ F_{K+1}(\tA, \tA' ) = \nabla_{\tC} \tL(\tA)$. Let $F = (F_1,\dots,F_{K+1})$. Using $F$, define $G: \mathbb{R}^{d}  \mapsto \mathbb{R}^{d}$ as:
+\begin{align*}
+	G(\tA) \overset{\Delta}{=} F(S(\tA) ,\tA).
+\end{align*}
+Intuitively, $k$-th block component of $G$ can be considered as the partial derivative for $M_k$ of $\tL$, given the half-step iterate after updating $M_k$. Because each block update exists a unique solution, $G(\tA) = 0$ holds in the neighborhood of $(\tA^*)$.  Differentiate the both side of $G(\tA^*) = 0$, then we have:
+\begin{align}\label{pro:2}
+	\nabla G(\tA^*) = \nabla_{\tA} F(S(\tA^*) ,\tA) \nabla S (\tA^*) + \nabla_{\tA'} F(S(\tA^*) ,\tA^*)  = 0
+\end{align}
+To solve $\nabla S(\tA^*)$, the Hessian of $\tL$ at $\tA^*$ is:
+\begin{align*}
+    H(\tA^*) =  \nabla^2 \tL\left(\tC^*, M_1^*,\cdots,M_K^* \right) =\left(\begin{array}{cccc}d_{CC}^{2} \tL &d_{CM_1}^{2} \tL  & \cdots & d_{CM_K}^{2} \tL \\ d_{M_1C}^{2} \tL  &d_{M_1 M_1}^{2} \tL & \cdots &  d_{M_1 M_K}^{2} \tL\\ \vdots & \vdots & \ddots & \vdots \\d_{M_KC}^{2} \tL& d_{M_K M_1}^{2} \tL & \cdots & d_{M_K M_K}^{2} \tL \end{array}\right)=L+D+L^{\top},
+\end{align*}
+Since $H(\tA^*)$ is strictly negative-definite except the direction of orthogonal transformation, the diagonal block of $H(\tA^*)$, $D$, is strictly negative definite and thus $(L+ D)^{-1}$ invertible. Reorganized the equation\ref{pro:2}, we can get $\nabla S(\tA^*) = -(L+D)^{-1} L^T$.
+
+Next, we construct the contraction relationship between iterates $\tB^{(t+1)}$ and $\tB^{(t)}$ using $\nabla S$. For simplicity, let $\Fnorm{\tA,\tA'}$ denote the euclidean distance between two decision variables, where 
+\begin{align*}
+	\Fnorm{\tA-\tA'} = \Fnorm{\tC - \tC'} + \sum_{k=1}^K \Fnorm{M_k - M'_K}.
+\end{align*}
+And we define the orthogonal transformation of $\tA$. If $\tA'$ is an orthogonal transformation of $\tA$, there are orthogonal matrices $\{P_k\} \in \mathbb{O}_{r_k}$ such that:
+\begin{align*}
+	M^{(t)}_k P^T_k = M^*_k , \forall k \in [K]; \quad \tC^{(t)} \times_1 P_1 \times_2  \dots \times_K P_K = \tC^*; \quad 
+	\Rightarrow \tB(\tA) = \tB(\tA')
+\end{align*}
+In our context, let $\tA \in \Omega_O$ if $\tA$ is an orthogonal transformation of $\tA^*$, otherwise let $\tA \in \Omega$. If $\tA \in \Omega_O$, then $\tA - \tA^*$ is a direction that tangent to the orthogonal transformation of $\tA^*$. 
+
+%Further, because of the existence of orthogonal transformation, the local mimizer $\tA^*$ with any neighborhood $N(\tA^*)$  is not isolated. That implies $\nabla S(\tA') = 0, \forall \tA' \in \Omega_O \cap  N(\tA^*)$ and $\nabla S$. 
+
+Here, we discuss two cases. 
+
+
+
+\textbf{Case 1:} The iterate $\tA^{(t)} \in \Omega_O$.
+
+For such $\tA^{(t)}$, we have $\tB(\tA^{(t)}) = \tB(\tA^*)$. Trivially, 
+\begin{align}\label{pro:case1}
+	\Fnorm{\tB(\tA^{(t)}) - \tB(\tA^*)} = 0 \leq \Fnorm{\tA^{(0)} - \tA^*},
+\end{align}
+for any $\tA^{(0)}$.
+
+\textbf{Case 2:} The iterate $\tA^{(t)} \in \Omega$.
+
+Therefore, $\tA^{(t)} - \tA^*$ is not on a direction that tangent to the orthogonal transformation of $\tA^*$ and thus $H(\tA^*)$ is strictly negative definite on the direction $\tA^{(t)} - \tA^*$.  For $\forall \tA^{(t)} \in \Omega$, we have:
+\begin{align}
+	(\tA^{(t)} - \tA^*)^T H(\tA^*) (\tA^{(t)} - \tA^*) < 0
+\end{align}\label{pro:3}
+Consider the matrix $ \nabla S(\tA^*)^T H(\tA^*) \nabla S(\tA^*) - H(\tA^*)$. Let $H ,\nabla S$ be the short of $H(\tA^*), \nabla S(\tA^*)$. We have:
+\begin{align}
+	 \nabla S(\tA^*)^T H(\tA^*) \nabla S(\tA^*) - H(\tA^*) &= \nabla S H \nabla S - H\notag \\
+	&= (I - (L+D)^{-1}H)^T H (I - (L+D)^{-1}H) - H\notag\\
+	& = - H^T(L+D)^{-1,T}H - H(L+D)^{-1} H + H^T(L+D)^{-1,T} H (L+D)^{-1} H\notag\\
+	& = H^T(L+D)^{-1,T} \{-(L+D) - (L+D)^T + H \} (L+D) ^{-1} H\notag\\
+	& = H^T(L+D)^{-1,T} \{- D \} (L+D) ^{-1} H\label{pro:4}
+\end{align}
+Since $D$ is negative definite, then $-D$ is positive definite. For arbitrary $\tA^{(t)} \in \Omega$, let $v \overset{\Delta}{=}  \tA^{(t)} - \tA^*$.  Due to equation~\ref{pro:3}, $H v \neq 0$. Multiplying $v$ on both side of equation~\ref{pro:4} , we have:
+\begin{align*}
+	v^T(\nabla S H \nabla S - H)v &= v^T H^T(L+D)^{-1,T} \{- D \} (L+D) ^{-1} Hv > 0 \\
+	\Rightarrow \quad -v^T H v &> - (\nabla S v)^T H (\nabla S v)
+\end{align*}
+Pick a $v$ which is an eigenvector of $\nabla S$ with eigenvalue $\lambda$, then :
+\begin{align*}
+	-v^T H v &> - \lambda^2 v^T H  v; \quad \Rightarrow  \lambda^2 < 1
+\end{align*}
+That implies, for $\tA^{(t)} \in \Omega$, the largest eigenvalue of $\nabla S$ that corresponds to eigenvectors in form of $\tA^{(t)} - \tA^*$ is smaller than 1. Therefore, $\Fnorm{ \nabla S (\tA^{(t)} - \tA^*) } \leq \rho \Fnorm{\tA^{(t)} - \tA^* }$ for $\forall \tA^{(t)} \in \Omega$, where $\rho \in (0,1)$.
+
+Consider the iterate $\tA^{(t)}\in \Omega$, we have
+\begin{align}
+	\Fnorm{S(\tA^{(t)})- S(\tA^*)} &= \Fnorm{ \int_{0}^1 \nabla S( \tA^{*} - u (\tA^* - \tA^{(t)})) (\tA^* - \tA^{(t)}) du}  \notag \\
+    &\leq \int_{0}^1 \Fnorm{\nabla S( \tA^{*} - u (\tA^* - \tA^{(t)})) (\tA^* - \tA^{(t)})} du. \label{eq:int}
+\end{align} 
+
+Since $\nabla S(\tA)$ is continuous and $\rho < 1$, pick a $\epsilon > 0$ such that $\epsilon + \rho < 1$, there exists a $\delta >0$ such that 
+\begin{align*}
+	\text{ If } \Fnorm{\tA^{*} - u (\tA^* - \tA^{(t)}) - \tA^*} \leq \Fnorm{\tA^{(t)} - \tA^*} \leq \delta, \text{ then } \Fnorm{ \nabla S - \nabla S( \tA^{*} - u (\tA^* - \tA^{(t)})} \leq \epsilon
+\end{align*}
+
+Therefore, the inequality~\ref{eq:int} becomes:
+\begin{align*}
+	\Fnorm{S(\tA^{(t)})- S(\tA^*)} &\leq \int_{0}^1 \Fnorm{\nabla S( \tA^{*} - u (\tA^* - \tA^{(t)})) (\tA^* - \tA^{(t)})} du.\\
+	&\leq (\rho + \epsilon )\Fnorm{\tA^{(t)} - \tA^* }
+\end{align*}
+If any previous iterate $\tA^{(t')}, t'< t$ is not in $\Omega_O$, then we have :
+\begin{align*}
+	\Fnorm{\tA^{(t)}- \tA^*} \leq \rho^t \Fnorm{\tA^* - \tA^{(0)}},
+\end{align*}
+for $\tA^{(0)}$ sufficiently closes to $\tA^*$ and is not a local maximizer.
+By the Lemma 3.1 of Han[2020], there exists a constant $c$ such that:
+\begin{align}\label{pro:case2}
+	\Fnorm{\tB(\tA^{(t)}) - \tB(\tA^*)} \leq c\Fnorm{\tA^{(t)}- \tA^*} .
+\end{align} 
+
+
+If there exists a iterate $\tA^{(t')}, t'< t$ such that $\tA^{(t')} \in \Omega_O$, then we goes to case 1.
+
+Combine the equation~\ref{pro:case1} and \ref{pro:case2} , we can summarize our local convergence as:
+\begin{align*}
+	\Fnorm{\tB(\tA^{(t)}) - \tB(\tA^*)} \leq c \rho^t \Fnorm{\tA^* - \tA^{(0)}},
+\end{align*}
+for some constant $c$ and $\tA^{(0)}$ sufficiently closes to $\tA^*$ and is not a local maximizer.
+
+	
+
+
+
+
+
+
+
+
+
+
+\end{document}
