@@ -1,0 +1,11 @@
+Change need to make for next paper submission.
+1. Section 5.1, Numerical Implementation. Need to refer the supplement for Algorithm 1.
+2. Section 6, Simulation. Need to refer the supplement for detailed simulation settings.
+
+
+Package "tensorregress" change for submission of NeurIPS 2020
+
+1. package name "tensorregress" -> "tensorregress1"
+2. package title "Generalized tensor ..." -> "Exponential tensor ..."
+3. description file: remove author and reference.
+4. help file "tensor_regress.Rd": remove author and reference changes to "Exponential ..." Under the review of NeurIPS 2020.
