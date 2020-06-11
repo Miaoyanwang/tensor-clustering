@@ -1,0 +1,196 @@
+\documentclass[11pt]{article}
+\usepackage[explicit]{titlesec}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+\usepackage{hyphenat}
+\usepackage{ragged2e}
+\RaggedRight
+
+% These commands change the font. If you do not have Garamond on your computer, you will need to install it.
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amsthm}
+\usepackage{graphicx}
+
+% This adjusts the underline to be in keeping with word processors.
+\usepackage{soul}
+\setul{.6pt}{.4pt}
+
+
+% The following sets margins to 1 in. on top and bottom and .75 in on left and right, and remove page numbers.
+\usepackage{geometry}
+\geometry{vmargin={1in,1in}, hmargin={.85in, .85in}}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\pagenumbering{gobble}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{0.0pt}
+
+% These Commands create the label style for tables, figures and equations.
+\usepackage[labelfont={footnotesize,bf} , textfont=footnotesize]{caption}
+\captionsetup{labelformat=simple, labelsep=period}
+\newcommand\num{\addtocounter{equation}{1}\tag{\theequation}}
+\renewcommand{\theequation}{\arabic{equation}}
+\makeatletter
+%\renewcommand\tagform@[1]{\maketag@@@ {\ignorespaces {\footnotesize{\textbf{Equation}}} #1.\unskip \@@italiccorr }}
+\makeatother
+\setlength{\intextsep}{10pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{-10pt}
+
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\floatpagefraction}{0.90}
+
+% These commands set the paragraph and line spacing
+\titleformat{\section}
+  {\normalfont}{\thesection}{1em}{\MakeUppercase{\textbf{#1}}}
+\titlespacing\section{0pt}{0pt}{-10pt}
+\titleformat{\subsection}
+  {\normalfont}{\thesubsection}{1em}{\textbf{\textit{#1}}}
+\titlespacing\subsection{0pt}{0pt}{-8pt}
+\renewcommand{\baselinestretch}{1.15}
+
+\titleformat{\subsubsection}
+  {\normalfont}{\thesubsubsection}{0.5em}{\textbf{#1}}
+\titlespacing\subsubsection{0pt}{0pt}{-8pt}
+
+% This designs the title display style for the maketitle command
+\makeatletter
+\newcommand\sixteen{\@setfontsize\sixteen{17pt}{6}}
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+\sixteen\bfseries \@title
+\medskip
+\end{flushleft}
+\textit{\@author}
+\egroup}
+\makeatother
+
+% This styles the bibliography and citations.
+%\usepackage[biblabel]{cite}
+\usepackage[sort&compress]{natbib}
+\setlength\bibindent{2em}
+\makeatletter
+\renewcommand\@biblabel[1]{\textbf{#1.}\hfill}
+\makeatother
+\renewcommand{\citenumfont}[1]{\textbf{#1}}
+\bibpunct{}{}{,~}{s}{,}{,}
+\setlength{\bibsep}{0pt plus 0.3ex}
+
+%math
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}{Assumption}
+\newtheorem{defn}{Definition}
+\usepackage{amsfonts}
+\usepackage{amsmath}%
+\usepackage{MnSymbol}%
+\usepackage{wasysym}%
+\usepackage{stmaryrd} 
+
+\input macros.tex
+
+
+%%% track the change 
+ %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%% %%%
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFaddtex}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdeltex}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF HYPERREF PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{{\DIFaddtex{#1}}} %DIF PREAMBLE
+%\texorpdfstring
+\providecommand{\DIFdel}[1]{{\DIFdeltex{#1}}} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Authors: Add additional packages and new commands here.  
+% Limit your use of new commands and special formatting.
+
+% Place your title below. Use Title Capitalization.
+
+\title{
+\centering 
+TR Global Convergence 0610}
+
+% Add author information below. Communicating author is indicated by an asterisk, the affiliation is shown by superscripted lower case letter if several affiliations need to be noted.
+
+\author{ \centering
+Jiaxin Hu\\ \medskip 06/10/2020 \\ 
+}
+
+\pagestyle{empty}
+\begin{document}
+
+% Makes the title and author information appear.
+\vspace*{.01 in}
+\maketitle
+\vspace{.12 in}
+
+% Abstracts are required.
+\section*{Global Convergence Property for TR Algorithm 1}
+
+Here we study the global convergence property of iterates generated by Algorithm 1. For simplicity, let $\tA$ denote the decision variables $(\tC, \{M_k\})$.
+
+\begin{theorem}[Global Convergence] 
+	Assume the set $\{\tA|\ \tL(\tA) \geq \tL(\tA^{(0)}) \}$ is compact and the stationary points of $\tL(\tA)$ are isolated module equivalence. Then any sequence $\tA^{(t)}$ generated by alternating algorithm converges to a stationary point of $\tL(\tA)$ up to equivalence. 
+\end{theorem}
+
+
+\section*{Proof}
+
+Pick an arbitrary iterate $\tA^{(t)}$.  Because of the compactness of set $\{\tA|\ \tL(\tA) \geq \tL(\tA^{(0)}) \}$, the domain of $\tA^{(t)}$ is bounded and thus there exists convergent sub-sequences of $\tA^{(t)}$.  Let $\tA^*$ denote a limiting points of $\tA^{(t)}$. Since $\tL(\tA^{(t)})$ increases monotonically along with $t \rightarrow \infty$, then $\tA^*$ is a stationary point of $\tL(\tA)$. 
+ Let $\tS = \{\tA^*\}$ denote the  set of all the limiting points of $\tA^{(t)}$. We have $\tS \subset \{\tA|\ \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and thus $\tS$ is a compact set. According to [Lange, 2012], $\tS$ is also connected. 
+ 
+ 
+ Consider the equivalence of Tucker tensor representation. We define the equivalent class of $\tA$ as:
+ \begin{align*}
+ 	\tE(\tA) = \{ \tA'|\ M'_k = M_kP^T_k, \tC' = \tC \times \{P_k\}, \text{ where } P^T_k \in \mathbb{O}_{r_k}, \forall k \in [K] \}.
+ \end{align*}
+  Notice that, for arbitrary $\tA$, $\tE(\tA)$ is a non-empty open set. For arbitrary two non-equivalent points $\tA_1$ and $\tA_2$, we have $\tE(\tA_1) \bigcap \tE(\tA_2) = \varnothing$ and thus $\tE(\tA_1) \bigcup \tE(\tA_2)$ is not connected. Using the definition of equivalent class, let $\tS_E$ denote the enlarged set of $\tS$, such that:
+ \begin{align*}
+ 	\tS_E = \bigcup_{\tA \in \tS} \tE(\tA).
+ \end{align*} 
+The enlarged set $\tS_E$ satisfies below two properties:
+ \begin{enumerate}
+ \vspace{-.5cm}
+ 	\item [1.] [Union of Stationary Point] The set $\tS_E$ is an union of equivalent  classes generated by the stationary points in $\tS$.
+ 	\item [2.] [Connectedness model equivalence]  The set $\tS_E$ is connected between different equivalent classes.
+\vspace{-.5cm}
+ \end{enumerate}
+ 
+Property 1 is obtained by rewriting the definition of $\tS_E$. Property 2 is concluded by the connectedness of $\tS$. 
+ 
+ The isolation of stationary points and Property 1 imply that $\tS_E$  only contains finite number of different equivalent classes. Otherwise, there is a sequence of non-equivalent stationary points whose limit is not isolated. Combined the definition of equivalent class and Property 2, we can conclude that $\tS_E$ only contains a single equivalent class; i.e. $\tS_E = \tE(\tA^*)$, where $\tA^*$ is a stationary point of $\tL(\tA)$. Therefore, all the convergent subsequences of $\tA^{(t)}$ converge to one stationary point $\tA^*$ up to equivalence. 
+ 
+ In other words, any iterate $\tA^{(t)}$ generated by Algorithm 1 converges to a stationary point of $\tL(\tA)$ up to equivalence.
+ 
+
+
+
+
+
+\end{document}
