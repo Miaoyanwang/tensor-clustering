@@ -124,7 +124,7 @@ where $\norm{\cdot}$ denotes the tensor spectral norm and $\nnorm{\cdot}$ denote
 
 Next we prove C2. Applying Taylor expansion to $\ell(\tB)$ around $\trueB$, 
 \begin{equation}\label{eq:log}
-\ell(\tB)=\ell(\trueB)-{1\over 2}\text{vec}(\tB-\trueB)^T \tH_{\tY}(\check \tB)\text{vec}(\tB-\trueB),
+\ell(\tB)=\ell(\trueB)+{1\over 2}\text{vec}(\tB-\trueB)^T \tH_{\tY}(\check \tB)\text{vec}(\tB-\trueB),
 \end{equation}
 where $\tH_{\tY}(\check \tB)$ is the (non-random) Hession of ${\partial \ell^2 (\tB)\over\partial^2 \tB}$ evaluated at $\check \tB =\alpha \text{vec}(\alpha \tB+(1-\alpha)\trueB)$ for some $\alpha\in[0,1]$. Recall that $b''(\theta)=\text{Var}(y|\theta)$, because $y\in\mathbb{R}$ follows the exponential family distribution with function $b(\cdot)$. By chain rule and the fact that $\Theta=\Theta(\tB)=\tB\times_1\mX_1\cdots\times_K\mX_K$, the equation~\eqref{eq:log} implies that
 \begin{equation}\label{eq:log2}
@@ -209,7 +209,7 @@ We need to introduce some additional notation. Let $\FnormSize{}{\tA-\tA'}$ deno
 We introduce the equivalent relationship induced by orthogonal transformation. Let $\mathbb{O}_{d,r}$ be the collection of all $d$-by-$r$ matrices with orthogonal columns, $\mathbb{O}_{d,r}:=\{\mP\in\mathbb{R}^{d\times r}\colon \mP^T\mP = \mathbf{1}_r\}$, where $\mathbf{1}_r$ is the $r$-by-$r$ identity matrix. 
 
 \begin{defn}[Equivalence relatonship]
-Two decision variables $\tA'=(\tC', \mM'_1,\ldots,\mM'_k), \tA=(\tC, \mM_1,\ldots,\mM_k)$ are called equivalent, denoted $\tA\sim \tA'$, if and only if there exists a set of orthogonal matrices $\mP_k \in \mathbb{O}_{d_k,r_k}$ such that
+Two decision variables $\tA'=(\tC', \mM'_1,\ldots,\mM'_k), \tA=(\tC, \mM_1,\ldots,\mM_k)$ are called equivalent, denoted $\tA\sim \tA'$, if and only if there exist a set of orthogonal matrices $\mP_k \in \mathbb{O}_{d_k,r_k}$ such that
 \begin{align}
 	\mM'_k \mP^T_k = \mM_k ,\ \forall k \in [K], \quad \text{and}\quad \tC \times_1 \mP_1 \times_2  \dots \times_K \mP_K = \tC.
 \end{align}
@@ -222,7 +222,7 @@ Equivalently, two decision variables $\tA,\ \tA'$ are equivalent if the correspo
 	0= \FnormSize{}{\tB(\tA^{(t')}) - \tB(\tA^*)} \leq \FnormSize{}{\tA^{(0)} - \tA^*}.
 \end{align}
 
-\textbf{Case 2:} The entire sequence of iterate $\tA^{(t)} \in \mathbb{R}^{d_{\text{total}}}/\Omega_O$. By assumption, $H(\cdot)$ is strictly negative definite for all $t$ large enough. For any such $\tA^{(t)}$, we have 
+\textbf{Case 2:} The entire sequence of iterates $\tA^{(t)} \in \mathbb{R}^{d_{\text{total}}}/\Omega_O$. By assumption, $H(\cdot)$ is strictly negative definite for all $t$ large enough. For any such $\tA^{(t)}$, we have 
 \begin{align}\label{pro:3}
 	(\tA^{(t)} - \tA^*)^T H(\tA^*) (\tA^{(t)} - \tA^*) <0.
 \end{align}
@@ -258,7 +258,7 @@ Assume the set $\{\tA\ |\ \tL(\tA) \geq \tL(\tA^{(0)}) \}$ is compact and the st
 
 \begin{proof}
 
-Pick an arbitrary iterate $\tA^{(t)}$.  Because of the compactness of set $\{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and the boundedness of the decision domain, there exists a sub-sequences of $\tA^{(t)}$ that converges. Let $\tA^*$ denote one of the limiting points of $\tA^{(t)}$. Let $\tS = \{\tA^*\}$ denote the set of all the limiting points of $\tA^{(t)}$. We have $\tS \subset \{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and thus $\tS$ is a compact set. By~\cite[Propositions 8.2.1 and 13.4.2]{Lange:2012:NAS:2432073}, $\tS$ is also connected. Note that all points in $\tS$ are also stationary points of $\tL(\cdot)$, because of the monotonic increase of $\tL(\tA^{(t)})$ as $t \rightarrow \infty$. 
+Pick an arbitrary iterate $\tA^{(t)}$.  Because of the compactness of set $\{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and the boundedness of the decision domain, there exist a sub-sequences of $\tA^{(t)}$ that converges. Let $\tA^*$ denote one of the limiting points of $\tA^{(t)}$. Let $\tS = \{\tA^*\}$ denote the set of all the limiting points of $\tA^{(t)}$. We have $\tS \subset \{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and thus $\tS$ is a compact set. By~\cite[Propositions 8.2.1 and 13.4.2]{Lange:2012:NAS:2432073}, $\tS$ is also connected. Note that all points in $\tS$ are also stationary points of $\tL(\cdot)$, because of the monotonic increase of $\tL(\tA^{(t)})$ as $t \rightarrow \infty$. 
  
  
  Consider the equivalence of Tucker tensor representation. We define the equivalent class of $\tA$ as:
