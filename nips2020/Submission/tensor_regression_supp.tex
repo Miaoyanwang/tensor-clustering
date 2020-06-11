@@ -189,7 +189,7 @@ where the second line comes from~\eqref{eq:log}, and $c_2>0$ is the upper bound 
 \end{proof}
 
 \begin{proof}[Proof of Proposition 1]
-For notational convenience, we drop the subscript $\tY$ form the objective $\tL_\tY(\cdot)$ and simply write as $\tL(\cdot)$. Let $\tA = (\tC, \mM_1,\ldots,\mM_K) \in \mathbb{R}^{d_{\text{total}}}$ denote the collection of decision variables used in the alternating optimization, where $d_{\text{total}} = \prod_k r_k + \sum_k r_kd_k$. The objective function can be viewed either as a function of decision variables $\tA$ or a function of coefficient tensor $\tB:=\tC\times_1\mM_1\times_2\cdots \times_K\mM_K$. With slight abuse of notation, we write both functions as $\tL(\cdot)$ but the meaning should be clear given the context. 
+For notational convenience, we drop the subscript $\tY$ from the objective $\tL_\tY(\cdot)$ and simply write as $\tL(\cdot)$. Let $\tA = (\tC, \mM_1,\ldots,\mM_K) \in \mathbb{R}^{d_{\text{total}}}$ denote the collection of decision variables used in the alternating optimization, where $d_{\text{total}} = \prod_k r_k + \sum_k r_kd_k$. The objective function can be viewed either as a function of decision variables $\tA$ or a function of coefficient tensor $\tB:=\tC\times_1\mM_1\times_2\cdots \times_K\mM_K$. With slight abuse of notation, we write both functions as $\tL(\cdot)$ but the meaning should be clear given the context. 
 
 
 We use $S\colon \mathbb{R}^{d_{\text{total}}} \mapsto  \mathbb{R}^{d_{\text{total}}} $ to denote the update mapping that sends the $t$-th iterate to the $(t+1)$-th iterate. Then, we have $S(\tA^{(t)}) = \tA^{(t+1)}$. According to the alternating algorithm, there are $(K+1)$ micro-steps for each block of decision variables in one iteration. That implies $S$ is a composition of $(K+1)$ block-wise mappings. Each block-wise mapping is continuously differentiable, so the mapping $S$ is also continuously differentiable. 
@@ -198,11 +198,11 @@ Let $\tA^*=(\tC^*, \mM^*_1,\ldots,\mM^*_K) \in \mathbb{R}^{d_{\text{total}}}$ be
 \begin{align*}
     H(\tA^*) =  \nabla^2 \tL\left(\tC^*, \mM_1^*,\ldots,\mM_K^* \right) =\left(\begin{array}{cccc}\nabla_{\tC\tC}^{2} \tL &\nabla_{\tC\mM_1}^{2} \tL  & \cdots & \nabla_{\tC\mM_K}^{2} \tL \\ \nabla_{\mM_1\tC}^{2} \tL  &\nabla_{\mM_1\mM_1}^{2} \tL & \cdots &  \nabla_{\mM_1 \mM_K}^{2} \tL\\ \vdots & \vdots & \ddots & \vdots \\\nabla_{\mM_K\tC}^{2} \tL& \nabla_{\mM_K \mM_1}^{2} \tL & \cdots & \nabla_{\mM_K \mM_K}^{2} \tL \end{array}\right)=:L+D+L^{\top},
 \end{align*}
-where $D$ collects the diagonal blocks and $L$ collects the lower-diagonal blocks. By assumption, $H(\tA^*)$ is strictly negative definite at every direction except the direction of orthogonal transformation. That implies that the diagonal block, $D$, is strictly negative definite and thus $(L+ D)^{-1}$ invertible. By~\citep[Lemma 2]{bezdek2003convergence}, we have $\nabla S(\tA^*) = -(L+D)^{-1} L^T$.
+where $D$ collects the diagonal blocks and $L$ collects the lower-diagonal blocks. By assumption, $H(\tA^*)$ is strictly negative definite at every direction except the direction of orthogonal transformation. That implies that the diagonal block, $D$, is strictly negative definite and thus $(L+ D)^{-1}$ is invertible. By~\citep[Lemma 2]{bezdek2003convergence}, we have $\nabla S(\tA^*) = -(L+D)^{-1} L^T$.
 
 Next, we construct the contraction relationship between iterates $\tB^{(t+1)}$ and $\tB^{(t)}$ using the property of $\nabla S$ in the neighborhood of $\tA^*$. 
 
-We need to introduce some additional notation. Let $\FnormSize{}{\tA-\tA'}$ denote the Euclidean distance between two decision variables, where 
+We need to introduce some additional notations. Let $\FnormSize{}{\tA-\tA'}$ denote the Euclidean distance between two decision variables, where 
 \begin{align}\label{eq:Fnorm}
  \FnormSize{}{\tA-\tA'}^2 = \FnormSize{}{\tC - \tC'}^2 + \sum_{k=1}^K \FnormSize{}{\mM_k - \mM'_k}^2.
 \end{align} 
