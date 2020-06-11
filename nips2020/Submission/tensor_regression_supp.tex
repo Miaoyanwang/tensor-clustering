@@ -100,7 +100,7 @@ covariates on multiple modes''}
 \begin{proof}[Proof of Theorem~\ref{thm:main}]
 Define $\ell(\tB)=\mathbb{E}(\tL_{\tY}(\tB))$, where the expectation is taken with respect to $\tY\sim \trueB$ under the model with true parameter $\trueB$. We first prove the following two conclusions:
 \begin{enumerate}
-\item[C1.] There exists two positive constants $C_1$, $C_2>0$, such that, with probability at least $1-\exp(-C_1\log K\sum_k p_k)$, the stochastic deviation, $\tL_{\tY}(\tB)-\ell(\tB)$, satisfies
+\item[C1.] There exist two positive constants $C_1$, $C_2>0$, such that, with probability at least $1-\exp(-C_1\log K\sum_k p_k)$, the stochastic deviation, $\tL_{\tY}(\tB)-\ell(\tB)$, satisfies
 \[
 |\tL_{\tY}(\tB)-\ell(\tB)|=|\langle \tE,\ \tB\times_1\mX_1\times_2\cdots\times_K \mX_K\rangle| \leq C_2\FnormSize{}{\tB} \log K\sqrt{{\prod_k r_k \over \max_k r_k} \sum_k p_k}.
 \]
@@ -258,7 +258,7 @@ Assume the set $\{\tA\ |\ \tL(\tA) \geq \tL(\tA^{(0)}) \}$ is compact and the st
 
 \begin{proof}
 
-Pick an arbitrary iterate $\tA^{(t)}$.  Because of the compactness of set $\{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and the boundedness of the decision domain, there exist a sub-sequences of $\tA^{(t)}$ that converges. Let $\tA^*$ denote one of the limiting points of $\tA^{(t)}$. Let $\tS = \{\tA^*\}$ denote the set of all the limiting points of $\tA^{(t)}$. We have $\tS \subset \{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and thus $\tS$ is a compact set. By~\cite[Propositions 8.2.1 and 13.4.2]{Lange:2012:NAS:2432073}, $\tS$ is also connected. Note that all points in $\tS$ are also stationary points of $\tL(\cdot)$, because of the monotonic increase of $\tL(\tA^{(t)})$ as $t \rightarrow \infty$. 
+Pick an arbitrary iterate $\tA^{(t)}$.  Because of the compactness of set $\{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and the boundedness of the decision domain, there exist a sub-sequence of $\tA^{(t)}$ that converges. Let $\tA^*$ denote one of the limiting points of $\tA^{(t)}$. Let $\tS = \{\tA^*\}$ denote the set of all the limiting points of $\tA^{(t)}$. We have $\tS \subset \{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and thus $\tS$ is a compact set. By~\cite[Propositions 8.2.1 and 13.4.2]{Lange:2012:NAS:2432073}, $\tS$ is also connected. Note that all points in $\tS$ are also stationary points of $\tL(\cdot)$, because of the monotonic increase of $\tL(\tA^{(t)})$ as $t \rightarrow \infty$. 
  
  
  Consider the equivalence of Tucker tensor representation. We define the equivalent class of $\tA$ as:
