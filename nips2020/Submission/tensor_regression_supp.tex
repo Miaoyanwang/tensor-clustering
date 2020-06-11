@@ -192,13 +192,13 @@ where the second line comes from~\eqref{eq:log}, and $c_2>0$ is the upper bound 
 For notational convenience, we drop the subscript $\tY$ form the objective $\tL_\tY(\cdot)$ and simply write as $\tL(\cdot)$. Let $\tA = (\tC, \mM_1,\ldots,\mM_K) \in \mathbb{R}^{d_{\text{total}}}$ denote the collection of decision variables used in the alternating optimization, where $d_{\text{total}} = \prod_k r_k + \sum_k r_kd_k$. The objective function can be viewed either as a function of decision variables $\tA$ or a function of coefficient tensor $\tB:=\tC\times_1\mM_1\times_2\cdots \times_K\mM_K$. With slight abuse of notation, we write both functions as $\tL(\cdot)$ but the meaning should be clear given the context. 
 
 
-We use $S\colon \mathbb{R}^{d_{\text{total}}} \mapsto  \mathbb{R}^{d_{\text{total}}} $ denote the update mapping that sends the $t$-th iterate to the $(t+1)$-th iterate. Then, we have $S(\tA^{(t)}) = \tA^{(t+1)}$. According to the alternating algorithm, there are $(K+1)$ micro-steps for each block of decision variables in one iteration. That implies $S$ is a composition of $(K+1)$ block-wise mappings. Each block-wise mapping is continuously differentiable, so the mapping $S$ is also continuously differentiable. 
+We use $S\colon \mathbb{R}^{d_{\text{total}}} \mapsto  \mathbb{R}^{d_{\text{total}}} $ to denote the update mapping that sends the $t$-th iterate to the $(t+1)$-th iterate. Then, we have $S(\tA^{(t)}) = \tA^{(t+1)}$. According to the alternating algorithm, there are $(K+1)$ micro-steps for each block of decision variables in one iteration. That implies $S$ is a composition of $(K+1)$ block-wise mappings. Each block-wise mapping is continuously differentiable, so the mapping $S$ is also continuously differentiable. 
 
 Let $\tA^*=(\tC^*, \mM^*_1,\ldots,\mM^*_K) \in \mathbb{R}^{d_{\text{total}}}$ be a local maximum. By the definition of alternating optimization, $\tA^*$ is also a fixed point for the mapping $S$; that is, $S(\tA^*)=\tA^*$. The Hessian of the objective function $\tL(\cdot)$ at $\tA^*$ is
 \begin{align*}
     H(\tA^*) =  \nabla^2 \tL\left(\tC^*, \mM_1^*,\ldots,\mM_K^* \right) =\left(\begin{array}{cccc}\nabla_{\tC\tC}^{2} \tL &\nabla_{\tC\mM_1}^{2} \tL  & \cdots & \nabla_{\tC\mM_K}^{2} \tL \\ \nabla_{\mM_1\tC}^{2} \tL  &\nabla_{\mM_1\mM_1}^{2} \tL & \cdots &  \nabla_{\mM_1 \mM_K}^{2} \tL\\ \vdots & \vdots & \ddots & \vdots \\\nabla_{\mM_K\tC}^{2} \tL& \nabla_{\mM_K \mM_1}^{2} \tL & \cdots & \nabla_{\mM_K \mM_K}^{2} \tL \end{array}\right)=:L+D+L^{\top},
 \end{align*}
-where $D$ collects the diagonal blocks and $L$ collects the lower-diagonal blocks. By assumption, $H(\tA^*)$ is strictly negative definite at every direction except the direction of orthogonal transformation. That implies the diagonal block, $D$, is strictly negative definite and thus $(L+ D)^{-1}$ invertible. By~\citep[Lemma 2]{bezdek2003convergence}, we have $\nabla S(\tA^*) = -(L+D)^{-1} L^T$,
+where $D$ collects the diagonal blocks and $L$ collects the lower-diagonal blocks. By assumption, $H(\tA^*)$ is strictly negative definite at every direction except the direction of orthogonal transformation. That implies that the diagonal block, $D$, is strictly negative definite and thus $(L+ D)^{-1}$ invertible. By~\citep[Lemma 2]{bezdek2003convergence}, we have $\nabla S(\tA^*) = -(L+D)^{-1} L^T$.
 
 Next, we construct the contraction relationship between iterates $\tB^{(t+1)}$ and $\tB^{(t)}$ using the property of $\nabla S$ in the neighborhood of $\tA^*$. 
 
@@ -209,7 +209,7 @@ We need to introduce some additional notation. Let $\FnormSize{}{\tA-\tA'}$ deno
 We introduce the equivalent relationship induced by orthogonal transformation. Let $\mathbb{O}_{d,r}$ be the collection of all $d$-by-$r$ matrices with orthogonal columns, $\mathbb{O}_{d,r}:=\{\mP\in\mathbb{R}^{d\times r}\colon \mP^T\mP = \mathbf{1}_r\}$, where $\mathbf{1}_r$ is the $r$-by-$r$ identity matrix. 
 
 \begin{defn}[Equivalence relatonship]
-Two decision variables $\tA'=(\tC', \mM'_1,\ldots,\mM'_k), \tA=(\tC, \mM_1,\ldots,\mM_k)$ are called equivalent, denoted $\tA\sim \tA'$, if and only if there exist a set of orthogonal matrices $\mP_k \in \mathbb{O}_{d_k,r_k}$ such that
+Two decision variables $\tA'=(\tC', \mM'_1,\ldots,\mM'_k), \tA=(\tC, \mM_1,\ldots,\mM_k)$ are called equivalent, denoted $\tA\sim \tA'$, if and only if there exists a set of orthogonal matrices $\mP_k \in \mathbb{O}_{d_k,r_k}$ such that
 \begin{align}
 	\mM'_k \mP^T_k = \mM_k ,\ \forall k \in [K], \quad \text{and}\quad \tC \times_1 \mP_1 \times_2  \dots \times_K \mP_K = \tC.
 \end{align}
@@ -222,7 +222,7 @@ Equivalently, two decision variables $\tA,\ \tA'$ are equivalent if the correspo
 	0= \FnormSize{}{\tB(\tA^{(t')}) - \tB(\tA^*)} \leq \FnormSize{}{\tA^{(0)} - \tA^*}.
 \end{align}
 
-\textbf{Case 2:} The entire sequence of iterates $\tA^{(t)} \in \mathbb{R}^{d_{\text{total}}}/\Omega_O$. By assumption, $H(\cdot)$ is strictly negative definite for all $t$ large enough. For any such $\tA^{(t)}$, we have 
+\textbf{Case 2:} The entire sequence of iterate $\tA^{(t)} \in \mathbb{R}^{d_{\text{total}}}/\Omega_O$. By assumption, $H(\cdot)$ is strictly negative definite for all $t$ large enough. For any such $\tA^{(t)}$, we have 
 \begin{align}\label{pro:3}
 	(\tA^{(t)} - \tA^*)^T H(\tA^*) (\tA^{(t)} - \tA^*) <0.
 \end{align}
@@ -250,7 +250,7 @@ for some constant $c>0$ and any initialization $\tA^{(0)}=(\tC^{(0)},\mM^{(0)}_1
 
 \end{proof}
 
-
+\stepcounter{prop}
 \begin{prop}[Global convergence]
 Assume the set $\{\tA\ |\ \tL(\tA) \geq \tL(\tA^{(0)}) \}$ is compact and the stationary points of $\tL(\tA)$ are isolated module the equivalence relationship. Then any sequence $\tA^{(t)}$ generated by alternating algorithm converges to a stationary point of $\tL(\tA)$ up to equivalence. 
 \end{prop}
@@ -258,7 +258,7 @@ Assume the set $\{\tA\ |\ \tL(\tA) \geq \tL(\tA^{(0)}) \}$ is compact and the st
 
 \begin{proof}
 
-Pick an arbitrary iterate $\tA^{(t)}$.  Because of the compactness of set $\{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and the boundedness of the decision domain, there exist a sub-sequences of $\tA^{(t)}$ that converges. Let $\tA^*$ denote one of the limiting points of $\tA^{(t)}$. Let $\tS = \{\tA^*\}$ denote the set of all the limiting points of $\tA^{(t)}$. We have $\tS \subset \{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and thus $\tS$ is a compact set. By~\cite[Propositions 8.2.1 and 13.4.2]{Lange:2012:NAS:2432073}, $\tS$ is also connected. Note that all points in $\tS$ are also stationary points of $\tL(\cdot)$, because of the monotonic increase of $\tL(\tA^{(t)})$ as $t \rightarrow \infty$. 
+Pick an arbitrary iterate $\tA^{(t)}$.  Because of the compactness of set $\{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and the boundedness of the decision domain, there exists a sub-sequences of $\tA^{(t)}$ that converges. Let $\tA^*$ denote one of the limiting points of $\tA^{(t)}$. Let $\tS = \{\tA^*\}$ denote the set of all the limiting points of $\tA^{(t)}$. We have $\tS \subset \{\tA\colon  \tL(\tA) \geq \tL(\tA^{(0)}) \}$ and thus $\tS$ is a compact set. By~\cite[Propositions 8.2.1 and 13.4.2]{Lange:2012:NAS:2432073}, $\tS$ is also connected. Note that all points in $\tS$ are also stationary points of $\tL(\cdot)$, because of the monotonic increase of $\tL(\tA^{(t)})$ as $t \rightarrow \infty$. 
  
  
  Consider the equivalence of Tucker tensor representation. We define the equivalent class of $\tA$ as:
@@ -274,7 +274,7 @@ The enlarged set $\tE_S$ satisfies the two properties below:
 \item [1.] [Union of stationary points] The set $\tE_S$ is an union of equivalent  classes generated by the limiting points in $\tS$.
 \item [2.] [Connectedness module the equivalence]  The set $\tE_S$ is connected module the equivalence relationship. That property is obtained by the connectedness of $S$.
  \end{enumerate}
-Now, note that the isolation of stationary points and Property 1 imply that $\tE_S$ contains only finite number of equivalent classes. Otherwise, there is a subsequence of non-equivalent stationary points whose limit is not isolated, which contracts the isolation assumption. Combining the finiteness with Property 2, we conclude that $\tE_S$ contains only a single equivalent class; i.e. $\tS_E = \tE(\tA^*)$, where $\tA^*$ is a stationary point of $\tL(\tA)$. Therefore, all the convergent sub-sequences of $\tA^{(t)}$ converge to one stationary point $\tA^*$ up to equivalence. We conclude that, any iterate $\tA^{(t)}$ generated by Algorithm 1 converges to a stationary point of $\tL(\tA)$ up to equivalence.
+Now, note that the isolation of stationary points and Property 1 imply that $\tE_S$ contains only finite number of equivalent classes. Otherwise, there is a subsequence of non-equivalent stationary points whose limit is not isolated, which contradicts the isolation assumption. Combining the finiteness with Property 2, we conclude that $\tE_S$ contains only a single equivalent class; i.e. $\tE_S = \tE(\tA^*)$, where $\tA^*$ is a stationary point of $\tL(\tA)$. Therefore, all the convergent sub-sequences of $\tA^{(t)}$ converge to one stationary point $\tA^*$ up to equivalence. We conclude that, any iterate $\tA^{(t)}$ generated by Algorithm 1 converges to a stationary point of $\tL(\tA)$ up to equivalence.
  \end{proof}
 
 
