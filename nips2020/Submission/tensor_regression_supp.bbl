@@ -1,0 +1,55 @@
+\begin{thebibliography}{8}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Wang and Li(2018)]{wang2018learning}
+Miaoyan Wang and Lexin Li.
+\newblock Learning from binary multiway data: Probabilistic tensor
+  decomposition and its statistical optimality.
+\newblock \emph{arXiv preprint arXiv:1811.05076}, 2018.
+
+\bibitem[Wang et~al.(2017)Wang, Duc, Fischer, and Song]{wang2017operator}
+Miaoyan Wang, Khanh~Dao Duc, Jonathan Fischer, and Yun~S Song.
+\newblock Operator norm inequalities between tensor unfoldings on the partition
+  lattice.
+\newblock \emph{Linear Algebra and Its Applications}, 520:\penalty0 44--66,
+  2017.
+
+\bibitem[Tomioka and Suzuki(2014)]{tomioka2014spectral}
+Ryota Tomioka and Taiji Suzuki.
+\newblock Spectral norm of random tensors.
+\newblock \emph{arXiv preprint arXiv:1407.1870}, 2014.
+
+\bibitem[Fan et~al.(2019)Fan, Gong, and Zhu]{fan2019generalized}
+Jianqing Fan, Wenyan Gong, and Ziwei Zhu.
+\newblock Generalized high-dimensional trace regression via nuclear norm
+  regularization.
+\newblock \emph{Journal of Econometrics}, 2019.
+
+\bibitem[Baldin and Berthet(2018)]{baldin2018optimal}
+Nicolai Baldin and Quentin Berthet.
+\newblock Optimal link prediction with matrix logistic regression.
+\newblock \emph{arXiv preprint arXiv:1803.07054}, 2018.
+
+\bibitem[Bezdek and Hathaway(2003)]{bezdek2003convergence}
+James~C Bezdek and Richard~J Hathaway.
+\newblock Convergence of alternating optimization.
+\newblock \emph{Neural, Parallel \& Scientific Computations}, 11\penalty0
+  (4):\penalty0 351--368, 2003.
+
+\bibitem[Han et~al.(2020)Han, Willett, and Zhang]{han2020optimal}
+Rungang Han, Rebecca Willett, and Anru Zhang.
+\newblock An optimal statistical and computational framework for generalized
+  tensor estimation.
+\newblock \emph{arXiv preprint arXiv:2002.11255}, 2020.
+
+\bibitem[Lange(2012)]{Lange:2012:NAS:2432073}
+Kenneth Lange.
+\newblock \emph{Numerical Analysis for Statisticians}.
+\newblock Springer Publishing Company, Incorporated, 2nd edition, 2012.
+\newblock ISBN 146142612X, 9781461426127.
+
+\end{thebibliography}

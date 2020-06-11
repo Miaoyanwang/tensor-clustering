@@ -1,0 +1,27 @@
+export(as.tensor)
+export(fold)
+export(unfold)
+export(rand_tensor)
+
+export(kronecker_list)
+export(ttl)
+export(ttm)
+
+export(hosvd)
+export(tucker)
+exportClasses(Tensor)
+
+
+export(sele_rank)
+export(sim_data)
+export(tensor_regress)
+
+importFrom("methods", "callGeneric", "is", "new", "show", "validObject")
+importFrom("utils", "data", "setTxtProgressBar", "txtProgressBar","head","tail")
+
+importFrom("MASS","ginv")
+importFrom("pracma","randortho")
+importFrom("speedglm","speedglm",'speedlm')
+importFrom("stats", "binomial", "coef", "dbinom", "dnorm", "dpois",
+               "glm", "lm", "logLik", "model.matrix", "optim", "plogis",
+               "poisson", "rbinom", "rnorm", "rpois", "runif","fft")

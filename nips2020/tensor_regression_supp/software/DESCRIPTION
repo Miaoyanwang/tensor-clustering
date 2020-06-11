@@ -1,0 +1,11 @@
+Package: tensorregress1
+Title: Exponential Tensor Regression with Covariates on Multiple Modes
+Version: 1.0
+Date: 2020-03-15
+Description: Implement "Exponential tensor regression with covariates on multiple modes" for NeurIPs 2020. Solve tensor-response regression given covariates on multiple modes with alternating updating algorithm. 
+Imports: pracma,speedglm,MASS,methods
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+NeedsCompilation: no
+Packaged: 2020-06-09 21:52:35 UTC; March
